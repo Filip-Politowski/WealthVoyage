@@ -9,7 +9,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>pl.savings</groupId>
-    <artifactId>WealthVoyage</artifactId>
+    <artifactId>WealthVoyage-backend-01</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>WealthVoyage</name>
     <description>WealthVoyage</description>
