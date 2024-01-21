@@ -1,12 +1,15 @@
 import React from "react";
 
 import "./App.css";
+import { Navbar } from "./layouts/NavbarAndFooter/Navbar";
+import { DashBoardPage } from "./layouts/DashBoardPage/DashBoardPage";
 
 function App() {
   return (
-    <div className="App">
-      <h1>Hello World</h1>
-    </div>
+    <>
+      <Navbar />
+      <DashBoardPage />
+    </>
   );
 }
 
