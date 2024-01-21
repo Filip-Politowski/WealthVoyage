@@ -33,23 +33,17 @@ Generowanie raportów i wykresów prezentujących trendy finansowe.
 Edycja danych osobowych.
 
 # Przykładowa Baza Danych:
-### User Table:
 
-ID (Primary Key)
-Login  
-Hasło (zabezpieczone i zahashowane)  
-Email  
-Data utworzenia konta  
 ### Account Table:
 
 ID (Primary Key)  
-ID Użytkownika (Foreign Key)  
+Email użytkownika
 Nazwa konta  
 Saldo  
 ### Transaction Table:  
 
 ID (Primary Key)  
-ID Użytkownika (Foreign Key)  
+Email użytkownika
 Kwota  
 Typ transakcji (dochód/wydatek)  
 Kategoria  
@@ -57,11 +51,20 @@ Data transakcji
 ### Saving Goal Table:  
 
 ID (Primary Key)  
-ID Użytkownika (Foreign Key)  
+Email użytkownika  
 Nazwa celu  
 Kwota celu  
 Kwota oszczędzona  
 Progres oszczędzania  
+
+### Installments
+ID (Primary Key)  
+Email użytkownika  
+Kwota raty  
+ilość rat  
+data rozpoczęcia raty  
+data zakończenia raty
+
 # Technologie i Narzędzia:  
 ### Backend:
 
@@ -77,6 +80,7 @@ Progres oszczędzania
 
 * JavaScript
 * React (do budowy interfejsu użytkownika)
+* Bootstrap
 ### Baza Danych:
 
 * MySQL
