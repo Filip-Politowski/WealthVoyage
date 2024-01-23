@@ -25,7 +25,7 @@ export const AccountInformation = () => {
     fetchAccount();
   }, []);
   return (
-    <div className="container-fluid">
+    <div className="container-flex">
       <table className="table">
         <thead>
           <tr>
@@ -37,7 +37,7 @@ export const AccountInformation = () => {
         <tbody>
           <tr>
             <td>{account?.accountName}</td>
-            <td>{account?.balance}</td>
+            <td>{account?.balance} zł</td>
             <td>{account?.userEmail}</td>
           </tr>
         </tbody>

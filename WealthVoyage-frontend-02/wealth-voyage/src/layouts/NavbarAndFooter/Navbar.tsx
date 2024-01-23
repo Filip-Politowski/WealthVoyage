@@ -15,34 +15,12 @@ export const Navbar = () => {
           <span className="navbar-toggler-icon"></span>
         </button>
         <div className="collapse navbar-collapse" id="navbarNavDropdown">
-          <ul className="navbar-nav">
-            <li className="nav-item">
-              <a className="nav-link" href="#">
-                Dashboard
-              </a>
-            </li>
-            <li className="nav-item">
-              <a className="nav-link" href="#">
-                Account
-              </a>
-            </li>
-            <li className="nav-item">
-              <a className="nav-link" href="#">
-                Transactions
-              </a>
-            </li>
-            <li className="nav-item">
-              <a className="nav-link" href="#">
-                Saving Goals
-              </a>
-            </li>
-            <li className="nav-item">
-              <a className="nav-link" href="#">
-                Installments
-              </a>
-            </li>
-          </ul>
           <ul className="navbar-nav ms-auto">
+            <li className="nav-item m-1">
+              <a type="button" className="btn btn-outline-light" href="#">
+                Filip
+              </a>
+            </li>
             <li className="nav-item m-1">
               <a type="button" className="btn btn-outline-light" href="#">
                 Sign in
