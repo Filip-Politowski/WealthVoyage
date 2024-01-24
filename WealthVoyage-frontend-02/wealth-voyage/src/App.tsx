@@ -1,18 +1,32 @@
 import React from "react";
 
 import "./App.css";
-import { Navbar } from "./layouts/NavbarAndFooter/Navbar";
-import { DashBoardPage } from "./layouts/DashBoardPage/DashBoardPage";
-import { Sidebar } from "./layouts/NavbarAndFooter/Sidebar";
+import Home from "./layouts/home/Home";
+import {
+  createBrowserRouter,
+  RouterProvider,
+  Route,
+  Link,
+} from "react-router-dom";
+import Users from "./layouts/users/Users";
+import Installments from "./layouts/installments/Installments";
+
 
 function App() {
-  return (
-    <>
-      <Navbar />
-      <Sidebar />
-      {/* <DashBoardPage /> */}
-    </>
-  );
+  const router = createBrowserRouter([
+    {
+      path: "/",
+      element: <Home />,
+    },
+    {
+      path: "users",
+      element: <Users />,
+    },
+    {
+      path: "installments",
+      element: <Installments />,
+    },
+  ]);
+  return <RouterProvider router={router} />;
 }
-
 export default App;
