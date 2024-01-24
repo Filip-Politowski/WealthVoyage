@@ -9,4 +9,4 @@ const Installments = () => {
   )
 }
 
-export default Installments
+export default Installments;
