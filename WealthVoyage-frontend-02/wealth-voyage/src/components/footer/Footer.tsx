@@ -3,10 +3,11 @@ import "./footer.scss"
 
 const Footer = () => {
   return (
-    <div className='footer'>
-      
+    <div className="footer">
+      <span>Wealth Voyage </span>
+      <span>© financial management application </span>
     </div>
-  )
+  );
 }
 
 export default Footer
