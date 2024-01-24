@@ -80,7 +80,6 @@ data zakończenia raty
 
 * JavaScript
 * React (do budowy interfejsu użytkownika)
-* Bootstrap
 ### Baza Danych:
 
 * MySQL
