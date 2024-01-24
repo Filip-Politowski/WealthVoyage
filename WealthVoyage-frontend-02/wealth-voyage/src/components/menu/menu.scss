@@ -11,8 +11,9 @@
       font-size: 12px;
       font-weight: 200;
       color: $soft-color;
+      text-transform: uppercase;
     }
-    .listItemTitle {
+    .listItem {
       display: flex;
       align-items: center;
       gap: 10px;
