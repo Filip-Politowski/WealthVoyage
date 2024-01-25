@@ -114,3 +114,55 @@ export const menu = [
     ],
   },
 ];
+
+export const lastTransactions = [
+  {
+    id: 1,
+    amount: 6000,
+    transactionType: "income",
+    category: "salary",
+    date: "2022-01-01",
+  },
+  {
+    id: 2,
+    amount: 60,
+    transactionType: "expense",
+    category: "groceries",
+    date: "2022-01-02",
+  },
+  {
+    id: 3,
+    amount: 2000,
+    transactionType: "expense",
+    category: "rent",
+    date: "2022-01-03",
+  },
+  {
+    id: 4,
+    amount: 750,
+    transactionType: "income",
+    category: "freelance",
+    date: "2022-01-04",
+  },
+  {
+    id: 5,
+    amount: 200,
+    transactionType: "expense",
+    category: "utilities",
+    date: "2022-01-05",
+  },
+  {
+    id: 6,
+    amount: 500,
+    transactionType: "expense",
+    category: "entertainment",
+    date: "2022-01-06",
+  },
+  {
+    id: 7,
+    amount: 3000,
+    transactionType: "income",
+    category: "bonus",
+    date: "2022-01-07",
+  },
+];

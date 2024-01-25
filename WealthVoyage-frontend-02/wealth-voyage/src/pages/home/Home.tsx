@@ -1,10 +1,13 @@
-import React from 'react'
-import "./home.scss"
+import React from "react";
+import "./home.scss";
+import TopBox from "../../components/topBox/TopBox";
 
 const Home = () => {
   return (
     <div className="home">
-      <div className="box box1">Box1</div>
+      <div className="box box1">
+        <TopBox />
+      </div>
       <div className="box box2">Box2</div>
       <div className="box box3">Box3</div>
       <div className="box box4">Box4</div>
@@ -15,6 +18,6 @@ const Home = () => {
       <div className="box box9">Box9</div>
     </div>
   );
-}
+};
 
-export default Home
+export default Home;
