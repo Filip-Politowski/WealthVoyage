@@ -3,8 +3,8 @@ import "./pieChartBox.scss";
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from "recharts";
 
 const data = [
-  { name: "Saved", value: 800, color: "#7fc83a" },
-  { name: "Goal", value: 300, color: "#e45807" },
+  { name: "Saved", value: 700, color: "#7fc83a" },
+  { name: "Goal", value: 459, color: "#e45807" },
 ];
 
 const RADIAN = Math.PI / 180;
@@ -18,19 +18,20 @@ const renderCustomizedLabel = ({
   percent,
   index,
 }: any) => {
-  const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
+  const radius = innerRadius + (outerRadius - innerRadius) * 0.3;
   const x = cx + radius * Math.cos(-midAngle * RADIAN);
   const y = cy + radius * Math.sin(-midAngle * RADIAN);
 
   return (
     <text
+      style={{ fontSize: "24px" }}
       x={x}
       y={y}
       fill="white"
       textAnchor={x > cx ? "start" : "end"}
       dominantBaseline="central"
     >
-      {`${(percent * 100).toFixed(0)}%`}
+      {`${(percent * 100).toFixed(1)}%`}
     </text>
   );
 };
