@@ -4,6 +4,7 @@ import TopBox from "../../components/topBox/TopBox";
 import ChartBox from "../../components/chartBox/ChartBox";
 import { barChartBox1, barChartBox2, chartBoxSavings } from "../../data";
 import BarChartBox from "../../components/barChartBox/BarChartBox";
+import PieChartBox from "../../components/pieChartBox/PieChartBox";
 
 const Home = () => {
   return (
@@ -17,7 +18,9 @@ const Home = () => {
       <div className="box box3">
         <ChartBox {...chartBoxSavings} />
       </div>
-      <div className="box box4">Box4</div>
+      <div className="box box4">
+        <PieChartBox />
+      </div>
       <div className="box box5">
         <ChartBox {...chartBoxSavings} />
       </div>
