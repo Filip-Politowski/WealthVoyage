@@ -166,3 +166,21 @@ export const lastTransactions = [
     date: "2022-01-07",
   },
 ];
+
+export const chartBoxSavings = {
+  color: "#8884d8",
+  icon: "/savings.svg",
+  title: "Saved money",
+  number: "5000.238",
+  dataKey: "savings",
+  percentage: 45,
+  chartData: [
+    { name: "1", savings: 400 },
+    { name: "2", savings: 600 },
+    { name: "3", savings: 500 },
+    { name: "4", savings: 700 },
+    { name: "5", savings: 400 },
+    { name: "6", savings: 500 },
+    { name: "7", savings: 450 },
+  ],
+};
