@@ -184,3 +184,74 @@ export const chartBoxSavings = {
     { name: "7", savings: 450 },
   ],
 };
+
+export const barChartBox1 = {
+  title: "Template1",
+  color: "#32CD32",
+  dataKey: "savings",
+  chartData: [
+    {
+      name: "Sun",
+      savings: 4000,
+    },
+    {
+      name: "Mon",
+      savings: 3000,
+    },
+    {
+      name: "Tue",
+      savings: 2000,
+    },
+    {
+      name: "Wed",
+      savings: 2780,
+    },
+    {
+      name: "Thu",
+      savings: 1890,
+    },
+    {
+      name: "Fri",
+      savings: 2390,
+    },
+    {
+      name: "Sat",
+      savings: 3490,
+    },
+  ],
+};
+export const barChartBox2 = {
+  title: "Template2",
+  color: "#BC8F8F",
+  dataKey: "savings",
+  chartData: [
+    {
+      name: "Sun",
+      savings: 400,
+    },
+    {
+      name: "Mon",
+      savings: 3000,
+    },
+    {
+      name: "Tue",
+      savings: 500,
+    },
+    {
+      name: "Wed",
+      savings: 4087,
+    },
+    {
+      name: "Thu",
+      savings: 5312,
+    },
+    {
+      name: "Fri",
+      savings: 2390,
+    },
+    {
+      name: "Sat",
+      savings: 1878,
+    },
+  ],
+};
