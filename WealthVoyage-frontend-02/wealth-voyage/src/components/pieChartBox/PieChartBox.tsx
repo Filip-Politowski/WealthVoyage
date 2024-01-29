@@ -4,7 +4,7 @@ import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from "recharts";
 
 const data = [
   { name: "Saved", value: 700, color: "#7fc83a" },
-  { name: "Goal", value: 459, color: "#e45807" },
+  { name: "Goal", value: 300, color: "#e45807" },
 ];
 
 const RADIAN = Math.PI / 180;
