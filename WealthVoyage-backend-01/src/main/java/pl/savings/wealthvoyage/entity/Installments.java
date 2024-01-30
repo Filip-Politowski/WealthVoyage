@@ -12,18 +12,27 @@ public class Installments {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column (name = "user_email")
+    @Column(name = "user_email")
     private String userEmail;
 
-    @Column (name = "installment_amount")
+    @Column(name = "loan_name")
+    private String loanName;
+
+    @Column(name = "installment_amount")
     private Double installmentAmount;
 
-    @Column (name = "number_of_installments")
+    @Column(name = "number_of_installments")
     private Integer numberOfInstallments;
 
-    @Column ( name = "start_date_of_installment")
+    @Column(name = "number_of_paid_installments")
+    private int numberOfPaidInstallments;
+
+    @Column(name = "total_amount_of_loan")
+    private Double totalAmountOfLoan;
+
+    @Column(name = "start_date_of_installment")
     private String startDateOfInstallment;
 
-    @Column ( name = "end_date_of_installment")
+    @Column(name = "end_date_of_installment")
     private String endDateOfInstallment;
 }
