@@ -299,3 +299,69 @@ export const bigChartData = [
     amt: 2100,
   },
 ];
+
+export const installmentsRow = [
+  {
+    id: 1,
+    loanName: "Computer",
+    numberOfInstallments: 30,
+    installmentAmount: 9000,
+    endDateOfInstallment: "2024-01-01",
+  },
+  {
+    id: 2,
+    loanName: "Phone",
+    numberOfInstallments: 20,
+    installmentAmount: 3000,
+    endDateOfInstallment: "2024-01-01",
+  },
+  {
+    id: 3,
+    loanName: "Keyboard",
+    numberOfInstallments: 3,
+    installmentAmount: 500,
+    endDateOfInstallment: "2024-01-01",
+  },
+  {
+    id: 4,
+    loanName: "Mouse",
+    numberOfInstallments: 2,
+    installmentAmount: 500,
+    endDateOfInstallment: "2024-01-01",
+  },
+  {
+    id: 5,
+    loanName: "Speakers",
+    numberOfInstallments: 5,
+    installmentAmount: 1500,
+    endDateOfInstallment: "2024-01-01",
+  },
+  {
+    id: 6,
+    loanName: "Display",
+    numberOfInstallments: 15,
+    installmentAmount: 3000,
+    endDateOfInstallment: "2024-01-01",
+  },
+  {
+    id: 7,
+    loanName: "Pad",
+    numberOfInstallments: 1,
+    installmentAmount: 200,
+    endDateOfInstallment: "2024-01-01",
+  },
+  {
+    id: 8,
+    loanName: "Microphone",
+    numberOfInstallments: 3,
+    installmentAmount: 500,
+    endDateOfInstallment: "2024-01-01",
+  },
+  {
+    id: 9,
+    loanName: "Bum arm",
+    numberOfInstallments: 4,
+    installmentAmount: 900,
+    endDateOfInstallment: "2024-01-01",
+  },
+];
