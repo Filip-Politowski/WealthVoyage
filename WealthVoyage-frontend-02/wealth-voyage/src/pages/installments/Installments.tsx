@@ -44,7 +44,7 @@ const columns: GridColDef[] = [
         <h1>Installments</h1>
         <button>Add new installment</button>
       </div>
-      <DataTable columns={columns} rows={installmentsRow}/>
+      <DataTable slug={"loans"} columns={columns} rows={installmentsRow}/>
     </div>
   );
 };
