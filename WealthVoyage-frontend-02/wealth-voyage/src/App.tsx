@@ -10,6 +10,7 @@ import Footer from "./components/footer/Footer";
 import Menu from "./components/menu/Menu";
 import Home from "./pages/home/Home";
 import Login from "./pages/login/Login";
+import Installment from "./pages/installment/Installment";
 
 function App() {
 
@@ -40,6 +41,7 @@ function App() {
         { path: "/", element: <Home /> },
         { path: "/users", element: <Users /> },
         { path: "/installments", element: <Installments /> },
+        { path: "/installments/:id", element: <Installment /> },
       ],
     },
     {

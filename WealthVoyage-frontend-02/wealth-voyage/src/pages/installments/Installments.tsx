@@ -49,8 +49,8 @@ const [open, setOpen] = useState(false);
         <h1>Installments</h1>
         <button onClick={() => setOpen(true)}>Add New Loan</button>
       </div>
-      <DataTable slug={"loans"} columns={columns} rows={installmentsRow}/>
-      {open && <Add setOpen={setOpen} columns={columns} slug="installments" />}
+      <DataTable slug={"installments"} columns={columns} rows={installmentsRow}/>
+      {open && <Add setOpen={setOpen} columns={columns} slug="Loan" />}
     </div>
   );
 };
