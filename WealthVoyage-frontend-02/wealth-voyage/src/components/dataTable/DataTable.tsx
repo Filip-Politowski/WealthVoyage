@@ -4,7 +4,6 @@ import {
   DataGrid,
   GridColDef,
   GridToolbar,
-  GridValueGetterParams,
 } from "@mui/x-data-grid";
 import { Link } from "react-router-dom";
 
@@ -15,11 +14,9 @@ type Props = {
 };
 
 const DataTable = (props: Props) => {
-
-const handleDelete = (id: number) => {
-console.log(id + "has been deleted")
-}
-
+  const handleDelete = (id: number) => {
+    console.log(id + "has been deleted");
+  };
 
   const actionColumn: GridColDef = {
     field: "action",
@@ -44,7 +41,7 @@ console.log(id + "has been deleted")
       <DataGrid
         className="dataGrid"
         rows={props.rows}
-        columns={[...props.columns, actionColumn] }
+        columns={[...props.columns, actionColumn]}
         initialState={{
           pagination: {
             paginationModel: {

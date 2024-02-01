@@ -1,16 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import "./installments.scss";
 import DataTable from "../../components/dataTable/DataTable";
 import { GridColDef } from "@mui/x-data-grid";
 import { installmentsRow } from "../../data";
-
-const Installments = () => {
+import Add from "../../components/add/Add";
 
 const columns: GridColDef[] = [
   { field: "id", headerName: "ID", width: 90 },
   {
     field: "loanName",
     headerName: "Loan name",
+    type: "string",
     width: 150,
     editable: true,
   },
@@ -33,18 +33,24 @@ const columns: GridColDef[] = [
   {
     field: "endDateOfInstallment",
     headerName: "End date",
+    type: "string",
     sortable: true,
     width: 150,
   },
 ];
 
+const Installments = () => {
+
+const [open, setOpen] = useState(false);
+
   return (
     <div className="installments">
       <div className="info">
         <h1>Installments</h1>
-        <button>Add New Loan</button>
+        <button onClick={() => setOpen(true)}>Add New Loan</button>
       </div>
       <DataTable slug={"loans"} columns={columns} rows={installmentsRow}/>
+      {open && <Add setOpen={setOpen} columns={columns} slug="installments" />}
     </div>
   );
 };
