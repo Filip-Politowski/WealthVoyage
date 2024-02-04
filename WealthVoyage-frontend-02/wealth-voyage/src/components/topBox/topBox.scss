@@ -1,6 +1,11 @@
+@import "../../styles/responsive.scss";
+
 .topBox {
   h1 {
     margin-bottom: 20px;
+    @include xxl {
+      font-size: 24px;
+    }
   }
   .list {
     .listItem {
@@ -18,9 +23,9 @@
           object-fit: cover;
         }
         .transactionText {
-            display: flex;
-            flex-direction: column;
-            gap: 5px;
+          display: flex;
+          flex-direction: column;
+          gap: 5px;
           .transactionDate {
             font-size: 14px;
             font-weight: 500;
