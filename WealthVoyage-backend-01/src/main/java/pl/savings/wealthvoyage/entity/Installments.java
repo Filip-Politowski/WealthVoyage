@@ -17,10 +17,7 @@ public class Installments {
 
     @Column(name = "loan_name")
     private String loanName;
-
-    @Column(name = "installment_amount")
-    private Double installmentAmount;
-
+    
     @Column(name = "number_of_installments")
     private Integer numberOfInstallments;
 

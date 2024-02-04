@@ -365,3 +365,33 @@ export const installmentsRow = [
     endDateOfInstallment: "2024-01-01",
   },
 ];
+
+export const singleInstallment = {
+  id: 1,
+  img: "/loan.svg",
+  title: "Computer",
+  info: {
+    loanId: 1,
+    loanName: "Computer",
+    totalAmountOfLoan: 9000,
+    numberOfInstallments: 30,
+    startDateOfInstallment: "2023-01-01",
+    endDateOfInstallment: "2024-01-01",
+    numberOfPaidInstallments: 10,
+  },
+  percentageOfPaidInstallments: 50,
+  activities: [
+    {
+      dueDate: "2024-03-01",
+      loanName: "Computer",
+    },
+    {
+      dueDate: "2024-04-01",
+      loanName: "Computer",
+    },
+    {
+      dueDate: "2024-05-01",
+      loanName: "Computer",
+    },
+  ],
+};
