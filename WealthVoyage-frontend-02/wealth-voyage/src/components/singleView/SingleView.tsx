@@ -10,6 +10,7 @@ const SingleView = () => {
           <div className="topInfo">
             <img src="/loan.svg" alt="" />
             <h1>Computer</h1>
+            <button>Update</button>
           </div>
           <div className="details">
             <div className="item">
@@ -28,13 +29,19 @@ const SingleView = () => {
         </div>
         <hr />
         <div className="progressContainer">
-          <ProgressBar percentage={70} />
+          <ProgressBar percentage={60} />
           <span>Installment progress</span>
         </div>
       </div>
       <div className="activities">
         <h2>Latest transactions</h2>
         <ul>
+          <li>
+            <div>
+              <p>Loan for computer</p>
+              <time>Payment date: 2024:01:01</time>
+            </div>
+          </li>
           <li>
             <div>
               <p>Loan for computer</p>

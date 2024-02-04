@@ -6,6 +6,7 @@ type Props = {
 }
 
 const ProgressBar = (props: Props) => {
+  
   return (
     <div className="progressBar">
       <div className="progressBarInner" style={{ width: `${props.percentage}%` }} />

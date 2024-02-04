@@ -15,6 +15,9 @@ $progressColor: #3498db;
           width: 70px;
           height: 70px;
         }
+        h1{
+          font-weight: 600;
+        }
       }
       .details {
         font-size: 18px;
@@ -46,5 +49,43 @@ $progressColor: #3498db;
   }
   .activities {
     flex: 1;
+    h2{
+      margin-bottom: 20px;
+    }
+    ul{
+      li{
+        list-style-type: none;
+        position: relative;
+        width: 1px;
+        padding-top: 50px;
+        background-color: rgba($color: #913a3a, $alpha: 1.0);
+
+        &::after {
+          content: "";
+          position: absolute;
+          left: 50%;
+          bottom: 0;
+          width: 10px;
+          height: 10px;
+          border-radius: 5px;
+          background-color:rgba($color: #913a3a, $alpha: 1.0);
+          transform: translateX(-50%);
+
+        }
+        div{
+          min-width: 480px;
+          padding: 15px;
+          background-color:#f45b6810;
+
+          p{
+            margin-bottom: 5px;
+          }
+          time{
+            font-size: 12px;
+          }
+        }
+
+      }
+    }
   }
 }
