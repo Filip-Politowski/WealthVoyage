@@ -1,6 +1,8 @@
 @import "./variables.scss";
 @import "./responsive.scss";
 
+
+
 * {
   margin: 0;
   padding: 0;
@@ -16,9 +18,15 @@ a {
   font-family: "inter", sans-serif;
   background-color: $main-bg;
   color: $main-color;
+  display: flex;
+  flex-direction: column;
+
+  min-height: 100vh;
+ 
 }
 .container {
   display: flex;
+  
 }
 .menuContainer {
   width: 250px;

@@ -1,7 +1,14 @@
+@import "../../styles/responsive.scss";
+
 $progressColor: #3498db;
+
 
 .singleView {
   display: flex;
+
+  @include xl{
+    flex-direction: column;
+  }
 
   .view {
     flex: 1;
@@ -10,6 +17,10 @@ $progressColor: #3498db;
         display: flex;
         align-items: center;
         gap: 20px;
+
+        @include md{
+         flex-direction: column;
+        }
 
         img {
           width: 70px;
@@ -21,6 +32,9 @@ $progressColor: #3498db;
       }
       .details {
         font-size: 18px;
+        @include md{
+          font-size: 14px;
+        }
         .item {
           margin: 30px 0px;
           .itemTitle {
@@ -37,6 +51,7 @@ $progressColor: #3498db;
       height: 0;
       border: 0.5px solid gray;
       margin: 20px;
+      
     }
     .progressContainer {
       display: flex;
@@ -76,6 +91,10 @@ $progressColor: #3498db;
           min-width: 480px;
           padding: 15px;
           background-color:#f45b6810;
+
+          @include md {
+            min-width :250px;
+          }
 
           p{
             margin-bottom: 5px;

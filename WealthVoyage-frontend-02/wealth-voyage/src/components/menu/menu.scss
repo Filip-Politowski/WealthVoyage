@@ -1,6 +1,12 @@
 @import "../../styles/variables.scss";
 @import "../../styles/responsive.scss";
 .menu {
+
+img{
+  width: 25px;
+  height: 25px;
+}
+
   .item {
     display: flex;
     flex-direction: column;
