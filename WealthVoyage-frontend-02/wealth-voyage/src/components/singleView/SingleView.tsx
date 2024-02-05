@@ -14,6 +14,15 @@ type Props = {
 };
 
 const SingleView = (props: Props) => {
+  const formatVariableName = (input: string): string => {
+    const words = input.replace(/([a-z])([A-Z])/g, "$1 $2");
+    const firstLetter = words.charAt(0).toUpperCase();
+    const restOfTheText = words.slice(1, words.length);
+
+    const result = firstLetter + restOfTheText.toLowerCase();
+    return result;
+  }
+
   return (
     <div className="singleView">
       <div className="view">
@@ -24,12 +33,16 @@ const SingleView = (props: Props) => {
             <button>Update</button>
           </div>
           <div className="details">
-            {Object.entries(props.info).map((item) => (
-              <div className="item" key={item[0]}>
-                <span className="itemTitle">{item[0]}:</span>
-                <span className="titleValue">{item[1]}</span>
-              </div>
-            ))}
+            {Object.entries(props.info)
+              .slice(1)
+              .map((item) => (
+                <div className="item" key={item[0]}>
+                  <span className="itemTitle">
+                    {formatVariableName(item[0])}:
+                  </span>
+                  <span className="titleValue">{item[1]}</span>
+                </div>
+              ))}
           </div>
         </div>
         <hr />
