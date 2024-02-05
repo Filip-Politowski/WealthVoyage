@@ -60,6 +60,8 @@ const DataTable = (props: Props) => {
         checkboxSelection
         disableRowSelectionOnClick
         disableDensitySelector
+       
+        
       />
     </div>
   );

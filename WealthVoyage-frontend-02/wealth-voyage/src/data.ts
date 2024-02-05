@@ -53,14 +53,14 @@ export const lastTransactions = [
   },
   {
     id: 2,
-    amount: 60,
+    amount: -60,
     transactionType: "expense",
     category: "groceries",
     date: "2022-01-02",
   },
   {
     id: 3,
-    amount: 2000,
+    amount: -2000,
     transactionType: "expense",
     category: "rent",
     date: "2022-01-03",
@@ -74,14 +74,14 @@ export const lastTransactions = [
   },
   {
     id: 5,
-    amount: 200,
+    amount: -200,
     transactionType: "expense",
     category: "utilities",
     date: "2022-01-05",
   },
   {
     id: 6,
-    amount: 500,
+    amount: -500,
     transactionType: "expense",
     category: "entertainment",
     date: "2022-01-06",
