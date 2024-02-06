@@ -1,3 +1,55 @@
-.savingGoals{
+@import "../../styles/variables.scss";
+.savingGoals {
+  .newGoals {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 20px;
 
+    button {
+      padding: 10px;
+      cursor: pointer;
+      border: none;
+      border-radius: 4px;
+    }
+    button:hover {
+      background-color: rgba(237, 233, 233, 0.79);
+      transform: translateY(1px);
+    }
+  }
+  .goals {
+    display: grid;
+    gap: 20px;
+    grid-template-columns: repeat(4, 1fr);
+    grid-auto-rows: minmax(180px, auto);
+    grid-auto-flow: dense;
+
+    .box {
+      padding: 20px;
+      border-radius: 10px;
+      border: 2px solid $soft-bg;
+      background-color: rgb(66, 79, 90);
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      span {
+        font-size: x-large;
+        font-weight: 600;
+      }
+      img {
+        width: 70px;
+        height: 70px;
+       border-radius: 50%;
+       object-fit: cover;
+       background-color: rgba(255, 255, 255, 0.504);
+        
+      }
+      p{
+        background-color: rgba(159, 227, 159, 0.181);
+        padding: 20px;
+        border-radius: 20px;
+        font-weight: 700;
+      }
+    }
+  }
 }

@@ -1,0 +1,21 @@
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Uploaded to: SVG Repo, www.svgrepo.com, Transformed by: SVG Repo Mixer Tools -->
+<svg width="800px" height="800px" viewBox="-14.72 -14.72 93.44 93.44" id="Flat" xmlns="http://www.w3.org/2000/svg" fill="#000000">
+<g id="SVGRepo_bgCarrier" stroke-width="0">
+<rect x="-14.72" y="-14.72" width="93.44" height="93.44" rx="46.72" fill="#ecbe7e" strokewidth="0"/>
+</g>
+<g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"/>
+<g id="SVGRepo_iconCarrier">
+<rect height="52" style="fill:#5fbac5" width="30" x="3" y="9"/>
+<polygon points="32 9 19 9 19 6 32 3 32 9 32 9" style="fill:#ffac00"/>
+<polygon points="5 9 17 9 17 6 4 3 4 9 5 9" style="fill:#ffac00"/>
+<path d="M20,9H16V7a2,2,0,0,1,2-2h0a2,2,0,0,1,2,2Z" style="fill:#ffac00"/>
+<rect height="52" style="fill:#ffac00" width="2" x="17" y="9"/>
+<circle cx="43" cy="24" r="4" style="fill:#ddb66a"/>
+<path d="M55,29c0-5.333-1.752-11-5-11s-5,5.667-5,11Z" style="fill:#fce666"/>
+<path d="M41,29c0-5.333-1.752-11-5-11s-5,5.667-5,11Z" style="fill:#fce666"/>
+<rect height="10" style="fill:#c1272d" width="36" x="25" y="27"/>
+<rect height="24" style="fill:#ef4037" width="34" x="26" y="37"/>
+<rect height="24" style="fill:#fce666" width="8" x="39" y="37"/>
+</g>
+</svg>
