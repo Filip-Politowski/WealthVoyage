@@ -1,6 +1,5 @@
 @import "../../styles/variables.scss";
 
-
 .addNewGoal {
   width: 100vw;
   height: 100vh;
@@ -17,6 +16,15 @@
     border-radius: 10px;
     background-color: $main-bg;
     position: relative;
+    .goalImage {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 20px;
+      img {
+        width: 140px;
+        height: 140px;
+      }
+    }
 
     h1 {
       margin-bottom: 40px;
@@ -28,7 +36,13 @@
       position: absolute;
       top: 10px;
       right: 10px;
+      padding: 10px;
       cursor: pointer;
+    }
+    .close:hover {
+      padding: 10px;
+      background-color: rgba(255, 0, 0, 0.725);
+      border-radius: 5px;
     }
 
     form {
@@ -42,7 +56,7 @@
         display: flex;
         flex-direction: column;
         gap: 10px;
-        margin-bottom: 20px;
+        margin-bottom: 10px;
 
         label {
           font-size: 14px;
@@ -62,17 +76,24 @@
         padding: 10px;
         cursor: pointer;
       }
-      .sliders{
+      .sliders {
         display: flex;
+        width: 100%;
         flex-direction: column;
         gap: 20px;
+        margin-bottom: 20px;
+        .slider1 {
+          display: flex;
+          align-items: center;
+          gap: 20px;
+          width: 100%;
+        }
       }
-    
     }
 
     .imagePicker {
-     width: 100%;
-     display: flex;
+      width: 100%;
+      display: flex;
       margin-bottom: 20px;
       img {
         width: 80px;
@@ -82,7 +103,7 @@
         border: 2px solid transparent;
       }
       .selected {
-        border-color: #007bff; 
+        border-color: #007bff;
       }
     }
   }

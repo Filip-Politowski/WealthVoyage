@@ -56,6 +56,13 @@ const AddNewGoal = (props: Props) => {
         <span className="close" onClick={() => props.setOpen(false)}>
           X
         </span>
+        <div className="goalImage">
+          <img
+            src={selectedImage || props.images[0]}
+            alt={selectedImage ? "Selected Image" : "Default Image"}
+            onClick={handleDefaultImageClick}
+          />
+        </div>
         <h1>Add New {props.slug}</h1>
         <form onSubmit={handleSubmit}>
           {props.columns
@@ -68,11 +75,6 @@ const AddNewGoal = (props: Props) => {
             ))}
 
           <div className="imagePicker">
-            <img
-              src={selectedImage || props.images[0]}
-              alt={selectedImage ? "Selected Image" : "Default Image"}
-              onClick={handleDefaultImageClick}
-            />
             {showImagePicker && (
               <div className="additionalImages">
                 {props.images.map((image, index) => (
@@ -89,10 +91,13 @@ const AddNewGoal = (props: Props) => {
             )}
           </div>
           <div className="sliders">
-            <Slider
-              isChecked={isChecked1}
-              handleToggleChange={handleToggleChange1}
-            />
+            <div className="slider1">
+              <Slider
+                isChecked={isChecked1}
+                handleToggleChange={handleToggleChange1}
+              />
+              <p>Is there to be a target amount of the goal ?</p>
+            </div>
             <Slider
               isChecked={isChecked2}
               handleToggleChange={handleToggleChange2}
