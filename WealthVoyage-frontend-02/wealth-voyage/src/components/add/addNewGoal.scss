@@ -1,4 +1,6 @@
 @import "../../styles/variables.scss";
+
+
 .addNewGoal {
   width: 100vw;
   height: 100vh;
@@ -32,7 +34,7 @@
     form {
       display: flex;
       flex-wrap: wrap;
-      max-width: 500px;
+      max-width: 480px;
       justify-content: space-between;
 
       .item {
@@ -60,12 +62,17 @@
         padding: 10px;
         cursor: pointer;
       }
+      .sliders{
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+      }
     
     }
 
     .imagePicker {
-      display: flex;
-      justify-content: space-between;
+     width: 100%;
+     display: flex;
       margin-bottom: 20px;
       img {
         width: 80px;

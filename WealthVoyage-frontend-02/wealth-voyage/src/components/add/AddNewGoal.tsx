@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import "./addNewGoal.scss";
 import { GridColDef } from "@mui/x-data-grid";
+import Slider from "../utils/slider/Slider";
+
 
 type Props = {
   columns: GridColDef[];
@@ -29,6 +31,25 @@ const AddNewGoal = (props: Props) => {
     setShowImagePicker(false);
   };
 
+ const [isChecked1, setIsChecked1] = useState(false);
+
+ const handleToggleChange1 = () => {
+   setIsChecked1(!isChecked1);
+   console.log(isChecked1)
+ };
+  const [isChecked2, setIsChecked2] = useState(false);
+
+  const handleToggleChange2 = () => {
+    setIsChecked2(!isChecked2);
+    console.log(isChecked2);
+  };
+   const [isChecked3, setIsChecked3] = useState(false);
+
+   const handleToggleChange3 = () => {
+     setIsChecked3(!isChecked3);
+     console.log(isChecked3);
+   };
+
   return (
     <div className="addNewGoal">
       <div className="modal">
@@ -45,6 +66,7 @@ const AddNewGoal = (props: Props) => {
                 <input type={column.type} placeholder={column.field}></input>
               </div>
             ))}
+
           <div className="imagePicker">
             <img
               src={selectedImage || props.images[0]}
@@ -65,6 +87,20 @@ const AddNewGoal = (props: Props) => {
                 ))}
               </div>
             )}
+          </div>
+          <div className="sliders">
+            <Slider
+              isChecked={isChecked1}
+              handleToggleChange={handleToggleChange1}
+            />
+            <Slider
+              isChecked={isChecked2}
+              handleToggleChange={handleToggleChange2}
+            />
+            <Slider
+              isChecked={isChecked3}
+              handleToggleChange={handleToggleChange3}
+            />
           </div>
           <button type="submit">Submit</button>
         </form>
