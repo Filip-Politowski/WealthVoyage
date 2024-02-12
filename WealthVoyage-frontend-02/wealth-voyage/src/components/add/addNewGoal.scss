@@ -1,15 +1,17 @@
 @import "../../styles/variables.scss";
+@import "../../styles/responsive.scss";
 
 .addNewGoal {
-  width: 100vw;
-  height: 100vh;
-  position: absolute;
+  width: 100%;
+  height: 100%;
+  position: fixed;
   top: 0;
   left: 0;
   background-color: rgba(0, 0, 0, 0.724);
   display: flex;
   align-items: center;
   justify-content: center;
+ 
 
   .modal {
     padding: 50px;
@@ -23,6 +25,7 @@
       img {
         width: 140px;
         height: 140px;
+        cursor: pointer;
       }
     }
 
@@ -50,6 +53,7 @@
       flex-wrap: wrap;
       max-width: 480px;
       justify-content: space-between;
+      
 
       .item {
         width: 40%;
@@ -87,6 +91,19 @@
           align-items: center;
           gap: 20px;
           width: 100%;
+        }
+      }
+      .firstDeposit {
+    width: 100%;
+        margin-bottom: 20px;
+        input {
+          width: 100%;
+          padding: 10px;
+          background-color: transparent;
+          color: white;
+          outline: none;
+          border: 1px solid $soft-color;
+          border-radius: 3px;
         }
       }
     }

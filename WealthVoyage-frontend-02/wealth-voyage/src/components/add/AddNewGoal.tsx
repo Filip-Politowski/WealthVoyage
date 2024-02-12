@@ -3,7 +3,6 @@ import "./addNewGoal.scss";
 import { GridColDef } from "@mui/x-data-grid";
 import Slider from "../utils/slider/Slider";
 
-
 type Props = {
   columns: GridColDef[];
   slug: string;
@@ -19,7 +18,6 @@ const AddNewGoal = (props: Props) => {
     e.preventDefault();
     const finalImage = selectedImage || props.images[0];
     console.log("Submitted with image:", finalImage);
-    
   };
 
   const handleDefaultImageClick = () => {
@@ -31,24 +29,12 @@ const AddNewGoal = (props: Props) => {
     setShowImagePicker(false);
   };
 
- const [isChecked1, setIsChecked1] = useState(false);
+  const [isChecked, setIsChecked] = useState(false);
 
- const handleToggleChange1 = () => {
-   setIsChecked1(!isChecked1);
-   console.log(isChecked1)
- };
-  const [isChecked2, setIsChecked2] = useState(false);
-
-  const handleToggleChange2 = () => {
-    setIsChecked2(!isChecked2);
-    console.log(isChecked2);
+  const handleToggleChange = () => {
+    setIsChecked(!isChecked);
+    console.log(isChecked);
   };
-   const [isChecked3, setIsChecked3] = useState(false);
-
-   const handleToggleChange3 = () => {
-     setIsChecked3(!isChecked3);
-     console.log(isChecked3);
-   };
 
   return (
     <div className="addNewGoal">
@@ -70,7 +56,7 @@ const AddNewGoal = (props: Props) => {
             .map((column) => (
               <div className="item">
                 <label>{column.headerName}</label>
-                <input type={column.type} placeholder={column.field}></input>
+                <input type={column.type} placeholder={column.field} min={0}></input>
               </div>
             ))}
 
@@ -93,20 +79,22 @@ const AddNewGoal = (props: Props) => {
           <div className="sliders">
             <div className="slider1">
               <Slider
-                isChecked={isChecked1}
-                handleToggleChange={handleToggleChange1}
+                isChecked={isChecked}
+                handleToggleChange={handleToggleChange}
               />
-              <p>Is there to be a target amount of the goal ?</p>
+              {isChecked ? (
+                <p>Savings Target</p>
+              ) : (
+                <p>Without savings target</p>
+              )}
             </div>
-            <Slider
-              isChecked={isChecked2}
-              handleToggleChange={handleToggleChange2}
-            />
-            <Slider
-              isChecked={isChecked3}
-              handleToggleChange={handleToggleChange3}
-            />
           </div>
+          {isChecked && (
+            <div className="firstDeposit">
+              <input type="number" placeholder="Target amount [zł]" min={0}></input>
+            </div>
+          )}
+
           <button type="submit">Submit</button>
         </form>
       </div>

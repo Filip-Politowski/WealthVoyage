@@ -28,8 +28,13 @@ const SavingGoals = () => {
       </div>
       <div className="goals">
         <div className="box">
+          <img src="homeImg.svg" alt="" />
+          <span>Dom</span>
+          <p>200 zł</p>
+        </div>
+        <div className="box">
           <img src="car.svg" alt="" />
-          <span>Samochodzik</span>
+          <span>Samochód</span>
           <p>200 zł</p>
         </div>
         <div className="box">
