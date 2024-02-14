@@ -1,11 +1,10 @@
 @import "../../styles/variables.scss";
 @import "../../styles/responsive.scss";
 .menu {
-
-img{
-  width: 25px;
-  height: 25px;
-}
+  img {
+    width: 25px;
+    height: 25px;
+  }
 
   .item {
     display: flex;
@@ -29,6 +28,10 @@ img{
       gap: 10px;
       padding: 10px;
       border-radius: 5px;
+      @include lg {
+        padding: 1px;
+        margin-bottom: 10px;
+      }
       &:hover {
         background-color: $soft-bg;
       }

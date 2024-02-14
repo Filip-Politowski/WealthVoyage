@@ -28,19 +28,54 @@ const SavingGoals = () => {
       </div>
       <div className="goals">
         <div className="box">
-          <img src="homeImg.svg" alt="" />
-          <span>Dom</span>
-          <p>200 zł</p>
+          <div className="theme">
+            <img src="homeImg.svg" alt="" />
+
+            <span>Dom</span>
+          </div>
+          <div className="amountTarget">
+            <div className="amount">
+              <label>Amount:</label>
+              <p>200 zł</p>
+            </div>
+            <div className="target">
+              <label>Target:</label>
+              <p>1000zł</p>
+            </div>
+          </div>
         </div>
         <div className="box">
-          <img src="car.svg" alt="" />
-          <span>Samochód</span>
-          <p>200 zł</p>
+          <div className="theme">
+            <img src="games.svg" alt="" />
+            <span>Entertainment</span>
+          </div>
+          <div className="amountTarget">
+            <div className="amount">
+              <label>Amount:</label>
+              <p>599 zł</p>
+            </div>
+            <div className="target">
+              <label>Target:</label>
+              <p>1000zł</p>
+            </div>
+          </div>
         </div>
         <div className="box">
-          <img src="games.svg" alt="" />
-          <span>Rozrywka</span>
-          <p>200 zł</p>
+          <div className="theme">
+            <img src="car.svg" alt="" />
+
+            <span>Car</span>
+          </div>
+          <div className="amountTarget">
+            <div className="amount">
+              <label>Amount:</label>
+              <p>6000 zł</p>
+            </div>
+            <div className="target">
+              <label>Target:</label>
+              <p>50000zł</p>
+            </div>
+          </div>
         </div>
       </div>
       {open && (

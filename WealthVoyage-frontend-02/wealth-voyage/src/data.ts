@@ -93,6 +93,14 @@ export const lastTransactions = [
     category: "bonus",
     date: "2022-01-07",
   },
+  {
+    id: 7,
+    amount: 3000,
+    transactionType: "income",
+    category: "bonus",
+    date: "2022-01-07",
+  },
+ 
 ];
 
 export const chartBoxSavings = {
