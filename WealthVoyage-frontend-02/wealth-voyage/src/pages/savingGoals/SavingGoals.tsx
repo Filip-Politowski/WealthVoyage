@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "./savingGoals.scss";
 import AddNewGoal from "../../components/add/AddNewGoal";
 import { GridColDef } from "@mui/x-data-grid";
+import { Link } from "react-router-dom";
 
 const columns: GridColDef[] = [
   { field: "id", headerName: "ID", width: 90 },
@@ -27,7 +28,7 @@ const SavingGoals = () => {
         <button onClick={() => setOpen(true)}>Add New Goal</button>
       </div>
       <div className="goals">
-        <div className="box">
+        <Link to={"/"} className="box" key="1">
           <div className="theme">
             <img src="homeImg.svg" alt="" />
 
@@ -43,8 +44,8 @@ const SavingGoals = () => {
               <p>1000zł</p>
             </div>
           </div>
-        </div>
-        <div className="box">
+        </Link>
+        <Link to={"/"} className="box" key="2">
           <div className="theme">
             <img src="games.svg" alt="" />
             <span>Entertainment</span>
@@ -59,8 +60,8 @@ const SavingGoals = () => {
               <p>1000zł</p>
             </div>
           </div>
-        </div>
-        <div className="box">
+        </Link>
+        <Link to={"/"} className="box" key="3">
           <div className="theme">
             <img src="car.svg" alt="" />
 
@@ -76,7 +77,7 @@ const SavingGoals = () => {
               <p>50000zł</p>
             </div>
           </div>
-        </div>
+        </Link>
       </div>
       {open && (
         <AddNewGoal
