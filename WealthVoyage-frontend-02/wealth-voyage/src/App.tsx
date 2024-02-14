@@ -14,6 +14,7 @@ import Installment from "./pages/installment/Installment";
 import SavingGoals from "./pages/savingGoals/SavingGoals";
 import Transactions from "./pages/transactions/Transactions";
 import Profile from "./pages/profile/Profile";
+import SavingGoal from "./pages/savingGoal/SavingGoal";
 
 function App() {
 
@@ -43,6 +44,7 @@ function App() {
       children: [
         { path: "/", element: <Home /> },
         { path: "/savingGoals", element: <SavingGoals /> },
+        { path: "/savingGoal/:id", element: <SavingGoal /> },
         { path: "/installments", element: <Installments /> },
         { path: "/installments/:id", element: <Installment /> },
         { path: "/transactions", element: <Transactions /> },
