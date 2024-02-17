@@ -1,0 +1,25 @@
+.dots {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+
+  transition: 0.5s;
+
+  .dot1,
+  .dot2,
+  .dot3 {
+    height: 10px;
+    width: 10px;
+    border: solid 1px;
+    border-radius: 50%;
+    transition: 0.4s;
+  }
+  &:hover {
+    transform: rotate(90deg);
+    .dot1,
+    .dot2,
+    .dot3 {
+      background-color: white; /* Change this to your desired hover background color */
+    }
+  }
+}

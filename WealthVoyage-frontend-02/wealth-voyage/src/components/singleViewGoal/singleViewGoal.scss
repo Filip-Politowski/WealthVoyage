@@ -55,18 +55,57 @@
   max-width: 90%;
   margin: 20px auto;
   padding: 20px;
-  background-color: rgb(66, 79, 90);
+  background-color: rgba(66, 79, 90, 0.929);
   border-radius: 8px;
+
   .view {
+    position: relative;
+    .settingsWindow {
+      display: flex;
+      flex-direction: column;
+      position: absolute;
+      top: 40px;
+      right: 0;
+      border: 1px solid #ccc;
+      padding: 10px;
+      background: #fff;
+      color: black;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+      border-radius: 4px; 
+      max-width: 200px; 
+    
+      
+    }
+
+    .settingsWindow p {
+      margin: 0;
+      padding: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s ease; 
+    }
+
+    .settingsWindow p:hover {
+      background-color: #f5f5f5; 
+    }
     .info {
       .topInfo {
         display: flex;
         align-items: center;
         gap: 20px;
         margin-bottom: 20px;
-        img {
-          width: 100px;
-          height: 100px;
+        .imgTitle {
+          display: flex;
+          align-items: center;
+          
+          gap: 20px;
+          img {
+            width: 100px;
+            height: 100px;
+          }
+        }
+        .settingsDots {
+          margin-left: auto;
+          margin-bottom: auto;
         }
       }
 
@@ -89,13 +128,29 @@
       justify-content: center;
       align-items: center;
       width: 50%;
+      min-width: 200px;
     }
   }
   .buttonsSection {
     display: flex;
     justify-content: flex-end;
+    gap: 5px;
+
     button {
+      background-color: rgba(143, 151, 143, 0.777);
+      color: white;
+      border: none;
       padding: 10px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      color: black;
+      transition: 0.6s;
+      transform: translateY(1px);
+    }
+    button:active {
+      transform: translateY(2px);
     }
   }
 }
