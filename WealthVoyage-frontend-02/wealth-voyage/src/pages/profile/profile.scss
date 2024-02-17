@@ -7,7 +7,7 @@
   grid-auto-rows: minmax(180px, auto);
   grid-auto-flow: dense;
 
-  @include sm {
+  @include md {
       grid-template-columns: repeat(1,1fr);
   }
 
@@ -78,7 +78,7 @@
   .box3 {
     border-left: solid 1px;
     padding: 20px;
-      @include sm {
+      @include md {
       border: none;
   }
 

@@ -343,3 +343,12 @@ export const singleInstallment = {
     },
   ],
 };
+
+export const singleGoalDetails = {
+  id: 1,
+  savingGoalName: "Car",
+  savingGoalAmount: 5000,
+  amountSaved: 2000,
+  savingsProgression: 40,
+
+}

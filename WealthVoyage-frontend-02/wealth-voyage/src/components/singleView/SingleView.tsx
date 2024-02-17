@@ -1,5 +1,5 @@
 import "./singleView.scss";
-import ProgressBar from "../progressBar/ProgressBar";
+import ProgressBar from "../utils/progressBar/ProgressBar";
 
 type Props = {
   id: number;
@@ -47,7 +47,10 @@ const SingleView = (props: Props) => {
         </div>
         <hr />
         <div className="progressContainer">
-          <ProgressBar percentage={props.percentageOfPaidInstallments} />
+          <ProgressBar
+            percentage={props.percentageOfPaidInstallments}
+            color="rgb(66, 79, 90)"
+          />
           <span>Installment progress</span>
         </div>
       </div>
