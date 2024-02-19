@@ -38,9 +38,17 @@ const SingleViewGoal = (props: Props) => {
           <div className="details">
             <h1>Goal details:</h1>
 
-            <p>Target: {props.savingGoalAmount} zł</p>
-            <p>Amount saved: {props.amountSaved} zł</p>
-            <p>Savings progression: {props.savingsProgression}%</p>
+            <p>
+              Target: <b>{props.savingGoalAmount} zł</b>
+            </p>
+
+            <p>
+              Amount saved: <b>{props.amountSaved} zł</b>
+            </p>
+
+            <p>
+              Savings progression: <b>{props.savingsProgression}%</b>
+            </p>
           </div>
         </div>
         <hr />

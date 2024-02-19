@@ -27,8 +27,15 @@
       position: absolute;
       top: 10px;
       right: 10px;
+      padding: 10px;
       cursor: pointer;
     }
+    .close:hover {
+      padding: 10px;
+      background-color: rgba(255, 0, 0, 0.725);
+      border-radius: 5px;
+    }
+
 
     form {
       display: flex;

@@ -243,6 +243,8 @@ export const installmentsRow = [
     numberOfInstallments: 30,
     installmentAmount: 9000,
     endDateOfInstallment: "2024-01-01",
+    priceOfSingleInstallment: 9000 / 30,
+    paymentDate: "2023-01-01",
   },
   {
     id: 2,
@@ -250,6 +252,8 @@ export const installmentsRow = [
     numberOfInstallments: 20,
     installmentAmount: 3000,
     endDateOfInstallment: "2024-01-01",
+    priceOfSingleInstallment: 9000 / 30,
+    paymentDate: "2023-01-01",
   },
   {
     id: 3,
@@ -257,6 +261,8 @@ export const installmentsRow = [
     numberOfInstallments: 3,
     installmentAmount: 500,
     endDateOfInstallment: "2024-01-01",
+    priceOfSingleInstallment: 9000 / 30,
+    paymentDate: "2023-01-01",
   },
   {
     id: 4,
@@ -264,6 +270,8 @@ export const installmentsRow = [
     numberOfInstallments: 2,
     installmentAmount: 500,
     endDateOfInstallment: "2024-01-01",
+    priceOfSingleInstallment: 9000 / 30,
+    paymentDate: "2023-01-01",
   },
   {
     id: 5,
@@ -271,6 +279,8 @@ export const installmentsRow = [
     numberOfInstallments: 5,
     installmentAmount: 1500,
     endDateOfInstallment: "2024-01-01",
+    priceOfSingleInstallment: 9000 / 30,
+    paymentDate: "2023-01-01",
   },
   {
     id: 6,
@@ -278,6 +288,8 @@ export const installmentsRow = [
     numberOfInstallments: 15,
     installmentAmount: 3000,
     endDateOfInstallment: "2024-01-01",
+    priceOfSingleInstallment: 9000 / 30,
+    paymentDate: "2023-01-01",
   },
   {
     id: 7,
@@ -285,6 +297,8 @@ export const installmentsRow = [
     numberOfInstallments: 1,
     installmentAmount: 200,
     endDateOfInstallment: "2024-01-01",
+    priceOfSingleInstallment: 9000 / 30,
+    paymentDate: "2023-01-01",
   },
   {
     id: 8,
@@ -292,6 +306,8 @@ export const installmentsRow = [
     numberOfInstallments: 3,
     installmentAmount: 500,
     endDateOfInstallment: "2024-01-01",
+    priceOfSingleInstallment: 9000 / 30,
+    paymentDate: "2023-01-01",
   },
   {
     id: 9,
@@ -299,6 +315,44 @@ export const installmentsRow = [
     numberOfInstallments: 4,
     installmentAmount: 900,
     endDateOfInstallment: "2024-01-01",
+    priceOfSingleInstallment: 9000 / 30,
+    paymentDate: "2023-01-01",
+  },
+  {
+    id: 10,
+    loanName: "Bum arm",
+    numberOfInstallments: 4,
+    installmentAmount: 900,
+    endDateOfInstallment: "2024-01-01",
+    priceOfSingleInstallment: 9000 / 30,
+    paymentDate: "2023-01-01",
+  },
+  {
+    id: 11,
+    loanName: "Bum arm",
+    numberOfInstallments: 4,
+    installmentAmount: 900,
+    endDateOfInstallment: "2024-01-01",
+    priceOfSingleInstallment: 9000 / 30,
+    paymentDate: "2023-01-01",
+  },
+  {
+    id: 12,
+    loanName: "Bum arm",
+    numberOfInstallments: 4,
+    installmentAmount: 900,
+    endDateOfInstallment: "2024-01-01",
+    priceOfSingleInstallment: 9000 / 30,
+    paymentDate: "2023-01-01",
+  },
+  {
+    id: 13,
+    loanName: "Bum arm",
+    numberOfInstallments: 4,
+    installmentAmount: 900,
+    endDateOfInstallment: "2024-01-01",
+    priceOfSingleInstallment: 9000 / 30,
+    paymentDate: "2023-01-01",
   },
 ];
 

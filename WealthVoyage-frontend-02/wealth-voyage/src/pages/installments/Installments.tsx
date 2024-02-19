@@ -4,6 +4,7 @@ import DataTable from "../../components/dataTable/DataTable";
 import { GridColDef } from "@mui/x-data-grid";
 import { installmentsRow } from "../../data";
 import Add from "../../components/add/Add";
+import DataTableMobile from "../../components/dataTable/DataTableMobile";
 
 const columns: GridColDef[] = [
   { field: "id", headerName: "ID", width: 90 },
@@ -49,8 +50,14 @@ const [open, setOpen] = useState(false);
         <h1>Installments</h1>
         <button onClick={() => setOpen(true)}>Add New Loan</button>
       </div>
+      {/* PC version */}
       <DataTable slug={"installments"} columns={columns} rows={installmentsRow}/>
       {open && <Add setOpen={setOpen} columns={columns} slug="Loan" />}
+      {/* Mobil version */}
+      <div className="installmentsMobile">
+        <DataTableMobile rows={installmentsRow} slug={"installments"}/>
+      </div>
+
     </div>
   );
 };

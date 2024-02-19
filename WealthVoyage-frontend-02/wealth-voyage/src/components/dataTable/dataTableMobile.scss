@@ -1,0 +1,100 @@
+.dataTableMobile {
+  color: black;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+
+  .searchBar {
+    display: flex;
+    margin-left: auto;
+    align-items: center;
+    padding: 5px;
+    width: 60%;
+    position: relative;
+    img {
+      width: 20px;
+      height: 20px;
+    }
+    input {
+      padding: 5px;
+      border: none;
+      border-radius: 4px;
+      outline: none;
+      font-size: 16px;
+      width: 100%;
+    }
+  }
+  .searchBar::before {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 5%;
+    width: 85%; 
+    border-bottom: 1px solid rgb(202, 202, 202); 
+  }
+  .rows {
+    .rowsHeader {
+      position: relative;
+      display: flex;
+      justify-content: space-between;
+      padding: 10px;
+      align-items: center;
+    }
+    .rowsHeader::before {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 2.5%; 
+      width: 95%; 
+      border-bottom: 1px solid rgb(202, 202, 202); 
+    }
+    .row {
+      display: flex;
+      padding: 10px;
+      justify-content: space-between;
+      align-items: center;
+      position: relative;
+      padding-bottom: 10px;
+      .paymentDetails {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        .price {
+          border-radius: 5px;
+          background-color: #9bed8d41;
+          padding: 3px;
+        }
+      }
+    }
+    .row::before {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 2.5%; 
+      width: 95%; 
+      border-bottom: 1px solid rgb(202, 202, 202); 
+    }
+  }
+  .pagination {
+    display: flex;
+    justify-content: flex-end;
+    padding: 10px;
+    gap: 10px;
+    button {
+      background-color: rgba(143, 151, 143, 0.777);
+      color: white;
+      border: none;
+      padding: 10px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      color: black;
+      transition: 0.6s;
+      transform: translateY(1px);
+    }
+    button:active {
+      transform: translateY(2px);
+    }
+  }
+}
