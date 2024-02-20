@@ -33,7 +33,7 @@ const DataTableMobile = (props: Props) => {
   return (
     <div className="dataTableMobile">
       <div className="searchBar">
-       <img src="/searchBlack.svg" alt="" />
+       <img src="/search.svg" alt="" />
         <input
           type="text"
           placeholder="Search..."

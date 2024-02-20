@@ -1,9 +1,8 @@
 .dataTable {
-  .dataGrid {
-    background: white;
-    padding: 20px;
+  background-color: #607d8b22;
+  .dataGrid{
+    color: white;
   }
-
   .action {
     display: flex;
     gap: 15px;
@@ -13,9 +12,5 @@
       height: 20px;
       cursor: pointer;
     }
-  }
-
-  #\:rg\: {
-    display: none;
   }
 }

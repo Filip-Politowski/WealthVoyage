@@ -358,7 +358,7 @@ export const installmentsRow = [
 
 export const singleInstallment = {
   id: 1,
-  img: "/loan.svg",
+  img: "/cash.svg",
   title: "Computer",
   info: {
     loanId: 1,

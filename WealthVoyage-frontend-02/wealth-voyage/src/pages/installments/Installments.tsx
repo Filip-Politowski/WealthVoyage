@@ -32,17 +32,32 @@ const columns: GridColDef[] = [
     editable: true,
   },
   {
+    field: "paymentDate",
+    headerName: "Payment date",
+    type: "string",
+    sortable: true,
+    width: 150,
+    editable: true,
+  },
+  {
     field: "endDateOfInstallment",
     headerName: "End date",
     type: "string",
     sortable: true,
     width: 150,
   },
+  {
+    field: "priceOfSingleInstallment",
+    headerName: "Price of single installment [zł]",
+    type: "number",
+    align: "center",
+    sortable: true,
+    width: 150,
+  },
 ];
 
 const Installments = () => {
-
-const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(false);
 
   return (
     <div className="installments">
@@ -51,13 +66,14 @@ const [open, setOpen] = useState(false);
         <button onClick={() => setOpen(true)}>Add New Loan</button>
       </div>
       {/* PC version */}
-      <DataTable slug={"installments"} columns={columns} rows={installmentsRow}/>
-      {open && <Add setOpen={setOpen} columns={columns} slug="Loan" />}
+      <DataTable
+        slug={"installments"}
+        columns={columns}
+        rows={installmentsRow}
+      />
       {/* Mobil version */}
-      <div className="installmentsMobile">
-        <DataTableMobile rows={installmentsRow} slug={"installments"}/>
-      </div>
-
+      <DataTableMobile rows={installmentsRow} slug={"installments"} />
+      {open && <Add setOpen={setOpen} columns={columns} slug="Loan" />}
     </div>
   );
 };

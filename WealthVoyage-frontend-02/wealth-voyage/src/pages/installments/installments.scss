@@ -1,6 +1,8 @@
 @import "../../styles/responsive.scss";
 
 .installments {
+
+
   .info {
     display: flex;
     align-items: center;
@@ -13,6 +15,7 @@
       border: none;
       padding: 10px 28px;
       border-radius: 10px;
+      
       cursor: pointer;
     }
     button:hover {
@@ -25,13 +28,12 @@
     }
   }
 
-  .installmentsMobile {
+  .dataTableMobile {
     display: none;
-    align-items: center;
-    background-color: #fff;
-    border-radius: 10px;
+ 
     
   }
+  
 
   @include md {
     .info {
@@ -40,8 +42,8 @@
     .dataTable {
       display: none;
     }
-    .installmentsMobile {
-      display: flex;
+    .dataTableMobile {
+      display: grid;
     }
   }
 }

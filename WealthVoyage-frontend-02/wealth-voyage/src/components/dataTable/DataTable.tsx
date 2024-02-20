@@ -1,17 +1,21 @@
 import React from "react";
 import "./dataTable.scss";
-import {
-  DataGrid,
-  GridColDef,
-  GridToolbar,
-} from "@mui/x-data-grid";
+import { DataGrid, GridColDef, GridToolbar } from "@mui/x-data-grid";
 import { Link } from "react-router-dom";
+import { ThemeProvider } from "@mui/material/styles";
+import { createTheme } from "@mui/material/styles";
+import { purple, green, pink, blueGrey, blue } from "@mui/material/colors";
+import CssBaseline from "@mui/material/CssBaseline";
+
+
 
 type Props = {
   columns: GridColDef[];
   rows: object[];
   slug: string;
 };
+
+
 
 const DataTable = (props: Props) => {
   const handleDelete = (id: number) => {
@@ -36,33 +40,42 @@ const DataTable = (props: Props) => {
     },
   };
 
+  // Define your dark mode theme
+const theme = createTheme({
+  palette: {
+    mode: "dark",
+  
+  },
+});
+
   return (
     <div className="dataTable">
-      <DataGrid
-        className="dataGrid"
-        rows={props.rows}
-        columns={[...props.columns, actionColumn]}
-        initialState={{
-          pagination: {
-            paginationModel: {
-              pageSize: 8,
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <DataGrid
+          className="dataGrid"
+          rows={props.rows}
+          columns={[...props.columns, actionColumn]}
+          initialState={{
+            pagination: {
+              paginationModel: {
+                pageSize: 8,
+              },
             },
-          },
-        }}
-        slots={{ toolbar: GridToolbar }}
-        slotProps={{
-          toolbar: {
-            showQuickFilter: true,
-            quickFilterProps: { debounceMs: 500 },
-          },
-        }}
-        pageSizeOptions={[8]}
-        checkboxSelection
-        disableRowSelectionOnClick
-        disableDensitySelector
-       
-        
-      />
+          }}
+          slots={{ toolbar: GridToolbar }}
+          slotProps={{
+            toolbar: {
+              showQuickFilter: true,
+              quickFilterProps: { debounceMs: 500 },
+            },
+          }}
+          pageSizeOptions={[8]}
+          checkboxSelection
+          disableRowSelectionOnClick
+          disableDensitySelector
+        />
+      </ThemeProvider>
     </div>
   );
 };
