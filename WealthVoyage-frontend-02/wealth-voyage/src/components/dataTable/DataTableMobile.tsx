@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "./dataTableMobile.scss";
+import Pagination from "../utils/pagination/Pagination";
 
 type Props = {
   rows: object[];
@@ -33,7 +34,7 @@ const DataTableMobile = (props: Props) => {
   return (
     <div className="dataTableMobile">
       <div className="searchBar">
-       <img src="/search.svg" alt="" />
+        <img src="/search.svg" alt="" />
         <input
           type="text"
           placeholder="Search..."
@@ -60,26 +61,16 @@ const DataTableMobile = (props: Props) => {
           </div>
         ))}
       </div>
-
-      {/* Pagination controls */}
-      <div className="pagination">
-        <button
-          onClick={() => handlePageChange(currentPage - 1)}
-          disabled={currentPage === 1}
-        >
-          Previous
-        </button>
-        <span>
-          {startIndex + 1}-{endIndex - (itemsPerPage - currentRows.length)} of{" "}
-          {filteredRows.length}
-        </span>
-        <button
-          onClick={() => handlePageChange(currentPage + 1)}
-          disabled={currentPage === totalPages}
-        >
-          Next
-        </button>
-      </div>
+      <Pagination
+        currentPage={currentPage}
+        currentRows={currentRows}
+        endIndex={endIndex}
+        filteredRows={filteredRows}
+        handlePageChange={handlePageChange}
+        itemsPerPage={itemsPerPage}
+        startIndex={startIndex}
+        totalPages={totalPages}
+      />
     </div>
   );
 };
