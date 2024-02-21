@@ -57,7 +57,7 @@ const [open, setOpen] = useState(false);
       <DataTableMobile
         rows={lastTransactions}
         columns={["ID", "Amount", "Date"]}
-        slug={"transactions"}
+        slug={"transaction"}
         filteredKeys={["id", "amount", "date"]}
         searchKeyFilter="date"
         searchPlaceholder='Search by date...'

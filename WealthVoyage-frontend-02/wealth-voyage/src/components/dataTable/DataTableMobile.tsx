@@ -61,7 +61,7 @@ const DataTableMobile = (props: Props) => {
             <tr key={row.id}>
               {props.filteredKeys.map((key) => (
                 <td key={key}>
-                  <Link to={props.slug}>
+                  <Link to={`/${props.slug}/${row.id}`}>
                     {row[key] === row["paymentDate"] ? (
                       <div className="singleInstallmentPrice">
                         <div>

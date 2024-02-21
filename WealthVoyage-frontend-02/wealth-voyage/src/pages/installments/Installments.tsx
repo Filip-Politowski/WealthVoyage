@@ -75,7 +75,7 @@ const Installments = () => {
       <DataTableMobile
         rows={installmentsRow}
         columns={["ID", "Loan Name", "Payment Date"]}
-        slug={"installments"}
+        slug={"installment"}
         filteredKeys={["id","loanName","paymentDate"]}
         searchKeyFilter="loanName"
       />
