@@ -9,6 +9,7 @@ type Props = {
   slug: string;
   filteredKeys: string[];
   searchKeyFilter: string;
+  searchPlaceholder?: string;
 };
 
 const DataTableMobile = (props: Props) => {
@@ -41,7 +42,7 @@ const DataTableMobile = (props: Props) => {
         <img src="/search.svg" alt="" />
         <input
           type="text"
-          placeholder="Search..."
+          placeholder= {props.searchPlaceholder ? props.searchPlaceholder : "Search..."}
           value={searchQuery}
           onChange={(e) => handleSearch(e.target.value)}
         />

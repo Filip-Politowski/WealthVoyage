@@ -59,7 +59,8 @@ const [open, setOpen] = useState(false);
         columns={["ID", "Amount", "Date"]}
         slug={"transactions"}
         filteredKeys={["id", "amount", "date"]}
-        searchKeyFilter="category"
+        searchKeyFilter="date"
+        searchPlaceholder='Search by date...'
       />
       {open && <Add setOpen={setOpen} columns={columns} slug="Transaction" />}
     </div>
