@@ -77,6 +77,7 @@ const Installments = () => {
         columns={["ID", "Loan Name", "Payment Date"]}
         slug={"installments"}
         filteredKeys={["id","loanName","paymentDate"]}
+        searchKeyFilter="loanName"
       />
       {open && <Add setOpen={setOpen} columns={columns} slug="Loan" />}
     </div>

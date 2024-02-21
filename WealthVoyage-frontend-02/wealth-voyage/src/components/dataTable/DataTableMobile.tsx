@@ -1,19 +1,17 @@
 import React, { useState } from "react";
 import "./dataTableMobile.scss";
 import Pagination from "../utils/pagination/Pagination";
+import { Link } from "react-router-dom";
 
 type Props = {
   rows: object[];
   columns: string[];
   slug: string;
   filteredKeys: string[];
+  searchKeyFilter: string;
 };
 
 const DataTableMobile = (props: Props) => {
-
-
-
-
   const itemsPerPage = 5;
   const [currentPage, setCurrentPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState("");
@@ -30,13 +28,13 @@ const DataTableMobile = (props: Props) => {
   };
 
   const filteredRows = props.rows.filter((row: any) =>
-    row.loanName.toLowerCase().includes(searchQuery.toLowerCase())
+    row[props.searchKeyFilter].toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
   const currentRows = filteredRows.slice(startIndex, endIndex);
- 
+
   return (
     <div className="dataTableMobile">
       <div className="searchBar">
@@ -49,21 +47,39 @@ const DataTableMobile = (props: Props) => {
         />
       </div>
 
-      <div className="rows">
-        <div className="rowsHeader">
-          {props.columns.map((column: string) => (
-            <p>{column}</p>
-          ))}
-        </div>
-
-        {currentRows.map((row: any) => (
-          <div className="row" key={row.id}>
-            {props.filteredKeys.map((key) => (
-              <p key={key}>{row[key] as string}</p>
+      <table className="rowsTable">
+        <thead>
+          <tr>
+            {props.columns.map((column: string) => (
+              <th key={column}>{column}</th>
             ))}
-          </div>
-        ))}
-      </div>
+          </tr>
+        </thead>
+        <tbody>
+          {currentRows.map((row: any) => (
+            <tr key={row.id}>
+              {props.filteredKeys.map((key) => (
+                <td key={key}>
+                  <Link to={props.slug}>
+                    {row[key] === row["paymentDate"] ? (
+                      <div className="singleInstallmentPrice">
+                        <div>
+                          <p>{row["priceOfSingleInstallment"]} zł</p>
+                        </div>
+                        <p>{row[key]}</p>
+                      </div>
+                    ) : row[key] === row["amount"] ? (
+                      <p>{row[key]} zł</p>
+                    ) : (
+                      <p>{row[key]}</p>
+                    )}
+                  </Link>
+                </td>
+              ))}
+            </tr>
+          ))}
+        </tbody>
+      </table>
       <Pagination
         currentPage={currentPage}
         currentRows={currentRows}

@@ -94,7 +94,7 @@ export const lastTransactions = [
     date: "2022-01-07",
   },
   {
-    id: 7,
+    id: 8,
     amount: 3000,
     transactionType: "income",
     category: "bonus",

@@ -4,6 +4,7 @@ import DataTable from '../../components/dataTable/DataTable';
 import Add from '../../components/add/Add';
 import { GridColDef } from '@mui/x-data-grid';
 import { lastTransactions } from '../../data';
+import DataTableMobile from '../../components/dataTable/DataTableMobile';
 
 
 const columns: GridColDef[] = [
@@ -52,6 +53,13 @@ const [open, setOpen] = useState(false);
         slug={"transactions"}
         columns={columns}
         rows={lastTransactions}
+      />
+      <DataTableMobile
+        rows={lastTransactions}
+        columns={["ID", "Amount", "Date"]}
+        slug={"transactions"}
+        filteredKeys={["id", "amount", "date"]}
+        searchKeyFilter="category"
       />
       {open && <Add setOpen={setOpen} columns={columns} slug="Transaction" />}
     </div>
