@@ -56,8 +56,6 @@ const columns: GridColDef[] = [
   },
 ];
 
-
-
 const Installments = () => {
   const [open, setOpen] = useState(false);
 
@@ -74,7 +72,12 @@ const Installments = () => {
         rows={installmentsRow}
       />
       {/* Mobil version */}
-      <DataTableMobile rows={installmentsRow} slug={"installments"} />
+      <DataTableMobile
+        rows={installmentsRow}
+        columns={["ID", "Loan Name", "Payment Date"]}
+        slug={"installments"}
+        filteredKeys={["id","loanName","paymentDate"]}
+      />
       {open && <Add setOpen={setOpen} columns={columns} slug="Loan" />}
     </div>
   );

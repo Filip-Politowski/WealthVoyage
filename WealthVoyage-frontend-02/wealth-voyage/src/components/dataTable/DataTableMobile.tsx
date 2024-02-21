@@ -4,10 +4,16 @@ import Pagination from "../utils/pagination/Pagination";
 
 type Props = {
   rows: object[];
+  columns: string[];
   slug: string;
+  filteredKeys: string[];
 };
 
 const DataTableMobile = (props: Props) => {
+
+
+
+
   const itemsPerPage = 5;
   const [currentPage, setCurrentPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState("");
@@ -30,7 +36,7 @@ const DataTableMobile = (props: Props) => {
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
   const currentRows = filteredRows.slice(startIndex, endIndex);
-
+ 
   return (
     <div className="dataTableMobile">
       <div className="searchBar">
@@ -45,19 +51,16 @@ const DataTableMobile = (props: Props) => {
 
       <div className="rows">
         <div className="rowsHeader">
-          <p>ID</p>
-          <p>Loan Name</p>
-          <p>Payment Date</p>
+          {props.columns.map((column: string) => (
+            <p>{column}</p>
+          ))}
         </div>
 
         {currentRows.map((row: any) => (
           <div className="row" key={row.id}>
-            <p>{row.id}</p>
-            <p>{row.loanName}</p>
-            <div className="paymentDetails">
-              <p className="price">{row.priceOfSingleInstallment} zł</p>
-              <p>{row.paymentDate}</p>
-            </div>
+            {props.filteredKeys.map((key) => (
+              <p key={key}>{row[key] as string}</p>
+            ))}
           </div>
         ))}
       </div>
