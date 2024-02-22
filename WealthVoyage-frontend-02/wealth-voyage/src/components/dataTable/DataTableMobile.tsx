@@ -42,7 +42,9 @@ const DataTableMobile = (props: Props) => {
         <img src="/search.svg" alt="" />
         <input
           type="text"
-          placeholder= {props.searchPlaceholder ? props.searchPlaceholder : "Search..."}
+          placeholder={
+            props.searchPlaceholder ? props.searchPlaceholder : "Search..."
+          }
           value={searchQuery}
           onChange={(e) => handleSearch(e.target.value)}
         />
@@ -70,7 +72,18 @@ const DataTableMobile = (props: Props) => {
                         <p>{row[key]}</p>
                       </div>
                     ) : row[key] === row["amount"] ? (
-                      <p>{row[key]} zł</p>
+                      <p
+                        style={{
+                          background:
+                            row[key] < 0
+                              ? "rgba(227, 78, 78, 0.524)"
+                              : "transparent",
+                              padding: "3px",
+                              borderRadius: "5px",
+                        }}
+                      >
+                        {row[key]} zł
+                      </p>
                     ) : (
                       <p>{row[key]}</p>
                     )}

@@ -19,6 +19,7 @@ const Installment = () => {
         img={singleInstallment.img}
         info={singleInstallment.info}
         progress={progressBar}
+        
       />
     </div>
   );
