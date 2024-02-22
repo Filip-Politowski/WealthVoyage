@@ -67,7 +67,7 @@ const Installments = () => {
       </div>
       {/* PC version */}
       <DataTable
-        slug={"installments"}
+        slug={"installment"}
         columns={columns}
         rows={installmentsRow}
       />

@@ -50,7 +50,7 @@ const [open, setOpen] = useState(false);
         <button onClick={() => setOpen(true)}>Add New Transaction</button>
       </div>
       <DataTable
-        slug={"transactions"}
+        slug={"transaction"}
         columns={columns}
         rows={lastTransactions}
       />

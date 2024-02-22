@@ -1,4 +1,4 @@
-import "./singleView.scss";
+import "./installmentSingleView.scss";
 import ProgressBar from "../utils/progressBar/ProgressBar";
 
 type Props = {
@@ -6,7 +6,10 @@ type Props = {
   img?: string;
   title: string;
   info: object;
-  percentageOfPaidInstallments: number;
+  progress?: {
+    percentage: number;
+    color: string;
+  };
   activities?: {
     dueDate: string;
     loanName: string;
@@ -21,15 +24,15 @@ const SingleView = (props: Props) => {
 
     const result = firstLetter + restOfTheText.toLowerCase();
     return result;
-  }
+  };
 
   return (
     <div className="singleView">
       <div className="view">
         <div className="info">
           <div className="topInfo">
-            <img src={props.img} alt="" />
-            <h1>{props.title}</h1>
+            {props.img && <img src={props.img} alt="" />}
+            <h1>{props.title.toUpperCase()}</h1>
             <button>Update</button>
           </div>
           <div className="details">
@@ -45,30 +48,34 @@ const SingleView = (props: Props) => {
               ))}
           </div>
         </div>
-        <hr />
-        <div className="progressContainer">
-          <ProgressBar
-            percentage={props.percentageOfPaidInstallments}
-            color="rgb(66, 79, 90)"
-          />
-          <span>Installment progress</span>
-        </div>
-      </div>
-      <div className="activities">
-        <h2>Latest transactions</h2>
-        {props.activities && (
-          <ul>
-            {props.activities.map((activity) => (
-              <li key={activity.loanName}>
-                <div>
-                  <p>{activity.loanName}</p>
-                  <time>Payment date: {activity.dueDate}</time>
-                </div>
-              </li>
-            ))}
-          </ul>
+       
+        {props.progress && (
+          <div className="progressContainer">
+            <ProgressBar
+              percentage={props.progress.percentage}
+              color={props.progress.color}
+            />
+            <span>Progress</span>
+          </div>
         )}
       </div>
+      {props.activities && (
+        <div className="activities">
+          <h2>Latest transactions</h2>
+          {props.activities && (
+            <ul>
+              {props.activities.map((activity) => (
+                <li key={activity.loanName}>
+                  <div>
+                    <p>{activity.loanName}</p>
+                    <time>Payment date: {activity.dueDate}</time>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+      )}
     </div>
   );
 };

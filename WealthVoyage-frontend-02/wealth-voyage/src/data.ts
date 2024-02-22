@@ -100,8 +100,14 @@ export const lastTransactions = [
     category: "bonus",
     date: "2022-01-07",
   },
- 
 ];
+export const singleTransaction = {
+  id: 1,
+  amount: 6000,
+  transactionType: "income",
+  category: "salary",
+  date: "2022-01-01",
+};
 
 export const chartBoxSavings = {
   color: "#8884d8",
@@ -369,7 +375,7 @@ export const singleInstallment = {
     endDateOfInstallment: "2024-01-01",
     numberOfPaidInstallments: 10,
   },
-  percentageOfPaidInstallments: 50,
+  progress: 50,
   activities: [
     {
       dueDate: "2024-03-01",
@@ -404,5 +410,4 @@ export const singleGoalDetails = {
   savingGoalAmount: 5000,
   amountSaved: 2000,
   savingsProgression: 40,
-
-}
+};
