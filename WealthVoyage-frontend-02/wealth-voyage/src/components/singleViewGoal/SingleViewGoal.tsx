@@ -28,30 +28,39 @@ const SingleViewGoal = (props: Props) => {
         <div className="info">
           <div className="topInfo">
             <div className="imgTitle">
-              <img src="/car.svg" alt="" />
               <h1>{props.savingGoalName}</h1>
+              <img src="/car.svg" alt="" />
+              <h1>Goal details:</h1>
             </div>
             <div className="settingsDots">
               <ThreeDots isOpen={isOpen} setIsOpen={setIsOpen} />
             </div>
           </div>
           <div className="details">
-            <h1>Goal details:</h1>
-
-            <p>
-              Target: <b>{props.savingGoalAmount} zł</b>
-            </p>
-
-            <p>
-              Amount saved: <b>{props.amountSaved} zł</b>
-            </p>
-
-            <p>
-              Savings progression: <b>{props.savingsProgression}%</b>
-            </p>
+            <div className="rowDetails">
+              <p> Target:</p>
+              <p>
+                <b>{props.savingGoalAmount} zł</b>
+              </p>
+            </div>
+            <hr />
+            <div className="rowDetails">
+              <p>Amount saved:</p>
+              <p>
+                <b>{props.amountSaved} zł</b>
+              </p>
+            </div>
+            <hr />
+            <div className="rowDetails">
+              <p>Savings progression:</p>
+              <p>
+                <b>{props.savingsProgression}%</b>
+              </p>
+            </div>
+            <hr />
           </div>
         </div>
-        <hr />
+
         <div className="progressContainer">
           <div className="progressDetails">
             <ProgressBar percentage={50} color="rgb(91, 119, 145)" />

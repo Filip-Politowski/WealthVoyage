@@ -2,6 +2,7 @@ import React from "react";
 import SingleView from "../../components/installmentSingleView/InstallmentSingleView";
 import { singleTransaction } from "../../data";
 import "./transaction.scss";
+import TransactionSingleView from "../../components/transactionSingleView/TransactionSingleView";
 
 const transaction = () => {
   const progressBar = {
@@ -9,13 +10,8 @@ const transaction = () => {
     color: "white",
   };
   return (
-    <div>
-      <SingleView
-        id={singleTransaction.id}
-        info={singleTransaction}
-        title={singleTransaction.category}
-        
-      />
+    <div className="transaction">
+      <TransactionSingleView transaction={singleTransaction}/>
     </div>
   );
 };
