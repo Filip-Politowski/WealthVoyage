@@ -1,5 +1,6 @@
 package pl.savings.wealthvoyage.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -21,7 +22,9 @@ public class User implements UserDetails {
     @Column(name = "user_id")
     private Integer userId;
 
+    @Column(unique = true)
     private String username;
+    @JsonIgnore
     private String password;
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
