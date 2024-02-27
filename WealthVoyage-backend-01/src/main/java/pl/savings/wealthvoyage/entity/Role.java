@@ -1,31 +1,38 @@
 package pl.savings.wealthvoyage.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 
+@Setter
 @Entity
-@Data
-@AllArgsConstructor
-@RequiredArgsConstructor
-@Table(name = "roles")
+@Table(name="roles")
 public class Role implements GrantedAuthority {
 
+    @Getter
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "role_id")
+    @GeneratedValue(strategy=GenerationType.AUTO)
+    @Column(name="role_id")
     private Integer roleId;
-    @Column(name = "authority")
+
     private String authority;
 
-    public Role(String authority) {
+    public Role(){
+        super();
+    }
+
+    public Role(String authority){
         this.authority = authority;
     }
+
+    public Role(Integer roleId, String authority){
+        this.roleId = roleId;
+        this.authority = authority;
+    }
+
     @Override
     public String getAuthority() {
         return this.authority;
     }
+
 }

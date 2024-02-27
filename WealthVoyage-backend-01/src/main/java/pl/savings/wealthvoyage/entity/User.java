@@ -1,41 +1,46 @@
 package pl.savings.wealthvoyage.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-
 import java.util.Collection;
 import java.util.Set;
 
 @Entity
+@Table(name="users")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "users")
-public class User implements UserDetails {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "user_id")
-    private Integer userId;
+public class User implements UserDetails{
 
-    @Column(unique = true)
+    @Getter
+    @Id
+    @GeneratedValue(strategy=GenerationType.AUTO)
+    private Integer userId;
+    @Setter
+    @Column(unique=true)
     private String username;
-    @JsonIgnore
+    @Setter
     private String password;
-    @ManyToMany(fetch = FetchType.EAGER)
+
+    @Setter
+    @ManyToMany(fetch=FetchType.EAGER)
     @JoinTable(
-            name = "user_role_junction",
-            joinColumns = {@JoinColumn(name = "user_id")},
-            inverseJoinColumns = {@JoinColumn(name = "role_id")}
+            name="user_role_junction",
+            joinColumns = {@JoinColumn(name="user_id")},
+            inverseJoinColumns = {@JoinColumn(name="role_id")}
     )
     private Set<Role> authorities;
 
+    public void setId(Integer userId) {
+        this.userId = userId;
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
+
         return this.authorities;
     }
 
@@ -46,8 +51,10 @@ public class User implements UserDetails {
 
     @Override
     public String getUsername() {
+
         return this.username;
     }
+
 
     @Override
     public boolean isAccountNonExpired() {
@@ -68,4 +75,5 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
 }

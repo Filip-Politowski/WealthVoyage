@@ -19,19 +19,18 @@ public class WealthVoyageApplication {
     public static void main(String[] args) {
         SpringApplication.run(WealthVoyageApplication.class, args);
     }
+
     @Bean
-    CommandLineRunner run(RoleRepository roleRepository, UserRepository userRepository, PasswordEncoder passwordEncoder){
+    CommandLineRunner run(RoleRepository roleRepository, UserRepository userRepository, PasswordEncoder passwordEncode) {
         return args -> {
-            if(roleRepository.findByAuthority("ADMIN").isPresent()){
-                return;
-            }
-          Role adminrRole = roleRepository.save(new Role("ADMIN"));
-          roleRepository.save(new Role("User"));
+            if (roleRepository.findByAuthority("ADMIN").isPresent()) return;
+            Role adminRole = roleRepository.save(new Role("ADMIN"));
+            roleRepository.save(new Role("USER"));
 
-            Set<Role>roles = new HashSet<>();
-            roles.add(adminrRole);
+            Set<Role> roles = new HashSet<>();
+            roles.add(adminRole);
 
-            User admin = new User(1, "admin",passwordEncoder.encode("password"),roles);
+            User admin = new User(1, "admin", passwordEncode.encode("password"), roles);
 
             userRepository.save(admin);
         };
