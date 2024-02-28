@@ -1,13 +1,18 @@
 package pl.savings.wealthvoyage.controller;
 
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api")
-@CrossOrigin("*")
+@RequestMapping("/api/user")
 public class UserController {
 
+    @GetMapping("/get")
+    public String getUser() {
+        return "Hello motherfucker";
+    }
+
+    @PostMapping("/post")
+    public String test(){
+        return "Post Maping";
+    }
 }

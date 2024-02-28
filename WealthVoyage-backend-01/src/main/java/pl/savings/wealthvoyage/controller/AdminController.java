@@ -11,7 +11,7 @@ import pl.savings.wealthvoyage.repository.UserRepository;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/auth")
+@RequestMapping("/api")
 @CrossOrigin("*")
 @AllArgsConstructor
 public class AdminController {
