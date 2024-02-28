@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./home.scss";
 import TopBox from "../../components/topBox/TopBox";
 import ChartBox from "../../components/chartBox/ChartBox";
@@ -6,6 +6,7 @@ import { barChartBox1, barChartBox2, chartBoxSavings } from "../../data";
 import BarChartBox from "../../components/barChartBox/BarChartBox";
 import PieChartBox from "../../components/pieChartBox/PieChartBox";
 import BigChartBox from "../../components/bigChartBox/BigChartBox";
+import { redirect } from "react-router-dom";
 
 const Home = () => {
   return (
@@ -28,7 +29,9 @@ const Home = () => {
       <div className="box box6">
         <ChartBox {...chartBoxSavings} />
       </div>
-      <div className="box box7"><BigChartBox /></div>
+      <div className="box box7">
+        <BigChartBox />
+      </div>
       <div className="box box8">
         <BarChartBox {...barChartBox1} />
       </div>
