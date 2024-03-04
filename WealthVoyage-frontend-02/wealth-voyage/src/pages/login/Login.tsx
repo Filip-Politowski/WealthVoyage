@@ -1,44 +1,47 @@
 import React, { useEffect, useState } from "react";
+import Footer from "../../components/footer/Footer";
+import "./login.scss";
 
 const Login = () => {
-  const [data, setData] = useState<any | null>(null);
-  useEffect(() => {
-    const fetchBooks = async () => {
-      try {
-        const baseUrl: string = "http://localhost:8080/api/auth/admin";
+//   const [data, setData] = useState<any | null>(null);
+//  useEffect(() => {
+//    const fetchUsers = async () => {
+//      try {
+//        const baseUrl = "http://localhost:8080/api/users/1";
 
-        const headers = new Headers();
-        headers.set(
-          "Authorization",
-          "Bearer " +
-            "eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJzZWxmIiwic3ViIjoiYWRtaW4iLCJpYXQiOjE3MDkxNTEyNDMsInJvbGVzIjoiQURNSU4ifQ.i8ACKAHKIDq9TSGBK6lx3PtS353wc408bG_GCCq7Vb4nPvAhOVb53wKDcLHWFM_h-fGbyn1BVa7AOycQbGhVMA5WQGiI13yGmW3R_OrmJcYgUU2J3c9dqV78ucHgWM70ykdeVRUQktHppTiggy7V7-2e1bE2OLPYq1H4xWqWB4WsNBARErCs9K2NTj9oGq-R7dzJWQJIh3eyVXaslqvkyUdXx2HiWFNOidiabnBDHaQp3r9zs8aki0nvbM2e0t8MRoCv0_Syr1NVwgiTUHzgfTFVv5zlxdc3hFq8q6fPn3i1bbkLXzNuSxWDIOW3TNv2OyLiiNdFH_xyJzpNudc23g"
-        );
+//        // Explicitly use the GET method in the fetch request
+//        const response = await fetch(baseUrl, {
+//          method: "DELETE",
+//          headers: new Headers({
+//            Authorization: `Bearer eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJzZWxmIiwic3ViIjoiYWRtaW4iLCJpYXQiOjE3MDk1ODA5OTIsInJvbGVzIjoiQURNSU4ifQ.JhhGLTYSQAMZal1vGmijF5GbR9mqo4ZuNZb6Tp03crzosGw4MJx5X3v19xDMxRaSMWI5SoR2H33c7Yu9R3SW_OgUTOGFs4BzTAmKAv1va_L8PpvslABw80eI6RHjEzIpYmlOMokWrQZ45n9dP9knljs3YRQdb5tn9DpcSgR87UIeTXFzjGNO3KfoyhTI-phE7yomghcJzCkm6K1jIIp0FH31YzV5lu4CbS_fnx6TWCepKtQYqT9Yeft8VlACGlsForiirExj-AGlDkWKB9iluElMpQtOHz4rMjp9se5Yj_CtbEyr6LQDSG6Uaii4OYfJmC9jIycQGmqLB3_YnNgfGQ`,
+//          }),
+//        });
 
-        const response = await fetch(baseUrl, { headers });
+//        if (!response.ok) {
+//          throw new Error("Something went wrong!");
+//        }
 
-        if (!response.ok) {
-          throw new Error("Something went wrong!");
-        }
+//        const responseJson = await response.json();
+//        setData(responseJson.username);
+//        console.log(responseJson.username);
+//      } catch (error) {
+//        console.error(error);
+//      }
+//    };
 
-        const responseJson = await response.json();
-        setData(responseJson.username);
-        console.log(responseJson.username);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    fetchBooks();
-
-    // Optionally, return a cleanup function if needed
-    // return () => {
-    //   // Cleanup logic here
-    // };
-  }, []);
+//    fetchUsers();
+//  }, []);
 
   return (
     <div className="login">
-      <p>{data}</p>
+      <div className="loginWindow">
+          <h1>Wealth Voyage</h1>
+          <label>Username</label>
+          <input type="text" placeholder="Username" />
+          <label>Password</label>
+          <input type="password" placeholder="Password" />
+          <Footer></Footer>
+      </div>
     </div>
   );
 };

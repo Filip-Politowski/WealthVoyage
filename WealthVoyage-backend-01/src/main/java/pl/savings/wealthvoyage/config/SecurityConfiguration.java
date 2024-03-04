@@ -73,10 +73,8 @@ public class SecurityConfiguration {
                 .cors(Customizer.withDefaults())
                 .authorizeHttpRequests(auth -> {
                     auth.requestMatchers("/api/auth/**").permitAll();
-                    auth.requestMatchers("/api/admin").hasRole("ADMIN");
-                    auth.requestMatchers(HttpMethod.GET,  "/api/user/**").hasAnyRole("ADMIN", "USER");
-                    auth.requestMatchers(HttpMethod.POST,  "/api/user/**").hasAnyRole("ADMIN", "USER");
-                    auth.requestMatchers(HttpMethod.POST, "/api/user/**").hasRole("ADMIN");
+                    auth.requestMatchers("/api/admin/**").hasRole("ADMIN");
+                    auth.requestMatchers("/api/users/**").hasAnyRole("USER","ADMIN");
                     auth.anyRequest().authenticated();
                 })
                 .oauth2ResourceServer((oauth2) -> oauth2
@@ -89,9 +87,8 @@ public class SecurityConfiguration {
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(List.of("http://localhost:3000"));
-        configuration.setAllowedMethods(Arrays.asList("GET"));
+        configuration.setAllowedMethods(List.of("GET","PUT","DELETE","POST"));
         configuration.setAllowedHeaders(List.of("Authorization"));
-
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;

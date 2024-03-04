@@ -3,7 +3,7 @@ package pl.savings.wealthvoyage.controller;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/user")
+@RequestMapping("/api/users")
 public class UserController {
 
     @GetMapping("/get")

@@ -30,7 +30,7 @@ public class WealthVoyageApplication {
             Set<Role> roles = new HashSet<>();
             roles.add(adminRole);
 
-            User admin = new User(1, "admin", passwordEncode.encode("password"), roles);
+            User admin = new User(1, "admin","admin","admin", passwordEncode.encode("password"),"admin@admin.pl", roles);
 
             userRepository.save(admin);
         };

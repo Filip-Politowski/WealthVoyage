@@ -16,17 +16,28 @@ import java.util.Set;
 @NoArgsConstructor
 public class User implements UserDetails{
 
-    @Getter
+
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
+    @Column(unique = true)
     private Integer userId;
-    @Setter
-    @Column(unique=true)
+
+    @Column(name = "username")
     private String username;
-    @Setter
+
+    @Column(name = "first_name")
+    private String firstName;
+
+    @Column (name = "last_name")
+    private String lastName;
+
+    @Column(name ="password")
     private String password;
 
-    @Setter
+    @Column(name = "email")
+    private String email;
+
+
     @ManyToMany(fetch=FetchType.EAGER)
     @JoinTable(
             name="user_role_junction",
