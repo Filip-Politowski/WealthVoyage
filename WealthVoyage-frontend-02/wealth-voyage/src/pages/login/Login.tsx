@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Footer from "../../components/footer/Footer";
 import "./login.scss";
+import { Link } from "react-router-dom";
 
 const Login = () => {
 //   const [data, setData] = useState<any | null>(null);
@@ -35,12 +36,20 @@ const Login = () => {
   return (
     <div className="login">
       <div className="loginWindow">
+        <div className="heading">
+          <img src="logo.svg" alt="" />
           <h1>Wealth Voyage</h1>
-          <label>Username</label>
-          <input type="text" placeholder="Username" />
-          <label>Password</label>
-          <input type="password" placeholder="Password" />
-          <Footer></Footer>
+        </div>
+        <label>Username</label>
+        <input type="text" placeholder="Username..." />
+        <label>Password</label>
+        <input type="password" placeholder="Password..." />
+        <div className="loginOptions">
+          <Link to="">Register</Link>
+          <Link to="">Forgot your password ?</Link>
+        </div>
+        <button>Login</button>
+        <Footer></Footer>
       </div>
     </div>
   );
