@@ -6,6 +6,33 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+
+  .settingsWindow {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 60px;
+    right: 20px;
+    border: 1px solid #ccc;
+    padding: 10px;
+    color: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+    max-width: 200px;
+    gap: 5px;
+    background-color: rgb(66, 79, 90);
+    z-index: 9999;
+  }
+  .settingsWindow p {
+    margin: 0;
+    padding: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  .settingsWindow p:hover {
+    background-color: #f5f5f519;
+  }
   .logo {
     display: flex;
     align-items: center;
@@ -15,11 +42,14 @@
     display: flex;
     align-items: center;
     gap: 20px;
-   
-    .icon{
-      @include sm{
+
+    .icon {
+      @include sm {
         display: none;
       }
+    }
+    .icon:hover {
+      cursor: pointer;
     }
 
     .notifications {
@@ -40,17 +70,19 @@
       }
     }
     .user {
-        display: flex;
-        align-items: center;
-        gap: 10px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
 
       img {
         width: 26px;
         height: 26px;
         border-radius: 50%;
         object-fit: cover;
-        
       }
+    }
+    .user:hover {
+      cursor: pointer;
     }
   }
 }

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect, useRef } from "react";
 
 import "./styles/global.scss";
 
@@ -18,7 +18,6 @@ import Profile from "./pages/profile/Profile";
 import SavingGoal from "./pages/savingGoal/SavingGoal";
 
 function App() {
-
   const Layout = () => {
     return (
       <div className="main">
@@ -28,9 +27,7 @@ function App() {
             <Menu />
           </div>
           <div className="contentContainer">
-          
-              <Outlet />
-           
+            <Outlet />
           </div>
         </div>
         <Footer />

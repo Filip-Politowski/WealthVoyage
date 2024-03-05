@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import ProgressBar from "../utils/progressBar/ProgressBar";
 import "./singleViewGoal.scss";
 import ThreeDots from "../utils/threeDots/ThreeDots";
@@ -13,18 +13,28 @@ type Props = {
 
 const SingleViewGoal = (props: Props) => {
   const [isOpen, setIsOpen] = useState(false);
+  const settingsWindowRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleOutsideClick = (event: MouseEvent) => {
+      if (
+        settingsWindowRef.current &&
+        !settingsWindowRef.current.contains(event.target as Node)
+      ) {
+        setIsOpen(false);
+      }
+    };
+
+    document.body.addEventListener("click", handleOutsideClick);
+
+    return () => {
+      document.body.removeEventListener("click", handleOutsideClick);
+    };
+  }, []); 
 
   return (
     <div className="singleViewGoal">
       <div className="view">
-        {isOpen && (
-          <div className="settingsWindow">
-            <p>Change name of goal</p>
-            <p>Change Target</p>
-            <p>Change image</p>
-            <p>Delete goal</p>
-          </div>
-        )}
         <div className="info">
           <div className="topInfo">
             <div className="imgTitle">
@@ -32,8 +42,16 @@ const SingleViewGoal = (props: Props) => {
               <img src="/car.svg" alt="" />
               <h1>Goal details:</h1>
             </div>
-            <div className="settingsDots">
+            <div className="settingsDots" ref={settingsWindowRef}>
               <ThreeDots isOpen={isOpen} setIsOpen={setIsOpen} />
+              {isOpen && (
+                <div className="settingsWindow">
+                  <p>Change name of goal</p>
+                  <p>Change Target</p>
+                  <p>Change image</p>
+                  <p>Delete goal</p>
+                </div>
+              )}
             </div>
           </div>
           <div className="details">
