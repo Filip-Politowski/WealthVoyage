@@ -10,7 +10,7 @@ import { redirect } from "react-router-dom";
 
 const Dashboard = () => {
   return (
-    <div className="home">
+    <div className="dashboard">
       <div className="box box1">
         <TopBox />
       </div>

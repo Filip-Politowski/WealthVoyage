@@ -24,7 +24,7 @@ const SavingGoals = () => {
   return (
     <div className="savingGoals">
       <div className="newGoals">
-        <h1>New Goals</h1>
+        <h1>Goals</h1>
         <button onClick={() => setOpen(true)}>Add New Goal</button>
       </div>
       <div className="goals">
