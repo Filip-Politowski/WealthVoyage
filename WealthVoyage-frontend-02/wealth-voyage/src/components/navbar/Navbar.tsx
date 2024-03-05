@@ -11,7 +11,6 @@ const Navbar = () => {
         settingsWindowRef.current &&
         !settingsWindowRef.current.contains(event.target as Node)
       ) {
-       
         setIsOpen(false);
       }
     };
@@ -21,7 +20,7 @@ const Navbar = () => {
     return () => {
       document.body.removeEventListener("click", handleOutsideClick);
     };
-  }, []); 
+  }, []);
 
   return (
     <div className="navbar">

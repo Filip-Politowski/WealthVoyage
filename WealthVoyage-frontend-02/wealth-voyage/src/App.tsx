@@ -9,13 +9,15 @@ import Navbar from "./components/navbar/Navbar";
 import Footer from "./components/footer/Footer";
 import Menu from "./components/menu/Menu";
 import Home from "./pages/home/Home";
-import Login from "./pages/login/Login";
+import AuthForm from "./pages/authForm/AuthForm";
 import Installment from "./pages/installment/Installment";
 import Transaction from "./pages/transaction/Transaction";
 import SavingGoals from "./pages/savingGoals/SavingGoals";
 import Transactions from "./pages/transactions/Transactions";
 import Profile from "./pages/profile/Profile";
 import SavingGoal from "./pages/savingGoal/SavingGoal";
+import SignIn from "./components/SignIn/SignIn";
+import Register from "./components/register/Register";
 
 function App() {
   const Layout = () => {
@@ -51,8 +53,12 @@ function App() {
       ],
     },
     {
-      path: "/login",
-      element: <Login />,
+      path: "/auth",
+      element: <AuthForm />,
+      children: [
+        {path:"/auth/signin", element: <SignIn />},
+        {path:"/auth/register" , element: <Register />}
+      ]
     },
   ]);
   return <RouterProvider router={router} />;
