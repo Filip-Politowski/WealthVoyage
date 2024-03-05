@@ -9,7 +9,7 @@ const Login = () => {
         <img src="/logo.svg" alt="" />
         <h1>Wealth Voyage</h1>
       </div>
-      <form>
+      <form method="POST">
         <label>Username</label>
         <input type="text" placeholder="Username..." />
         <label>Password</label>

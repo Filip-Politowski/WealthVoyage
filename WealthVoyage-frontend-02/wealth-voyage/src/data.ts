@@ -5,14 +5,14 @@ export const menu = [
     listItems: [
       {
         id: 1,
-        title: "Homepage",
-        url: "/",
-        icon: "home.svg",
+        title: "Dashboard",
+        url: "/dashboard",
+        icon: "/dashboard.svg",
       },
       {
         id: 2,
         title: "Profile",
-        url: "/profile",
+        url: "/dashboard/profile",
         icon: "/profile.svg",
       },
     ],
@@ -24,19 +24,19 @@ export const menu = [
       {
         id: 1,
         title: "Saving goals",
-        url: "/savingGoals",
+        url: "/dashboard/savingGoals",
         icon: "/savingGoals.svg",
       },
       {
         id: 2,
         title: "Installments",
-        url: "/installments",
+        url: "/dashboard/installments",
         icon: "/loan-menu.svg",
       },
       {
         id: 3,
         title: "Transactions",
-        url: "/transactions",
+        url: "/dashboard/transactions",
         icon: "/transaction.svg",
       },
     ],

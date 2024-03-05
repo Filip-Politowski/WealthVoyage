@@ -9,7 +9,7 @@ const Register = () => {
         <img src="/logo.svg" alt="" />
         <h1>Wealth Voyage</h1>
       </div>
-      <form>
+      <form method="POST">
         <label>First Name</label>
         <input type="text" placeholder="First name..."></input>
         <label>Last Name</label>

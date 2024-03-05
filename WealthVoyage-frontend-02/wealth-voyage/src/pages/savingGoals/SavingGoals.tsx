@@ -28,9 +28,9 @@ const SavingGoals = () => {
         <button onClick={() => setOpen(true)}>Add New Goal</button>
       </div>
       <div className="goals">
-        <Link to={"/savingGoal/1"} className="box" key="1">
+        <Link to={"/dashboard/savingGoal/1"} className="box" key="1">
           <div className="theme">
-            <img src="homeImg.svg" alt="" />
+            <img src="/homeImg.svg" alt="" />
 
             <span>Dom</span>
           </div>
@@ -45,9 +45,9 @@ const SavingGoals = () => {
             </div>
           </div>
         </Link>
-        <Link to={"/savingGoal/2"} className="box" key="2">
+        <Link to={"/dashboard/savingGoal/2"} className="box" key="2">
           <div className="theme">
-            <img src="games.svg" alt="" />
+            <img src="/games.svg" alt="" />
             <span>Entertainment</span>
           </div>
           <div className="amountTarget">
@@ -61,9 +61,9 @@ const SavingGoals = () => {
             </div>
           </div>
         </Link>
-        <Link to={"/savingGoal/3"} className="box" key="3">
+        <Link to={"/dashboard/savingGoal/3"} className="box" key="3">
           <div className="theme">
-            <img src="car.svg" alt="" />
+            <img src="/car.svg" alt="" />
 
             <span>Car</span>
           </div>
