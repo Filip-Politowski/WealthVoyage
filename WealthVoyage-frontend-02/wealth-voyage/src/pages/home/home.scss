@@ -29,7 +29,6 @@
       align-items: center;
       text-align: center;
     }
-
     .applicationImg {
       margin: auto;
       img {
@@ -38,21 +37,5 @@
         border-radius: 40px;
       }
     }
-     .homeBoxes {
-    display: flex;
-    
-    gap: 20px;
-    overflow-x: auto; // Dodane przewijanie pionowe
-
-    .homeBox {
-      height: 180px;
-      width: 700px;
-      padding: 20px;
-      border-radius: 10px;
-      border: 2px solid $soft-bg;
-      background-color: rgb(66, 79, 90);
-    }
-  }
   }
 }
- 

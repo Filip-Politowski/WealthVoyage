@@ -32,12 +32,6 @@ const Home = () => {
         <div className="applicationImg">
           <img src="/apka.jpeg" alt=""></img>
         </div>
-        <div className="homeBoxes">
-          <div className="homeBox homeBox1"></div>
-          <div className="homeBox homeBox2"></div>
-          <div className="homeBox homeBox3"></div>
-          <div className="homeBox homeBox4"></div>
-        </div>
       </div>
       <Footer />
     </div>
