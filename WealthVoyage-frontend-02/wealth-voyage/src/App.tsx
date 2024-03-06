@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect, useRef } from "react";
 
 import "./styles/global.scss";
 
@@ -8,17 +8,19 @@ import Installments from "./pages/installments/Installments";
 import Navbar from "./components/navbar/Navbar";
 import Footer from "./components/footer/Footer";
 import Menu from "./components/menu/Menu";
-import Home from "./pages/home/Home";
-import Login from "./pages/login/Login";
+import Dashboard from "./pages/dashboard/Dashboard";
+import AuthForm from "./pages/authForm/AuthForm";
 import Installment from "./pages/installment/Installment";
 import Transaction from "./pages/transaction/Transaction";
 import SavingGoals from "./pages/savingGoals/SavingGoals";
 import Transactions from "./pages/transactions/Transactions";
 import Profile from "./pages/profile/Profile";
 import SavingGoal from "./pages/savingGoal/SavingGoal";
+import SignIn from "./components/SignIn/SignIn";
+import Register from "./components/register/Register";
+import Home from "./pages/home/Home";
 
 function App() {
-
   const Layout = () => {
     return (
       <div className="main">
@@ -28,9 +30,7 @@ function App() {
             <Menu />
           </div>
           <div className="contentContainer">
-          
-              <Outlet />
-           
+            <Outlet />
           </div>
         </div>
         <Footer />
@@ -41,21 +41,29 @@ function App() {
   const router = createBrowserRouter([
     {
       path: "/",
+      element: <Home />,
+    },
+    {
+      path: "/dashboard",
       element: <Layout />,
       children: [
-        { path: "/", element: <Home /> },
-        { path: "/savingGoals", element: <SavingGoals /> },
-        { path: "/savingGoal/:id", element: <SavingGoal /> },
-        { path: "/installments", element: <Installments /> },
-        { path: "/installment/:id", element: <Installment /> },
-        { path: "/transactions", element: <Transactions /> },
-        { path: "/transaction/:id", element: <Transaction /> },
-        { path: "/profile", element: <Profile /> },
+        { path: "/dashboard", element: <Dashboard /> },
+        { path: "/dashboard/savingGoals", element: <SavingGoals /> },
+        { path: "/dashboard/savingGoal/:id", element: <SavingGoal /> },
+        { path: "/dashboard/installments", element: <Installments /> },
+        { path: "/dashboard/installment/:id", element: <Installment /> },
+        { path: "/dashboard/transactions", element: <Transactions /> },
+        { path: "/dashboard/transaction/:id", element: <Transaction /> },
+        { path: "/dashboard/profile", element: <Profile /> },
       ],
     },
     {
-      path: "/login",
-      element: <Login />,
+      path: "/auth",
+      element: <AuthForm />,
+      children: [
+        { path: "/auth/signin", element: <SignIn /> },
+        { path: "/auth/register", element: <Register /> },
+      ],
     },
   ]);
   return <RouterProvider router={router} />;

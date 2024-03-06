@@ -10,9 +10,9 @@ const TopBox = () => {
           <div className="listItem" key={transaction.id}>
             <div className="transaction">
               {transaction.transactionType === "income" ? (
-                <img src="arrowup.svg" alt="Income" />
+                <img src="/arrowup.svg" alt="Income" />
               ) : (
-                <img src="arrowdown.svg" alt="Expense" />
+                <img src="/arrowdown.svg" alt="Expense" />
               )}
               <div className="transactionText">
                 <span className="transactionDate">{transaction.date}</span>

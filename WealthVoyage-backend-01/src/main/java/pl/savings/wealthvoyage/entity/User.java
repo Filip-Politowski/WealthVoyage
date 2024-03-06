@@ -1,6 +1,7 @@
 package pl.savings.wealthvoyage.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -15,17 +16,28 @@ import java.util.Set;
 @NoArgsConstructor
 public class User implements UserDetails{
 
-    @Getter
+
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
+    @Column(unique = true)
     private Integer userId;
-    @Setter
-    @Column(unique=true)
+
+    @Column(name = "username")
     private String username;
-    @Setter
+
+    @Column(name = "first_name")
+    private String firstName;
+
+    @Column (name = "last_name")
+    private String lastName;
+
+    @Column(name ="password")
     private String password;
 
-    @Setter
+    @Column(name = "email")
+    private String email;
+
+
     @ManyToMany(fetch=FetchType.EAGER)
     @JoinTable(
             name="user_role_junction",
@@ -45,6 +57,7 @@ public class User implements UserDetails{
     }
 
     @Override
+    @JsonIgnore
     public String getPassword() {
         return this.password;
     }
@@ -57,21 +70,25 @@ public class User implements UserDetails{
 
 
     @Override
+    @JsonIgnore
     public boolean isAccountNonExpired() {
         return true;
     }
 
     @Override
+    @JsonIgnore
     public boolean isAccountNonLocked() {
         return true;
     }
 
     @Override
+    @JsonIgnore
     public boolean isCredentialsNonExpired() {
         return true;
     }
 
     @Override
+    @JsonIgnore
     public boolean isEnabled() {
         return true;
     }

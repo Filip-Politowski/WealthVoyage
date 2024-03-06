@@ -1,43 +1,39 @@
-import React, { useEffect } from "react";
+import React from "react";
+import { Link, Outlet } from "react-router-dom";
 import "./home.scss";
-import TopBox from "../../components/topBox/TopBox";
-import ChartBox from "../../components/chartBox/ChartBox";
-import { barChartBox1, barChartBox2, chartBoxSavings } from "../../data";
-import BarChartBox from "../../components/barChartBox/BarChartBox";
-import PieChartBox from "../../components/pieChartBox/PieChartBox";
-import BigChartBox from "../../components/bigChartBox/BigChartBox";
-import { redirect } from "react-router-dom";
+import Footer from "../../components/footer/Footer";
 
 const Home = () => {
   return (
     <div className="home">
-      <div className="box box1">
-        <TopBox />
+      <div className="navigation">
+        <h1>Wealth Voyage</h1>
+        <Link to="/auth/register">
+          <button>Sign Up</button>
+        </Link>
       </div>
-      <div className="box box2">
-        <ChartBox {...chartBoxSavings} />
+      <div className="homeContainer">
+        <div className="welcomeText">
+          <p>
+            Lorem Ipsum is simply dummy text of the printing and typesetting
+            industry. Lorem Ipsum has been the industry's standard dummy text
+            ever since the 1500s, when an unknown printer took a galley of type
+            and scrambled it to make a type specimen book. It has survived not
+            only five centuries, but also the leap into electronic typesetting,
+            remaining essentially unchanged. It was popularised in the 1960s
+            with the release of Letraset sheets containing Lorem Ipsum passages,
+            and more recently with desktop publishing software like Aldus
+            PageMaker including versions of Lorem Ipsum
+          </p>
+          <Link to="/auth/signin">
+            <button> Sing In</button>
+          </Link>
+        </div>
+        <div className="applicationImg">
+          <img src="/apka.jpeg" alt=""></img>
+        </div>
       </div>
-      <div className="box box3">
-        <ChartBox {...chartBoxSavings} />
-      </div>
-      <div className="box box4">
-        <PieChartBox />
-      </div>
-      <div className="box box5">
-        <ChartBox {...chartBoxSavings} />
-      </div>
-      <div className="box box6">
-        <ChartBox {...chartBoxSavings} />
-      </div>
-      <div className="box box7">
-        <BigChartBox />
-      </div>
-      <div className="box box8">
-        <BarChartBox {...barChartBox1} />
-      </div>
-      <div className="box box9">
-        <BarChartBox {...barChartBox2} />
-      </div>
+      <Footer />
     </div>
   );
 };

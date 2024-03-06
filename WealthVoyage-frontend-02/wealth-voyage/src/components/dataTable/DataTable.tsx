@@ -29,7 +29,7 @@ const DataTable = (props: Props) => {
     renderCell: (params) => {
       return (
         <div className="action">
-          <Link to={`/${props.slug}/${params.row.id}`}>
+          <Link to={`/dashboard/${props.slug}/${params.row.id}`}>
             <img src="/view.svg" alt="" />
           </Link>
           <div className="delete" onClick={() => handleDelete(params.row.id)}>

@@ -29,7 +29,7 @@ public class AuthenticationService {
     private AuthenticationManager authenticationManager;
     private TokenService tokenService;
 
-    public User registerUser(String username, String password) {
+    public User registerUser(String username, String password, String email, String firstName, String lastName) {
 
         String encodedPassword = passwordEncoder.encode(password);
         Role userRole = roleRepository.findByAuthority("USER").get();
@@ -38,7 +38,7 @@ public class AuthenticationService {
 
         authorities.add(userRole);
 
-        return userRepository.save(new User(0, username, encodedPassword, authorities));
+        return userRepository.save(new User(0, username,firstName,lastName, encodedPassword,email, authorities));
     }
 
     public LoginResponseDTO loginUser(String username, String password) {
