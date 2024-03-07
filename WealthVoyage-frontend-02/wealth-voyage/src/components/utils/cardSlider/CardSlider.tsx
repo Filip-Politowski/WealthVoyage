@@ -32,23 +32,23 @@ const CardSlider = () => {
       className="mySwiper"
     >
       <SwiperSlide>
-        <p>Track your transactions</p>
+        <h2>Track your transactions</h2>
         <img src="/transaction.svg" alt="" />
       </SwiperSlide>
       <SwiperSlide>
-        <p>control the number of loans</p>
+        <h2>Control the number of loans</h2>
         <img src="/loan-menu.svg" alt="" />
       </SwiperSlide>
       <SwiperSlide>
-        <p>Create your goals</p>
+        <h2>Create your goals</h2>
         <img src="/savingGoals.svg" alt="" />
       </SwiperSlide>
       <SwiperSlide>
-        <p>Have a quick view of your finances</p>
+        <h2>Have a quick view of your finances</h2>
         <img src="/dashboard.svg" alt="" />
       </SwiperSlide>
       <SwiperSlide>
-        <p>And finally track how your money growth</p>
+        <h2>And finally track how your money growth</h2>
         <img src="/chartLine.svg" alt="" />
       </SwiperSlide>
     </Swiper>

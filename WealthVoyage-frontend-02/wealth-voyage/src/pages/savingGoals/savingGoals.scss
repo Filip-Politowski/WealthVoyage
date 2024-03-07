@@ -8,8 +8,8 @@
     margin-bottom: 20px;
 
     button {
-      background-color: rgba(159, 227, 159, 0.181);
-      color: white;
+      background-color: $element-color-1;
+      color: $main-color;
       border: none;
       padding: 10px 28px;
       border-radius: 10px;
@@ -39,10 +39,11 @@
       padding: 20px;
       border-radius: 10px;
       border: 2px solid $soft-bg;
-      background-color: rgb(66, 79, 90);
+      background-color: $navigation-color;
       display: flex;
       justify-content: space-around;
       align-items: center;
+      transition: 1s;
 
       .theme {
         display: flex;
@@ -62,12 +63,12 @@
         }
         .amount {
           p {
-            background-color: rgba(159, 227, 159, 0.181);
+            background-color: $element-color-1;
           }
         }
         .target {
           p {
-            background-color: rgba(117, 242, 117, 0.318);
+            background-color: $element-color-3;
           }
         }
         label {
@@ -88,7 +89,8 @@
     }
     .box:hover {
       cursor: pointer;
-      box-shadow: 5px 5px 10px rgba(159, 227, 159, 0.181);
+      box-shadow: 5px 5px 20px $element-color-3;
+      transform: scale(1.05);
     }
 
     @include xxl {
