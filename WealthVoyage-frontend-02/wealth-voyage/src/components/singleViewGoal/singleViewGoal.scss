@@ -6,13 +6,15 @@
   margin: 20px auto;
   padding: 20px;
   background-color: $navigation-color;
-  border-radius: 10px;
+  border-radius: 8px;
+  border: 2px solid $soft-bg;
 
-  @include sm {
+  @include md {
     width: 100%;
     margin: auto;
     padding: 5px;
     background-color: transparent;
+    border: none;
   }
 
   .view {
@@ -23,9 +25,9 @@
       position: absolute;
       top: 40px;
       right: 0;
-      border: 1px solid #ccc;
+      border: 1px solid $soft-color;
       padding: 10px;
-      background: $element-color-2;
+      background-color: $navigation-color;
       color: $main-color;
       box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
       border-radius: 4px;
@@ -76,7 +78,7 @@
         hr {
           width: 80%;
           margin: auto;
-          @include sm {
+          @include md {
             display: none;
           }
         }
@@ -86,7 +88,7 @@
           margin-left: 25%;
           margin-right: 25%;
           font-size: 24px;
-          @include sm {
+          @include md {
             background-color: $navigation-color;
             padding: 10px;
             border-radius: 5px;
@@ -118,20 +120,16 @@
     gap: 5px;
 
     button {
-      background-color: $element-color-3;
-      color: white;
       border: none;
+      border-radius: 8px;
       padding: 10px;
-      border-radius: 5px;
-      cursor: pointer;
+      transition: 0.8s;
+      color: $soft-color;
+      background-color: $element-color-2;
     }
     button:hover {
-      color: black;
-      transition: 0.6s;
-      transform: translateY(1px);
-    }
-    button:active {
-      transform: translateY(2px);
+      cursor: pointer;
+      background-color: $element-color-3;
     }
   }
 }

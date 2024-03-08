@@ -1,4 +1,5 @@
 @import "../../styles/responsive.scss";
+@import "../../styles/variables.scss";
 
 .navbar {
   width: 100%;
@@ -20,7 +21,7 @@
     border-radius: 4px;
     max-width: 200px;
     gap: 5px;
-    background-color: rgb(66, 79, 90);
+    background-color: $navigation-color;
     z-index: 9999;
   }
   .settingsWindow p {
