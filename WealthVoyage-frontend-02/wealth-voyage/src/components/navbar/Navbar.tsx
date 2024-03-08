@@ -28,10 +28,10 @@ const Navbar = () => {
         <span>Wealth Voyage</span>
       </div>
       <div className="icons" ref={settingsWindowRef}>
-        <img src="search.svg" alt="" className="icon"></img>
+        <img src="/search.svg" alt="" className="icon"></img>
 
         <div className="notifications">
-          <img src="notifications.svg" alt=""></img>
+          <img src="/notifications.svg" alt=""></img>
           <span>1</span>
         </div>
         <div

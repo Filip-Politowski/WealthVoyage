@@ -1,3 +1,4 @@
+
 export const menu = [
   {
     id: 1,
@@ -411,3 +412,5 @@ export const singleGoalDetails = {
   amountSaved: 2000,
   savingsProgression: 40,
 };
+
+

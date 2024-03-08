@@ -1,3 +1,5 @@
+@import "../../../styles/variables.scss";
+
 .progressBar {
   position: relative;
   width: 100%;
@@ -8,7 +10,7 @@
 
 .progressBarInner {
   height: 100%;
-  background-color: #4caf50;
+  background-color: $element-color-3;
   transition: width 2s ease-in-out;
   position: relative;
 }

@@ -16,8 +16,8 @@ import SavingGoals from "./pages/savingGoals/SavingGoals";
 import Transactions from "./pages/transactions/Transactions";
 import Profile from "./pages/profile/Profile";
 import SavingGoal from "./pages/savingGoal/SavingGoal";
-import SignIn from "./components/SignIn/SignIn";
-import Register from "./components/register/Register";
+import SignIn from "./components/authComponents/SignIn";
+import Register from "./components/authComponents/Register";
 import Home from "./pages/home/Home";
 
 function App() {

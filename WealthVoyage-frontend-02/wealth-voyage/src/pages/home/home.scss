@@ -1,6 +1,7 @@
 @import "../../styles/variables.scss";
 @import "../../styles/responsive.scss";
 
+
 .home {
   font-family: "inter", sans-serif;
   background-color: $main-bg;
@@ -8,11 +9,16 @@
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+
   .navigation {
     display: flex;
     justify-content: space-between;
     margin-bottom: 20px;
     padding: 20px;
+    background: #012e40;
+    h1 {
+      text-shadow: 2px -2px 10px $soft-color;
+    }
   }
   .homeContainer {
     display: flex;
@@ -24,18 +30,101 @@
 
     .welcomeText {
       display: flex;
+      gap: 10px;
       flex-direction: column;
       justify-content: center;
       align-items: center;
       text-align: center;
-    }
-    .applicationImg {
-      margin: auto;
-      img {
-        height: 400px;
-        width: 400px;
-        border-radius: 40px;
+      h1 {
+        color: $element-color-3;
+      }
+
+      button {
+        width: 120px;
       }
     }
+
+    .applicationImg {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      transition: 1.5s;
+    }
+
+    .applicationImg img {
+      width: 400px;
+      height: 400px;
+      transition: 0.5s;
+      margin: 10px;
+      position: relative;
+      z-index: 1;
+      clip-path: polygon(75% 0%, 100% 50%, 75% 100%, 0% 100%, 25% 50%, 0% 0%);
+     
+      @include sm {
+        width: 300px;
+        height: 300px;
+      }
+ 
+    }
+
+    .applicationImg img:hover {
+      transform: scale(1.1);
+      clip-path: polygon(
+        100% 0%,
+        100% 100%,
+        100% 100%,
+        0% 100%,
+        0% 100%,
+        0% 0%
+      );
+      z-index: 2;
+    }
+    .applicationText {
+      text-align: center;
+      margin: auto;
+      color: $element-color-3;
+    }
   }
+  .contact {
+    display: flex;
+    justify-content: space-between;
+    background: $navigation-color;
+    height: 80px;
+    width: 100%;
+
+    .contactLogin {
+      display: flex;
+      gap: 5px;
+      padding: 20px;
+      align-items: center;
+
+      hr {
+        width: 20px;
+        transform: rotateZ(90deg);
+      }
+      a:hover {
+        text-shadow: 1px 1px 1px white;
+      }
+    }
+    .contactDetails {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      padding: 15px;
+    }
+  }
+
+button {
+  border: none;
+  border-radius: 8px;
+  padding: 10px;
+  transition: 0.8s;
 }
+button:hover {
+  cursor: pointer;
+  background-color: $element-color-3;
+}
+
+}
+

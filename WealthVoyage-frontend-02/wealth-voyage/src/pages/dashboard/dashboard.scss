@@ -7,17 +7,17 @@
   grid-auto-rows: minmax(180px, auto);
   grid-auto-flow: dense;
 
-  @include xl{
-    grid-template-columns: repeat(3,1fr);
+  @include xl {
+    grid-template-columns: repeat(3, 1fr);
   }
-   @include lg{
-    grid-template-columns: repeat(2,1fr);
+  @include lg {
+    grid-template-columns: repeat(2, 1fr);
   }
-  @include md{
-    grid-template-columns: repeat(1,1fr);
+  @include md {
+    grid-template-columns: repeat(1, 1fr);
   }
 
-    @include sm{
+  @include sm {
     grid-auto-rows: minmax(120px, auto);
   }
 
@@ -25,7 +25,7 @@
     padding: 20px;
     border-radius: 10px;
     border: 2px solid $soft-bg;
-    background-color: rgb(66, 79, 90);
+    background-color: $navigation-color;
   }
   .box1 {
     grid-column: span 1;
@@ -38,8 +38,8 @@
   .box7 {
     grid-column: span 2;
     grid-row: span 2;
-    @include md{
+    @include md {
       grid-column: span 1;
-  }
+    }
   }
 }

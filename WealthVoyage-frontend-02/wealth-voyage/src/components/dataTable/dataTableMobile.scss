@@ -1,6 +1,8 @@
+@import "../../styles/variables.scss";
+
 .dataTableMobile {
   align-items: center;
-  background-color: #607d8b22;
+  background-color: $navigation-color;
   border-radius: 10px;
   color: white;
   width: 100%;
@@ -49,8 +51,7 @@
     border-collapse: collapse;
     background-color: transparent;
     color: #ffffff;
-    
-    
+
     th,
     td {
       padding: 12px;
@@ -68,12 +69,11 @@
         width: 100%;
         display: flex;
         justify-content: flex-start;
-        p{
+        p {
           padding: 5px 10px;
-          background-color: #e4dfdd5d; 
+          background-color: #e4dfdd5d;
           border-radius: 5px;
         }
-       
       }
     }
   }
@@ -89,22 +89,16 @@
     gap: 10px;
 
     button {
-      background-color: rgba(143, 151, 143, 0.777);
-      color: white;
       border: none;
+      border-radius: 8px;
       padding: 10px;
-      border-radius: 5px;
+      transition: 0.8s;
+      color: $soft-color;
+      background-color: $element-color-2;
+    }
+    button:hover {
       cursor: pointer;
-
-      &:hover {
-        color: black;
-        transition: 0.6s;
-        transform: translateY(1px);
-      }
-
-      &:active {
-        transform: translateY(2px);
-      }
+      background-color: $element-color-3;
     }
   }
 }
