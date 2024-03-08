@@ -25,6 +25,7 @@ const Navbar = () => {
   return (
     <div className="navbar">
       <div className="logo">
+        <img src="/loginLogo.jpeg" alt="" />
         <span>Wealth Voyage</span>
       </div>
       <div className="icons" ref={settingsWindowRef}>
