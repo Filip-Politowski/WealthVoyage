@@ -48,7 +48,7 @@ const CardSlider = () => {
         <img src="/dashboard.svg" alt="" />
       </SwiperSlide>
       <SwiperSlide>
-        <h2>And finally track how your money growth</h2>
+        <h2>Many charts showing your finances</h2>
         <img src="/chartLine.svg" alt="" />
       </SwiperSlide>
     </Swiper>

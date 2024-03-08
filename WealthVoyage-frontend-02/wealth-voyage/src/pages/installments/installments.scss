@@ -1,8 +1,7 @@
 @import "../../styles/responsive.scss";
+@import "../../styles/variables.scss";
 
 .installments {
-
-
   .info {
     display: flex;
     align-items: center;
@@ -10,30 +9,22 @@
     margin-bottom: 20px;
 
     button {
-      background-color: rgba(159, 227, 159, 0.181);
-      color: white;
       border: none;
-      padding: 10px 28px;
-      border-radius: 10px;
-      
-      cursor: pointer;
+      border-radius: 8px;
+      padding: 10px;
+      transition: 0.8s;
+      color: $soft-color;
+      background-color: $element-color-2;
     }
     button:hover {
-      color: black;
-      transition: 0.6s;
-      transform: translateY(1px);
-    }
-    button:active {
-      transform: translateY(2px);
+      cursor: pointer;
+      background-color: $element-color-3;
     }
   }
 
   .dataTableMobile {
     display: none;
- 
-    
   }
-  
 
   @include md {
     .info {

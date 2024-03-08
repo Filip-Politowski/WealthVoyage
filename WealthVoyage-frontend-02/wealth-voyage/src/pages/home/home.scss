@@ -61,6 +61,10 @@
       z-index: 1;
       clip-path: polygon(75% 0%, 100% 50%, 75% 100%, 0% 100%, 25% 50%, 0% 0%);
      
+      @include sm {
+        width: 300px;
+        height: 300px;
+      }
  
     }
 
@@ -110,7 +114,7 @@
       padding: 15px;
     }
   }
-}
+
 button {
   border: none;
   border-radius: 8px;
@@ -121,3 +125,6 @@ button:hover {
   cursor: pointer;
   background-color: $element-color-3;
 }
+
+}
+
