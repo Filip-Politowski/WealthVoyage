@@ -64,6 +64,11 @@
     border: 1px solid $element-color-1;
     border-radius: 3px;
   }
+  .formButton {
+    button {
+      width: 100%;
+    }
+  }
   .authOptions {
     display: flex;
     flex-direction: column;

@@ -42,7 +42,7 @@ public class User implements UserDetails{
     @JoinTable(
             name="user_role_junction",
             joinColumns = {@JoinColumn(name="user_id")},
-            inverseJoinColumns = {@JoinColumn(name="role_id")}
+            inverseJoinColumns = {@JoinColumn(name="authorities_id")}
     )
     private Set<Role> authorities;
 

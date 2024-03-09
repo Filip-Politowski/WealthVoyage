@@ -1,5 +1,3 @@
-import React, { useState, useEffect, useRef } from "react";
-
 import "./styles/global.scss";
 
 import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
