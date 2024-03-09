@@ -1,9 +1,10 @@
+@import "../../styles/variables.scss";
 .footer {
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 30px;
-  background: #012E40;
+  background: $navigation-color;
 
 margin-top: auto;
 

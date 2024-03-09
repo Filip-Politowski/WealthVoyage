@@ -1,7 +1,9 @@
+@import "../../styles/variables.scss";
+
 .dataTable {
-  background-color: #607d8b22;
+  background-color: $navigation-color;
   .dataGrid{
-    color: white;
+    color: $main-color;
   }
   .action {
     display: flex;

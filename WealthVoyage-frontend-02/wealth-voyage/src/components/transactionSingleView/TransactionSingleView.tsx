@@ -30,14 +30,12 @@ const TransactionSingleView = (props: Props) => {
                         .toLowerCase()}
                     :
                   </p>
-                  
+
                   {item[0] === "amount" ? (
                     <p
                       style={{
                         background:
-                          item[1] > 0
-                            ? "rgba(141, 224, 145, 0.395)"
-                            : "rgba(227, 78, 78, 0.524)",
+                          item[1] > 0 ? "#02735e" : "rgba(227, 78, 78, 0.524)",
                         padding: "5px",
                         borderRadius: "5px",
                       }}
@@ -47,9 +45,8 @@ const TransactionSingleView = (props: Props) => {
                   ) : (
                     <p>{item[1]}</p>
                   )}
-                  
                 </div>
-                <hr/>
+                <hr />
               </div>
             ))}
       </div>

@@ -29,21 +29,6 @@ $progressColor: #3498db;
         h1 {
           font-weight: 600;
         }
-        button {
-          border: none;
-          border-radius: 8px;
-          padding: 10px;
-          transition: 0.8s;
-          color: $soft-color;
-          background-color: $element-color-2;
-        }
-        button:hover {
-          cursor: pointer;
-          background-color: $element-color-3;
-        }
-        button:active {
-          transform: translateY(2px);
-        }
       }
       .details {
         font-size: 18px;

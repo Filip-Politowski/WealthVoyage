@@ -118,18 +118,5 @@
     display: flex;
     justify-content: flex-end;
     gap: 5px;
-
-    button {
-      border: none;
-      border-radius: 8px;
-      padding: 10px;
-      transition: 0.8s;
-      color: $soft-color;
-      background-color: $element-color-2;
-    }
-    button:hover {
-      cursor: pointer;
-      background-color: $element-color-3;
-    }
   }
 }

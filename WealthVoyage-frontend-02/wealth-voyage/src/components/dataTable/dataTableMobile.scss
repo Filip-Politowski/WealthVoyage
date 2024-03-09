@@ -4,7 +4,7 @@
   align-items: center;
   background-color: $navigation-color;
   border-radius: 10px;
-  color: white;
+  color: $main-color;
   width: 100%;
 
   .searchBar {
@@ -18,7 +18,7 @@
     img {
       width: 20px;
       height: 20px;
-      color: white;
+      color: $main-color;
     }
 
     input {
@@ -29,10 +29,10 @@
       font-size: 16px;
       width: 100%;
       background-color: transparent;
-      color: white;
+      color: $main-color;
 
       &::placeholder {
-        color: white;
+        color: $main-color;
       }
     }
   }
@@ -43,26 +43,26 @@
     bottom: 0;
     left: 5%;
     width: 85%;
-    border-bottom: 1px solid rgb(202, 202, 202);
+    border-bottom: 1px solid $element-color-2
   }
 
   .rowsTable {
     width: 100%;
     border-collapse: collapse;
     background-color: transparent;
-    color: #ffffff;
+    color: $main-color;
 
     th,
     td {
       padding: 12px;
-      border-bottom: 1px solid #555;
+      border-bottom: 1px solid rgba($element-color-3, 0.2);
       text-align: left;
     }
     th {
       background-color: transparent;
     }
     tbody tr:hover {
-      background-color: rgba(255, 255, 255, 0.1);
+      background-color: rgba($element-color-1, 0.1);
     }
     .singleInstallmentPrice {
       :first-child {
@@ -71,7 +71,7 @@
         justify-content: flex-start;
         p {
           padding: 5px 10px;
-          background-color: #e4dfdd5d;
+          background-color: rgba($main-color, 0.3);
           border-radius: 5px;
         }
       }
@@ -87,18 +87,5 @@
     justify-content: flex-end;
     padding: 10px;
     gap: 10px;
-
-    button {
-      border: none;
-      border-radius: 8px;
-      padding: 10px;
-      transition: 0.8s;
-      color: $soft-color;
-      background-color: $element-color-2;
-    }
-    button:hover {
-      cursor: pointer;
-      background-color: $element-color-3;
-    }
   }
 }
