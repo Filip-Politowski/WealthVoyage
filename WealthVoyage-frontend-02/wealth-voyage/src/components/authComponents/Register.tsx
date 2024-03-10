@@ -11,7 +11,7 @@ const Register = () => {
     username: "",
     password: "",
   });
-   
+  const navigate = useNavigate();
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -20,11 +20,18 @@ const Register = () => {
       .post("http://localhost:8080/api/auth/register", registerData)
       .then((response: AxiosResponse) => {
         console.log(response.data);
-         navigate("/auth/signin");
+        navigate("/auth/signin");
       })
       .catch((error) => {
         console.log(error);
       });
+    setRegisterData({
+      firstName: "",
+      lastName: "",
+      email: "",
+      username: "",
+      password: "",
+    });
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -34,11 +41,6 @@ const Register = () => {
       ...prevData,
       [name]: value,
     }));
-  };
-
-  const navigate = useNavigate();
-  const handleClick = () => {
-    navigate("/auth/signin");
   };
 
   return (
