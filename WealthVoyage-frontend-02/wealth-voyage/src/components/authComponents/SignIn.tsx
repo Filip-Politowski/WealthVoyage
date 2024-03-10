@@ -8,6 +8,7 @@ const Login = () => {
     username: "",
     password: "",
   });
+  const [invalidCredentials, setInvalidCredentials] = useState(false);
 
   const navigate = useNavigate();
 
@@ -19,7 +20,11 @@ const Login = () => {
       .then((response: AxiosResponse) => {
         const userData = response.data;
         console.log(userData);
-
+        if (userData.jwt === "") {
+          setInvalidCredentials(true);
+          return;
+        }
+        setInvalidCredentials(false);
         navigate("/dashboard");
       })
       .catch((error) => {
@@ -64,6 +69,11 @@ const Login = () => {
           value={loginData.password}
           onChange={handleChange}
         />
+        {invalidCredentials && (
+          <div className="wrongCredentials">
+            <p>Wrong password or username </p>
+          </div>
+        )}
         <div className="authOptions">
           <Link to="/auth/register">
             <p>Register</p>

@@ -50,6 +50,11 @@
     &::-webkit-scrollbar-thumb:hover {
       background: #025959;
     }
+
+    .wrongCredentials {
+      padding-top: 10px;
+      color: $element-color-3;
+    }
   }
   img {
     height: 120px;

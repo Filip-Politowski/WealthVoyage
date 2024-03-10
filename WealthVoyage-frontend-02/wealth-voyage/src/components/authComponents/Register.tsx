@@ -11,10 +11,44 @@ const Register = () => {
     username: "",
     password: "",
   });
+
+  const [repeatedPassword, setRepeatedPassword] = useState("");
+  const [toShortPassword, setToShortPassword] = useState(false);
+  const [invalidPassword, setInvalidPassword] = useState(false);
+  const [wrongRepeatedPassword, setWrongRepeatedPassword] = useState(false);
+
+  const passwordRegex: RegExp = /^(?=.*[A-Z])(?=.*[^\w\d]).{8,}$/;
+
   const navigate = useNavigate();
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    if (registerData.password.length < 8) {
+      setToShortPassword(true);
+      setWrongRepeatedPassword(false);
+      setInvalidPassword(false);
+      // alert("Password must be at least 8 characters long");
+      return;
+    }
+    if (registerData.password.length >= 8) {
+      if (!passwordRegex.test(registerData.password)) {
+        setInvalidPassword(true);
+        setToShortPassword(false);
+        setWrongRepeatedPassword(false);
+        // alert(
+        //   "Password must contain at least one uppercase letter and one special character(! @ # $ % ^ & *)"
+        // );
+        return;
+      }
+    }
+    if (repeatedPassword !== registerData.password) {
+      setWrongRepeatedPassword(true);
+      setInvalidPassword(false);
+      setToShortPassword(false);
+      // alert("Repeated password is incorrect");
+      return;
+    }
 
     axios
       .post("http://localhost:8080/api/auth/register", registerData)
@@ -34,13 +68,18 @@ const Register = () => {
     });
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleRegisterDataChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-
     setRegisterData((prevData) => ({
       ...prevData,
       [name]: value,
     }));
+  };
+
+  const handleRepeatedPasswordChange = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setRepeatedPassword(e.target.value);
   };
 
   return (
@@ -56,7 +95,7 @@ const Register = () => {
           name="firstName"
           placeholder="First name..."
           value={registerData.firstName}
-          onChange={handleChange}
+          onChange={handleRegisterDataChange}
         />
         <label>Last Name</label>
         <input
@@ -64,7 +103,7 @@ const Register = () => {
           name="lastName"
           placeholder="Last Name..."
           value={registerData.lastName}
-          onChange={handleChange}
+          onChange={handleRegisterDataChange}
         />
         <label>e-mail</label>
         <input
@@ -72,7 +111,7 @@ const Register = () => {
           name="email"
           placeholder="e-mail..."
           value={registerData.email}
-          onChange={handleChange}
+          onChange={handleRegisterDataChange}
         />
         <label>Username</label>
         <input
@@ -80,7 +119,7 @@ const Register = () => {
           name="username"
           placeholder="Username..."
           value={registerData.username}
-          onChange={handleChange}
+          onChange={handleRegisterDataChange}
         />
         <label>Password</label>
         <input
@@ -88,10 +127,30 @@ const Register = () => {
           name="password"
           placeholder="Password..."
           value={registerData.password}
-          onChange={handleChange}
+          onChange={handleRegisterDataChange}
         />
-        {/* <label>Repeat password</label>
-        <input type="password" placeholder="Repeat password..." /> */}
+        <label>Repeat password</label>
+        <input
+          type="password"
+          placeholder="Repeat password..."
+          name="repeatedPassword"
+          value={repeatedPassword}
+          onChange={handleRepeatedPasswordChange}
+        />
+        {(wrongRepeatedPassword || toShortPassword || invalidPassword) && (
+          <div className="wrongCredentials">
+            {wrongRepeatedPassword && <p>Repeated password is incorrect</p>}
+            {toShortPassword && (
+              <p>Password must be at least 8 characters long</p>
+            )}
+            {invalidPassword && (
+              <p>
+                Password must contain at least one uppercase letter and one
+                special character(! @ # $ % ^ & *)
+              </p>
+            )}
+          </div>
+        )}
         <div className="authOptions">
           <Link to="/auth/signin">Already have an account? Login</Link>
         </div>
