@@ -12,15 +12,20 @@ const Register = () => {
     password: "",
   });
 
+  const [validEmail, setValidEmail] = useState(false);
   const [repeatedPassword, setRepeatedPassword] = useState("");
   const [toShortPassword, setToShortPassword] = useState(false);
   const [invalidPassword, setInvalidPassword] = useState(false);
   const [wrongRepeatedPassword, setWrongRepeatedPassword] = useState(false);
 
+   
+
   const passwordRegex: RegExp = /^(?=.*[A-Z])(?=.*[^\w\d]).{8,}$/;
+  const emailRegex: RegExp =
+    /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}$/;
 
   const navigate = useNavigate();
-
+ 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -28,7 +33,7 @@ const Register = () => {
       setToShortPassword(true);
       setWrongRepeatedPassword(false);
       setInvalidPassword(false);
-      // alert("Password must be at least 8 characters long");
+      setValidEmail(false);
       return;
     }
     if (registerData.password.length >= 8) {
@@ -36,9 +41,7 @@ const Register = () => {
         setInvalidPassword(true);
         setToShortPassword(false);
         setWrongRepeatedPassword(false);
-        // alert(
-        //   "Password must contain at least one uppercase letter and one special character(! @ # $ % ^ & *)"
-        // );
+        setValidEmail(false);
         return;
       }
     }
@@ -46,7 +49,15 @@ const Register = () => {
       setWrongRepeatedPassword(true);
       setInvalidPassword(false);
       setToShortPassword(false);
-      // alert("Repeated password is incorrect");
+      setValidEmail(false);
+      return;
+    }
+    if (!emailRegex.test(registerData.email)) {
+      setValidEmail(true);
+      setWrongRepeatedPassword(false);
+      setInvalidPassword(false);
+      setToShortPassword(false);
+  
       return;
     }
 
@@ -113,6 +124,11 @@ const Register = () => {
           value={registerData.email}
           onChange={handleRegisterDataChange}
         />
+        {validEmail && (
+          <div className="wrongCredentials">
+            <p>Invalid e-mail</p>
+          </div>
+        )}
         <label>Username</label>
         <input
           type="text"
