@@ -19,6 +19,8 @@ const Login = () => {
       .post("http://localhost:8080/api/auth/login", loginData)
       .then((response: AxiosResponse) => {
         const userData = response.data;
+        localStorage.setItem("jwt", userData.jwt);
+        localStorage.setItem("userId", userData.userId);
         console.log(userData);
         if (userData.jwt === "") {
           setInvalidCredentials(true);

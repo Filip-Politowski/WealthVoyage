@@ -6,6 +6,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.savings.wealthvoyage.entity.LoginResponseDTO;
@@ -28,17 +29,19 @@ public class AuthenticationService {
     private PasswordEncoder passwordEncoder;
     private AuthenticationManager authenticationManager;
     private TokenService tokenService;
-
     public User registerUser(String username, String password, String email, String firstName, String lastName) {
 
         String encodedPassword = passwordEncoder.encode(password);
         Role userRole = roleRepository.findByAuthority("USER").get();
 
+
+
+
         Set<Role> authorities = new HashSet<>();
 
         authorities.add(userRole);
 
-        return userRepository.save(new User(0, username,firstName,lastName, encodedPassword,email, authorities));
+        return userRepository.save(new User(0, username, firstName, lastName, encodedPassword, email, authorities));
     }
 
     public LoginResponseDTO loginUser(String username, String password) {
@@ -56,5 +59,7 @@ public class AuthenticationService {
             return new LoginResponseDTO(null, "");
         }
     }
+
+
 
 }

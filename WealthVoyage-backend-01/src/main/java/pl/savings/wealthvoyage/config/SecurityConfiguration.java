@@ -13,6 +13,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -22,6 +24,7 @@ import org.springframework.security.oauth2.jwt.*;
 
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
 import org.springframework.web.cors.CorsConfiguration;
@@ -77,6 +80,7 @@ public class SecurityConfiguration {
                     authorize.requestMatchers("/api/users/**").hasAnyRole("USER", "ADMIN");
                     authorize.anyRequest().authenticated();
                 })
+
                 .oauth2ResourceServer((oauth2) -> oauth2
                         .jwt(jwt -> jwt.jwtAuthenticationConverter(jwtAuthenticationConverter()))
                 )
@@ -96,11 +100,7 @@ public class SecurityConfiguration {
 
     @Bean
     public JwtDecoder jwtDecoder() {
-        NimbusJwtDecoder jwtDecoder = NimbusJwtDecoder.withPublicKey(keys.getPublicKey()).build();
-        OAuth2TokenValidator<Jwt> withClockSkew = new DelegatingOAuth2TokenValidator<>(
-                new JwtTimestampValidator(Duration.ofSeconds(60)));
-        jwtDecoder.setJwtValidator(withClockSkew);
-        return jwtDecoder;
+        return NimbusJwtDecoder.withPublicKey(keys.getPublicKey()).build();
     }
 
     @Bean
