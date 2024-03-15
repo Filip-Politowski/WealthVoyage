@@ -1,7 +1,6 @@
-package pl.savings.wealthvoyage.repository;
+package pl.savings.wealthvoyage.savingGoals;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import pl.savings.wealthvoyage.entity.SavingGoal;
 
 public interface SavingGoalRepository extends JpaRepository<SavingGoal, Long> {
 }

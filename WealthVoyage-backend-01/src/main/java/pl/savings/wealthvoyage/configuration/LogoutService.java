@@ -1,4 +1,4 @@
-package pl.savings.wealthvoyage.config;
+package pl.savings.wealthvoyage.configuration;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

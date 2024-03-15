@@ -1,19 +1,20 @@
-package pl.savings.wealthvoyage.entity;
+package pl.savings.wealthvoyage.loans;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "installments")
-public class Installments {
+public class Loan {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Column(name = "user_email")
-    private String userEmail;
 
     @Column(name = "loan_name")
     private String loanName;

@@ -1,19 +1,20 @@
-package pl.savings.wealthvoyage.entity;
+package pl.savings.wealthvoyage.savingGoals;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "saving_goal")
 public class SavingGoal {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Column (name = "user_email")
-    private String userEmail;
 
     @Column (name = "saving_goal_name")
     private String savingGoalName;

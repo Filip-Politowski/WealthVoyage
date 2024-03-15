@@ -1,4 +1,4 @@
-package pl.savings.wealthvoyage.config;
+package pl.savings.wealthvoyage.configuration;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;

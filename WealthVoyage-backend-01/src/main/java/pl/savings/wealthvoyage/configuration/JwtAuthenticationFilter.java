@@ -1,4 +1,4 @@
-package pl.savings.wealthvoyage.config;
+package pl.savings.wealthvoyage.configuration;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
