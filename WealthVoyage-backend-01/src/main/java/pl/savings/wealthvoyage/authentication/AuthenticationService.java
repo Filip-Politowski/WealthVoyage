@@ -1,9 +1,16 @@
 package pl.savings.wealthvoyage.authentication;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Service;
 import pl.savings.wealthvoyage.config.JwtService;
 import pl.savings.wealthvoyage.token.Token;
@@ -13,6 +20,7 @@ import pl.savings.wealthvoyage.user.Role;
 import pl.savings.wealthvoyage.user.User;
 import pl.savings.wealthvoyage.user.UserRepository;
 
+import java.io.IOException;
 import java.util.List;
 
 @Service
@@ -83,5 +91,33 @@ public class AuthenticationService {
             token.setRevoked(true);
         });
         tokenRepository.saveAll(validUserTokens);
+    }
+
+    public void refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        final String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
+        final String refreshToken;
+        final String username;
+
+        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+            return;
+        }
+
+        refreshToken = authHeader.substring(7);
+        username = jwtService.extractUsername(refreshToken);
+
+        if (username != null) {
+            User user = userRepository.findByUsername(username).orElseThrow();
+
+            if (jwtService.isTokenValid(refreshToken, user)) {
+                String accessToken = jwtService.generateToken(user);
+                revokedAllUserTokens(user);
+                saveUSerToken(user, accessToken);
+                AuthenticationResponse authenticationResponse = AuthenticationResponse.builder()
+                        .accessToken(accessToken)
+                        .refreshToken(refreshToken)
+                        .build();
+                new ObjectMapper().writeValue(response.getOutputStream(), authenticationResponse);
+            }
+        }
     }
 }
