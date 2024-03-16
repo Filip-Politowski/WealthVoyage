@@ -4,6 +4,9 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import pl.savings.wealthvoyage.plannedExpenses.PlannedExpense;
+
+import java.util.List;
 
 @Entity
 @Data
@@ -16,15 +19,18 @@ public class SavingGoal {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column (name = "saving_goal_name")
+    @Column(name = "saving_goal_name")
     private String savingGoalName;
 
-    @Column (name = "saving_goal_amount")
+    @Column(name = "saving_goal_amount")
     private double savingGoalAmount;
 
-    @Column (name = "amount_saved")
+    @Column(name = "amount_saved")
     private double amountSaved;
 
-    @Column (name = "savings_progression")
+    @Column(name = "savings_progression")
     private double savingsProgression;
+
+    @OneToMany(mappedBy = "savingGoal")
+    private List<PlannedExpense> plannedExpenses;
 }
