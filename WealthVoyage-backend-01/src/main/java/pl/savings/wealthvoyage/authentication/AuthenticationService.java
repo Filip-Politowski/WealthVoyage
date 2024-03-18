@@ -19,6 +19,7 @@ import pl.savings.wealthvoyage.user.UserRepository;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -40,13 +41,26 @@ public class AuthenticationService {
                 .role(Role.USER)
                 .build();
         User savedUser = userRepository.save(user);
-        String jwtToken = jwtService.generateToken(user);
+        String jwtToken = jwtService.generateToken(Map.of("authorities", Role.USER), user);
         String refreshToken = jwtService.generateRefreshToken(user);
         saveUSerToken(savedUser, jwtToken);
         return AuthenticationResponse.builder()
                 .accessToken(jwtToken)
                 .refreshToken(refreshToken)
                 .build();
+    }
+
+    public void createAdmin(RegisterRequest request) {
+
+        User user = User.builder()
+                .firstName(request.getFirstName())
+                .lastName(request.getLastName())
+                .username(request.getUsername())
+                .email(request.getEmail())
+                .password(passwordEncoder.encode(request.getPassword()))
+                .role(Role.ADMIN)
+                .build();
+        userRepository.save(user);
     }
 
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
@@ -56,9 +70,10 @@ public class AuthenticationService {
                         request.getPassword()
                 )
         );
+
         User user = userRepository.findByUsername(request.getUsername())
                 .orElseThrow();
-        String jwtToken = jwtService.generateToken(user);
+        String jwtToken = jwtService.generateToken(Map.of("authorities", user.getRole()), user);
         String refreshToken = jwtService.generateRefreshToken(user);
         revokedAllUserTokens(user);
         saveUSerToken(user, jwtToken);
@@ -106,7 +121,7 @@ public class AuthenticationService {
             User user = userRepository.findByUsername(username).orElseThrow();
 
             if (jwtService.isTokenValid(refreshToken, user)) {
-                String accessToken = jwtService.generateToken(user);
+                String accessToken = jwtService.generateToken(Map.of("authorities", user.getRole()), user);
                 revokedAllUserTokens(user);
                 saveUSerToken(user, accessToken);
                 AuthenticationResponse authenticationResponse = AuthenticationResponse.builder()
