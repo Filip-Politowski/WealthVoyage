@@ -16,7 +16,7 @@ const Login = () => {
     e.preventDefault();
 
     axios
-      .post("http://localhost:8080/api/auth/login", loginData)
+      .post("http://localhost:8080/api/auth/authenticate", loginData)
       .then((response: AxiosResponse) => {
         const userData = response.data;
         localStorage.setItem("jwt", userData.jwt);
