@@ -1,9 +1,11 @@
 import React, { useState, useEffect, useRef } from "react";
 import "./navbar.scss";
+import { useAuth } from "../../context/useAuth";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const settingsWindowRef = useRef<HTMLDivElement>(null);
+  const {logout} = useAuth();
 
   useEffect(() => {
     const handleOutsideClick = (event: MouseEvent) => {
@@ -56,7 +58,7 @@ const Navbar = () => {
             <p>Your transactions</p>
             <p>Your installments</p>
             <hr />
-            <p>Sign out</p>
+            <p onClick={logout}>Sign out</p>
           </div>
         )}
       </div>

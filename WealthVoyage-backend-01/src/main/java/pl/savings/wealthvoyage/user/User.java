@@ -1,5 +1,6 @@
 package pl.savings.wealthvoyage.user;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -30,6 +31,7 @@ public class User implements UserDetails {
     private String username;
     @Column(unique = true)
     private String email;
+
     private String password;
     @Enumerated(EnumType.STRING)
     private Role role;

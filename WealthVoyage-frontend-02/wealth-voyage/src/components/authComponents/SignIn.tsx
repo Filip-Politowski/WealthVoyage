@@ -1,44 +1,16 @@
 import "./authComponents.scss";
-import { Link, useNavigate } from "react-router-dom";
-import axios, { AxiosResponse } from "axios";
+import { Link } from "react-router-dom";
+
 import { useState } from "react";
+import { useAuth } from "../../context/useAuth";
 
 const Login = () => {
+  const { loginUser } = useAuth();
   const [loginData, setLoginData] = useState({
     username: "",
     password: "",
   });
   const [invalidCredentials, setInvalidCredentials] = useState(false);
-
-  const navigate = useNavigate();
-
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    axios
-      .post("http://localhost:8080/api/auth/authenticate", loginData)
-      .then((response: AxiosResponse) => {
-        const userData = response.data;
-        localStorage.setItem("jwt", userData.jwt);
-        localStorage.setItem("userId", userData.userId);
-        console.log(userData);
-        if (userData.jwt === "") {
-          setInvalidCredentials(true);
-          return;
-        }
-        setInvalidCredentials(false);
-        navigate("/dashboard");
-      })
-      .catch((error) => {
-        console.log(error);
-        alert("Invalid username or password");
-        navigate("/auth/signin");
-      });
-    setLoginData({
-      username: "",
-      password: "",
-    });
-  };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -46,6 +18,12 @@ const Login = () => {
       ...prevData,
       [name]: value,
     }));
+  };
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    loginUser(loginData.username, loginData.password);
+    setInvalidCredentials(true);
   };
 
   return (

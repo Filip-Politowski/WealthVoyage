@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "./authComponents.scss";
 import { Link, useNavigate } from "react-router-dom";
 import axios, { AxiosResponse } from "axios";
+import { useAuth } from "../../context/useAuth";
 
 const Register = () => {
   const [registerData, setRegisterData] = useState({
@@ -17,15 +18,12 @@ const Register = () => {
   const [toShortPassword, setToShortPassword] = useState(false);
   const [invalidPassword, setInvalidPassword] = useState(false);
   const [wrongRepeatedPassword, setWrongRepeatedPassword] = useState(false);
-
-   
+  const { registerUser } = useAuth();
 
   const passwordRegex: RegExp = /^(?=.*[A-Z])(?=.*[^\w\d]).{8,}$/;
   const emailRegex: RegExp =
     /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}$/;
 
-  const navigate = useNavigate();
- 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -57,19 +55,16 @@ const Register = () => {
       setWrongRepeatedPassword(false);
       setInvalidPassword(false);
       setToShortPassword(false);
-  
+
       return;
     }
-
-    axios
-      .post("http://localhost:8080/api/auth/register", registerData)
-      .then((response: AxiosResponse) => {
-        console.log(response.data);
-        navigate("/auth/signin");
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    registerUser(
+      registerData.firstName,
+      registerData.lastName,
+      registerData.email,
+      registerData.username,
+      registerData.password
+    );
     setRegisterData({
       firstName: "",
       lastName: "",

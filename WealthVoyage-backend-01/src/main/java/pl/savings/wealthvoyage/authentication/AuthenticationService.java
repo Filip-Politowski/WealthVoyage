@@ -78,6 +78,8 @@ public class AuthenticationService {
         revokedAllUserTokens(user);
         saveUSerToken(user, jwtToken);
         return AuthenticationResponse.builder()
+                .username(user.getUsername())
+                .role(user.getRole().toString())
                 .accessToken(jwtToken)
                 .refreshToken(refreshToken)
                 .build();
@@ -91,6 +93,7 @@ public class AuthenticationService {
                 .revoked(false)
                 .expired(false)
                 .build();
+
         tokenRepository.save(token);
     }
 

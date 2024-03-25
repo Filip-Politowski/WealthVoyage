@@ -3,7 +3,7 @@ import { Link, Outlet } from "react-router-dom";
 import "./home.scss";
 import Footer from "../../components/footer/Footer";
 import CardSlider from "../../components/utils/cardSlider/CardSlider";
-import Users from "../../components/users/Users";
+
 
 const Home = () => {
   return (
@@ -35,7 +35,7 @@ const Home = () => {
           <h2>Speed up your growth by using this tools:</h2>
         </div>
         <CardSlider />
-        <Users />
+        
       </div>
       <div className="contact">
         <div className="contactDetails">

@@ -1,7 +1,6 @@
 import "./styles/global.scss";
 
 import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
-
 import Installments from "./pages/installments/Installments";
 import Navbar from "./components/navbar/Navbar";
 import Footer from "./components/footer/Footer";
@@ -17,22 +16,26 @@ import SavingGoal from "./pages/savingGoal/SavingGoal";
 import SignIn from "./components/authComponents/SignIn";
 import Register from "./components/authComponents/Register";
 import Home from "./pages/home/Home";
+import { UserProvider } from "./context/useAuth";
+import ProtectedRoute from "./routes/ProtectedRoutes";
 
 function App() {
   const Layout = () => {
     return (
-      <div className="main">
-        <Navbar />
-        <div className="container">
-          <div className="menuContainer">
-            <Menu />
+      <UserProvider>
+        <div className="main">
+          <Navbar />
+          <div className="container">
+            <div className="menuContainer">
+              <Menu />
+            </div>
+            <div className="contentContainer">
+              <Outlet />
+            </div>
           </div>
-          <div className="contentContainer">
-            <Outlet />
-          </div>
+          <Footer />
         </div>
-        <Footer />
-      </div>
+      </UserProvider>
     );
   };
 
@@ -45,7 +48,14 @@ function App() {
       path: "/dashboard",
       element: <Layout />,
       children: [
-        { path: "/dashboard", element: <Dashboard /> },
+        {
+          path: "/dashboard",
+          element: (
+            <ProtectedRoute>
+              <Dashboard />
+            </ProtectedRoute>
+          ),
+        },
         { path: "/dashboard/savingGoals", element: <SavingGoals /> },
         { path: "/dashboard/savingGoal/:id", element: <SavingGoal /> },
         { path: "/dashboard/installments", element: <Installments /> },
@@ -64,6 +74,7 @@ function App() {
       ],
     },
   ]);
+
   return <RouterProvider router={router} />;
 }
 export default App;

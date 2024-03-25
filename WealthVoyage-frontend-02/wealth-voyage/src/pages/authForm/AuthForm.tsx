@@ -1,15 +1,16 @@
-import React, { useEffect, useState } from "react";
 import Footer from "../../components/footer/Footer";
 import "./authForm.scss";
-import { Link, Outlet } from "react-router-dom";
-import SignIn from "../../components/authComponents/SignIn";
+import { Outlet } from "react-router-dom";
+
+import { UserProvider } from "../../context/useAuth";
 
 const Auth = () => {
   return (
     <div className="authMain">
-     
       <div className="authForm">
-        <Outlet />
+        <UserProvider>
+          <Outlet />
+        </UserProvider>
       </div>
       <Footer />
     </div>
