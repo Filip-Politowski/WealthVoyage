@@ -31,7 +31,7 @@ public class User implements UserDetails {
     private String username;
     @Column(unique = true)
     private String email;
-
+    @JsonIgnore
     private String password;
     @Enumerated(EnumType.STRING)
     private Role role;
@@ -40,6 +40,7 @@ public class User implements UserDetails {
     private List<Token> tokens;
 
     @Override
+    @JsonIgnore
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return role.getAuthorities();
     }
@@ -55,16 +56,19 @@ public class User implements UserDetails {
     }
 
     @Override
+    @JsonIgnore
     public boolean isAccountNonExpired() {
         return true;
     }
 
     @Override
+    @JsonIgnore
     public boolean isAccountNonLocked() {
         return true;
     }
 
     @Override
+    @JsonIgnore
     public boolean isCredentialsNonExpired() {
         return true;
     }

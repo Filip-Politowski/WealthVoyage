@@ -56,13 +56,62 @@ function App() {
             </ProtectedRoute>
           ),
         },
-        { path: "/dashboard/savingGoals", element: <SavingGoals /> },
-        { path: "/dashboard/savingGoal/:id", element: <SavingGoal /> },
-        { path: "/dashboard/installments", element: <Installments /> },
-        { path: "/dashboard/installment/:id", element: <Installment /> },
-        { path: "/dashboard/transactions", element: <Transactions /> },
-        { path: "/dashboard/transaction/:id", element: <Transaction /> },
-        { path: "/dashboard/profile", element: <Profile /> },
+        {
+          path: "/dashboard/savingGoals",
+          element: (
+            <ProtectedRoute>
+              <SavingGoals />
+            </ProtectedRoute>
+          ),
+        },
+        {
+          path: "/dashboard/savingGoal/:id",
+          element: (
+            <ProtectedRoute>
+              <SavingGoal />
+            </ProtectedRoute>
+          ),
+        },
+        {
+          path: "/dashboard/installments",
+          element: (
+            <ProtectedRoute>
+              <Installments />
+            </ProtectedRoute>
+          ),
+        },
+        {
+          path: "/dashboard/installment/:id",
+          element: (
+            <ProtectedRoute>
+              <Installment />
+            </ProtectedRoute>
+          ),
+        },
+        {
+          path: "/dashboard/transactions",
+          element: (
+            <ProtectedRoute>
+              <Transactions />
+            </ProtectedRoute>
+          ),
+        },
+        {
+          path: "/dashboard/transaction/:id",
+          element: (
+            <ProtectedRoute>
+              <Transaction />
+            </ProtectedRoute>
+          ),
+        },
+        {
+          path: "/dashboard/profile",
+          element: (
+            <ProtectedRoute>
+              <Profile />
+            </ProtectedRoute>
+          ),
+        },
       ],
     },
     {

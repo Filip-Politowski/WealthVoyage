@@ -9,3 +9,12 @@ export type UserProfile = {
   role: string;
  
 };
+
+export type User = {
+  firstName: string;
+  lastName: string;
+  username: string;
+  email: string;
+
+
+}
