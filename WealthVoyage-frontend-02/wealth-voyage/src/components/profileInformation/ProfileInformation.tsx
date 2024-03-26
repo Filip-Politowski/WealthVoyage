@@ -2,10 +2,14 @@ import React, { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import "./profileInformation.scss";
 import { User } from "../../models/User";
+import { handleError } from "../../helpers/ErrorHandler";
+
+import { useAuth } from "../../context/useAuth";
 
 const api = "http://localhost:8080/api/";
 
 const ProfileInformation = () => {
+  const { logout } = useAuth();
   const [user, setUser] = useState<User>({
     firstName: "",
     lastName: "",
@@ -44,7 +48,8 @@ const ProfileInformation = () => {
   useEffect(() => {
     const userData = async () => {
       try {
-        const response = await axios.get<User>(`${api}users/1`);
+        const username = JSON.parse(localStorage.getItem("user")!).username;
+        const response = await axios.get<User>(`${api}users/${username}`);
         setUser({
           firstName: response.data.firstName,
           lastName: response.data.lastName,
@@ -52,11 +57,14 @@ const ProfileInformation = () => {
           email: response.data.email,
         });
       } catch (error) {
-        console.log(error);
+        handleError(error);
+        if (handleError(error) === "403") {
+          logout();
+        }
       }
     };
     userData();
-  }, []);
+  }, [logout]);
 
   return (
     <div className="profileInformation">
@@ -70,7 +78,6 @@ const ProfileInformation = () => {
       <p>{user.firstName}</p>
       <p>{user.lastName}</p>
       <p>{user.email}</p>
-
     </div>
   );
 };

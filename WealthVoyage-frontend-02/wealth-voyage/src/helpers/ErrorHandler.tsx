@@ -15,6 +15,7 @@ export const handleError = (error: any) => {
       console.log(err.data);
     } else if (err?.status === 403) {
       console.log("Unauthenticated");
+      return "403";
     } else if (err?.status === 401) {
       console.log("Unauthorize");
     } else if (err) {
