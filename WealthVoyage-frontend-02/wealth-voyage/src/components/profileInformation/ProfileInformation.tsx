@@ -75,9 +75,34 @@ const ProfileInformation = () => {
         onChange={(e) => base64ConversionForImages(e)}
         ref={fileInputRef}
       />
-      <p>{user.firstName}</p>
-      <p>{user.lastName}</p>
-      <p>{user.email}</p>
+
+      <h2>Profile information:</h2>
+
+      <p>
+        <strong>First name: </strong>
+        {user.firstName}
+      </p>
+      <p>
+        <strong>Last Name: </strong>
+        {user.lastName}
+      </p>
+      <p>
+        <strong>e-mail: </strong>
+        {user.email}
+      </p>
+      <hr />
+      <p>
+        <strong>Monthly income: </strong>
+      </p>
+      <p>
+        <strong>Total savings: </strong>
+      </p>
+      <p>
+        <strong>Number of installments held: </strong>
+      </p>
+      <p>
+        <strong>Fixed monthly expenses: </strong>
+      </p>
     </div>
   );
 };

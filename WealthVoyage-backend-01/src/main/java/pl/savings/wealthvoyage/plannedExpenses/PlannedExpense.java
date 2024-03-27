@@ -23,7 +23,7 @@ public class PlannedExpense {
 
     private double amount;
 
-    private String date;
+    private String paymentDate;
 
     @Enumerated(EnumType.STRING)
     private Status status;
@@ -35,9 +35,9 @@ public class PlannedExpense {
     @Enumerated(EnumType.STRING)
     private PaymentMethod paymentMethod;
 
-    @ManyToOne
-    @JoinColumn(name = "saving_goal_id")
-    private SavingGoal savingGoal;
+    private String username ;
+
+
 
 
 }

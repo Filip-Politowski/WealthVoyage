@@ -14,6 +14,7 @@ import pl.savings.wealthvoyage.user.Role;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.UUID;
 
 @Data
 @Builder
@@ -25,6 +26,7 @@ public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    private UUID uuid;
     private String firstName;
     private String lastName;
     @Column(unique = true)

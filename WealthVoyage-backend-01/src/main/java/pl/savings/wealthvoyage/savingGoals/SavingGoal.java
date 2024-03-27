@@ -31,6 +31,4 @@ public class SavingGoal {
     @Column(name = "savings_progression")
     private double savingsProgression;
 
-    @OneToMany(mappedBy = "savingGoal")
-    private List<PlannedExpense> plannedExpenses;
 }
