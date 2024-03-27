@@ -20,7 +20,7 @@ import pl.savings.wealthvoyage.user.UserRepository;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
+
 
 @Service
 @RequiredArgsConstructor
@@ -34,7 +34,6 @@ public class AuthenticationService {
 
     public AuthenticationResponse register(RegisterRequest request) {
         User user = User.builder()
-                .uuid(UUID.randomUUID())
                 .firstName(request.getFirstName())
                 .lastName(request.getLastName())
                 .username(request.getUsername())
@@ -55,7 +54,6 @@ public class AuthenticationService {
     public void createAdmin(RegisterRequest request) {
 
         User user = User.builder()
-                .uuid(UUID.randomUUID())
                 .firstName(request.getFirstName())
                 .lastName(request.getLastName())
                 .username(request.getUsername())

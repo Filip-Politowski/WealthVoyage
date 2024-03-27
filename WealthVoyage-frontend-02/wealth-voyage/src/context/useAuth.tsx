@@ -32,11 +32,6 @@ export const UserProvider = ({ children }: Props) => {
   console.log(isReady);
 
   useEffect(() => {
-    window.addEventListener("beforeunload", () => {
-      localStorage.removeItem("user");
-      localStorage.removeItem("accessToken");
-    });
-
     const user = localStorage.getItem("user");
     const token = localStorage.getItem("accessToken");
 
