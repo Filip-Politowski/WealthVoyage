@@ -5,6 +5,9 @@ import org.springframework.stereotype.Component;
 @Component
 public class PlannedExpenseMapper {
     public PlannedExpense toPlannedExpense(PlannedExpenseRequest request) {
+        if(request == null){
+            throw new NullPointerException("Request cannot be null");
+        }
         return PlannedExpense.builder()
                 .category(request.getCategory())
                 .amount(request.getAmount())
@@ -17,6 +20,9 @@ public class PlannedExpenseMapper {
     }
 
     public PlannedExpenseResponse toPlannedExpenseResponse(PlannedExpense plannedExpense) {
+        if(plannedExpense == null){
+            throw new NullPointerException("PlannedExpense cannot be null");
+        }
         return PlannedExpenseResponse.builder()
                 .id(plannedExpense.getId())
                 .category(plannedExpense.getCategory())
