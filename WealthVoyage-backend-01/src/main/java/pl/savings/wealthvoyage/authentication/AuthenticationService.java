@@ -61,7 +61,13 @@ public class AuthenticationService {
                 .password(passwordEncoder.encode(request.getPassword()))
                 .role(Role.ADMIN)
                 .build();
-        userRepository.save(user);
+
+        if (userRepository.findByUsername(user.getUsername()).isEmpty()){
+            userRepository.save(user);
+        }
+
+
+
     }
 
     public AuthenticationResponse authenticate(AuthenticationRequest request) {

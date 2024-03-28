@@ -2,6 +2,7 @@ package pl.savings.wealthvoyage.plannedExpenses;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import pl.savings.wealthvoyage.savingGoals.SavingGoal;
@@ -9,6 +10,7 @@ import pl.savings.wealthvoyage.savingGoals.SavingGoal;
 
 
 @Entity
+@Builder
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -17,7 +19,7 @@ public class PlannedExpense {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer Id;
+    private Long id;
 
     private String category;
 

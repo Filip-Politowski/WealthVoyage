@@ -3,12 +3,7 @@ package pl.savings.wealthvoyage.plannedExpenses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import pl.savings.wealthvoyage.configuration.JwtService;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -18,9 +13,33 @@ import java.util.List;
 public class PlannedExpenseController {
     private final PlannedExpenseService plannedExpenseService;
 
-    @GetMapping("/")
-    public List<PlannedExpenseResponse> getPlannedExpenses(@AuthenticationPrincipal UserDetails userDetails) {
-        String username = userDetails.getUsername();
-        return plannedExpenseService.getPlannedExpenses(username);
+    @GetMapping("/all")
+    public List<PlannedExpenseResponse> getAllUserPlannedExpenses(@AuthenticationPrincipal UserDetails userDetails) {
+
+        return plannedExpenseService.getAllPlannedExpensesByUsername(userDetails);
+    }
+
+    @GetMapping("/{id}")
+    public PlannedExpenseResponse getUserPlanedExpense(@AuthenticationPrincipal UserDetails userDetails, @PathVariable Long id) {
+
+        return plannedExpenseService.getUserPlannedExpenseById(id, userDetails);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteUserPlanedExpense(@AuthenticationPrincipal UserDetails userDetails, @PathVariable Long id) {
+
+        plannedExpenseService.deleteUserPlannedExpenseById(id, userDetails);
+    }
+
+    @PostMapping("/add")
+    public void addUserPlannedExpense(@AuthenticationPrincipal UserDetails userDetails, @RequestBody PlannedExpenseRequest plannedExpenseRequest) {
+
+        plannedExpenseService.saveUserPlannedExpense(plannedExpenseRequest, userDetails);
+    }
+
+    @PutMapping("/{id}")
+    public void updateUserPlannedExpense(@AuthenticationPrincipal UserDetails userDetails, @PathVariable Long id, @RequestBody PlannedExpenseRequest plannedExpenseRequest) {
+
+        plannedExpenseService.updateUserPlannedExpense(id, plannedExpenseRequest, userDetails);
     }
 }
