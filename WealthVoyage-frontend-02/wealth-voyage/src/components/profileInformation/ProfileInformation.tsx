@@ -92,7 +92,7 @@ const ProfileInformation = () => {
       </p>
       <hr />
       <p>
-        <strong>Monthly income: </strong>
+        <strong>Regular monthly income: </strong>
       </p>
       <p>
         <strong>Total savings: </strong>
