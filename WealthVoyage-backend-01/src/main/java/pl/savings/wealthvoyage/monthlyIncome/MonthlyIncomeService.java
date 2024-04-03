@@ -6,5 +6,7 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class MonthlyIncomeService {
+    private final MonthlyIncomeRepository monthlyIncomeRepository;
+
 
 }
