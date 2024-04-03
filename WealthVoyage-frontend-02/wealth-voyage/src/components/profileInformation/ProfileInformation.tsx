@@ -16,6 +16,7 @@ const ProfileInformation = () => {
     username: "",
     email: "",
   });
+  const [regularMonthlyIncome, setRegularMonthlyIncome] = useState<number>(0);
   const [profileImage, setProfileImage] = useState<any>(
     "https://avatars.githubusercontent.com/u/117862850?v=4"
   );
@@ -46,10 +47,9 @@ const ProfileInformation = () => {
   };
 
   useEffect(() => {
-    const userData = async () => {
+    const userProfileInformation = async () => {
       try {
-        const username = JSON.parse(localStorage.getItem("user")!).username;
-        const response = await axios.get<User>(`${api}users/${username}`);
+        const response = await axios.get<User>(`${api}users/get`);
         setUser({
           firstName: response.data.firstName,
           lastName: response.data.lastName,
@@ -63,7 +63,22 @@ const ProfileInformation = () => {
         }
       }
     };
-    userData();
+    userProfileInformation();
+  }, [logout]);
+
+  useEffect(() => {
+    const monthlyIncomesSum = async () => {
+      try {
+        const response = await axios.get<number>(`${api}incomes/sum`);
+        setRegularMonthlyIncome(response.data);
+      } catch (error) {
+        handleError(error);
+        if (handleError(error) === "403") {
+          logout();
+        }
+      }
+    };
+    monthlyIncomesSum();
   }, [logout]);
 
   return (
@@ -93,6 +108,7 @@ const ProfileInformation = () => {
       <hr />
       <p>
         <strong>Regular monthly income: </strong>
+        {regularMonthlyIncome} zł
       </p>
       <p>
         <strong>Total savings: </strong>

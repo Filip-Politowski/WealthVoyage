@@ -1,6 +1,7 @@
 package pl.savings.wealthvoyage.user;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import java.util.Optional;
 @Service
@@ -8,9 +9,9 @@ import java.util.Optional;
 public class UserService {
     private final UserRepository userRepository;
 
-    public UserResponse findByUsername(String username) {
+    public UserResponse findByUsername(UserDetails userDetails) {
 
-        Optional<User> user = userRepository.findByUsername(username);
+        Optional<User> user = userRepository.findByUsername(userDetails.getUsername());
 
         return user.map(value -> UserResponse.builder()
                 .username(value.getUsername())
