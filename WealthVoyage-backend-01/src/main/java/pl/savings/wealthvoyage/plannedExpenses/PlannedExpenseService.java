@@ -6,10 +6,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -21,11 +18,9 @@ public class PlannedExpenseService {
     public List<PlannedExpenseResponse> getAllPlannedExpensesByUsername(@NotNull UserDetails userDetails) {
 
         Optional<List<PlannedExpense>> plannedExpensesOptional = plannedExpenseRepository.findAllByUsername(userDetails.getUsername());
-        return plannedExpensesOptional.map(plannedExpenses ->
-                        plannedExpenses.stream()
-                                .map(plannedExpenseMapper::toPlannedExpenseResponse)
-                                .collect(Collectors.toList()))
-                .orElseGet(Collections::emptyList);
+        List<PlannedExpenseResponse> plannedExpenseResponses = new ArrayList<>();
+            plannedExpensesOptional.ifPresent(plannedExpenses -> plannedExpenseResponses.addAll(plannedExpenseMapper.toPlannedExpenseResponseList(plannedExpenses)));;
+        return plannedExpenseResponses;
     }
 
 

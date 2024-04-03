@@ -2,10 +2,13 @@ package pl.savings.wealthvoyage.plannedExpenses;
 
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Component
 public class PlannedExpenseMapper {
     public PlannedExpense toPlannedExpense(PlannedExpenseRequest request) {
-        if(request == null){
+        if (request == null) {
             throw new NullPointerException("Request cannot be null");
         }
         return PlannedExpense.builder()
@@ -20,7 +23,7 @@ public class PlannedExpenseMapper {
     }
 
     public PlannedExpenseResponse toPlannedExpenseResponse(PlannedExpense plannedExpense) {
-        if(plannedExpense == null){
+        if (plannedExpense == null) {
             throw new NullPointerException("PlannedExpense cannot be null");
         }
         return PlannedExpenseResponse.builder()
@@ -33,5 +36,14 @@ public class PlannedExpenseMapper {
                 .description(plannedExpense.getDescription())
                 .paymentMethod(plannedExpense.getPaymentMethod())
                 .build();
+    }
+
+    public List<PlannedExpenseResponse> toPlannedExpenseResponseList(List<PlannedExpense> plannedExpenses) {
+        if(plannedExpenses == null){
+            throw new NullPointerException("PlannedExpenses cannot be null");
+        }
+        return plannedExpenses.stream()
+                .map(this::toPlannedExpenseResponse)
+                .collect(Collectors.toList());
     }
 }
