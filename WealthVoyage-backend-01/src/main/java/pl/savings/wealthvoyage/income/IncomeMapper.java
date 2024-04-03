@@ -1,15 +1,17 @@
-package pl.savings.wealthvoyage.monthlyIncome;
+package pl.savings.wealthvoyage.income;
+
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.stream.Collectors;
+@Component
+public class IncomeMapper {
 
-public class MonthlyIncomeMapper {
-
-    public MonthlyIncome toMonthlyIncome(MonthlyIncomeRequest request) {
+    public Income toIncome(IncomeRequest request) {
         if (request == null) {
             throw new NullPointerException("Request cannot be null");
         }
-        return MonthlyIncome.builder()
+        return Income.builder()
                 .id(request.getId())
                 .amount(request.getAmount())
                 .incomeDate(request.getIncomeDate())
@@ -17,11 +19,11 @@ public class MonthlyIncomeMapper {
                 .build();
     }
 
-    public MonthlyIncomeResponse toMonthlyIncomeResponse(MonthlyIncome monthlyIncome) {
+    public IncomeResponse toIncomeResponse(Income monthlyIncome) {
         if (monthlyIncome == null) {
             throw new NullPointerException("MonthlyIncome cannot be null");
         }
-        return MonthlyIncomeResponse.builder()
+        return IncomeResponse.builder()
                 .id(monthlyIncome.getId())
                 .amount(monthlyIncome.getAmount())
                 .incomeDate(monthlyIncome.getIncomeDate())
@@ -29,12 +31,12 @@ public class MonthlyIncomeMapper {
                 .build();
     }
 
-    public List<MonthlyIncomeResponse> toMonthlyIncomeResponseList(List<MonthlyIncome> monthlyIncomes) {
+    public List<IncomeResponse> toIncomeResponseList(List<Income> monthlyIncomes) {
         if (monthlyIncomes == null) {
             throw new NullPointerException("MonthlyIncomes cannot be null");
         }
         return monthlyIncomes.stream()
-                .map(this::toMonthlyIncomeResponse)
+                .map(this::toIncomeResponse)
                 .collect(Collectors.toList());
     }
 

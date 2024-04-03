@@ -1,4 +1,4 @@
-package pl.savings.wealthvoyage.monthlyIncome;
+package pl.savings.wealthvoyage.income;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,9 +9,12 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class MonthlyIncomeRequest {
+public class IncomeResponse {
     private Integer id;
     private Double amount;
     private String incomeDate;
     private SourceOfIncome sourceOfIncome;
+
+
+
 }

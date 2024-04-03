@@ -1,4 +1,4 @@
-package pl.savings.wealthvoyage.monthlyIncome;
+package pl.savings.wealthvoyage.income;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class MonthlyIncome {
+public class Income {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

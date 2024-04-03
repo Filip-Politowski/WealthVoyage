@@ -1,4 +1,4 @@
-package pl.savings.wealthvoyage.monthlyIncome;
+package pl.savings.wealthvoyage.income;
 
 public enum SourceOfIncome {
     EMPLOYMENT_CONTRACT,
