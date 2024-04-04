@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import pl.savings.wealthvoyage.user.User;
 
 import java.util.List;
@@ -27,6 +28,7 @@ public class SavingGoalService {
         savingGoal.setUsername(userDetails.getUsername());
         return savingGoalRepository.save(savingGoal);
     }
+    @Transactional
     public void deleteUserSavingGoalById(Long id, @NotNull UserDetails userDetails){
         savingGoalRepository.deleteByIdAndUsername(id, userDetails.getUsername());
     }
