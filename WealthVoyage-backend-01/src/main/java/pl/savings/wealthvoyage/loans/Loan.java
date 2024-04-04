@@ -2,20 +2,22 @@ package pl.savings.wealthvoyage.loans;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
 @Data
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "installments")
+@Table(name = "loan")
 public class Loan {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+    private String username;
     @Column(name = "loan_name")
     private String loanName;
 
@@ -23,7 +25,7 @@ public class Loan {
     private Integer numberOfInstallments;
 
     @Column(name = "number_of_paid_installments")
-    private int numberOfPaidInstallments;
+    private Integer numberOfPaidInstallments;
 
     @Column(name = "total_amount_of_loan")
     private Double totalAmountOfLoan;
@@ -33,4 +35,6 @@ public class Loan {
 
     @Column(name = "end_date_of_installment")
     private String endDateOfInstallment;
+    @Enumerated(EnumType.STRING)
+    private LoanStatus loanStatus;
 }

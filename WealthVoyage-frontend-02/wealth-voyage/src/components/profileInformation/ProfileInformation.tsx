@@ -16,7 +16,10 @@ const ProfileInformation = () => {
     username: "",
     email: "",
   });
+  const [numberOfLoans, setNumberOfLoans] = useState(0);
   const [regularMonthlyIncome, setRegularMonthlyIncome] = useState<number>(0);
+  const [totalSaving, setTotalSaving] = useState<number>(0);
+
   const [profileImage, setProfileImage] = useState<any>(
     "https://avatars.githubusercontent.com/u/117862850?v=4"
   );
@@ -81,6 +84,35 @@ const ProfileInformation = () => {
     monthlyIncomesSum();
   }, [logout]);
 
+  useEffect(() => {
+    const fetchTotalSaving = async () => {
+      try {
+        const response = await axios.get<number>(`${api}savingGoals/get/sum`);
+        setTotalSaving(response.data);
+      } catch (error) {
+        handleError(error);
+        if (handleError(error) === "403") {
+          logout();
+        }
+      }
+    };
+    fetchTotalSaving();
+  }, [logout]);
+  useEffect(() => {
+    const fetchNumberOfInstallments = async () => {
+      try {
+        const response = await axios.get<number>(`${api}loans/count`);
+        setNumberOfLoans(response.data);
+      } catch (error) {
+        handleError(error);
+        if (handleError(error) === "403") {
+          logout();
+        }
+      }
+    };
+    fetchNumberOfInstallments();
+  }, [logout]);
+
   return (
     <div className="profileInformation">
       <img src={profileImage} alt="profile" onClick={handleImageClick} />
@@ -112,9 +144,11 @@ const ProfileInformation = () => {
       </p>
       <p>
         <strong>Total savings: </strong>
+        {totalSaving} zł
       </p>
       <p>
-        <strong>Number of installments held: </strong>
+        <strong>Number of loans held: </strong>
+        {numberOfLoans}
       </p>
       <p>
         <strong>Fixed monthly expenses: </strong>

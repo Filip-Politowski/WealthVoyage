@@ -62,7 +62,7 @@ const Installments = () => {
   return (
     <div className="installments">
       <div className="info">
-        <h1>Installments</h1>
+        <h1>Loans</h1>
         <button onClick={() => setOpen(true)}>Add New Loan</button>
       </div>
       {/* PC version */}
