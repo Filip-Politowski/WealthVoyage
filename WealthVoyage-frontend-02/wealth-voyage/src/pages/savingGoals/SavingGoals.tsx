@@ -1,8 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./savingGoals.scss";
 import AddNewGoal from "../../components/add/AddNewGoal";
 import { GridColDef } from "@mui/x-data-grid";
 import { Link } from "react-router-dom";
+import { SavingGoal } from "../../models/SavingGoal";
+import { handleError } from "../../helpers/ErrorHandler";
+import axios from "axios";
 
 const columns: GridColDef[] = [
   { field: "id", headerName: "ID", width: 90 },
@@ -17,10 +20,22 @@ const columns: GridColDef[] = [
     type: "number",
   },
 ];
+const api = "http://localhost:8080/api/";
 
 const SavingGoals = () => {
   const [open, setOpen] = useState(false);
-
+  const [savingGoals, setSavingGoals] = useState<SavingGoal[]>([]);
+  useEffect(() => {
+    const fetchAllSavingGoals = async () => {
+      try {
+        const response = await axios.get(`${api}savingGoals/all`);
+        setSavingGoals(response.data);
+      } catch (error) {
+        handleError(error);
+      }
+    };
+    fetchAllSavingGoals();
+  },[]);
   return (
     <div className="savingGoals">
       <div className="newGoals">
@@ -28,56 +43,25 @@ const SavingGoals = () => {
         <button onClick={() => setOpen(true)}>Add New Goal</button>
       </div>
       <div className="goals">
-        <Link to={"/dashboard/savingGoal/1"} className="box" key="1">
+       
+      {savingGoals.map((savingGoal) => (
+        <Link to={`/dashboard/savingGoal/${savingGoal.id}`} className="box" key={savingGoal.id}>
           <div className="theme">
             <img src="/homeImg.svg" alt="" />
-
-            <span>Dom</span>
+            <span>{savingGoal.savingGoalName}</span> 
           </div>
           <div className="amountTarget">
             <div className="amount">
               <label>Amount:</label>
-              <p>200 zł</p>
+              <p>{savingGoal.amountSaved} zł</p> 
             </div>
             <div className="target">
               <label>Target:</label>
-              <p>1000zł</p>
+              <p>{savingGoal.savingGoalAmount} zł</p> 
             </div>
           </div>
         </Link>
-        <Link to={"/dashboard/savingGoal/2"} className="box" key="2">
-          <div className="theme">
-            <img src="/games.svg" alt="" />
-            <span>Entertainment</span>
-          </div>
-          <div className="amountTarget">
-            <div className="amount">
-              <label>Amount:</label>
-              <p>599 zł</p>
-            </div>
-            <div className="target">
-              <label>Target:</label>
-              <p>1000zł</p>
-            </div>
-          </div>
-        </Link>
-        <Link to={"/dashboard/savingGoal/3"} className="box" key="3">
-          <div className="theme">
-            <img src="/car.svg" alt="" />
-
-            <span>Car</span>
-          </div>
-          <div className="amountTarget">
-            <div className="amount">
-              <label>Amount:</label>
-              <p>6000 zł</p>
-            </div>
-            <div className="target">
-              <label>Target:</label>
-              <p>50000zł</p>
-            </div>
-          </div>
-        </Link>
+      ))}
       </div>
       {open && (
         <AddNewGoal
