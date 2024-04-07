@@ -14,5 +14,6 @@ public class SavingGoalRequest {
     private String savingGoalName;
     private double savingGoalAmount;
     private double amountSaved;
+    private String svgContent;
 }
 

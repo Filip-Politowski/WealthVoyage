@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import "./authComponents.scss";
-import { Link, useNavigate } from "react-router-dom";
-import axios, { AxiosResponse } from "axios";
+import { Link } from "react-router-dom";
 import { useAuth } from "../../context/useAuth";
 
 const Register = () => {

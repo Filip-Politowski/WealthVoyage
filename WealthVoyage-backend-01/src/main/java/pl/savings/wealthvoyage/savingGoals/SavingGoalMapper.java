@@ -16,6 +16,7 @@ public class SavingGoalMapper {
                 .savingGoalName(request.getSavingGoalName())
                 .savingGoalAmount(request.getSavingGoalAmount())
                 .amountSaved(request.getAmountSaved())
+                .svgContent(request.getSvgContent())
                 .build();
     }
 
@@ -28,6 +29,7 @@ public class SavingGoalMapper {
                 .savingGoalName(savingGoal.getSavingGoalName())
                 .savingGoalAmount(savingGoal.getSavingGoalAmount())
                 .amountSaved(savingGoal.getAmountSaved())
+                .svgContent(savingGoal.getSvgContent())
                 .build();
     }
 

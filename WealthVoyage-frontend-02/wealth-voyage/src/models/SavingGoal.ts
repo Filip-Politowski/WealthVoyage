@@ -1,7 +1,7 @@
 export type SavingGoal = {
-        id:number;
-        savingGoalName:string;
-        savingGoalAmount:number;
-        amountSaved:number;
-
-}
+  id: number;
+  savingGoalName: string;
+  savingGoalAmount: number;
+  amountSaved: number;
+  svgContent: string;
+};

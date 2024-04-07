@@ -7,19 +7,7 @@ import { SavingGoal } from "../../models/SavingGoal";
 import { handleError } from "../../helpers/ErrorHandler";
 import axios from "axios";
 
-const columns: GridColDef[] = [
-  { field: "id", headerName: "ID", width: 90 },
-  {
-    field: "goalName",
-    headerName: "Goal name",
-    type: "string",
-  },
-  {
-    field: "amount",
-    headerName: "Amount",
-    type: "number",
-  },
-];
+
 const api = "http://localhost:8080/api/";
 
 const SavingGoals = () => {
@@ -35,7 +23,7 @@ const SavingGoals = () => {
       }
     };
     fetchAllSavingGoals();
-  },[]);
+  },[open]);
   return (
     <div className="savingGoals">
       <div className="newGoals">
@@ -66,7 +54,6 @@ const SavingGoals = () => {
       {open && (
         <AddNewGoal
           setOpen={setOpen}
-          columns={columns}
           slug="Goal"
           images={[
             "/money.svg",

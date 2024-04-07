@@ -1,10 +1,13 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./addNewGoal.scss";
-import { GridColDef } from "@mui/x-data-grid";
 import Slider from "../utils/slider/Slider";
+import { SavingGoal } from "../../models/SavingGoal";
+import axios from "axios";
+import { handleError } from "../../helpers/ErrorHandler";
+import { useNavigate } from "react-router-dom";
+const api = "http://localhost:8080/api/";
 
 type Props = {
-  columns: GridColDef[];
   slug: string;
   images: string[];
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -13,11 +16,29 @@ type Props = {
 const AddNewGoal = (props: Props) => {
   const [showImagePicker, setShowImagePicker] = useState(false);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
-
+  const [savingGoal, SetSavingGoal] = useState<SavingGoal>({
+    id: 0,
+    savingGoalName: "",
+    savingGoalAmount: 0,
+    amountSaved: 0,
+    svgContent: "",
+  });
+ 
+  
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const finalImage = selectedImage || props.images[0];
-    console.log("Submitted with image:", finalImage);
+    
+
+    axios
+      .post(`${api}savingGoals/add`, savingGoal)
+      .then((response) => {
+        console.log(response.data);
+        props.setOpen(false);
+        
+      })
+      .catch((error) => {
+        handleError(error);
+      });
   };
 
   const handleDefaultImageClick = () => {
@@ -35,6 +56,15 @@ const AddNewGoal = (props: Props) => {
     setIsChecked(!isChecked);
     console.log(isChecked);
   };
+  const handleAddNewGoalDataChange = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const { name, value } = e.target;
+    SetSavingGoal((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
 
   return (
     <div className="addNewGoal">
@@ -51,14 +81,27 @@ const AddNewGoal = (props: Props) => {
         </div>
         <h1>Add New {props.slug}</h1>
         <form onSubmit={handleSubmit}>
-          {props.columns
-            .filter((item) => item.field !== "id")
-            .map((column) => (
-              <div className="item">
-                <label>{column.headerName}</label>
-                <input type={column.type} placeholder={column.field} min={0}></input>
-              </div>
-            ))}
+          <div className="item">
+            <label>Goal Name:</label>
+            <input
+              type="text"
+              name="savingGoalName"
+              placeholder="Type saving goal name..."
+              value={savingGoal.savingGoalName}
+              onChange={handleAddNewGoalDataChange}
+            ></input>
+          </div>
+
+          <div className="item">
+            <label>First Deposit:</label>
+            <input
+              type="number"
+              name="amountSaved"
+              value={savingGoal.amountSaved}
+              onChange={handleAddNewGoalDataChange}
+              min={0}
+            ></input>
+          </div>
 
           <div className="imagePicker">
             {showImagePicker && (
@@ -91,7 +134,14 @@ const AddNewGoal = (props: Props) => {
           </div>
           {isChecked && (
             <div className="firstDeposit">
-              <input type="number" placeholder="Target amount [zł]" min={0}></input>
+              <input
+                type="number"
+                name="savingGoalAmount"
+                placeholder="Target amount [zł]"
+                value={savingGoal.savingGoalAmount}
+                onChange={handleAddNewGoalDataChange}
+                min={0}
+              ></input>
             </div>
           )}
 

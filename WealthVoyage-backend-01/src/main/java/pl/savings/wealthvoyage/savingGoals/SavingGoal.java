@@ -30,6 +30,7 @@ public class SavingGoal {
     @Column(name = "amount_saved")
     private double amountSaved;
     private String username;
+    private String svgContent;
 
 
 
