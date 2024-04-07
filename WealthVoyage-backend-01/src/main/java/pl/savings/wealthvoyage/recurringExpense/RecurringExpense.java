@@ -1,9 +1,6 @@
 package pl.savings.wealthvoyage.recurringExpense;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
@@ -17,8 +14,10 @@ public class RecurringExpense {
     private Long id;
     private String username;
     private String expenseName;
+    @Enumerated(EnumType.STRING)
     private ExpenseType expenseType;
     private Double amount;
+    @Enumerated(EnumType.STRING)
     private ExpenseFrequency expenseFrequency;
     private String description;
     private String paymentDate;

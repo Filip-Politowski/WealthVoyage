@@ -4,11 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
-import pl.savings.wealthvoyage.recurringExpense.RecurringExpense;
-import pl.savings.wealthvoyage.recurringExpense.RecurringExpenseMapper;
-import pl.savings.wealthvoyage.recurringExpense.RecurringExpenseRepository;
-import pl.savings.wealthvoyage.recurringExpense.RecurringExpenseResponse;
-
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -43,6 +38,13 @@ public class RecurringExpenseService {
         return recurringExpenseRepository.findAllByUsername(userDetails.getUsername()).orElseThrow(NoSuchElementException::new)
                 .stream()
                 .filter(recurringExpense -> recurringExpense.getExpenseFrequency().equals(ExpenseFrequency.MONTHLY))
+                .mapToDouble(RecurringExpense::getAmount)
+                .sum();
+    }
+    public Double getUserRecurringExpensesYearlySum(@NotNull UserDetails userDetails) {
+        return recurringExpenseRepository.findAllByUsername(userDetails.getUsername()).orElseThrow(NoSuchElementException::new)
+                .stream()
+                .filter(recurringExpense -> recurringExpense.getExpenseFrequency().equals(ExpenseFrequency.YEARLY))
                 .mapToDouble(RecurringExpense::getAmount)
                 .sum();
     }
