@@ -19,6 +19,8 @@ const ProfileInformation = () => {
   const [numberOfLoans, setNumberOfLoans] = useState(0);
   const [regularMonthlyIncome, setRegularMonthlyIncome] = useState<number>(0);
   const [totalSaving, setTotalSaving] = useState<number>(0);
+  const [recurringMonthlyExpense, setRecurringMonthlyExpense] = useState(0);
+  const [recurringYearlyExpense, setRecurringYearlyExpense] = useState(0);
 
   const [profileImage, setProfileImage] = useState<any>(
     "https://avatars.githubusercontent.com/u/117862850?v=4"
@@ -113,46 +115,94 @@ const ProfileInformation = () => {
     fetchNumberOfInstallments();
   }, [logout]);
 
+  useEffect(() => {
+    const fetchNumberOfRecurringMonthlyExpense = async () => {
+      try {
+        const response = await axios.get<number>(
+          `${api}recurringExpenses/monthlySum`
+        );
+        setRecurringMonthlyExpense(response.data);
+      } catch (error) {
+        handleError(error);
+        if (handleError(error) === "403") {
+          logout();
+        }
+      }
+    };
+    fetchNumberOfRecurringMonthlyExpense();
+  }, [logout]);
+  useEffect(() => {
+    const fetchNumberOfRecurringMonthlyExpense = async () => {
+      try {
+        const response = await axios.get<number>(
+          `${api}recurringExpenses/yearlySum`
+        );
+        setRecurringYearlyExpense(response.data);
+      } catch (error) {
+        handleError(error);
+        if (handleError(error) === "403") {
+          logout();
+        }
+      }
+    };
+    fetchNumberOfRecurringMonthlyExpense();
+  }, [logout]);
+
   return (
     <div className="profileInformation">
-      <img src={profileImage} alt="profile" onClick={handleImageClick} />
-      <h1>{user.firstName}</h1>
-      <input
-        type="file"
-        onChange={(e) => base64ConversionForImages(e)}
-        ref={fileInputRef}
-      />
-
-      <h2>Profile information:</h2>
-
-      <p>
-        <strong>First name: </strong>
-        {user.firstName}
-      </p>
-      <p>
-        <strong>Last Name: </strong>
-        {user.lastName}
-      </p>
-      <p>
-        <strong>e-mail: </strong>
-        {user.email}
-      </p>
+      <div className="mainInformation">
+        <img src={profileImage} alt="profile" onClick={handleImageClick} />
+        <input
+          type="file"
+          onChange={(e) => base64ConversionForImages(e)}
+          ref={fileInputRef}
+        />
+        <div className="profileHeaderInformation">
+          <div className="fullName">
+            <h1>
+              {user.firstName} {user.lastName}
+            </h1>
+          </div>
+          <div className="profileDetails">
+            <div className="username">
+              <img src="/profile.svg" alt="" />
+              <p>{user.username}</p>
+            </div>
+            <div className="userEmail">
+              <img src="/email.svg" alt="" />
+              <p>{user.email}</p>
+            </div>
+          </div>
+        </div>
+      </div>
       <hr />
-      <p>
-        <strong>Regular monthly income: </strong>
-        {regularMonthlyIncome} zł
-      </p>
-      <p>
-        <strong>Total savings: </strong>
-        {totalSaving} zł
-      </p>
-      <p>
-        <strong>Number of loans held: </strong>
-        {numberOfLoans}
-      </p>
-      <p>
-        <strong>Fixed monthly expenses: </strong>
-      </p>
+      <div className="financialContainer">
+        <div className="financialDescription">
+          <h5>BASIC FINANCIAL INFORMATION</h5>
+        </div>
+        <div className="financialInformation">
+          <p>
+            Regular monthly income:
+            <strong> {regularMonthlyIncome} zł</strong>
+          </p>
+          <p>
+            Total savings:
+            <strong> {totalSaving} zł</strong>
+          </p>
+          <p>
+            Number of loans held:
+            <strong> {numberOfLoans}</strong>
+          </p>
+          <p>
+            Fixed monthly expenses:
+            <strong> {recurringMonthlyExpense} zł</strong>
+          </p>
+          <p>
+            Fixed yearly expenses:
+            <strong> {recurringYearlyExpense} zł</strong>
+          </p>
+        </div>
+      </div>
     </div>
   );
 };
