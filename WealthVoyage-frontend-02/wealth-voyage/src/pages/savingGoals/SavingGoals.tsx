@@ -35,7 +35,7 @@ const SavingGoals = () => {
       {savingGoals.map((savingGoal) => (
         <Link to={`/dashboard/savingGoal/${savingGoal.id}`} className="box" key={savingGoal.id}>
           <div className="theme">
-            <img src="/homeImg.svg" alt="" />
+            <img src={savingGoal.svgContent} alt="" />
             <span>{savingGoal.savingGoalName}</span> 
           </div>
           <div className="amountTarget">

@@ -15,7 +15,7 @@ type Props = {
 
 const AddNewGoal = (props: Props) => {
   const [showImagePicker, setShowImagePicker] = useState(false);
-  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [selectedImage, setSelectedImage] = useState<string>("");
   const [savingGoal, SetSavingGoal] = useState<SavingGoal>({
     id: 0,
     savingGoalName: "",
@@ -23,23 +23,12 @@ const AddNewGoal = (props: Props) => {
     amountSaved: 0,
     svgContent: "",
   });
- 
-  
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    
-
-    axios
-      .post(`${api}savingGoals/add`, savingGoal)
-      .then((response) => {
-        console.log(response.data);
-        props.setOpen(false);
-        
-      })
-      .catch((error) => {
-        handleError(error);
-      });
-  };
+  useEffect(() => {
+    SetSavingGoal((prevData) => ({
+      ...prevData,
+      svgContent: selectedImage,
+    }));
+  }, [selectedImage]);
 
   const handleDefaultImageClick = () => {
     setShowImagePicker(true);
@@ -64,6 +53,20 @@ const AddNewGoal = (props: Props) => {
       ...prevData,
       [name]: value,
     }));
+  };
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    axios
+      .post(`${api}savingGoals/add`, savingGoal)
+      .then((response) => {
+        console.log(response.data);
+        props.setOpen(false);
+      })
+      .catch((error) => {
+        handleError(error);
+      });
   };
 
   return (
