@@ -2,18 +2,25 @@ import React, { useEffect, useRef, useState } from "react";
 import ProgressBar from "../utils/progressBar/ProgressBar";
 import "./singleViewGoal.scss";
 import ThreeDots from "../utils/threeDots/ThreeDots";
+import { UserSavingGoal } from "../../models/UserSavingGoal";
+import axios from "axios";
+import { Link, useParams } from "react-router-dom";
+import { handleError } from "../../helpers/ErrorHandler";
+const api = "http://localhost:8080/api/";
 
 type Props = {
-  id: number;
-  savingGoalName: string;
-  savingGoalAmount: number;
-  amountSaved: number;
-  savingsProgression: number;
+  savingGoal: UserSavingGoal;
 };
 
 const SingleViewGoal = (props: Props) => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
   const settingsWindowRef = useRef<HTMLDivElement>(null);
+  const goalPercentageProgress: any = (
+    (props.savingGoal.amountSaved / props.savingGoal.savingGoalAmount) *
+    100
+  ).toFixed(2);
+
+  const { id } = useParams();
 
   useEffect(() => {
     const handleOutsideClick = (event: MouseEvent) => {
@@ -30,7 +37,20 @@ const SingleViewGoal = (props: Props) => {
     return () => {
       document.body.removeEventListener("click", handleOutsideClick);
     };
-  }, []); 
+  }, []);
+
+  const handleDeleteOnClick = () => {
+    const deleteUserSavingGoal = async () => {
+      try {
+        await axios.delete(`${api}savingGoals/delete/${id}`);
+       
+      } catch (error) {
+        handleError(error);
+      }
+    };
+    deleteUserSavingGoal();
+   
+  };
 
   return (
     <div className="singleViewGoal">
@@ -38,8 +58,8 @@ const SingleViewGoal = (props: Props) => {
         <div className="info">
           <div className="topInfo">
             <div className="imgTitle">
-              <h1>{props.savingGoalName}</h1>
-              <img src="/car.svg" alt="" />
+              <h1>{props.savingGoal.savingGoalName}</h1>
+              <img src={props.savingGoal.svgContent} alt="" />
               <h1>Goal details:</h1>
             </div>
             <div className="settingsDots" ref={settingsWindowRef}>
@@ -49,7 +69,9 @@ const SingleViewGoal = (props: Props) => {
                   <p>Change name of goal</p>
                   <p>Change Target</p>
                   <p>Change image</p>
-                  <p>Delete goal</p>
+                  <Link to="/dashboard/savingGoals">
+                    <p onClick={handleDeleteOnClick}>Delete goal</p>
+                  </Link>
                 </div>
               )}
             </div>
@@ -58,21 +80,14 @@ const SingleViewGoal = (props: Props) => {
             <div className="rowDetails">
               <p> Target:</p>
               <p>
-                <b>{props.savingGoalAmount} zł</b>
+                <b>{props.savingGoal.savingGoalAmount} zł</b>
               </p>
             </div>
             <hr />
             <div className="rowDetails">
               <p>Amount saved:</p>
               <p>
-                <b>{props.amountSaved} zł</b>
-              </p>
-            </div>
-            <hr />
-            <div className="rowDetails">
-              <p>Savings progression:</p>
-              <p>
-                <b>{props.savingsProgression}%</b>
+                <b>{props.savingGoal.amountSaved} zł</b>
               </p>
             </div>
             <hr />
@@ -81,7 +96,10 @@ const SingleViewGoal = (props: Props) => {
 
         <div className="progressContainer">
           <div className="progressDetails">
-            <ProgressBar percentage={50} color="rgb(91, 119, 145)" />
+            <ProgressBar
+              percentage={goalPercentageProgress}
+              color="rgb(91, 119, 145)"
+            />
             <span>Goal progress</span>
           </div>
         </div>

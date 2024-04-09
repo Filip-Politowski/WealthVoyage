@@ -1,18 +1,16 @@
 import React, { useEffect, useState } from "react";
 import "./savingGoals.scss";
 import AddNewGoal from "../../components/add/AddNewGoal";
-import { GridColDef } from "@mui/x-data-grid";
 import { Link } from "react-router-dom";
-import { SavingGoal } from "../../models/SavingGoal";
+import { UserSavingGoal } from "../../models/UserSavingGoal";
 import { handleError } from "../../helpers/ErrorHandler";
 import axios from "axios";
-
-
 const api = "http://localhost:8080/api/";
 
 const SavingGoals = () => {
   const [open, setOpen] = useState(false);
-  const [savingGoals, setSavingGoals] = useState<SavingGoal[]>([]);
+  const [savingGoals, setSavingGoals] = useState<UserSavingGoal[]>([]);
+ 
   useEffect(() => {
     const fetchAllSavingGoals = async () => {
       try {
@@ -23,7 +21,8 @@ const SavingGoals = () => {
       }
     };
     fetchAllSavingGoals();
-  },[open]);
+  }, [open]);
+
   return (
     <div className="savingGoals">
       <div className="newGoals">
@@ -31,25 +30,28 @@ const SavingGoals = () => {
         <button onClick={() => setOpen(true)}>Add New Goal</button>
       </div>
       <div className="goals">
-       
-      {savingGoals.map((savingGoal) => (
-        <Link to={`/dashboard/savingGoal/${savingGoal.id}`} className="box" key={savingGoal.id}>
-          <div className="theme">
-            <img src={savingGoal.svgContent} alt="" />
-            <span>{savingGoal.savingGoalName}</span> 
-          </div>
-          <div className="amountTarget">
-            <div className="amount">
-              <label>Amount:</label>
-              <p>{savingGoal.amountSaved} zł</p> 
+        {savingGoals.map((savingGoal) => (
+          <Link
+            to={`/dashboard/savingGoal/${savingGoal.id}`}
+            className="box"
+            key={savingGoal.id}
+          >
+            <div className="theme">
+              <img src={savingGoal.svgContent} alt="" />
+              <span>{savingGoal.savingGoalName}</span>
             </div>
-            <div className="target">
-              <label>Target:</label>
-              <p>{savingGoal.savingGoalAmount} zł</p> 
+            <div className="amountTarget">
+              <div className="amount">
+                <label>Amount:</label>
+                <p>{savingGoal.amountSaved} zł</p>
+              </div>
+              <div className="target">
+                <label>Target:</label>
+                <p>{savingGoal.savingGoalAmount} zł</p>
+              </div>
             </div>
-          </div>
-        </Link>
-      ))}
+          </Link>
+        ))}
       </div>
       {open && (
         <AddNewGoal

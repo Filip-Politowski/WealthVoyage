@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
 import "./addNewGoal.scss";
 import Slider from "../utils/slider/Slider";
-import { SavingGoal } from "../../models/SavingGoal";
+import { UserSavingGoal } from "../../models/UserSavingGoal";
 import axios from "axios";
 import { handleError } from "../../helpers/ErrorHandler";
-import { useNavigate } from "react-router-dom";
 const api = "http://localhost:8080/api/";
 
 type Props = {
@@ -15,8 +14,8 @@ type Props = {
 
 const AddNewGoal = (props: Props) => {
   const [showImagePicker, setShowImagePicker] = useState(false);
-  const [selectedImage, setSelectedImage] = useState<string>("");
-  const [savingGoal, SetSavingGoal] = useState<SavingGoal>({
+  const [selectedImage, setSelectedImage] = useState<string>("/money.svg");
+  const [savingGoal, SetSavingGoal] = useState<UserSavingGoal>({
     id: 0,
     savingGoalName: "",
     savingGoalAmount: 0,

@@ -1,6 +1,6 @@
 import "./installmentSingleView.scss";
 import ProgressBar from "../utils/progressBar/ProgressBar";
-import { useNavigate } from "react-router-dom";
+
 
 type Props = {
   id: number;

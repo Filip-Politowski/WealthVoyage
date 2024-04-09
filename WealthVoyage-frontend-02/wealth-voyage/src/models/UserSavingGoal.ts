@@ -1,4 +1,4 @@
-export type SavingGoal = {
+export type UserSavingGoal = {
   id: number;
   savingGoalName: string;
   savingGoalAmount: number;
