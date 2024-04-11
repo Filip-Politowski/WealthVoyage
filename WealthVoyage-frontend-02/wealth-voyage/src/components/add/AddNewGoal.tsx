@@ -22,6 +22,15 @@ const AddNewGoal = (props: Props) => {
     amountSaved: 0,
     svgContent: "",
   });
+
+  const [wrongGoalName, setWrongGoalName] = useState(false);
+  const [isChecked, setIsChecked] = useState(false);
+  const [targetValueIsZero, setTargetValueIsZero] = useState(false);
+  const [
+    targetValueIsLowerThanAmountSaved,
+    setTargetValueIsLowerThanAmountSaved,
+  ] = useState(false);
+
   useEffect(() => {
     SetSavingGoal((prevData) => ({
       ...prevData,
@@ -38,12 +47,11 @@ const AddNewGoal = (props: Props) => {
     setShowImagePicker(false);
   };
 
-  const [isChecked, setIsChecked] = useState(false);
-
   const handleToggleChange = () => {
     setIsChecked(!isChecked);
     console.log(isChecked);
   };
+
   const handleAddNewGoalDataChange = (
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
@@ -52,10 +60,46 @@ const AddNewGoal = (props: Props) => {
       ...prevData,
       [name]: value,
     }));
+
+    if (value !== "" && name === "savingGoalName") {
+      setWrongGoalName(false);
+    }
+    if (value !== "" && name === "savingGoalAmount") {
+      setTargetValueIsZero(false);
+    }
+     if ( value !== "" && name === "savingGoalAmount") {
+       const targetAmount = parseInt(value)
+       const amountSaved = savingGoal.amountSaved;
+
+       setTargetValueIsLowerThanAmountSaved(amountSaved > targetAmount);
+     }
+
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+      if (savingGoal.savingGoalName.trim() === "") {
+        setWrongGoalName(true);
+        return; 
+      } else {
+        setWrongGoalName(false);
+      }
+
+    
+      if (isChecked && savingGoal.savingGoalAmount <= 0) {
+        setTargetValueIsZero(true);
+        return; 
+      } else {
+        setTargetValueIsZero(false);
+      }
+
+      if (isChecked && savingGoal.savingGoalAmount < savingGoal.amountSaved) {
+        setTargetValueIsLowerThanAmountSaved(true);
+        return; 
+      } else {
+        setTargetValueIsLowerThanAmountSaved(false);
+      }
 
     axios
       .post(`${api}savingGoals/add`, savingGoal)
@@ -92,6 +136,9 @@ const AddNewGoal = (props: Props) => {
               value={savingGoal.savingGoalName}
               onChange={handleAddNewGoalDataChange}
             ></input>
+            {wrongGoalName && (
+              <p className="wrongSavingInput">Goal name cannot be empty</p>
+            )}
           </div>
 
           <div className="item">
@@ -144,6 +191,16 @@ const AddNewGoal = (props: Props) => {
                 onChange={handleAddNewGoalDataChange}
                 min={0}
               ></input>
+              {targetValueIsZero && (
+                <p className="wrongSavingInput">
+                  Target value cannot be equals 0
+                </p>
+              )}
+              {targetValueIsLowerThanAmountSaved && (
+                <p className="wrongSavingInput">
+                  Target value cannot be lower than amount saved (first deposit)
+                </p>
+              )}
             </div>
           )}
 

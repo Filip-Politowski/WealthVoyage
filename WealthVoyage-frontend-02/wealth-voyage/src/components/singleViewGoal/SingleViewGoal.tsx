@@ -6,6 +6,7 @@ import { UserSavingGoal } from "../../models/UserSavingGoal";
 import axios from "axios";
 import { Link, useParams } from "react-router-dom";
 import { handleError } from "../../helpers/ErrorHandler";
+import { useSavingGoalContext } from "../../context/SavingGoalContext";
 const api = "http://localhost:8080/api/";
 
 type Props = {
@@ -15,12 +16,14 @@ type Props = {
 const SingleViewGoal = (props: Props) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const settingsWindowRef = useRef<HTMLDivElement>(null);
+
   const goalPercentageProgress: any = (
-    (props.savingGoal.amountSaved / props.savingGoal.savingGoalAmount) *
+    (props.savingGoal.amountSaved / props.savingGoal?.savingGoalAmount) *
     100
-  ).toFixed(2);
+  ).toFixed(0);
 
   const { id } = useParams();
+  const { openTest, setOpenTest } = useSavingGoalContext();
 
   useEffect(() => {
     const handleOutsideClick = (event: MouseEvent) => {
@@ -43,13 +46,13 @@ const SingleViewGoal = (props: Props) => {
     const deleteUserSavingGoal = async () => {
       try {
         await axios.delete(`${api}savingGoals/delete/${id}`);
-       
+        setOpenTest(!openTest);
       } catch (error) {
         handleError(error);
       }
     };
+
     deleteUserSavingGoal();
-   
   };
 
   return (
@@ -77,12 +80,14 @@ const SingleViewGoal = (props: Props) => {
             </div>
           </div>
           <div className="details">
-            <div className="rowDetails">
-              <p> Target:</p>
-              <p>
-                <b>{props.savingGoal.savingGoalAmount} zł</b>
-              </p>
-            </div>
+            {props.savingGoal.savingGoalAmount !== 0 && (
+              <div className="rowDetails">
+                <p> Target:</p>
+                <p>
+                  <b>{props.savingGoal.savingGoalAmount} zł</b>
+                </p>
+              </div>
+            )}
             <hr />
             <div className="rowDetails">
               <p>Amount saved:</p>
@@ -93,17 +98,17 @@ const SingleViewGoal = (props: Props) => {
             <hr />
           </div>
         </div>
-
-        <div className="progressContainer">
-          <div className="progressDetails">
-            <ProgressBar
-              percentage={goalPercentageProgress}
-              color="rgb(91, 119, 145)"
-            />
-            <span>Goal progress</span>
+        {props.savingGoal.savingGoalAmount !== 0 && (
+          <div className="progressContainer">
+            <div className="progressDetails">
+              <ProgressBar
+                percentage={goalPercentageProgress}
+                color="rgb(91, 119, 145)"
+              />
+              <span>Goal progress</span>
+            </div>
           </div>
-        </div>
-
+        )}
         <div className="buttonsSection">
           <button>Deposit</button>
           <button>Pay out</button>

@@ -63,6 +63,10 @@
       max-width: 480px;
       justify-content: space-between;
 
+      .wrongSavingInput {
+        color: $element-color-3;
+      }
+
       .item {
         width: 40%;
         display: flex;

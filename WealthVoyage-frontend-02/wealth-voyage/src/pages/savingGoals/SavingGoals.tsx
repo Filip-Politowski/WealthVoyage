@@ -5,12 +5,14 @@ import { Link } from "react-router-dom";
 import { UserSavingGoal } from "../../models/UserSavingGoal";
 import { handleError } from "../../helpers/ErrorHandler";
 import axios from "axios";
+import { useSavingGoalContext } from "../../context/SavingGoalContext";
 const api = "http://localhost:8080/api/";
 
 const SavingGoals = () => {
   const [open, setOpen] = useState(false);
   const [savingGoals, setSavingGoals] = useState<UserSavingGoal[]>([]);
- 
+  const { openTest } = useSavingGoalContext();
+
   useEffect(() => {
     const fetchAllSavingGoals = async () => {
       try {
@@ -21,7 +23,7 @@ const SavingGoals = () => {
       }
     };
     fetchAllSavingGoals();
-  }, [open]);
+  }, [open, openTest]);
 
   return (
     <div className="savingGoals">
@@ -45,10 +47,12 @@ const SavingGoals = () => {
                 <label>Amount:</label>
                 <p>{savingGoal.amountSaved} zł</p>
               </div>
-              <div className="target">
-                <label>Target:</label>
-                <p>{savingGoal.savingGoalAmount} zł</p>
-              </div>
+              {savingGoal.savingGoalAmount !== 0 && (
+                <div className="target">
+                  <label>Target:</label>
+                  <p>{savingGoal.savingGoalAmount} zł</p>
+                </div>
+              )}
             </div>
           </Link>
         ))}

@@ -4,6 +4,7 @@ import { UserSavingGoal } from "../../models/UserSavingGoal";
 import { handleError } from "../../helpers/ErrorHandler";
 import { useParams } from "react-router-dom";
 import axios from "axios";
+
 const api = "http://localhost:8080/api/";
 
 const SavingGoal = () => {
@@ -14,6 +15,8 @@ const SavingGoal = () => {
     amountSaved: 0,
     svgContent: "",
   });
+
+
 
   const { id } = useParams();
 

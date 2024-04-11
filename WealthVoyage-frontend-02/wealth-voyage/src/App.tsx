@@ -18,6 +18,7 @@ import Register from "./components/authComponents/Register";
 import Home from "./pages/home/Home";
 import { UserProvider } from "./context/useAuth";
 import ProtectedRoute from "./routes/ProtectedRoutes";
+import { SavingGoalContextProvider } from "./context/SavingGoalContext";
 
 function App() {
   const Layout = () => {
@@ -60,7 +61,9 @@ function App() {
           path: "/dashboard/savingGoals",
           element: (
             <ProtectedRoute>
-              <SavingGoals />
+              <SavingGoalContextProvider>
+                <SavingGoals />
+              </SavingGoalContextProvider>
             </ProtectedRoute>
           ),
         },
@@ -68,7 +71,9 @@ function App() {
           path: "/dashboard/savingGoal/:id",
           element: (
             <ProtectedRoute>
-              <SavingGoal />
+              <SavingGoalContextProvider>
+                <SavingGoal />
+              </SavingGoalContextProvider>
             </ProtectedRoute>
           ),
         },
