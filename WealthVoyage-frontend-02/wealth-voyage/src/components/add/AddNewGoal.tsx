@@ -182,7 +182,7 @@ const AddNewGoal = (props: Props) => {
             </div>
           </div>
           {isChecked && (
-            <div className="firstDeposit">
+            <div className="savingsTarget">
               <input
                 type="number"
                 name="savingGoalAmount"

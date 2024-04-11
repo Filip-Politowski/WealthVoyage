@@ -66,6 +66,7 @@
       .wrongSavingInput {
         color: $element-color-3;
       }
+       
 
       .item {
         width: 40%;
@@ -113,9 +114,11 @@
           width: 100%;
         }
       }
-      .firstDeposit {
+   
+      .savingsTarget {
         width: 100%;
         margin-bottom: 20px;
+       
         input {
           padding: 10px;
           background-color: transparent;
@@ -123,6 +126,9 @@
           outline: none;
           border: 1px solid $element-color-1;
           border-radius: 3px;
+        }
+        p{
+         margin-top: 10px;
         }
       }
     }
