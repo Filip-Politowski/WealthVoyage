@@ -11,7 +11,7 @@ type Props = {
   savingGoal: UserSavingGoal;
 };
 const UpdateSavingGoal = (props: Props) => {
-  const [savingGoal, SetSavingGoal] = useState<UserSavingGoal>({
+  const [savingGoal, setSavingGoal] = useState<UserSavingGoal>({
     id: props.savingGoal.id,
     savingGoalName: props.savingGoal.savingGoalName,
     savingGoalAmount: props.savingGoal.savingGoalAmount,
@@ -25,7 +25,7 @@ const UpdateSavingGoal = (props: Props) => {
   const [showImagePicker, setShowImagePicker] = useState(false);
 
   useEffect(() => {
-    SetSavingGoal((prevData) => ({
+    setSavingGoal((prevData) => ({
       ...prevData,
       svgContent: selectedImage,
     }));
@@ -44,7 +44,7 @@ const UpdateSavingGoal = (props: Props) => {
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
     const { name, value } = e.target;
-    SetSavingGoal((prevData) => ({
+    setSavingGoal((prevData) => ({
       ...prevData,
       [name]: value,
     }));

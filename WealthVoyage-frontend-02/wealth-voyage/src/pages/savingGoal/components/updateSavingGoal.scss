@@ -23,7 +23,7 @@
     border-radius: 10px;
     background-color: $main-bg;
     position: relative;
-   
+
     .goalImage {
       display: flex;
       justify-content: center;
@@ -34,7 +34,7 @@
         cursor: pointer;
       }
     }
-     .imagePicker {
+    .imagePicker {
       width: 100%;
       display: flex;
       margin-bottom: 20px;
@@ -79,26 +79,42 @@
         color: $element-color-3;
       }
 
+      input {
+        padding: 10px;
+        background-color: transparent;
+        color: $element-color-3;
+        outline: none;
+        border: 1px solid $element-color-1;
+        border-radius: 3px;
+      }
+      label {
+        font-size: 14px;
+      }
+
       .item {
         width: 40%;
         display: flex;
         flex-direction: column;
         gap: 10px;
         margin-bottom: 10px;
-
-        label {
-          font-size: 14px;
+      }
+      .deposit {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        margin-bottom: 10px;
+        img {
+          margin: auto;
+          width: 140px;
+          height: 140px;
         }
-
-        input {
-          padding: 10px;
-          background-color: transparent;
+        h3{
           color: $element-color-3;
-          outline: none;
-          border: 1px solid $element-color-1;
-          border-radius: 3px;
+          margin: auto;
         }
       }
+
       button {
         width: 100%;
       }

@@ -8,6 +8,7 @@ import ThreeDots from "../../components/utils/threeDots/ThreeDots";
 import "./savingGoal.scss";
 import { useSavingGoalContext } from "../../context/SavingGoalContext";
 import UpdateSavingGoal from "./components/UpdateSavingGoal";
+import DepositFromSavingGoal from "./components/DepositFromSavingGoal";
 const api = "http://localhost:8080/api/";
 
 const SavingGoal = () => {
@@ -23,6 +24,8 @@ const SavingGoal = () => {
   const { deleting, setDeleting } = useSavingGoalContext();
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [isEditing, setIsEditing] = useState<boolean>(false);
+  const [isDeposit, setIsDeposit] = useState<boolean>(false);
+  const [isPayOut, setIsPayOut] = useState<boolean>(false);
   const settingsWindowRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -35,24 +38,24 @@ const SavingGoal = () => {
       }
     };
     fetchUserSavingGoal();
-  }, [id,isEditing]);
+  }, [id, isEditing, isDeposit]);
 
-   useEffect(() => {
-     const handleOutsideClick = (event: MouseEvent) => {
-       if (
-         settingsWindowRef.current &&
-         !settingsWindowRef.current.contains(event.target as Node)
-       ) {
-         setIsOpen(false);
-       }
-     };
+  useEffect(() => {
+    const handleOutsideClick = (event: MouseEvent) => {
+      if (
+        settingsWindowRef.current &&
+        !settingsWindowRef.current.contains(event.target as Node)
+      ) {
+        setIsOpen(false);
+      }
+    };
 
-     document.body.addEventListener("click", handleOutsideClick);
+    document.body.addEventListener("click", handleOutsideClick);
 
-     return () => {
-       document.body.removeEventListener("click", handleOutsideClick);
-     };
-   }, []);
+    return () => {
+      document.body.removeEventListener("click", handleOutsideClick);
+    };
+  }, []);
 
   const goalPercentageProgress: any = (
     (userSavingGoal.amountSaved / userSavingGoal?.savingGoalAmount) *
@@ -80,7 +83,6 @@ const SavingGoal = () => {
             <div className="topInfo">
               <div className="imgTitle">
                 <h1>{userSavingGoal.savingGoalName}</h1>
-
                 <img src={userSavingGoal.svgContent} alt="" />
                 <h1>Goal details:</h1>
               </div>
@@ -127,12 +129,20 @@ const SavingGoal = () => {
             </div>
           )}
           <div className="buttonsSection">
-            <button>Deposit</button>
+            <button onClick={() => setIsDeposit(true)}>Deposit</button>
             <button>Pay out</button>
           </div>
         </div>
       </div>
-      {isEditing && <UpdateSavingGoal setIsEditing={setIsEditing} savingGoal={userSavingGoal}></UpdateSavingGoal>}
+      {isEditing && (
+        <UpdateSavingGoal
+          setIsEditing={setIsEditing}
+          savingGoal={userSavingGoal}
+        ></UpdateSavingGoal>
+      )}
+      {isDeposit && (
+        <DepositFromSavingGoal savingGoal={userSavingGoal} setIsDeposit={setIsDeposit} />
+      )}
     </div>
   );
 };
