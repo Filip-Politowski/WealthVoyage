@@ -1,25 +1,46 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../components/updateSavingGoal.scss";
 import { UserSavingGoal } from "../../../models/UserSavingGoal";
 import axios from "axios";
-import { handleError } from "../../../helpers/ErrorHandler"
+import { handleError } from "../../../helpers/ErrorHandler";
+import { savingGoalImages } from "../../../data";
 const api = "http://localhost:8080/api/";
 
 type Props = {
- setIsEditing: React.Dispatch<React.SetStateAction<boolean>>;
- savingGoal: UserSavingGoal;
+  setIsEditing: React.Dispatch<React.SetStateAction<boolean>>;
+  savingGoal: UserSavingGoal;
 };
 const UpdateSavingGoal = (props: Props) => {
+  const [savingGoal, SetSavingGoal] = useState<UserSavingGoal>({
+    id: props.savingGoal.id,
+    savingGoalName: props.savingGoal.savingGoalName,
+    savingGoalAmount: props.savingGoal.savingGoalAmount,
+    amountSaved: props.savingGoal.amountSaved,
+    svgContent: props.savingGoal.svgContent,
+  });
 
-const [savingGoal, SetSavingGoal] = useState<UserSavingGoal>({
-  id: props.savingGoal.id,
-  savingGoalName: props.savingGoal.savingGoalName,
-  savingGoalAmount: props.savingGoal.savingGoalAmount,
-  amountSaved: props.savingGoal.amountSaved ,
-  svgContent: props.savingGoal.svgContent,
-});
+  const [selectedImage, setSelectedImage] = useState<string>(
+    savingGoal.svgContent
+  );
+  const [showImagePicker, setShowImagePicker] = useState(false);
 
-const handleUpdateNewGoalDataChange = (
+  useEffect(() => {
+    SetSavingGoal((prevData) => ({
+      ...prevData,
+      svgContent: selectedImage,
+    }));
+  }, [selectedImage]);
+
+  const handleDefaultImageClick = () => {
+    setShowImagePicker(true);
+  };
+
+  const handleImageClick = (image: string) => {
+    setSelectedImage(image);
+    setShowImagePicker(false);
+  };
+
+  const handleUpdateNewGoalDataChange = (
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
     const { name, value } = e.target;
@@ -27,19 +48,18 @@ const handleUpdateNewGoalDataChange = (
       ...prevData,
       [name]: value,
     }));
-  }
-const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  };
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     axios
       .put(`${api}savingGoals/update/${savingGoal.id}`, savingGoal)
-      .then((response) => {
-        console.log(response.data);
+      .then(() => {
         props.setIsEditing(false);
       })
       .catch((error) => {
         handleError(error);
       });
-}
+  };
 
   return (
     <div className="updateSavingGoal">
@@ -48,6 +68,28 @@ const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         <span className="close" onClick={() => props.setIsEditing(false)}>
           X
         </span>
+        <div className="goalImage">
+          <img
+            src={selectedImage || savingGoal.svgContent}
+            alt={selectedImage ? "Selected Image" : "actual image"}
+            onClick={handleDefaultImageClick}
+          />
+        </div>
+        <div className="imagePicker">
+          {showImagePicker && (
+            <div className="additionalImages">
+              {savingGoalImages.map((image, index) => (
+                // eslint-disable-next-line jsx-a11y/img-redundant-alt
+                <img
+                  key={index}
+                  src={image}
+                  alt={`Image ${index}`}
+                  onClick={() => handleImageClick(image)}
+                />
+              ))}
+            </div>
+          )}
+        </div>
         <form onSubmit={handleSubmit}>
           <div className="item">
             <label>Update Goal Name:</label>
@@ -61,11 +103,11 @@ const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
           <div className="item">
             <label>Update Goal Target:</label>
             <input
-             type="number"
-             name="savingGoalAmount"
-             value={savingGoal.savingGoalAmount}
-             onChange={handleUpdateNewGoalDataChange}
-             />
+              type="number"
+              name="savingGoalAmount"
+              value={savingGoal.savingGoalAmount}
+              onChange={handleUpdateNewGoalDataChange}
+            />
           </div>
 
           <button>Accept Changes</button>

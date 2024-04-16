@@ -30,7 +30,6 @@ const SavingGoal = () => {
       try {
         const response = await axios.get(`${api}savingGoals/get/${id}`);
         setUserSavingGoal(response.data);
-        console.log(userSavingGoal);
       } catch (error) {
         handleError(error);
       }
@@ -59,8 +58,6 @@ const SavingGoal = () => {
     (userSavingGoal.amountSaved / userSavingGoal?.savingGoalAmount) *
     100
   ).toFixed();
-
- 
 
   const handleDeleteOnClick = () => {
     const deleteUserSavingGoal = async () => {
@@ -92,7 +89,6 @@ const SavingGoal = () => {
                 {isOpen && (
                   <div className="settingsWindow">
                     <p onClick={() => setIsEditing(true)}>Edit Goal</p>
-                    <p>Change image</p>
                     <Link to="/dashboard/savingGoals">
                       <p onClick={handleDeleteOnClick}>Delete goal</p>
                     </Link>
