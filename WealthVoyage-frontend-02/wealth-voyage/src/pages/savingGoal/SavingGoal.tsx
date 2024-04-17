@@ -8,7 +8,7 @@ import ThreeDots from "../../components/utils/threeDots/ThreeDots";
 import "./savingGoal.scss";
 import { useSavingGoalContext } from "../../context/SavingGoalContext";
 import UpdateSavingGoal from "./components/UpdateSavingGoal";
-import DepositFromSavingGoal from "./components/DepositFromSavingGoal";
+import DepositPayOutFromSavingGoal from "./components/DepositPayOutFromSavingGoal";
 const api = "http://localhost:8080/api/";
 
 const SavingGoal = () => {
@@ -38,7 +38,7 @@ const SavingGoal = () => {
       }
     };
     fetchUserSavingGoal();
-  }, [id, isEditing, isDeposit]);
+  }, [id, isEditing, isDeposit, isPayOut]);
 
   useEffect(() => {
     const handleOutsideClick = (event: MouseEvent) => {
@@ -130,7 +130,7 @@ const SavingGoal = () => {
           )}
           <div className="buttonsSection">
             <button onClick={() => setIsDeposit(true)}>Deposit</button>
-            <button>Pay out</button>
+            <button onClick={() => setIsPayOut(true)}>Pay out</button>
           </div>
         </div>
       </div>
@@ -140,8 +140,14 @@ const SavingGoal = () => {
           savingGoal={userSavingGoal}
         ></UpdateSavingGoal>
       )}
-      {isDeposit && (
-        <DepositFromSavingGoal savingGoal={userSavingGoal} setIsDeposit={setIsDeposit} />
+      {(isDeposit || isPayOut) && (
+        <DepositPayOutFromSavingGoal
+          savingGoal={userSavingGoal}
+          setIsDeposit={setIsDeposit}
+          isDeposit={isDeposit}
+          isPayOut={isPayOut}
+          setIsPayOut={setIsPayOut}
+        />
       )}
     </div>
   );

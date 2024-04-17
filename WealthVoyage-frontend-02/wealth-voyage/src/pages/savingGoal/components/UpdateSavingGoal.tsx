@@ -23,6 +23,7 @@ const UpdateSavingGoal = (props: Props) => {
     savingGoal.svgContent
   );
   const [showImagePicker, setShowImagePicker] = useState(false);
+  const [wrongGoalName, setWrongGoalName] = useState(false);
 
   useEffect(() => {
     setSavingGoal((prevData) => ({
@@ -49,8 +50,15 @@ const UpdateSavingGoal = (props: Props) => {
       [name]: value,
     }));
   };
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (savingGoal.savingGoalName.trim() === "") {
+      setWrongGoalName(true);
+      return;
+    } else {
+      setWrongGoalName(false);
+    }
     axios
       .put(`${api}savingGoals/update/${savingGoal.id}`, savingGoal)
       .then(() => {
@@ -99,6 +107,7 @@ const UpdateSavingGoal = (props: Props) => {
               value={savingGoal.savingGoalName}
               onChange={handleUpdateNewGoalDataChange}
             />
+            {wrongGoalName && <p className="error">Goal name cannot be empty</p>}
           </div>
           <div className="item">
             <label>Update Goal Target:</label>
@@ -106,6 +115,7 @@ const UpdateSavingGoal = (props: Props) => {
               type="number"
               name="savingGoalAmount"
               value={savingGoal.savingGoalAmount}
+              min={props.savingGoal.amountSaved}
               onChange={handleUpdateNewGoalDataChange}
             />
           </div>
