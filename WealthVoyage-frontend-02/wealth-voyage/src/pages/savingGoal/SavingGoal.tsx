@@ -10,6 +10,7 @@ import { useSavingGoalContext } from "../../context/SavingGoalContext";
 import UpdateSavingGoal from "./components/UpdateSavingGoal";
 import DepositPayOutFromSavingGoal from "./components/DepositPayOutFromSavingGoal";
 import DeleteElement from "../../components/delete/DeleteElement";
+import BackButton from "../../components/utils/backButton/BackButton";
 const api = "http://localhost:8080/api/";
 
 const SavingGoal = () => {
@@ -83,6 +84,7 @@ const SavingGoal = () => {
         <div className="view">
           <div className="info">
             <div className="topInfo">
+              <BackButton />
               <div className="imgTitle">
                 <h1>{userSavingGoal.savingGoalName}</h1>
                 <img src={userSavingGoal.svgContent} alt="" />
