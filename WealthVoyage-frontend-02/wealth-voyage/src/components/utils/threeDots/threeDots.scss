@@ -1,9 +1,10 @@
 .dots {
+  position: absolute;
   display: flex;
   flex-direction: column;
   gap: 3px;
-
   transition: 0.5s;
+  padding: 15px;
 
   .dot1,
   .dot2,

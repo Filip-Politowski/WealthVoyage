@@ -9,6 +9,7 @@ import "./savingGoal.scss";
 import { useSavingGoalContext } from "../../context/SavingGoalContext";
 import UpdateSavingGoal from "./components/UpdateSavingGoal";
 import DepositPayOutFromSavingGoal from "./components/DepositPayOutFromSavingGoal";
+import DeleteElement from "../../components/delete/DeleteElement";
 const api = "http://localhost:8080/api/";
 
 const SavingGoal = () => {
@@ -22,6 +23,7 @@ const SavingGoal = () => {
 
   const { id } = useParams();
   const { deleting, setDeleting } = useSavingGoalContext();
+  const [isDeleting, setIsDeleting] = useState<boolean>(false);
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const [isDeposit, setIsDeposit] = useState<boolean>(false);
@@ -62,18 +64,18 @@ const SavingGoal = () => {
     100
   ).toFixed();
 
-  const handleDeleteOnClick = () => {
-    const deleteUserSavingGoal = async () => {
-      try {
-        await axios.delete(`${api}savingGoals/delete/${id}`);
-        setDeleting(!deleting);
-      } catch (error) {
-        handleError(error);
-      }
-    };
+  // const handleDeleteOnClick = () => {
+  //   const deleteUserSavingGoal = async () => {
+  //     try {
+  //       await axios.delete(`${api}savingGoals/delete/${id}`);
+  //       setDeleting(!deleting);
+  //     } catch (error) {
+  //       handleError(error);
+  //     }
+  //   };
 
-    deleteUserSavingGoal();
-  };
+  //   deleteUserSavingGoal();
+  // };
 
   return (
     <div className="savingGoal">
@@ -91,9 +93,9 @@ const SavingGoal = () => {
                 {isOpen && (
                   <div className="settingsWindow">
                     <p onClick={() => setIsEditing(true)}>Edit Goal</p>
-                    <Link to="/dashboard/savingGoals">
-                      <p onClick={handleDeleteOnClick}>Delete goal</p>
-                    </Link>
+                    <p onClick={() => setIsDeleting(!isDeleting)}>
+                      Delete goal
+                    </p>
                   </div>
                 )}
               </div>
@@ -147,6 +149,16 @@ const SavingGoal = () => {
           isDeposit={isDeposit}
           isPayOut={isPayOut}
           setIsPayOut={setIsPayOut}
+        />
+      )}
+      {isDeleting && (
+        <DeleteElement
+          deleting={deleting}
+          describeElementToDelete="saving goal"
+          setDeleting={setDeleting}
+          endpointUrl={`${api}savingGoals/delete/${id}`}
+          setIsDeleting={setIsDeleting}
+          redirectUrl="/dashboard/savingGoals"
         />
       )}
     </div>

@@ -14,8 +14,8 @@ type Props = {
 };
 
 const DepositFromSavingGoal = (props: Props) => {
-  const [money, setMoney] = useState<number>(0);
-
+  const [money, setMoney] = useState<any>();
+  const [error, setError] = useState<string>("");
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -37,6 +37,30 @@ const DepositFromSavingGoal = (props: Props) => {
       });
   };
 
+  const handleInvalidInput = (e: any) => {
+    if (props.isDeposit) {
+      if (props.savingGoal.savingGoalAmount === 0) {
+        setError("");
+      } else {
+        setError(
+          e.target.value >
+            props.savingGoal.savingGoalAmount - props.savingGoal.amountSaved
+            ? `You can't deposit more than your stated savings goal.`
+            : ""
+        );
+      }
+    }
+    if (props.isPayOut) {
+      if (props.savingGoal.amountSaved === 0) {
+        setError(`You have 0 saved money, you cannot payout them.`);
+      } else if (e.target.value > props.savingGoal.amountSaved) {
+        setError(`You have not enough money to pay out.`);
+      } else {
+        setError("");
+      }
+    }
+  };
+
   return (
     <div className="updateSavingGoal">
       <div className="modal">
@@ -52,29 +76,45 @@ const DepositFromSavingGoal = (props: Props) => {
 
         <form onSubmit={handleSubmit}>
           <div className="deposit">
-            {props.isDeposit && <h3>Keep it going !!!</h3>}
-            {props.isPayOut && <h3>Someday they'll be back 😉</h3>}
             {props.isDeposit && (
-              <img src="/more-money.svg" alt="lot of money" />
+              <>
+                <h3>Keep it going !!!</h3>
+                <img src="/more-money.svg" alt="lot of money" />
+                <label>Specify amount of deposit</label>
+                <input
+                  type="number"
+                  name="money"
+                  value={money}
+                  min={0}
+                  max={
+                    props.savingGoal.savingGoalAmount > 0
+                      ? props.savingGoal.savingGoalAmount
+                      : Number.MAX_VALUE
+                  }
+                  onChange={(e) => setMoney(Number(e.target.value))}
+                  onInput={handleInvalidInput}
+                  onInvalid={(e) => e.preventDefault()}
+                />
+              </>
             )}
             {props.isPayOut && (
-              <img src="/money-wings.svg" alt="flaying out money" />
+              <>
+                <h3>Someday they'll be back 😉</h3>
+                <img src="/money-wings.svg" alt="flaying out money" />
+                <label>Specify amount of pay out</label>
+                <input
+                  type="number"
+                  name="money"
+                  value={money}
+                  min={0}
+                  max={props.savingGoal.amountSaved}
+                  onChange={(e) => setMoney(Number(e.target.value))}
+                  onInput={handleInvalidInput}
+                  onInvalid={(e) => e.preventDefault()}
+                />
+              </>
             )}
-            {props.isDeposit && <label>Specify amount of deposit</label>}
-            {props.isPayOut && <label>Specify amount of pay out</label>}
-            <input
-              type="number"
-              name="money"
-              value={money}
-              min={0}
-              max={
-                props.isDeposit
-                  ? props.savingGoal.savingGoalAmount -
-                    props.savingGoal.amountSaved
-                  : props.savingGoal.amountSaved
-              }
-              onChange={(e) => setMoney(Number(e.target.value))}
-            />
+            {error && <span className="wrongSavingInput">{error}</span>}
           </div>
           {props.isDeposit && <button>Deposit</button>}
           {props.isPayOut && <button>Pay out</button>}
