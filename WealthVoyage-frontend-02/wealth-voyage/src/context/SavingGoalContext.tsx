@@ -8,13 +8,13 @@ import React, {
 } from "react";
 
 interface SavingGoalContextProps {
-  openTest: boolean;
-  setOpenTest: Dispatch<SetStateAction<boolean>>;
+  deleting: boolean;
+  setDeleting: Dispatch<SetStateAction<boolean>>;
 }
 
 const SavingGoalContext = createContext<SavingGoalContextProps>({
-  openTest: false,
-  setOpenTest: () => {},
+  deleting: false,
+  setDeleting: () => {},
 });
 
 export const useSavingGoalContext = (): SavingGoalContextProps =>
@@ -26,7 +26,7 @@ export const SavingGoalContextProvider: React.FC<{ children: ReactNode }> = ({
   const [open, setOpen] = useState<boolean>(false);
 
   return (
-    <SavingGoalContext.Provider value={{ openTest: open, setOpenTest: setOpen }}>
+    <SavingGoalContext.Provider value={{ deleting: open, setDeleting: setOpen }}>
       {children}
     </SavingGoalContext.Provider>
   );

@@ -6,12 +6,13 @@ import { UserSavingGoal } from "../../models/UserSavingGoal";
 import { handleError } from "../../helpers/ErrorHandler";
 import axios from "axios";
 import { useSavingGoalContext } from "../../context/SavingGoalContext";
+import { savingGoalImages } from "../../data";
 const api = "http://localhost:8080/api/";
 
 const SavingGoals = () => {
   const [open, setOpen] = useState(false);
   const [savingGoals, setSavingGoals] = useState<UserSavingGoal[]>([]);
-  const { openTest } = useSavingGoalContext();
+  const { deleting } = useSavingGoalContext();
 
   useEffect(() => {
     const fetchAllSavingGoals = async () => {
@@ -23,7 +24,7 @@ const SavingGoals = () => {
       }
     };
     fetchAllSavingGoals();
-  }, [open, openTest]);
+  }, [open, deleting]);
 
   return (
     <div className="savingGoals">
@@ -61,14 +62,7 @@ const SavingGoals = () => {
         <AddNewGoal
           setOpen={setOpen}
           slug="Goal"
-          images={[
-            "/money.svg",
-            "/car.svg",
-            "/homeImg.svg",
-            "/bike.svg",
-            "/gift.svg",
-            "/games.svg",
-          ]}
+          images={savingGoalImages}
         />
       )}
     </div>

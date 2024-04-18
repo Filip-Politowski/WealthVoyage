@@ -413,4 +413,12 @@ export const singleGoalDetails = {
   savingsProgression: 40,
 };
 
+export const savingGoalImages = [
+  "/money.svg",
+  "/car.svg",
+  "/homeImg.svg",
+  "/bike.svg",
+  "/gift.svg",
+  "/games.svg",
+];
 

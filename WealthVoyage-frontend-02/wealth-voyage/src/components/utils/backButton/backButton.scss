@@ -1,0 +1,24 @@
+@import "../../../styles/variables.scss";
+@import "../../../styles/responsive.scss";
+.backButton {
+  position: absolute;
+  padding-top: 4px;
+  padding-bottom: 2px;
+  padding-left: 20px;
+  padding-right: 20px;
+  background-color: $element-color-2;
+  border-radius: 10px;
+  @include md {
+    background-color: transparent;
+    padding-left: 0px;
+  }
+
+  img {
+    width: 20px;
+    height: 20px;
+  }
+}
+ .backButton:hover {
+    background-color: $element-color-3;
+     transition: 0.8s;
+  }
