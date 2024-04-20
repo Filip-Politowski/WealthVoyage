@@ -10,6 +10,7 @@ export const loginAPI = async (username: string, password: string) => {
       password: password,
     });
     return data;
+    
   } catch (error) {
     handleError(error); 
   }
@@ -35,3 +36,25 @@ export const registerAPI = async (
     handleError(error);
   }
 };
+export const refreshTokenAPI = async () => {
+  try {
+    const refreshToken = localStorage.getItem("refreshToken");
+    if (!refreshToken) {
+      throw new Error("No refresh token found");
+    }
+
+    const response = await axios.post<UserProfileToken>(
+      api + "auth/refresh-token",
+      {
+        refreshToken: refreshToken,
+      }
+    );
+
+    localStorage.setItem("accessToken", response.data.accessToken);
+    return response.data.accessToken;
+  } catch (error) {
+    handleError(error);
+    throw error;
+  }
+};
+

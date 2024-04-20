@@ -11,9 +11,11 @@ import UpdateSavingGoal from "./components/UpdateSavingGoal";
 import DepositPayOutFromSavingGoal from "./components/DepositPayOutFromSavingGoal";
 import DeleteElement from "../../components/delete/DeleteElement";
 import BackButton from "../../components/utils/backButton/BackButton";
+import { useAuth } from "../../context/useAuth";
 const api = "http://localhost:8080/api/";
 
 const SavingGoal = () => {
+  
   const [userSavingGoal, setUserSavingGoal] = useState<UserSavingGoal>({
     id: 0,
     savingGoalName: "",
@@ -21,6 +23,7 @@ const SavingGoal = () => {
     amountSaved: 0,
     svgContent: "",
   });
+   const { accessToken } = useAuth();
 
   const { id } = useParams();
   const { deleting, setDeleting } = useSavingGoalContext();
@@ -41,7 +44,7 @@ const SavingGoal = () => {
       }
     };
     fetchUserSavingGoal();
-  }, [id, isEditing, isDeposit, isPayOut]);
+  }, [id, isEditing, isDeposit, isPayOut, accessToken]);
 
   useEffect(() => {
     const handleOutsideClick = (event: MouseEvent) => {
@@ -64,19 +67,6 @@ const SavingGoal = () => {
     (userSavingGoal.amountSaved / userSavingGoal?.savingGoalAmount) *
     100
   ).toFixed();
-
-  // const handleDeleteOnClick = () => {
-  //   const deleteUserSavingGoal = async () => {
-  //     try {
-  //       await axios.delete(`${api}savingGoals/delete/${id}`);
-  //       setDeleting(!deleting);
-  //     } catch (error) {
-  //       handleError(error);
-  //     }
-  //   };
-
-  //   deleteUserSavingGoal();
-  // };
 
   return (
     <div className="savingGoal">

@@ -1,16 +1,21 @@
-import { UserProfile } from "../models/User";
 import React, { createContext, useEffect, useState } from "react";
-import { loginAPI, registerAPI } from "../services/AuthService";
+import {
+  loginAPI,
+  registerAPI,
+  refreshTokenAPI,
+} from "../services/AuthService";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { UserProfile } from "../models/User";
+const MINUTES_UNTIL_EXPIRY = 11;
 
 type UserContextType = {
   user: UserProfile | null;
   accessToken: string | null;
   registerUser: (
     email: string,
-    password: string,
     username: string,
+    password: string,
     firstName: string,
     lastName: string
   ) => void;
@@ -29,7 +34,6 @@ export const UserProvider = ({ children }: Props) => {
   const [isReady, setIsReady] = useState(false);
   const navigate = useNavigate();
 
-  console.log(isReady);
 
   useEffect(() => {
     const user = localStorage.getItem("user");
@@ -41,7 +45,35 @@ export const UserProvider = ({ children }: Props) => {
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
     }
     setIsReady(true);
-  }, []);
+  }, [accessToken]);
+
+  useEffect(() => {
+    const checkTokenExpiry = async () => {
+      const tokenExpiry = localStorage.getItem("tokenExpiry");
+      if (tokenExpiry) {
+        const expiryTime = parseInt(tokenExpiry, 10);
+        const currentTime = Math.floor(Date.now() / 1000); 
+        const timeUntilExpiry = expiryTime - currentTime;
+
+        const minutesLeft = Math.ceil(timeUntilExpiry / 60); 
+
+        if (minutesLeft < MINUTES_UNTIL_EXPIRY) {
+          try {
+            const newAccessToken = await refreshTokenAPI();
+            setAccessToken(newAccessToken); 
+            console.log("Access token refreshed");
+          } catch (error) {
+           
+            logout();
+          }
+        }
+      }
+    };
+
+    const interval = setInterval(checkTokenExpiry, 720000);
+    return () => clearInterval(interval);
+  }, [accessToken]);
+
   const registerUser = async (
     email: string,
     username: string,
@@ -49,7 +81,7 @@ export const UserProvider = ({ children }: Props) => {
     firstName: string,
     lastName: string
   ) => {
-    await registerAPI(email, password, username, firstName, lastName)
+    await registerAPI(email, username, password, firstName, lastName)
       .then((response) => {
         if (response) {
           console.log("register success");
@@ -66,11 +98,14 @@ export const UserProvider = ({ children }: Props) => {
       .then((response) => {
         if (response) {
           localStorage.setItem("accessToken", response?.data.accessToken);
+          const expiryTime = Math.floor(Date.now() / 1000) + 1 * 60; 
+          localStorage.setItem("tokenExpiry", expiryTime.toString());
           const userObj = {
             username: response?.data.username,
             role: response?.data.role,
           };
           localStorage.setItem("user", JSON.stringify(userObj));
+          localStorage.setItem("refreshToken", response.data.refreshToken);
           setAccessToken(response?.data.accessToken!);
           setUser(userObj!);
           console.log("login success");
@@ -81,14 +116,18 @@ export const UserProvider = ({ children }: Props) => {
         console.log(error);
       });
   };
+
   const isLoggedIn = () => {
     return !!user;
   };
+
   const logout = () => {
     localStorage.removeItem("accessToken");
     localStorage.removeItem("user");
+    localStorage.removeItem("tokenExpiry");
+    localStorage.removeItem("refreshToken")
     setUser(null);
-    setAccessToken("");
+    setAccessToken(null);
     navigate("/");
   };
 
@@ -100,4 +139,5 @@ export const UserProvider = ({ children }: Props) => {
     </UserContext.Provider>
   );
 };
+
 export const useAuth = () => React.useContext(UserContext);
