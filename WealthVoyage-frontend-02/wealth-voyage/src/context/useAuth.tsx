@@ -94,6 +94,7 @@ export const UserProvider = ({ children }: Props) => {
   };
 
   const loginUser = async (username: string, password: string) => {
+    localStorage.removeItem("accessToken");
     await loginAPI(username, password)
       .then((response) => {
         if (response) {
