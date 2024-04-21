@@ -30,6 +30,7 @@ public class Loan {
     @Column(name = "total_amount_of_loan")
     private Double totalAmountOfLoan;
 
+
     @Column(name = "start_date_of_installment")
     private String startDateOfInstallment;
 

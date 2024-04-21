@@ -23,7 +23,7 @@ const SavingGoal = () => {
     amountSaved: 0,
     svgContent: "",
   });
-   const { accessToken } = useAuth();
+  
 
   const { id } = useParams();
   const { deleting, setDeleting } = useSavingGoalContext();
@@ -44,7 +44,7 @@ const SavingGoal = () => {
       }
     };
     fetchUserSavingGoal();
-  }, [id, isEditing, isDeposit, isPayOut, accessToken]);
+  }, [id, isEditing, isDeposit, isPayOut]);
 
   useEffect(() => {
     const handleOutsideClick = (event: MouseEvent) => {

@@ -38,4 +38,6 @@ public class LoanService {
     public Integer getUserLoansCount(@NotNull UserDetails userDetails) {
         return loanRepository.findAllByUsername(userDetails.getUsername()).orElseThrow(NoSuchElementException::new).size();
     }
+
+
 }

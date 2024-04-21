@@ -1,11 +1,11 @@
 import "./authComponents.scss";
 import { Link } from "react-router-dom";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useAuth } from "../../context/useAuth";
 
 const Login = () => {
-  const { loginUser } = useAuth();
+  const { loginUser, accessToken } = useAuth();
   const [loginData, setLoginData] = useState({
     username: "",
     password: "",
@@ -25,6 +25,17 @@ const Login = () => {
     loginUser(loginData.username, loginData.password);
     setInvalidCredentials(true);
   };
+
+ useEffect(() => {
+   const accessToken = localStorage.getItem("accessToken");
+   if (accessToken) {
+     localStorage.removeItem("accessToken");
+     localStorage.removeItem("refreshToken");
+     localStorage.removeItem("tokenExpiry");
+     localStorage.removeItem("user");
+     window.location.reload(); 
+   }
+ }, []);
 
   return (
     <div className="authWindow">

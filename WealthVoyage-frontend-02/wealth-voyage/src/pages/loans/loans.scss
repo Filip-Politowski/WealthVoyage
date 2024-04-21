@@ -1,18 +1,13 @@
 @import "../../styles/responsive.scss";
 @import "../../styles/variables.scss";
 
-.installments {
+.loans {
   .info {
     display: flex;
     align-items: center;
     gap: 20px;
     margin-bottom: 20px;
   }
-
-  .dataTableMobile {
-    display: none;
-  }
-
   @include md {
     .info {
       flex-direction: column;

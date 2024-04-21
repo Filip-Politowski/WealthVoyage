@@ -1,7 +1,8 @@
-import React, { useState } from "react";
-import "./dataTableMobile.scss";
+import { useState } from "react";
+import "./loanDataTable.scss";
 import Pagination from "../utils/pagination/Pagination";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 type Props = {
   rows: object[];
@@ -12,7 +13,8 @@ type Props = {
   searchPlaceholder?: string;
 };
 
-const DataTableMobile = (props: Props) => {
+const LoanDataTable = (props: Props) => {
+  const navigate = useNavigate();
   const itemsPerPage = 5;
   const [currentPage, setCurrentPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState("");
@@ -36,8 +38,16 @@ const DataTableMobile = (props: Props) => {
   const endIndex = startIndex + itemsPerPage;
   const currentRows = filteredRows.slice(startIndex, endIndex);
 
+  const formatNumber = (value: number) => {
+    return `${value.toFixed(2)} zł`;
+  };
+
+  const handleNavigateToSingleLoan = (id: number) => {
+    navigate(`/dashboard/${props.slug}/${id}`);
+  };
+
   return (
-    <div className="dataTableMobile">
+    <div className="loanDataTable">
       <div className="searchBar">
         <img src="/search.svg" alt="" />
         <input
@@ -62,32 +72,17 @@ const DataTableMobile = (props: Props) => {
           {currentRows.map((row: any) => (
             <tr key={row.id}>
               {props.filteredKeys.map((key) => (
-                <td key={key}>
-                  <Link to={`/dashboard/${props.slug}/${row.id}`}>
-                    {row[key] === row["paymentDate"] ? (
-                      <div className="singleInstallmentPrice">
-                        <div>
-                          <p>{row["priceOfSingleInstallment"]} zł</p>
-                        </div>
-                        <p>{row[key]}</p>
-                      </div>
-                    ) : row[key] === row["amount"] ? (
-                      <p
-                        style={{
-                          background:
-                            row[key] < 0
-                              ? "rgba(227, 78, 78, 0.524)"
-                              : "transparent",
-                          padding: "3px",
-                          borderRadius: "5px",
-                        }}
-                      >
-                        {row[key]} zł
-                      </p>
+                <td
+                  key={key}
+                  onClick={() => handleNavigateToSingleLoan(row.id)}
+                >
+                  <div className="singleInstallment ">
+                    {typeof row[key] === "number" && key !== "id" ? (
+                      <p className={key}>{formatNumber(row[key])}</p>
                     ) : (
-                      <p>{row[key]}</p>
+                      <p className={key}>{row[key]}</p>
                     )}
-                  </Link>
+                  </div>
                 </td>
               ))}
             </tr>
@@ -108,4 +103,4 @@ const DataTableMobile = (props: Props) => {
   );
 };
 
-export default DataTableMobile;
+export default LoanDataTable;

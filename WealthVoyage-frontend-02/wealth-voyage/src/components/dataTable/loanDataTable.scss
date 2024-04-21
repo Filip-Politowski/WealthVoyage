@@ -1,6 +1,6 @@
 @import "../../styles/variables.scss";
 
-.dataTableMobile {
+.loanDataTable {
   align-items: center;
   background-color: $navigation-color;
   border-radius: 10px;
@@ -63,19 +63,18 @@
     }
     tbody tr:hover {
       background-color: rgba($element-color-1, 0.1);
+      cursor: pointer;
     }
-    .singleInstallmentPrice {
-      :first-child {
-        width: 100%;
-        display: flex;
-        justify-content: flex-start;
-        p {
-          padding: 5px 10px;
-          background-color: rgba($main-color, 0.3);
-          border-radius: 5px;
-        }
+
+    .singleInstallment{
+      .amountOfSingleInstallment{
+        width: fit-content;
+        padding: 10px;
+        border-radius: 10px;
+        background-color: rgba($main-color, 0.2);
       }
     }
+
   }
 
   tbody tr:hover {

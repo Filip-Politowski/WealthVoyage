@@ -15,7 +15,7 @@ public class LoanRequest {
     private Integer numberOfInstallments;
     private Integer numberOfPaidInstallments;
     private Double totalAmountOfLoan;
-    private String startDataOfInstallment;
+    private String startDateOfInstallment;
     private String endDateOFInstallment;
     private LoanStatus loanStatus;
 }

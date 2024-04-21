@@ -1,4 +1,4 @@
-import React from "react";
+
 import "./installment.scss";
 import SingleView from "../../components/installmentSingleView/InstallmentSingleView";
 import { singleInstallment } from "../../data";
