@@ -1,24 +1,31 @@
 import { useState } from "react";
-import "./loanDataTable.scss";
+import "./dataTable.scss";
 import Pagination from "../utils/pagination/Pagination";
-import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import DeleteElement from "../delete/DeleteElement";
+const api = "http://localhost:8080/api/";
 
 type Props = {
   rows: object[];
   columns: string[];
+  navigateTo: string;
   slug: string;
   filteredKeys: string[];
   searchKeyFilter: string;
   searchPlaceholder?: string;
+  deleting?: boolean;
+  setDeleting?: React.Dispatch<React.SetStateAction<boolean>>;
+  actionButtonsActive?: boolean;
+  actionButtons?: string[];
 };
 
-const LoanDataTable = (props: Props) => {
+const DataTable = (props: Props) => {
   const navigate = useNavigate();
   const itemsPerPage = 5;
+  const [elementId, setElementId] = useState<number>();
   const [currentPage, setCurrentPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState("");
-
+  const [isDeleting, setIsDeleting] = useState<boolean>(false);
   const totalPages = Math.ceil(props.rows.length / itemsPerPage);
 
   const handlePageChange = (page: number) => {
@@ -43,11 +50,15 @@ const LoanDataTable = (props: Props) => {
   };
 
   const handleNavigateToSingleLoan = (id: number) => {
-    navigate(`/dashboard/${props.slug}/${id}`);
+    navigate(`/dashboard/${props.navigateTo}/${id}`);
+  };
+  const handleDeleteElement = (id: number) => {
+    setIsDeleting(true);
+    setElementId(id);
   };
 
   return (
-    <div className="loanDataTable">
+    <div className="dataTable">
       <div className="searchBar">
         <img src="/search.svg" alt="" />
         <input
@@ -63,20 +74,23 @@ const LoanDataTable = (props: Props) => {
       <table className="rowsTable">
         <thead>
           <tr>
+            <th>No.</th>
             {props.columns.map((column: string) => (
               <th key={column}>{column}</th>
             ))}
+            {props.actionButtonsActive ? <th>Actions</th> : <th></th>}
           </tr>
         </thead>
         <tbody>
-          {currentRows.map((row: any) => (
-            <tr key={row.id}>
+          {currentRows.map((row: any, index: number) => (
+            <tr key={index}>
+              <td>{index + 1}</td>
               {props.filteredKeys.map((key) => (
                 <td
                   key={key}
                   onClick={() => handleNavigateToSingleLoan(row.id)}
                 >
-                  <div className="singleInstallment ">
+                  <div className="contentArea">
                     {typeof row[key] === "number" && key !== "id" ? (
                       <p className={key}>{formatNumber(row[key])}</p>
                     ) : (
@@ -85,6 +99,26 @@ const LoanDataTable = (props: Props) => {
                   </div>
                 </td>
               ))}
+              <td>
+                {props.actionButtons && (
+                  <div className="actionButtons">
+                    {props.actionButtons.map((button) => (
+                      <>
+                        <img
+                          src={`/${button}.svg`}
+                          alt="button"
+                          className={`${button}Button`}
+                          onClick={() => {
+                            if (button === "delete") {
+                              handleDeleteElement(row.id);
+                            }
+                          }}
+                        />
+                      </>
+                    ))}
+                  </div>
+                )}
+              </td>
             </tr>
           ))}
         </tbody>
@@ -99,8 +133,23 @@ const LoanDataTable = (props: Props) => {
         startIndex={startIndex}
         totalPages={totalPages}
       />
+      {isDeleting ? (
+        <DeleteElement
+          deleting={props.deleting !== undefined ? props.deleting : false}
+          isDeleting={isDeleting}
+          describeElementToDelete="Loan"
+          setDeleting={
+            props.setDeleting !== undefined ? props.setDeleting : () => {}
+          }
+          endpointUrl={`${api}${props.slug}/delete/${elementId}`}
+          setIsDeleting={setIsDeleting}
+          redirectUrl={`/dashboard/${props.slug}`}
+        />
+      ) : (
+        <></>
+      )}
     </div>
   );
 };
 
-export default LoanDataTable;
+export default DataTable;

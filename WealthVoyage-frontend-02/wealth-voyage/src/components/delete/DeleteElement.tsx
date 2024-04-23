@@ -10,6 +10,7 @@ type Props = {
   setDeleting: React.Dispatch<React.SetStateAction<boolean>>;
   setIsDeleting: React.Dispatch<React.SetStateAction<boolean>>;
   deleting: boolean;
+  isDeleting: boolean;
   redirectUrl: string;
 };
 
@@ -21,11 +22,13 @@ const DeleteElement = (props: Props) => {
       try {
         await axios.delete(props.endpointUrl);
         props.setDeleting(!props.deleting);
+        props.setIsDeleting(!props.isDeleting);
       } catch (error) {
         handleError(error);
       }
     };
     deleteSelectedElement();
+
     navigate(props.redirectUrl);
   };
   return (
@@ -38,7 +41,12 @@ const DeleteElement = (props: Props) => {
           Are you sure that you want to delete {props.describeElementToDelete}
         </h2>
         <div className="deletingButtons">
-          <button onClick={() => props.setIsDeleting(false)}>No</button>
+          <button
+            onClick={() => props.setIsDeleting(false)}
+            className="deleteButton"
+          >
+            No
+          </button>
           <button onClick={handleDelete}>yes</button>
         </div>
       </div>

@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import "./loans.scss";
-
 import Add from "../../components/add/Add";
-import DataTableMobile from "../../components/dataTable/LoanDataTable";
+import DataTable from "../../components/dataTable/DataTable";
 import { Loan } from "../../models/Loan";
 import axios from "axios";
 import { handleError } from "../../helpers/ErrorHandler";
+
 const api = "http://localhost:8080/api/";
 
 
@@ -13,8 +13,9 @@ const api = "http://localhost:8080/api/";
 const Loans = () => {
   const [open, setOpen] = useState(false);
   const [loans, setLoans] = useState<Loan[]>([]);
+  const [ deleting, setDeleting] = useState<boolean>(false);
   const [loan, setLoan] = useState<Loan>({
-    id: 0,
+    id: 0, 
     loanName: "",
     numberOfInstallments: 0,
     numberOfPaidInstallments: 0,
@@ -35,7 +36,7 @@ const Loans = () => {
 
     fetchUserLoans();
     console.log(loans);
-  }, [open]);
+  }, [open, deleting]);
 
   return (
     <div className="loans">
@@ -43,14 +44,19 @@ const Loans = () => {
         <h1>Loans</h1>
         <button onClick={() => setOpen(true)}>Add New Loan</button>
       </div>
-      <DataTableMobile
+      <DataTable
         rows={loans}
-        columns={["ID", "Loan Name", "Amount of installment"]}
-        slug={"installment"}
-        filteredKeys={["id", "loanName", "amountOfSingleInstallment"]}
+        columns={["Loan Name", "Amount of installment"]}
+        navigateTo={"installment"}
+        slug={"loans"}
+        filteredKeys={["loanName", "amountOfSingleInstallment"]}
         searchKeyFilter="loanName"
+        deleting= {deleting}
+        setDeleting={setDeleting}
+        actionButtonsActive={true}
+        actionButtons={["delete", "paid"]}
       />
-      {open && <Add setOpen={setOpen} loan={loan} setLoan={setLoan}/>}
+      {open && <Add setOpen={setOpen} loan={loan} setLoan={setLoan} />}
     </div>
   );
 };

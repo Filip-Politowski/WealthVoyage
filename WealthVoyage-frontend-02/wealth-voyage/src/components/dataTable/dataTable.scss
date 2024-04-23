@@ -1,11 +1,11 @@
 @import "../../styles/variables.scss";
 
-.loanDataTable {
+.dataTable {
   align-items: center;
   background-color: $navigation-color;
   border-radius: 10px;
   color: $main-color;
-  width: 100%;
+  width: 90%;
 
   .searchBar {
     display: flex;
@@ -42,8 +42,8 @@
     position: absolute;
     bottom: 0;
     left: 5%;
-    width: 85%;
-    border-bottom: 1px solid $element-color-2
+    width: 70%;
+    border-bottom: 1px solid $element-color-2;
   }
 
   .rowsTable {
@@ -54,7 +54,7 @@
 
     th,
     td {
-      padding: 12px;
+      padding: 10px;
       border-bottom: 1px solid rgba($element-color-3, 0.2);
       text-align: left;
     }
@@ -66,8 +66,8 @@
       cursor: pointer;
     }
 
-    .singleInstallment{
-      .amountOfSingleInstallment{
+    .contentArea {
+      .amountOfSingleInstallment {
         width: fit-content;
         padding: 10px;
         border-radius: 10px;
@@ -75,6 +75,21 @@
       }
     }
 
+    .actionButtons {
+      display: flex;
+      align-items: center;
+
+      gap: 20px;
+
+      img {
+        width: 25px;
+        height: 25px;
+      }
+      .paidButton {
+        width: 40px;
+        height: 40px;
+      }
+    }
   }
 
   tbody tr:hover {

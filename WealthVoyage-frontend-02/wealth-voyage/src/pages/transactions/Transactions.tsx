@@ -1,17 +1,14 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import "./transactions.scss"
-
-import Add from '../../components/add/Add';
-import { GridColDef } from '@mui/x-data-grid';
 import { lastTransactions } from '../../data';
-import DataTableMobile from '../../components/dataTable/LoanDataTable';
-
+import DataTable from '../../components/dataTable/DataTable';
 
 
 
 const Transactions = () => {
 
 const [open, setOpen] = useState(false);
+const [ deleting, setDeleting] = useState<boolean>(false);
 
   return (
     <div className="transactions">
@@ -20,13 +17,16 @@ const [open, setOpen] = useState(false);
         <button onClick={() => setOpen(true)}>Add New Transaction</button>
       </div>
      
-      <DataTableMobile
+      <DataTable
         rows={lastTransactions}
         columns={["ID", "Amount", "Date"]}
+        navigateTo={"transaction"}
         slug={"transaction"}
         filteredKeys={["id", "amount", "date"]}
         searchKeyFilter="date"
         searchPlaceholder='Search by date...'
+        deleting={deleting}
+        setDeleting={setDeleting}
       />
       {/* {open && <Add setOpen={setOpen} columns={columns} slug="Transaction" />} */}
     </div>

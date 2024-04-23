@@ -54,6 +54,9 @@
       color: $soft-color;
       background-color: $element-color-2;
     }
+    .deleteButton{
+      background-color: rgba(255, 0, 0, 0.725);
+    }
     button:hover {
       cursor: pointer;
       background-color: $element-color-3;

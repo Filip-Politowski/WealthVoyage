@@ -146,6 +146,7 @@ const SavingGoal = () => {
       {isDeleting && (
         <DeleteElement
           deleting={deleting}
+          isDeleting={isDeleting}
           describeElementToDelete="saving goal"
           setDeleting={setDeleting}
           endpointUrl={`${api}savingGoals/delete/${id}`}

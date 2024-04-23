@@ -3,7 +3,6 @@ import "./add.scss";
 import { Loan } from "../../models/Loan";
 import axios from "axios";
 import { handleError } from "../../helpers/ErrorHandler";
-import { differenceInMonths, parse } from "date-fns";
 const api = "http://localhost:8080/api/";
 
 type Props = {
@@ -15,11 +14,20 @@ type Props = {
 const Add = (props: Props) => {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
     axios
       .post(`${api}loans/add`, props.loan)
       .then(() => {
         props.setOpen(false);
+        props.setLoan({
+          id: 0,
+          endDateOFInstallment: "",
+          loanName: "",
+          numberOfInstallments: 0,
+          numberOfPaidInstallments: 0,
+          startDateOfInstallment: "",
+          totalAmountOfLoan: 0,
+          loanStatus: "UNPAID",
+        });
       })
       .catch((error) => {
         handleError(error);
@@ -30,27 +38,33 @@ const Add = (props: Props) => {
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
     const { name, value } = e.target;
-    props.setLoan((prevData) => ({
-      ...prevData,
+    const updatedLoan = {
+      ...props.loan,
       [name]: value,
-    }));
+    };
     const numberOfInstallments = calculateMonthDifference(
-      props.loan.startDateOfInstallment,
-      props.loan.endDateOFInstallment
+      new Date(updatedLoan.startDateOfInstallment),
+      new Date(updatedLoan.endDateOFInstallment)
     );
     props.setLoan((prevState) => ({
       ...prevState,
+      ...updatedLoan,
       numberOfInstallments: numberOfInstallments,
     }));
-    console.log(numberOfInstallments);
   };
   const calculateMonthDifference = (
-    startDateString: string,
-    endDateString: string
+    startDateString: Date,
+    endDateString: Date
   ) => {
-    const startDate = parse(startDateString, "yyyy-MM-dd", new Date());
-    const endDate = parse(endDateString, "yyyy-MM-dd", new Date());
-    return differenceInMonths(endDate, startDate);
+    let months: number;
+    months = (endDateString.getFullYear() - startDateString.getFullYear()) * 12;
+    months -= startDateString.getMonth();
+    months += endDateString.getMonth();
+    return months <= 0 ? 0 : months;
+  };
+
+  const handleDateKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    e.preventDefault();
   };
 
   return (
@@ -97,6 +111,7 @@ const Add = (props: Props) => {
             <label>Start date of installment</label>
             <input
               type="date"
+              onKeyDown={handleDateKeyDown}
               name="startDateOfInstallment"
               value={props.loan.startDateOfInstallment}
               onChange={handleAddNewLoanDataChange}
@@ -107,6 +122,7 @@ const Add = (props: Props) => {
             <label>Date of last installment</label>
             <input
               type="date"
+              onKeyDown={handleDateKeyDown}
               name="endDateOFInstallment"
               value={props.loan.endDateOFInstallment}
               onChange={handleAddNewLoanDataChange}
