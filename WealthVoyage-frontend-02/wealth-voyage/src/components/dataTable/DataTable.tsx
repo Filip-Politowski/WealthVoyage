@@ -84,7 +84,7 @@ const DataTable = (props: Props) => {
         <tbody>
           {currentRows.map((row: any, index: number) => (
             <tr key={index}>
-              <td>{index + 1}</td>
+              <td>{index + 1}.</td>
               {props.filteredKeys.map((key) => (
                 <td
                   key={key}

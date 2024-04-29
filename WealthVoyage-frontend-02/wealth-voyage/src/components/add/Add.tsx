@@ -26,6 +26,8 @@ const Add = (props: Props) => {
           numberOfPaidInstallments: 0,
           startDateOfInstallment: "",
           totalAmountOfLoan: 0,
+          amountOfSingleInstallment:0,
+          entityRelationshipNumber:"",
           loanStatus: "UNPAID",
         });
       })

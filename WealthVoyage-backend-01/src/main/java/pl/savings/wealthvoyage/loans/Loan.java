@@ -18,8 +18,10 @@ public class Loan {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String username;
-    @Column(name = "loan_name")
+
     private String loanName;
+
+    private String entityRelationshipNumber;
 
     @Column(name = "number_of_installments")
     private Integer numberOfInstallments;

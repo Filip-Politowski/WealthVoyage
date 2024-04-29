@@ -6,6 +6,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -23,6 +24,7 @@ public class LoanService {
     public Loan saveUserLoan(LoanRequest loanRequest, @NotNull UserDetails userDetails) {
         Loan loan = loanMapper.toLoan(loanRequest);
         loan.setUsername(userDetails.getUsername());
+        loan.setEntityRelationshipNumber((userDetails.getUsername().hashCode() + "L" + loanRequest.getLoanName().hashCode()));
         return loanRepository.save(loan);
     }
     @Transactional

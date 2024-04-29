@@ -63,10 +63,10 @@ const SavingGoal = () => {
     };
   }, []);
 
-  const goalPercentageProgress: any = (
+  const goalPercentageProgress: number = (
     (userSavingGoal.amountSaved / userSavingGoal?.savingGoalAmount) *
     100
-  ).toFixed();
+  );
 
   return (
     <div className="savingGoal">

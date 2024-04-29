@@ -15,20 +15,24 @@ const Loans = () => {
   const [loans, setLoans] = useState<Loan[]>([]);
   const [ deleting, setDeleting] = useState<boolean>(false);
   const [loan, setLoan] = useState<Loan>({
-    id: 0, 
+    id: 0,
     loanName: "",
     numberOfInstallments: 0,
     numberOfPaidInstallments: 0,
     totalAmountOfLoan: 0,
     startDateOfInstallment: "",
     endDateOFInstallment: "",
+    amountOfSingleInstallment: 0,
+    entityRelationshipNumber: "",
     loanStatus: "UNPAID",
   });
+ 
   useEffect(() => {
     const fetchUserLoans = async () => {
       try {
         const response = await axios.get(`${api}loans/all`);
         setLoans(response.data);
+         console.log(loan.entityRelationshipNumber);
       } catch (error) {
         handleError(error);
       }

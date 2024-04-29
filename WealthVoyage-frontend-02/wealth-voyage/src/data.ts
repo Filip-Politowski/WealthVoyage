@@ -44,6 +44,8 @@ export const menu = [
   },
 ];
 
+
+
 export const lastTransactions = [
   {
     id: 1,
@@ -244,56 +246,6 @@ export const bigChartData = [
 ];
 
 
-
-export const singleInstallment = {
-  id: 1,
-  img: "/cash.svg",
-  title: "Computer",
-  info: {
-    loanId: 1,
-    loanName: "Computer",
-    totalAmountOfLoan: 9000,
-    numberOfInstallments: 30,
-    startDateOfInstallment: "2023-01-01",
-    endDateOfInstallment: "2024-01-01",
-    numberOfPaidInstallments: 10,
-  },
-  progress: 50,
-  activities: [
-    {
-      dueDate: "2024-03-01",
-      loanName: "Computer",
-    },
-    {
-      dueDate: "2024-04-01",
-      loanName: "Computer",
-    },
-    {
-      dueDate: "2024-05-01",
-      loanName: "Computer",
-    },
-    {
-      dueDate: "2024-05-01",
-      loanName: "Computer",
-    },
-    {
-      dueDate: "2024-05-01",
-      loanName: "Computer",
-    },
-    {
-      dueDate: "2024-05-01",
-      loanName: "Computer",
-    },
-  ],
-};
-
-export const singleGoalDetails = {
-  id: 1,
-  savingGoalName: "Car",
-  savingGoalAmount: 5000,
-  amountSaved: 2000,
-  savingsProgression: 40,
-};
 
 export const savingGoalImages = [
   "/money.svg",

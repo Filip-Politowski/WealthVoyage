@@ -11,7 +11,7 @@ const ProgressBar = (props: Props) => {
   return (
     <div className="progressBar" style={{background: `${props.color}`}}>
       <div className="progressBarInner" style={{ width: `${props.percentage}%` }} />
-       <span className="progressText">{`${props.percentage}%`}</span>
+       <span className="progressText">{`${props.percentage.toFixed(2)}%`}</span>
     </div>
   );
 }

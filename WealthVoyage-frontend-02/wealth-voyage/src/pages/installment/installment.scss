@@ -1,3 +1,129 @@
-.installment{
+@import "../../styles/responsive.scss";
+@import "../../styles/variables.scss";
+
+$progressColor: #3498db;
+
+.installment {
+  display: flex;
+
+  @include xl {
+    flex-direction: column;
+  }
+
+  .view {
+    flex: 1;
+    .info {
+      .topInfo {
+        display: flex;
+        align-items: center;
+        gap: 20px;
     
+
+        @include md {
+          flex-direction: column;
+        }
+
+        img {
+          width: 120px;
+          height: 120px;
+        }
+        h1 {
+          font-weight: 600;
+        }
+      }
+      .details {
+        display: flex;
+        flex-direction: column;
+        margin-top: 30px;
+        gap: 15px;
+        font-size: 18px;
+
+        .item {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+          margin: auto;
+          background-color: $navigation-color;
+          border-radius: 12px;
+          padding: 10px;
+          width: 80%;
+          max-width: 800px;
+          label {
+            font-weight: 600;
+            margin-right: 10px;
+          }
+          p{
+            color: $element-color-3;
+          }
+        }
+        @include md {
+          font-size: 14px;
+          .item {
+            width: 100%;
+          }
+        }
+      }
+    }
+
+    hr {
+      width: 90%;
+      height: 0;
+      border: 0.5px solid gray;
+      margin: 20px;
+    }
+    .progressContainer {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      align-items: center;
+      margin:auto;
+      width: 75%;
+      max-width: 800px;
+      padding-top: 30px;
+    //   border-top: solid 1px;
+    }
+  }
+  .activities {
+    flex: 1;
+    h2 {
+      margin-bottom: 20px;
+    }
+    ul {
+      li {
+        list-style-type: none;
+        position: relative;
+        width: 1px;
+        padding-top: 50px;
+        background-color: rgba($color: #913a3a, $alpha: 1);
+
+        &::after {
+          content: "";
+          position: absolute;
+          left: 50%;
+          bottom: 0;
+          width: 10px;
+          height: 10px;
+          border-radius: 5px;
+          background-color: rgba($color: #913a3a, $alpha: 1);
+          transform: translateX(-50%);
+        }
+        div {
+          min-width: 480px;
+          padding: 15px;
+          background-color: #f45b6810;
+
+          @include md {
+            min-width: 250px;
+          }
+
+          p {
+            margin-bottom: 5px;
+          }
+          time {
+            font-size: 12px;
+          }
+        }
+      }
+    }
+  }
 }
