@@ -8,12 +8,10 @@ import { handleError } from "../../helpers/ErrorHandler";
 
 const api = "http://localhost:8080/api/";
 
-
-
 const Loans = () => {
   const [open, setOpen] = useState(false);
   const [loans, setLoans] = useState<Loan[]>([]);
-  const [ deleting, setDeleting] = useState<boolean>(false);
+  const [deleting, setDeleting] = useState<boolean>(false);
   const [loan, setLoan] = useState<Loan>({
     id: 0,
     loanName: "",
@@ -26,21 +24,29 @@ const Loans = () => {
     entityRelationshipNumber: "",
     loanStatus: "UNPAID",
   });
- 
+
   useEffect(() => {
     const fetchUserLoans = async () => {
       try {
         const response = await axios.get(`${api}loans/all`);
         setLoans(response.data);
-         console.log(loan.entityRelationshipNumber);
+        console.log(loan.entityRelationshipNumber);
       } catch (error) {
         handleError(error);
       }
     };
 
     fetchUserLoans();
-    console.log(loans);
   }, [open, deleting]);
+
+  const handlePayButton = (id: number) => {
+    const foundObject = loans.find((item) => item.id === id);
+    try {
+      axios.post(`${api}loans/pay-instalment`, foundObject);
+    } catch (error) {
+      handleError(error);
+    }
+  };
 
   return (
     <div className="loans">
@@ -50,13 +56,18 @@ const Loans = () => {
       </div>
       <DataTable
         rows={loans}
-        columns={["Loan Name", "Amount of installment"]}
+        columns={["Loan Name", "Amount to pay", "Amount of installment"]}
         navigateTo={"installment"}
         slug={"loans"}
-        filteredKeys={["loanName", "amountOfSingleInstallment"]}
+        filteredKeys={[
+          "loanName",
+          "amountOfSingleInstallment",
+          "amountOfSingleInstallment",
+        ]}
         searchKeyFilter="loanName"
-        deleting= {deleting}
+        deleting={deleting}
         setDeleting={setDeleting}
+        handlePayButton={handlePayButton}
         actionButtonsActive={true}
         actionButtons={["delete", "paid"]}
       />

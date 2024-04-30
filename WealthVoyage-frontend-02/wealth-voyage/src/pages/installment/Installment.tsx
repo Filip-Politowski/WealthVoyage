@@ -19,6 +19,7 @@ const Installment = () => {
     const fetchLoan = async () => {
       const response = await axios.get(`${api}loans/${id}`);
       if (JSON.stringify(loan) !== JSON.stringify(response.data)) {
+        console.log(response.data)
         setLoan(response.data);
       }
     };
@@ -108,7 +109,7 @@ const Installment = () => {
             <li key={index}>
               <div>
                 <label>{transaction.category}</label>
-                <p>{transaction.amount} zł</p>
+                <p>{transaction.amount.toFixed(2)} zł</p>
                 <time>Payment date: {transaction.date}</time>
               </div>
             </li>

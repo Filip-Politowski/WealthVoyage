@@ -3,6 +3,7 @@ import "./dataTable.scss";
 import Pagination from "../utils/pagination/Pagination";
 import { useNavigate } from "react-router-dom";
 import DeleteElement from "../delete/DeleteElement";
+import axios from "axios";
 const api = "http://localhost:8080/api/";
 
 type Props = {
@@ -17,6 +18,7 @@ type Props = {
   setDeleting?: React.Dispatch<React.SetStateAction<boolean>>;
   actionButtonsActive?: boolean;
   actionButtons?: string[];
+  handlePayButton?: (id: number) => void;
 };
 
 const DataTable = (props: Props) => {
@@ -57,6 +59,8 @@ const DataTable = (props: Props) => {
     setElementId(id);
   };
 
+ 
+  
   return (
     <div className="dataTable">
       <div className="searchBar">
@@ -104,6 +108,7 @@ const DataTable = (props: Props) => {
                   <div className="actionButtons">
                     {props.actionButtons.map((button) => (
                       <>
+                      
                         <img
                           src={`/${button}.svg`}
                           alt="button"
@@ -111,6 +116,10 @@ const DataTable = (props: Props) => {
                           onClick={() => {
                             if (button === "delete") {
                               handleDeleteElement(row.id);
+                            }
+                            if(button ==="paid"){
+                              props.handlePayButton &&
+                              props.handlePayButton(row.id);
                             }
                           }}
                         />
