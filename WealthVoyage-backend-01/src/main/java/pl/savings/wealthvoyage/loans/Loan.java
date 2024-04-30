@@ -5,6 +5,10 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import pl.savings.wealthvoyage.transactions.Transaction;
+
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Data
@@ -21,7 +25,7 @@ public class Loan {
 
     private String loanName;
 
-    private String entityRelationshipNumber;
+
 
     @Column(name = "number_of_installments")
     private Integer numberOfInstallments;
@@ -40,4 +44,7 @@ public class Loan {
     private String endDateOfInstallment;
     @Enumerated(EnumType.STRING)
     private LoanStatus loanStatus;
+
+    @OneToMany(mappedBy = "loan")
+    private List<Transaction> transactions;
 }

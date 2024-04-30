@@ -5,6 +5,9 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.web.bind.annotation.Mapping;
+import pl.savings.wealthvoyage.loans.Loan;
+import pl.savings.wealthvoyage.savingGoals.SavingGoal;
 
 @Entity
 @Data
@@ -19,11 +22,12 @@ public class Transaction {
     @Column(name = "id")
     private Long id;
     private String username;
-    private String entityRelationshipNumber;
+
     @Column(name = "amount")
     private double amount;
 
     @Column(name = "transaction_type")
+    @Enumerated(EnumType.STRING)
     private TransactionType transactionType;
 
     @Column(name = "category")
@@ -32,5 +36,12 @@ public class Transaction {
     @Column(name = "date")
     private String date;
 
+    @ManyToOne
+    @JoinColumn(name = "loan_id")
+    private Loan loan;
+
+    @ManyToOne
+    @JoinColumn(name = "saving_goal_id")
+    private SavingGoal savingsGoal;
 
 }

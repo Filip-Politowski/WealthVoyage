@@ -37,7 +37,6 @@ public class LoanMapper {
                 .endDateOFInstallment(loan.getEndDateOfInstallment())
                 .loanStatus(loan.getLoanStatus())
                 .amountOfSingleInstallment(loan.getTotalAmountOfLoan() / loan.getNumberOfInstallments())
-                .entityRelationshipNumber(loan.getEntityRelationshipNumber())
                 .build();
     }
 

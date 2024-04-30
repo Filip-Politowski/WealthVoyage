@@ -13,8 +13,8 @@ import java.util.List;
 public class TransactionController {
     private final TransactionService transactionService;
 
-    @GetMapping("/all")
-    public List<TransactionResponse> getAllTransactionsByRelationshipNumber(@AuthenticationPrincipal UserDetails userDetails, @RequestBody TransactionRequest transactionRequest) {
-        return transactionService.getUserTransactionsByRelationNumber(userDetails, transactionRequest.getEntityRelationshipNumber());
+    @GetMapping("/loan/all/{id}")
+    public List<TransactionResponse> getAllTransactionsByRelationshipNumber(@AuthenticationPrincipal UserDetails userDetails ,@PathVariable Long id) {
+        return transactionService.findAllTransactionsByLoanId(id, userDetails);
     }
 }

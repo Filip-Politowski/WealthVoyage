@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 public class TransactionRequest {
     private Long id;
     private String username;
-    private String entityRelationshipNumber;
+
     private double amount;
     private TransactionType transactionType;
     private String category;

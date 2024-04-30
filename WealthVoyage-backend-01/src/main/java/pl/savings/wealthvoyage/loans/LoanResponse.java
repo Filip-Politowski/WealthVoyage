@@ -19,6 +19,6 @@ public class LoanResponse {
     private String endDateOFInstallment;
     private LoanStatus loanStatus;
     private Double amountOfSingleInstallment;
-    private String entityRelationshipNumber;
+
 
 }

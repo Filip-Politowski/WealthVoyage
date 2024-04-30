@@ -19,7 +19,6 @@ public class TransactionMapper {
                 .category(request.getCategory())
                 .username(request.getUsername())
                 .date(request.getDate())
-                .entityRelationshipNumber(request.getEntityRelationshipNumber())
                 .id(request.getId())
                 .build();
     }
@@ -33,8 +32,6 @@ public class TransactionMapper {
                 .amount(transaction.getAmount())
                 .category(transaction.getCategory())
                 .date(transaction.getDate())
-                .username(transaction.getUsername())
-
                 .build();
     }
 
