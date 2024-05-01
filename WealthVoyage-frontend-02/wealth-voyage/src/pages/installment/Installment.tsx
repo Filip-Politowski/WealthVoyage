@@ -18,7 +18,7 @@ const Installment = () => {
     const fetchLoan = async () => {
       const response = await axios.get(`${api}loans/${id}`);
       if (JSON.stringify(loan) !== JSON.stringify(response.data)) {
-        console.log(response.data);
+        
         setLoan(response.data);
       }
     };

@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { UserSavingGoal } from "../../models/UserSavingGoal";
 import { handleError } from "../../helpers/ErrorHandler";
-import { Link, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import ProgressBar from "../../components/utils/progressBar/ProgressBar";
 import ThreeDots from "../../components/utils/threeDots/ThreeDots";
@@ -11,7 +11,6 @@ import UpdateSavingGoal from "./components/UpdateSavingGoal";
 import DepositPayOutFromSavingGoal from "./components/DepositPayOutFromSavingGoal";
 import DeleteElement from "../../components/delete/DeleteElement";
 import BackButton from "../../components/utils/backButton/BackButton";
-import { useAuth } from "../../context/useAuth";
 const api = "http://localhost:8080/api/";
 
 const SavingGoal = () => {
@@ -24,15 +23,14 @@ const SavingGoal = () => {
     svgContent: "",
   });
   
-
   const { id } = useParams();
   const { deleting, setDeleting } = useSavingGoalContext();
-  const [isDeleting, setIsDeleting] = useState<boolean>(false);
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const [isDeposit, setIsDeposit] = useState<boolean>(false);
   const [isPayOut, setIsPayOut] = useState<boolean>(false);
   const settingsWindowRef = useRef<HTMLDivElement>(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchUserSavingGoal = async () => {
@@ -44,7 +42,7 @@ const SavingGoal = () => {
       }
     };
     fetchUserSavingGoal();
-  }, [id, isEditing, isDeposit, isPayOut]);
+  }, [id, isEditing, isDeposit, isPayOut, deleting]);
 
   useEffect(() => {
     const handleOutsideClick = (event: MouseEvent) => {
@@ -68,6 +66,16 @@ const SavingGoal = () => {
     100
   );
 
+  const handleDelete = () => {
+    try {
+      axios.delete(`${api}savingGoals/delete/${id}`);
+      setDeleting(false);
+      navigate(-1);
+    } catch (error) {
+      handleError(error);
+    }
+  };
+
   return (
     <div className="savingGoal">
       <div className="singleViewGoal">
@@ -85,7 +93,7 @@ const SavingGoal = () => {
                 {isOpen && (
                   <div className="settingsWindow">
                     <p onClick={() => setIsEditing(true)}>Edit Goal</p>
-                    <p onClick={() => setIsDeleting(!isDeleting)}>
+                    <p onClick={() => setDeleting(!deleting)}>
                       Delete goal
                     </p>
                   </div>
@@ -143,17 +151,12 @@ const SavingGoal = () => {
           setIsPayOut={setIsPayOut}
         />
       )}
-      {/* {isDeleting && (
+      {deleting && (
         <DeleteElement
-          deleting={deleting}
-          isDeleting={isDeleting}
-          describeElementToDelete="saving goal"
+          handleDelete={handleDelete}
           setDeleting={setDeleting}
-          endpointUrl={`${api}savingGoals/delete/${id}`}
-          setIsDeleting={setIsDeleting}
-          redirectUrl="/dashboard/savingGoals"
         />
-      )} */}
+      )}
     </div>
   );
 };

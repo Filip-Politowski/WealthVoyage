@@ -7,26 +7,28 @@ import { handleError } from "../../helpers/ErrorHandler";
 import axios from "axios";
 import { useSavingGoalContext } from "../../context/SavingGoalContext";
 import { savingGoalImages } from "../../data";
-import { useAuth } from "../../context/useAuth";
+
 const api = "http://localhost:8080/api/";
 
 const SavingGoals = () => {
   const [open, setOpen] = useState(false);
   const [savingGoals, setSavingGoals] = useState<UserSavingGoal[]>([]);
   const { deleting } = useSavingGoalContext();
-  const { accessToken } = useAuth();
 
   useEffect(() => {
     const fetchAllSavingGoals = async () => {
       try {
         const response = await axios.get(`${api}savingGoals/all`);
-        setSavingGoals(response.data);
+        if (JSON.stringify(savingGoals) !== JSON.stringify(response.data)) {
+          console.log(response.data);
+          setSavingGoals(response.data);
+        }
       } catch (error) {
         handleError(error);
       }
     };
     fetchAllSavingGoals();
-  }, [open, deleting, accessToken]);
+  }, [open, deleting, savingGoals]);
 
   return (
     <div className="savingGoals">

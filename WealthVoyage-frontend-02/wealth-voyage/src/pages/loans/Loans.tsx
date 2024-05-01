@@ -41,6 +41,7 @@ const Loans = () => {
     fetchUserLoans();
   }, [open, deleting, loan]);
 
+
   const handlePay = () => {
     const foundObject = loans.find((item) => item.id === loanId);
     try {
@@ -69,7 +70,10 @@ const Loans = () => {
       </div>
       <DataTable
         rows={loans}
-        columns={["Loan Name", "Amount of installment"]}
+        columns={[
+          "Loan Name",
+          "Amount of installment",
+        ]}
         navigateTo={"installment"}
         slug={"loans"}
         filteredKeys={["loanName", "amountOfSingleInstallment"]}

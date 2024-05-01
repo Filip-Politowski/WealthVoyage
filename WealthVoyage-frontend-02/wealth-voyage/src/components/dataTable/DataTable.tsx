@@ -1,10 +1,7 @@
-import { useState } from "react";
+import {  useState } from "react";
 import "./dataTable.scss";
 import Pagination from "../utils/pagination/Pagination";
 import { useNavigate } from "react-router-dom";
-import DeleteElement from "../delete/DeleteElement";
-
-const api = "http://localhost:8080/api/";
 
 type Props = {
   rows: object[];
@@ -27,6 +24,7 @@ const DataTable = (props: Props) => {
   const itemsPerPage = 5;
   const [currentPage, setCurrentPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState("");
+
   const totalPages = Math.ceil(props.rows.length / itemsPerPage);
 
   const handlePageChange = (page: number) => {
@@ -54,6 +52,7 @@ const DataTable = (props: Props) => {
     navigate(`/dashboard/${props.navigateTo}/${id}`);
   };
 
+
   return (
     <div className="dataTable">
       <div className="searchBar">
@@ -76,6 +75,7 @@ const DataTable = (props: Props) => {
             {props.columns.map((column: string) => (
               <th key={column}>{column}</th>
             ))}
+            <th>Nearest repayment date</th>
             <th>Amount to pay</th>
             {props.actionButtonsActive ? <th>Actions</th> : <th></th>}
           </tr>
@@ -102,7 +102,7 @@ const DataTable = (props: Props) => {
                   </div>
                 </td>
               ))}
-
+              <td onClick={() => handleNavigateToSingleLoan(row.id)}></td>
               <td onClick={() => handleNavigateToSingleLoan(row.id)}>
                 {row.loanStatus === "UNPAID"
                   ? `${row["amountOfSingleInstallment"].toFixed(2)} zł`
