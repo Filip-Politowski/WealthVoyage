@@ -17,7 +17,7 @@ const [ deleting, setDeleting] = useState<boolean>(false);
         <button onClick={() => setOpen(true)}>Add New Transaction</button>
       </div>
      
-      <DataTable
+      {/* <DataTable
         rows={lastTransactions}
         columns={["ID", "Amount", "Date"]}
         navigateTo={"transaction"}
@@ -27,7 +27,7 @@ const [ deleting, setDeleting] = useState<boolean>(false);
         searchPlaceholder='Search by date...'
         deleting={deleting}
         setDeleting={setDeleting}
-      />
+      /> */}
       {/* {open && <Add setOpen={setOpen} columns={columns} slug="Transaction" />} */}
     </div>
   );

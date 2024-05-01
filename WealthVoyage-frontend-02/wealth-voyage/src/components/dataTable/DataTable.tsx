@@ -3,7 +3,7 @@ import "./dataTable.scss";
 import Pagination from "../utils/pagination/Pagination";
 import { useNavigate } from "react-router-dom";
 import DeleteElement from "../delete/DeleteElement";
-import axios from "axios";
+
 const api = "http://localhost:8080/api/";
 
 type Props = {
@@ -14,20 +14,19 @@ type Props = {
   filteredKeys: string[];
   searchKeyFilter: string;
   searchPlaceholder?: string;
-  deleting?: boolean;
   setDeleting?: React.Dispatch<React.SetStateAction<boolean>>;
   actionButtonsActive?: boolean;
   actionButtons?: string[];
-  handlePayButton?: (id: number) => void;
+  setPaying?: React.Dispatch<React.SetStateAction<boolean>>;
+  elementId?: number;
+  setElementId?: React.Dispatch<React.SetStateAction<number>>;
 };
 
 const DataTable = (props: Props) => {
   const navigate = useNavigate();
   const itemsPerPage = 5;
-  const [elementId, setElementId] = useState<number>();
   const [currentPage, setCurrentPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState("");
-  const [isDeleting, setIsDeleting] = useState<boolean>(false);
   const totalPages = Math.ceil(props.rows.length / itemsPerPage);
 
   const handlePageChange = (page: number) => {
@@ -54,13 +53,7 @@ const DataTable = (props: Props) => {
   const handleNavigateToSingleLoan = (id: number) => {
     navigate(`/dashboard/${props.navigateTo}/${id}`);
   };
-  const handleDeleteElement = (id: number) => {
-    setIsDeleting(true);
-    setElementId(id);
-  };
 
- 
-  
   return (
     <div className="dataTable">
       <div className="searchBar">
@@ -79,16 +72,22 @@ const DataTable = (props: Props) => {
         <thead>
           <tr>
             <th>No.</th>
+
             {props.columns.map((column: string) => (
               <th key={column}>{column}</th>
             ))}
+            <th>Amount to pay</th>
             {props.actionButtonsActive ? <th>Actions</th> : <th></th>}
           </tr>
         </thead>
         <tbody>
           {currentRows.map((row: any, index: number) => (
-            <tr key={index}>
+            <tr
+              key={index}
+              className={row.loanStatus === "UNPAID" ? "unpaidRow" : ""}
+            >
               <td>{index + 1}.</td>
+
               {props.filteredKeys.map((key) => (
                 <td
                   key={key}
@@ -97,30 +96,44 @@ const DataTable = (props: Props) => {
                   <div className="contentArea">
                     {typeof row[key] === "number" && key !== "id" ? (
                       <p className={key}>{formatNumber(row[key])}</p>
-                      
                     ) : (
                       <p className={key}>{row[key]}</p>
                     )}
                   </div>
                 </td>
               ))}
+
+              <td onClick={() => handleNavigateToSingleLoan(row.id)}>
+                {row.loanStatus === "UNPAID"
+                  ? `${row["amountOfSingleInstallment"].toFixed(2)} zł`
+                  : "0 zł"}
+              </td>
+
               <td>
                 {props.actionButtons && (
                   <div className="actionButtons">
                     {props.actionButtons.map((button) => (
                       <>
-                      
                         <img
                           src={`/${button}.svg`}
                           alt="button"
                           className={`${button}Button`}
                           onClick={() => {
                             if (button === "delete") {
-                              handleDeleteElement(row.id);
+                              props.setDeleting &&
+                                props.setDeleting(
+                                  (prevDeleting) => !prevDeleting
+                                );
+                              if (props.setElementId) {
+                                props.setElementId(row.id);
+                              }
                             }
-                            if(button ==="paid"){
-                              props.handlePayButton &&
-                              props.handlePayButton(row.id);
+                            if (button === "paid") {
+                              props.setPaying &&
+                                props.setPaying((prevPaying) => !prevPaying);
+                              if (props.setElementId) {
+                                props.setElementId(row.id);
+                              }
                             }
                           }}
                         />
@@ -143,21 +156,6 @@ const DataTable = (props: Props) => {
         startIndex={startIndex}
         totalPages={totalPages}
       />
-      {isDeleting ? (
-        <DeleteElement
-          deleting={props.deleting !== undefined ? props.deleting : false}
-          isDeleting={isDeleting}
-          describeElementToDelete="Loan"
-          setDeleting={
-            props.setDeleting !== undefined ? props.setDeleting : () => {}
-          }
-          endpointUrl={`${api}${props.slug}/delete/${elementId}`}
-          setIsDeleting={setIsDeleting}
-          redirectUrl={`/dashboard/${props.slug}`}
-        />
-      ) : (
-        <></>
-      )}
     </div>
   );
 };

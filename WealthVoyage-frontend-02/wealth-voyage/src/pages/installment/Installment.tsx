@@ -80,11 +80,11 @@ const Installment = () => {
           <div className="details">
             <div className="item">
               <label>Loan amount: </label>
-              <p>{loan?.totalAmountOfLoan} zł</p>
+              <p>{loan?.totalAmountOfLoan.toFixed(2)} zł</p>
             </div>
             <div className="item">
               <label>Amount repaid: </label>
-              <p>{repaidAmount} zł</p>
+              <p>{repaidAmount.toFixed(2)} zł</p>
             </div>
             <div className="item">
               <label>Amount of a single installment: </label>

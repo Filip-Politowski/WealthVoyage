@@ -143,7 +143,7 @@ const SavingGoal = () => {
           setIsPayOut={setIsPayOut}
         />
       )}
-      {isDeleting && (
+      {/* {isDeleting && (
         <DeleteElement
           deleting={deleting}
           isDeleting={isDeleting}
@@ -153,7 +153,7 @@ const SavingGoal = () => {
           setIsDeleting={setIsDeleting}
           redirectUrl="/dashboard/savingGoals"
         />
-      )}
+      )} */}
     </div>
   );
 };

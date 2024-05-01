@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import pl.savings.wealthvoyage.paymentDates.PaymentDate;
 import pl.savings.wealthvoyage.transactions.Transaction;
 
 import java.util.List;
@@ -46,6 +47,9 @@ public class Loan {
     @Enumerated(EnumType.STRING)
     private LoanStatus loanStatus;
 
-    @OneToMany(mappedBy = "loan")
+    @OneToMany(mappedBy = "loan", cascade = CascadeType.ALL)
+    private List<PaymentDate> paymentDates;
+
+    @OneToMany(mappedBy = "loan", cascade = CascadeType.ALL)
     private List<Transaction> transactions;
 }

@@ -65,13 +65,18 @@
       background-color: rgba($element-color-1, 0.1);
       cursor: pointer;
     }
+    .unpaidRow {
+      background-color: rgba(red, 0.3);
+    }
+    .unpaidRow:hover{
+      background-color: rgba(red, 0.2);
+    }
 
     .contentArea {
       .amountOfSingleInstallment {
         width: fit-content;
         padding: 10px;
-        border-radius: 10px;
-        background-color: rgba($main-color, 0.2);
+       
       }
     }
 
@@ -85,7 +90,7 @@
         width: 25px;
         height: 25px;
       }
-    
+
       .paidButton {
         width: 30px;
         height: 30px;

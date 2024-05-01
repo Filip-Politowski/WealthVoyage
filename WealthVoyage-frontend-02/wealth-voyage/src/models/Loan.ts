@@ -8,5 +8,5 @@ export type Loan = {
   endDateOFInstallment: string;
   loanStatus: string;
   amountOfSingleInstallment: number;
-  entityRelationshipNumber: string;
+ 
 };

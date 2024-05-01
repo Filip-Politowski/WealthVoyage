@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+import pl.savings.wealthvoyage.loans.Loan;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -22,5 +23,6 @@ public class TransactionService {
     public List<TransactionResponse> findAllTransactionsByLoanId(Long id, UserDetails userDetails) {
         return transactionMapper.toTransactionResponses(transactionRepository.findAllByLoanIdAndUsername(id, userDetails.getUsername()).orElseThrow(NoSuchElementException::new));
     }
+
 
 }

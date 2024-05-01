@@ -8,6 +8,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.savings.wealthvoyage.income.Income;
+import pl.savings.wealthvoyage.paymentDates.PaymentDate;
+import pl.savings.wealthvoyage.paymentDates.PaymentDateService;
 import pl.savings.wealthvoyage.transactions.Transaction;
 import pl.savings.wealthvoyage.transactions.TransactionRepository;
 import pl.savings.wealthvoyage.transactions.TransactionService;
@@ -25,6 +27,7 @@ import java.util.Optional;
 public class LoanService {
     private final LoanRepository loanRepository;
     private final TransactionService transactionService;
+    private final PaymentDateService paymentDateService;
     private final LoanMapper loanMapper;
 
     public LoanResponse getUserLoanById(Long id, @NotNull UserDetails userDetails) {
@@ -38,7 +41,9 @@ public class LoanService {
     public Loan saveUserLoan(LoanRequest loanRequest, @NotNull UserDetails userDetails) {
         Loan loan = loanMapper.toLoan(loanRequest);
         loan.setUsername(userDetails.getUsername());
-        return loanRepository.save(loan);
+        Loan loanInDB = loanRepository.save(loan);
+        paymentDateService.generatePaymentDatesForLoan(loanInDB);
+        return loanInDB;
     }
 
     @Transactional
@@ -72,6 +77,9 @@ public class LoanService {
 
             if (loan.getLoanStatus().equals(LoanStatus.ENDED)) {
                 return;
+            }
+            if (loan.getLoanStatus().equals(LoanStatus.UNPAID)) {
+                loan.setLoanStatus(LoanStatus.PAID_OFF);
             }
 
             instalmentAmount = loan.getTotalAmountOfLoan() / loan.getNumberOfInstallments();
