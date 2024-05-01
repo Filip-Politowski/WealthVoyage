@@ -42,6 +42,7 @@ public class Loan {
 
     @Column(name = "end_date_of_installment")
     private String endDateOfInstallment;
+
     @Enumerated(EnumType.STRING)
     private LoanStatus loanStatus;
 

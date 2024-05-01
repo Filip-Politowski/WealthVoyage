@@ -4,4 +4,5 @@ public enum LoanStatus {
     PAID_OFF,
     UNPAID,
     ENDED
+
 }

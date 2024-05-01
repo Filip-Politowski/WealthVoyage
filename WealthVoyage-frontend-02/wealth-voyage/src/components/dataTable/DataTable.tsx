@@ -97,6 +97,7 @@ const DataTable = (props: Props) => {
                   <div className="contentArea">
                     {typeof row[key] === "number" && key !== "id" ? (
                       <p className={key}>{formatNumber(row[key])}</p>
+                      
                     ) : (
                       <p className={key}>{row[key]}</p>
                     )}

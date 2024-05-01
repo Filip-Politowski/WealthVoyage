@@ -7,7 +7,6 @@ import { useParams } from "react-router-dom";
 import ProgressBar from "../../components/utils/progressBar/ProgressBar";
 import { Transaction } from "../../models/Transaction";
 import { handleError } from "../../helpers/ErrorHandler";
-import transaction from "../transaction/Transaction";
 
 const api = "http://localhost:8080/api/";
 
@@ -19,7 +18,7 @@ const Installment = () => {
     const fetchLoan = async () => {
       const response = await axios.get(`${api}loans/${id}`);
       if (JSON.stringify(loan) !== JSON.stringify(response.data)) {
-        console.log(response.data)
+        console.log(response.data);
         setLoan(response.data);
       }
     };
@@ -44,17 +43,40 @@ const Installment = () => {
       : 0,
     color: "rgb(66, 79, 90)",
   };
-  const repaidAmount = loan ? loan.amountOfSingleInstallment * loan.numberOfPaidInstallments : 0;
+  const repaidAmount = loan
+    ? loan.amountOfSingleInstallment * loan.numberOfPaidInstallments
+    : 0;
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 6;
+
+  const totalItems = transactions.length;
+  const totalPages = Math.ceil(totalItems / itemsPerPage);
+
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentTransactions = transactions.slice(
+    indexOfFirstItem,
+    indexOfLastItem
+  );
+
+  const handlePreviousPage = () => {
+    setCurrentPage(currentPage - 1);
+  };
+
+  const handleNextPage = () => {
+    setCurrentPage(currentPage + 1);
+  };
 
   return (
-    <div className="installment">
-      <div className="view">
+    <div className="instalment">
+      <div className="topInfo">
+        <img src="/single-loan.svg" alt="single loan" />
+        <h1>{loan?.loanName.toUpperCase()}</h1>
+        <button>Update</button>
+      </div>
+      <div className="instalmentContent">
         <div className="info">
-          <div className="topInfo">
-            <img src="/single-loan.svg" alt="single loan" />
-            <h1>{loan?.loanName.toUpperCase()}</h1>
-            <button>Update</button>
-          </div>
           <div className="details">
             <div className="item">
               <label>Loan amount: </label>
@@ -79,11 +101,11 @@ const Installment = () => {
             </div>
 
             <div className="item">
-              <label>Start date of installment: </label>
+              <label>Start date of loan: </label>
               <p>{loan?.startDateOfInstallment}</p>
             </div>
             <div className="item">
-              <label>End date of installment: </label>
+              <label>End date of loan: </label>
               <p>{loan?.endDateOFInstallment}</p>
             </div>
             <div className="item">
@@ -96,25 +118,47 @@ const Installment = () => {
               percentage={progressBar.percentage}
               color={progressBar.color}
             />
-            <span>Progress</span>
+            <span>Loan repayment progress </span>
           </div>
         </div>
-      </div>
 
-      <div className="activities">
-        <h2>Latest transactions</h2>
-
-        <ul>
-          {transactions.map((transaction, index) => (
-            <li key={index}>
-              <div>
-                <label>{transaction.category}</label>
-                <p>{transaction.amount.toFixed(2)} zł</p>
-                <time>Payment date: {transaction.date}</time>
-              </div>
-            </li>
-          ))}
-        </ul>
+        <div className="activities">
+          <h2>Latest transactions</h2>
+          <table>
+            <thead>
+              <tr>
+                <th>Transaction Type</th>
+                <th>Amount</th>
+                <th>Date</th>
+              </tr>
+            </thead>
+            <tbody>
+              {currentTransactions.map((transaction) => (
+                <tr>
+                  <td>{transaction.category}</td>
+                  <td>{transaction.amount.toFixed(2)} zł</td>
+                  <td>{transaction.date}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          <div className="pagination">
+            <div>
+                {indexOfFirstItem + 1} to{" "}
+                {Math.min(indexOfLastItem, totalItems)} of {totalItems}
+            </div>
+            <button onClick={handlePreviousPage} disabled={currentPage === 1}>
+              Previous
+            </button>
+            <span>{`Page ${currentPage} of ${totalPages}`}</span>
+            <button
+              onClick={handleNextPage}
+              disabled={indexOfLastItem >= totalItems}
+            >
+              Next
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   );

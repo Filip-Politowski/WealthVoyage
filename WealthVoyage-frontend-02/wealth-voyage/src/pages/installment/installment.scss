@@ -1,130 +1,105 @@
 @import "../../styles/responsive.scss";
 @import "../../styles/variables.scss";
 
-$progressColor: #3498db;
-
-.installment {
-  display: flex;
-
-  @include xl {
-    flex-direction: column;
+.instalment {
+  .topInfo {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    img {
+      width: 120px;
+      height: 120px;
+    }
+    @include md{
+      flex-direction: column;
+    }
   }
 
-  .view {
-    flex: 1;
-    .info {
-      .topInfo {
-        display: flex;
-        align-items: center;
-        gap: 20px;
+  .instalmentContent {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
     
-
-        @include md {
-          flex-direction: column;
-        }
-
-        img {
-          width: 120px;
-          height: 120px;
-        }
-        h1 {
-          font-weight: 600;
-        }
-      }
+    .info {
+      margin-top: 10px;
+      max-width: 600px;
+      width: 100%;
       .details {
         display: flex;
         flex-direction: column;
-        margin-top: 30px;
-        gap: 15px;
-        font-size: 18px;
-
+        gap: 10px;
         .item {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-          margin: auto;
-          background-color: $navigation-color;
-          border-radius: 12px;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 5px;
           padding: 10px;
-          width: 80%;
-          max-width: 800px;
+          background-color: $navigation-color;
+          border: solid 1px $element-color-2;
+          border-radius: 5px;
           label {
-            font-weight: 600;
-            margin-right: 10px;
+            font-weight: 700;
+            font-size: larger;
           }
-          p{
+          p {
             color: $element-color-3;
-          }
-        }
-        @include md {
-          font-size: 14px;
-          .item {
-            width: 100%;
+            font-size: 20px;
           }
         }
       }
+      .progressContainer {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        align-items: center;
+        width: 90%;
+        padding: 10px;
+        margin: auto;
+        span {
+          font-size: larger;
+        }
+      }
     }
-
-    hr {
+    .activities {
+      position: relative;
+      flex: 1;
+      margin-bottom: 50px;
       width: 90%;
-      height: 0;
-      border: 0.5px solid gray;
-      margin: 20px;
-    }
-    .progressContainer {
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-      align-items: center;
-      margin:auto;
-      width: 75%;
-      max-width: 800px;
-      padding-top: 30px;
-    //   border-top: solid 1px;
-    }
-  }
-  .activities {
-    flex: 1;
-    h2 {
-      margin-bottom: 20px;
-    }
-    ul {
-      li {
-        list-style-type: none;
-        position: relative;
-        width: 1px;
-        padding-top: 30px;
-        background-color: rgba($color: $element-color-3, $alpha: 1);
+      table {
+        border-collapse: collapse;
+        width: 100%;
+        border: solid 1px $element-color-2;
+      }
 
-        &::after {
-          content: "";
-          position: absolute;
-          left: 50%;
-          bottom: 0;
-          width: 10px;
-          height: 10px;
-          border-radius: 5px;
-          background-color: rgba($color: $element-color-3, $alpha: 1);
-          transform: translateX(-50%);
-        }
-        div {
-          min-width: 480px;
-          padding: 15px;
-          background-color:  rgba($color: $navigation-color, $alpha:1);
-          margin-left: 1px;
-          @include md {
-            min-width: 250px;
-          }
+      table td,
+      table th {
+        padding: 8px;
+      }
 
-          p {
-            margin-top: 5px;
-            margin-bottom: 5px;
-            color: $element-color-3;
-          }
-          time {
-            font-size: 12px;
-          }
-        }
+      table tr:nth-child(even) {
+        background-color: $navigation-color;
+      }
+
+      table tr:hover {
+        background-color: $element-color-2;
+      }
+
+      table th {
+        padding-top: 10px;
+        padding-bottom: 10px;
+        text-align: left;
+        background-color: $element-color-1;
+        color: white;
+      }
+
+      .pagination {
+        position: absolute;
+        right: 0;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-top: 10px;
       }
     }
   }

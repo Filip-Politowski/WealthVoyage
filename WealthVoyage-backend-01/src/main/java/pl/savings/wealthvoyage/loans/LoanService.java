@@ -59,40 +59,49 @@ public class LoanService {
 
     public void payOneUserInstalment(@NotNull UserDetails userDetails, Long id) {
         Optional<Loan> optionalLoan = loanRepository.findByIdAndUsername(id, userDetails.getUsername());
+
         Transaction transaction = new Transaction();
+
         double instalmentAmount = 0.0;
+
+        Date currentDate = new Date();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
         if (optionalLoan.isPresent()) {
             Loan loan = optionalLoan.get();
-            instalmentAmount = loan.getTotalAmountOfLoan() / loan.getNumberOfInstallments();
-            Date currentDate = new Date();
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
-            if (loan.getNumberOfInstallments().equals(loan.getNumberOfPaidInstallments())) {
-                loan.setLoanStatus(LoanStatus.ENDED);
-                loanRepository.save(loan);
-            } else {
-
-                loan.setNumberOfPaidInstallments(loan.getNumberOfPaidInstallments() + 1);
-                transaction.setTransactionType(TransactionType.EXPENSE);
-                transaction.setLoan(loan);
-                transaction.setDate(dateFormat.format(currentDate));
-                transaction.setAmount(instalmentAmount);
-                transaction.setCategory("Loan");
-                transaction.setUsername(userDetails.getUsername());
-
-                transactionService.addTransaction(transaction);
-                loanRepository.save(loan);
+            if (loan.getLoanStatus().equals(LoanStatus.ENDED)) {
+                return;
             }
+
+            instalmentAmount = loan.getTotalAmountOfLoan() / loan.getNumberOfInstallments();
+            loan.setNumberOfPaidInstallments(loan.getNumberOfPaidInstallments() + 1);
+
+            if (loan.getNumberOfPaidInstallments().equals(loan.getNumberOfInstallments())) {
+                loan.setLoanStatus(LoanStatus.ENDED);
+
+            }
+
+            transaction.setTransactionType(TransactionType.EXPENSE);
+            transaction.setLoan(loan);
+            transaction.setDate(dateFormat.format(currentDate));
+            transaction.setAmount(instalmentAmount);
+            transaction.setCategory("Loan");
+            transaction.setUsername(userDetails.getUsername());
+
+            transactionService.addTransaction(transaction);
+            loanRepository.save(loan);
+
 
         } else {
             throw new NoSuchElementException("Nie znaleziono pożyczki dla określonego identyfikatora i użytkownika.");
         }
     }
 
-    @Scheduled(cron = "0/5 * * * * *")
+    @Scheduled(cron = "0 0 0 * * *")
     public void updateLoanStatusDaily() {
         List<Loan> allLoans = loanRepository.findAll();
+
         for (Loan loan : allLoans) {
             LocalDate currentDate = LocalDate.now();
             LocalDate startDateOfInstallment = LocalDate.parse(loan.getStartDateOfInstallment());
@@ -102,13 +111,10 @@ public class LoanService {
                     .withMonth(currentDate.getMonthValue())
                     .withDayOfMonth(startDateOfInstallment.getDayOfMonth());
 
-
             if (targetDateForStatusChange.isEqual(currentDate) && currentLoanStatus.equals(LoanStatus.PAID_OFF)) {
                 loan.setLoanStatus(LoanStatus.UNPAID);
                 loanRepository.save(loan);
             }
-
-
         }
     }
 }
