@@ -10,6 +10,12 @@ import DeleteElement from "../../components/delete/DeleteElement";
 
 const api = "http://localhost:8080/api/";
 
+ export interface LoanWithPayment {
+    loan: Loan;
+    nextPaymentDate: string;
+}
+  
+
 const Loans = () => {
   const [open, setOpen] = useState(false);
   const [loans, setLoans] = useState<Loan[]>([]);
@@ -27,6 +33,10 @@ const Loans = () => {
     amountOfSingleInstallment: 0,
     loanStatus: "UNPAID",
   });
+   const [loansWithPayments, setLoansWithPayments] = useState<
+     LoanWithPayment[]
+   >([]); 
+
 
   useEffect(() => {
     const fetchUserLoans = async () => {
@@ -62,6 +72,29 @@ const Loans = () => {
     }
   };
 
+  const fetchNextPaymentDate = async (loan:Loan): Promise<string> => {
+    const response = await axios.post(`${api}paymentDate/getNearestPaymentDate`, loan);
+    return response.data; 
+  };
+
+ const mergeLoansWithPaymentDates = async () => {
+   const loansWithPayments: LoanWithPayment[] = [];
+   for (const loan of loans) {
+     const nextPaymentDate = await fetchNextPaymentDate(loan);
+     loansWithPayments.push({ loan, nextPaymentDate });
+   }
+   return loansWithPayments;
+ };
+   useEffect(() => {
+     const fetchData = async () => {
+       const data = await mergeLoansWithPaymentDates();
+       setLoansWithPayments(data);
+     };
+     fetchData();
+   }, [loans]); 
+
+
+
   return (
     <div className="loans">
       <div className="info">
@@ -83,6 +116,7 @@ const Loans = () => {
         actionButtonsActive={true}
         actionButtons={["delete", "paid"]}
         setElementId={setLoanId}
+        loansWithPayment={loansWithPayments}
       />
       {paying && (
         <PayButtonWindow setPaying={setPaying} handlePay={handlePay} />

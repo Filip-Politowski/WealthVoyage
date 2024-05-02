@@ -2,6 +2,7 @@ import {  useState } from "react";
 import "./dataTable.scss";
 import Pagination from "../utils/pagination/Pagination";
 import { useNavigate } from "react-router-dom";
+import { LoanWithPayment } from "../../pages/loans/Loans";
 
 type Props = {
   rows: object[];
@@ -17,6 +18,7 @@ type Props = {
   setPaying?: React.Dispatch<React.SetStateAction<boolean>>;
   elementId?: number;
   setElementId?: React.Dispatch<React.SetStateAction<number>>;
+  loansWithPayment?: LoanWithPayment[];
 };
 
 const DataTable = (props: Props) => {
@@ -102,7 +104,17 @@ const DataTable = (props: Props) => {
                   </div>
                 </td>
               ))}
-              <td onClick={() => handleNavigateToSingleLoan(row.id)}></td>
+              <td onClick={() => handleNavigateToSingleLoan(row.id)}>
+                {props.loansWithPayment && (
+                  <p>
+                    {
+                      props.loansWithPayment.find(
+                        (loan: LoanWithPayment) => loan.loan.id === row.id
+                      )?.nextPaymentDate
+                    }
+                  </p>
+                )}
+              </td>
               <td onClick={() => handleNavigateToSingleLoan(row.id)}>
                 {row.loanStatus === "UNPAID"
                   ? `${row["amountOfSingleInstallment"].toFixed(2)} zł`

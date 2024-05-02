@@ -12,19 +12,6 @@ type Props = {
 const DeleteElement = (props: Props) => {
 
 
-  // const handleDelete = () => {
-  //   const deleteSelectedElement = async () => {
-  //     try {
-  //       await axios.delete(props.endpointUrl);
-  //       props.setDeleting(!props.deleting);
-  //       props.setIsDeleting(!props.isDeleting);
-  //     } catch (error) {
-  //       handleError(error);
-  //     }
-  //   };
-  //   deleteSelectedElement();
-
-  // };
   return (
     <div className="deleteElement">
       <div className="modal">

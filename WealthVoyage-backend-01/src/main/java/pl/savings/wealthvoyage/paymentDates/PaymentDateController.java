@@ -1,10 +1,7 @@
 package pl.savings.wealthvoyage.paymentDates;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import pl.savings.wealthvoyage.loans.Loan;
 import pl.savings.wealthvoyage.loans.LoanRequest;
 
@@ -14,7 +11,7 @@ import pl.savings.wealthvoyage.loans.LoanRequest;
 public class PaymentDateController {
     private final PaymentDateService paymentDateService;
 
-    @GetMapping("/getNearestPaymentDate")
+    @PostMapping("/getNearestPaymentDate")
     public String getNearestPaymentDate(@RequestBody LoanRequest loanRequest) {
         return paymentDateService.getNearestPaymentDate(loanRequest);
     }
