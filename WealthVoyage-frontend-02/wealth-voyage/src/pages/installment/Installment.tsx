@@ -1,29 +1,58 @@
 import "./installment.scss";
 
-import { useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import axios from "axios";
 import { Loan } from "../../models/Loan";
 import { useParams } from "react-router-dom";
 import ProgressBar from "../../components/utils/progressBar/ProgressBar";
 import { Transaction } from "../../models/Transaction";
 import { handleError } from "../../helpers/ErrorHandler";
+import BackButton from "../../components/utils/backButton/BackButton";
+import UpdateLoan from "../../components/update/UpdateLoan";
 
 const api = "http://localhost:8080/api/";
 
 const Installment = () => {
   const { id } = useParams();
-  const [loan, setLoan] = useState<Loan>();
+  const [loan, setLoan] = useState<Loan>({
+    loanName: "",
+    amountOfSingleInstallment: 0,
+    endDateOFInstallment: "",
+    id: 0,
+    loanStatus: "",
+    numberOfInstallments: 0,
+    numberOfPaidInstallments: 0,
+    startDateOfInstallment: "",
+    totalAmountOfLoan: 0,
+  });
   const [transactions, setTransactions] = useState<Transaction[]>([]);
+  const [open, setOpen] = useState<boolean>(false);
+  const repaidAmount = loan
+    ? loan.amountOfSingleInstallment * loan.numberOfPaidInstallments
+    : 0;
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 6;
+
+  const totalItems = transactions.length;
+  const totalPages = Math.ceil(totalItems / itemsPerPage);
+
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentTransactions = transactions.slice(
+    indexOfFirstItem,
+    indexOfLastItem
+  );
+
   useEffect(() => {
     const fetchLoan = async () => {
       const response = await axios.get(`${api}loans/${id}`);
       if (JSON.stringify(loan) !== JSON.stringify(response.data)) {
-        
         setLoan(response.data);
       }
     };
     fetchLoan();
-  }, [loan, id]);
+  }, [loan, id, open]);
   useEffect(() => {
     const fetchTransactionAssignedToLoan = async () => {
       try {
@@ -43,22 +72,6 @@ const Installment = () => {
       : 0,
     color: "rgb(66, 79, 90)",
   };
-  const repaidAmount = loan
-    ? loan.amountOfSingleInstallment * loan.numberOfPaidInstallments
-    : 0;
-
-  const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 6;
-
-  const totalItems = transactions.length;
-  const totalPages = Math.ceil(totalItems / itemsPerPage);
-
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentTransactions = transactions.slice(
-    indexOfFirstItem,
-    indexOfLastItem
-  );
 
   const handlePreviousPage = () => {
     setCurrentPage(currentPage - 1);
@@ -70,10 +83,11 @@ const Installment = () => {
 
   return (
     <div className="instalment">
+      <BackButton />
       <div className="topInfo">
         <img src="/single-loan.svg" alt="single loan" />
         <h1>{loan?.loanName.toUpperCase()}</h1>
-        <button>Update</button>
+        <button onClick={() => setOpen(true)}>Update</button>
       </div>
       <div className="instalmentContent">
         <div className="info">
@@ -144,8 +158,8 @@ const Installment = () => {
           </table>
           <div className="pagination">
             <div>
-                {indexOfFirstItem + 1} to{" "}
-                {Math.min(indexOfLastItem, totalItems)} of {totalItems}
+              {indexOfFirstItem + 1} to {Math.min(indexOfLastItem, totalItems)}{" "}
+              of {totalItems}
             </div>
             <button onClick={handlePreviousPage} disabled={currentPage === 1}>
               Previous
@@ -160,6 +174,12 @@ const Installment = () => {
           </div>
         </div>
       </div>
+      {open && (
+        <UpdateLoan
+          setOpen={setOpen}
+          loan={loan}
+        />
+      )}
     </div>
   );
 };

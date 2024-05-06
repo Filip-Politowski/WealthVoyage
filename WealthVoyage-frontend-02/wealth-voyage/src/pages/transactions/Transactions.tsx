@@ -2,6 +2,7 @@ import { useState } from 'react'
 import "./transactions.scss"
 import { lastTransactions } from '../../data';
 import DataTable from '../../components/dataTable/DataTable';
+import ProgressBar from '../../components/utils/progressBar/ProgressBar';
 
 
 
@@ -29,6 +30,7 @@ const [ deleting, setDeleting] = useState<boolean>(false);
         setDeleting={setDeleting}
       /> */}
       {/* {open && <Add setOpen={setOpen} columns={columns} slug="Transaction" />} */}
+      <ProgressBar  color='white' percentage={50} />
     </div>
   );
 }

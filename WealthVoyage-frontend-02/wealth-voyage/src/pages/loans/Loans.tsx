@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
 import "./loans.scss";
-import Add from "../../components/add/Add";
+
 import DataTable from "../../components/dataTable/DataTable";
 import { Loan } from "../../models/Loan";
 import axios from "axios";
 import { handleError } from "../../helpers/ErrorHandler";
 import PayButtonWindow from "../../components/payButtonWindow/PayButtonWindow";
 import DeleteElement from "../../components/delete/DeleteElement";
+import AddLoan from "../../components/add/AddLoan";
 
 const api = "http://localhost:8080/api/";
 
@@ -125,7 +126,7 @@ const Loans = () => {
         <DeleteElement setDeleting={setDeleting} handleDelete={handleDelete} />
       )}
 
-      {open && <Add setOpen={setOpen} loan={loan} setLoan={setLoan} />}
+      {open && <AddLoan setOpen={setOpen} loan={loan} setLoan={setLoan} />}
     </div>
   );
 };

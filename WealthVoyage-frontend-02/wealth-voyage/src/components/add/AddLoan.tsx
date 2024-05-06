@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "./add.scss";
+import "./addLoan.scss";
 import { Loan } from "../../models/Loan";
 import axios from "axios";
 import { handleError } from "../../helpers/ErrorHandler";
@@ -11,7 +11,7 @@ type Props = {
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-const Add = (props: Props) => {
+const AddLoan = (props: Props) => {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     axios
@@ -69,7 +69,7 @@ const Add = (props: Props) => {
   };
 
   return (
-    <div className="add">
+    <div className="addLoan">
       <div className="modal">
         <span className="close" onClick={() => props.setOpen(false)}>
           X
@@ -137,4 +137,4 @@ const Add = (props: Props) => {
   );
 };
 
-export default Add;
+export default AddLoan;
