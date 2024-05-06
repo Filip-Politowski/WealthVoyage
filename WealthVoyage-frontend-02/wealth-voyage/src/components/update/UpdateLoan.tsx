@@ -121,8 +121,8 @@ const UpdateLoan = (props: Props) => {
                 value={loan.loanStatus}
                 onChange={handleSelectChange}
               >
-                <option value="UNPAID">Loan paid in this month</option>
-                <option value="PAID_OFF">Loan unpaid in this month</option>
+                <option value="UNPAID"> Loan unpaid in this month</option>
+                <option value="PAID_OFF">Loan paid in this month</option>
               </select>
             </div>
             <button>Update</button>
