@@ -7,7 +7,7 @@ import {
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { UserProfile } from "../models/User";
-const MINUTES_UNTIL_EXPIRY = 11;
+const MINUTES_UNTIL_EXPIRY = 10;
 
 type UserContextType = {
   user: UserProfile | null;
@@ -34,7 +34,6 @@ export const UserProvider = ({ children }: Props) => {
   const [isReady, setIsReady] = useState(false);
   const navigate = useNavigate();
 
-
   useEffect(() => {
     const user = localStorage.getItem("user");
     const token = localStorage.getItem("accessToken");
@@ -45,25 +44,24 @@ export const UserProvider = ({ children }: Props) => {
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
     }
     setIsReady(true);
-  }, [accessToken]);
+  }, [accessToken, isReady, navigate]);
 
   useEffect(() => {
     const checkTokenExpiry = async () => {
       const tokenExpiry = localStorage.getItem("tokenExpiry");
       if (tokenExpiry) {
         const expiryTime = parseInt(tokenExpiry, 10);
-        const currentTime = Math.floor(Date.now() / 1000); 
+        const currentTime = Math.floor(Date.now() / 1000);
         const timeUntilExpiry = expiryTime - currentTime;
 
-        const minutesLeft = Math.ceil(timeUntilExpiry / 60); 
+        const minutesLeft = Math.ceil(timeUntilExpiry / 60);
 
         if (minutesLeft < MINUTES_UNTIL_EXPIRY) {
           try {
             const newAccessToken = await refreshTokenAPI();
-            setAccessToken(newAccessToken); 
+            setAccessToken(newAccessToken);
             console.log("Access token refreshed");
           } catch (error) {
-           
             logout();
           }
         }
@@ -94,12 +92,11 @@ export const UserProvider = ({ children }: Props) => {
   };
 
   const loginUser = async (username: string, password: string) => {
-    localStorage.removeItem("accessToken");
     await loginAPI(username, password)
       .then((response) => {
         if (response) {
           localStorage.setItem("accessToken", response?.data.accessToken);
-          const expiryTime = Math.floor(Date.now() / 1000) + 1 * 60; 
+          const expiryTime = Math.floor(Date.now() / 1000) + 1 * 60;
           localStorage.setItem("tokenExpiry", expiryTime.toString());
           const userObj = {
             username: response?.data.username,
@@ -126,7 +123,7 @@ export const UserProvider = ({ children }: Props) => {
     localStorage.removeItem("accessToken");
     localStorage.removeItem("user");
     localStorage.removeItem("tokenExpiry");
-    localStorage.removeItem("refreshToken")
+    localStorage.removeItem("refreshToken");
     setUser(null);
     setAccessToken(null);
     navigate("/");

@@ -1,7 +1,7 @@
 import "./styles/global.scss";
 
 import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
-import Installments from "./pages/installments/Installments";
+import Loans from "./pages/loans/Loans";
 import Navbar from "./components/navbar/Navbar";
 import Footer from "./components/footer/Footer";
 import Menu from "./components/menu/Menu";
@@ -78,10 +78,10 @@ function App() {
           ),
         },
         {
-          path: "/dashboard/installments",
+          path: "/dashboard/loans",
           element: (
             <ProtectedRoute>
-              <Installments />
+              <Loans />
             </ProtectedRoute>
           ),
         },

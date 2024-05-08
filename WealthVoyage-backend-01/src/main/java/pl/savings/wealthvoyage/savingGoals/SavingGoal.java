@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import pl.savings.wealthvoyage.plannedExpenses.PlannedExpense;
+import pl.savings.wealthvoyage.transactions.Transaction;
 
 import java.util.List;
 
@@ -31,6 +32,9 @@ public class SavingGoal {
     private double amountSaved;
     private String username;
     private String svgContent;
+
+    @OneToMany(mappedBy = "savingsGoal")
+    private List<Transaction> transactions;
 
 
 

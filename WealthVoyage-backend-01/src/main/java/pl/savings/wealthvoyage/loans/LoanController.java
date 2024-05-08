@@ -33,6 +33,10 @@ public class LoanController {
     public Loan addLoan(@AuthenticationPrincipal UserDetails userDetails, @RequestBody LoanRequest loanRequest) {
         return loanService.saveUserLoan(loanRequest, userDetails);
     }
+    @PostMapping( value = "/pay-instalment")
+    public void payOneUserInstalment (@AuthenticationPrincipal UserDetails userDetails, @RequestBody LoanRequest loanRequest){
+        loanService.payOneUserInstalment(userDetails, loanRequest.getId());
+    }
 
     @DeleteMapping(value = "/delete/{id}")
     public void deleteLoan(@AuthenticationPrincipal UserDetails userDetails, @PathVariable Long id) {

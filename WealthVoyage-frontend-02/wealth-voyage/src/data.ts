@@ -31,7 +31,7 @@ export const menu = [
       {
         id: 2,
         title: "Loans",
-        url: "/dashboard/installments",
+        url: "/dashboard/loans",
         icon: "/loan-menu.svg",
       },
       {
@@ -43,6 +43,8 @@ export const menu = [
     ],
   },
 ];
+
+
 
 export const lastTransactions = [
   {
@@ -243,175 +245,7 @@ export const bigChartData = [
   },
 ];
 
-export const installmentsRow = [
-  {
-    id: 1,
-    loanName: "Computer",
-    numberOfInstallments: 30,
-    installmentAmount: 9000,
-    endDateOfInstallment: "2024-01-01",
-    priceOfSingleInstallment: 9000 / 30,
-    paymentDate: "2023-01-01",
-  },
-  {
-    id: 2,
-    loanName: "Phone",
-    numberOfInstallments: 20,
-    installmentAmount: 3000,
-    endDateOfInstallment: "2024-01-01",
-    priceOfSingleInstallment: 9000 / 30,
-    paymentDate: "2023-01-01",
-  },
-  {
-    id: 3,
-    loanName: "Keyboard",
-    numberOfInstallments: 3,
-    installmentAmount: 500,
-    endDateOfInstallment: "2024-01-01",
-    priceOfSingleInstallment: 9000 / 30,
-    paymentDate: "2023-01-01",
-  },
-  {
-    id: 4,
-    loanName: "Mouse",
-    numberOfInstallments: 2,
-    installmentAmount: 500,
-    endDateOfInstallment: "2024-01-01",
-    priceOfSingleInstallment: 9000 / 30,
-    paymentDate: "2023-01-01",
-  },
-  {
-    id: 5,
-    loanName: "Speakers",
-    numberOfInstallments: 5,
-    installmentAmount: 1500,
-    endDateOfInstallment: "2024-01-01",
-    priceOfSingleInstallment: 9000 / 30,
-    paymentDate: "2023-01-01",
-  },
-  {
-    id: 6,
-    loanName: "Display",
-    numberOfInstallments: 15,
-    installmentAmount: 3000,
-    endDateOfInstallment: "2024-01-01",
-    priceOfSingleInstallment: 9000 / 30,
-    paymentDate: "2023-01-01",
-  },
-  {
-    id: 7,
-    loanName: "Pad",
-    numberOfInstallments: 1,
-    installmentAmount: 200,
-    endDateOfInstallment: "2024-01-01",
-    priceOfSingleInstallment: 9000 / 30,
-    paymentDate: "2023-01-01",
-  },
-  {
-    id: 8,
-    loanName: "Microphone",
-    numberOfInstallments: 3,
-    installmentAmount: 500,
-    endDateOfInstallment: "2024-01-01",
-    priceOfSingleInstallment: 9000 / 30,
-    paymentDate: "2023-01-01",
-  },
-  {
-    id: 9,
-    loanName: "Bum arm",
-    numberOfInstallments: 4,
-    installmentAmount: 900,
-    endDateOfInstallment: "2024-01-01",
-    priceOfSingleInstallment: 9000 / 30,
-    paymentDate: "2023-01-01",
-  },
-  {
-    id: 10,
-    loanName: "Bum arm",
-    numberOfInstallments: 4,
-    installmentAmount: 900,
-    endDateOfInstallment: "2024-01-01",
-    priceOfSingleInstallment: 9000 / 30,
-    paymentDate: "2023-01-01",
-  },
-  {
-    id: 11,
-    loanName: "Bum arm",
-    numberOfInstallments: 4,
-    installmentAmount: 900,
-    endDateOfInstallment: "2024-01-01",
-    priceOfSingleInstallment: 9000 / 30,
-    paymentDate: "2023-01-01",
-  },
-  {
-    id: 12,
-    loanName: "Bum arm",
-    numberOfInstallments: 4,
-    installmentAmount: 900,
-    endDateOfInstallment: "2024-01-01",
-    priceOfSingleInstallment: 9000 / 30,
-    paymentDate: "2023-01-01",
-  },
-  {
-    id: 13,
-    loanName: "Bum arm",
-    numberOfInstallments: 4,
-    installmentAmount: 900,
-    endDateOfInstallment: "2024-01-01",
-    priceOfSingleInstallment: 9000 / 30,
-    paymentDate: "2023-01-01",
-  },
-];
 
-export const singleInstallment = {
-  id: 1,
-  img: "/cash.svg",
-  title: "Computer",
-  info: {
-    loanId: 1,
-    loanName: "Computer",
-    totalAmountOfLoan: 9000,
-    numberOfInstallments: 30,
-    startDateOfInstallment: "2023-01-01",
-    endDateOfInstallment: "2024-01-01",
-    numberOfPaidInstallments: 10,
-  },
-  progress: 50,
-  activities: [
-    {
-      dueDate: "2024-03-01",
-      loanName: "Computer",
-    },
-    {
-      dueDate: "2024-04-01",
-      loanName: "Computer",
-    },
-    {
-      dueDate: "2024-05-01",
-      loanName: "Computer",
-    },
-    {
-      dueDate: "2024-05-01",
-      loanName: "Computer",
-    },
-    {
-      dueDate: "2024-05-01",
-      loanName: "Computer",
-    },
-    {
-      dueDate: "2024-05-01",
-      loanName: "Computer",
-    },
-  ],
-};
-
-export const singleGoalDetails = {
-  id: 1,
-  savingGoalName: "Car",
-  savingGoalAmount: 5000,
-  amountSaved: 2000,
-  savingsProgression: 40,
-};
 
 export const savingGoalImages = [
   "/money.svg",

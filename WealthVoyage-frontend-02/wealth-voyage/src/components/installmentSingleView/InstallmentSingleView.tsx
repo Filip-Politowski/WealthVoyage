@@ -17,13 +17,12 @@ type Props = {
   }[];
 };
 
-const SingleView = (props: Props) => {
-  
+const InstallmentSingleView = (props: Props) => {
   const formatVariableName = (input: string): string => {
     const words = input.replace(/([a-z])([A-Z])/g, "$1 $2");
     const firstLetter = words.charAt(0).toUpperCase();
     const restOfTheText = words.slice(1, words.length);
-   
+
     const result = firstLetter + restOfTheText.toLowerCase();
     return result;
   };
@@ -50,7 +49,7 @@ const SingleView = (props: Props) => {
               ))}
           </div>
         </div>
-       
+
         {props.progress && (
           <div className="progressContainer">
             <ProgressBar
@@ -82,4 +81,4 @@ const SingleView = (props: Props) => {
   );
 };
 
-export default SingleView;
+export default InstallmentSingleView;

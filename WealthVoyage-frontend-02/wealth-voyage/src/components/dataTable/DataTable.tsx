@@ -1,81 +1,173 @@
-import React from "react";
+import {  useState } from "react";
 import "./dataTable.scss";
-import { DataGrid, GridColDef, GridToolbar } from "@mui/x-data-grid";
-import { Link } from "react-router-dom";
-import { ThemeProvider } from "@mui/material/styles";
-import { createTheme } from "@mui/material/styles";
-import { purple, green, pink, blueGrey, blue } from "@mui/material/colors";
-import CssBaseline from "@mui/material/CssBaseline";
-
-
+import Pagination from "../utils/pagination/Pagination";
+import { useNavigate } from "react-router-dom";
+import { LoanWithPayment } from "../../pages/loans/Loans";
 
 type Props = {
-  columns: GridColDef[];
   rows: object[];
+  columns: string[];
+  navigateTo: string;
   slug: string;
+  filteredKeys: string[];
+  searchKeyFilter: string;
+  searchPlaceholder?: string;
+  setDeleting?: React.Dispatch<React.SetStateAction<boolean>>;
+  actionButtonsActive?: boolean;
+  actionButtons?: string[];
+  setPaying?: React.Dispatch<React.SetStateAction<boolean>>;
+  elementId?: number;
+  setElementId?: React.Dispatch<React.SetStateAction<number>>;
+  loansWithPayment?: LoanWithPayment[];
 };
 
-
-
 const DataTable = (props: Props) => {
-  const handleDelete = (id: number) => {
-    console.log(id + "has been deleted");
+  const navigate = useNavigate();
+  const itemsPerPage = 5;
+  const [currentPage, setCurrentPage] = useState(1);
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const totalPages = Math.ceil(props.rows.length / itemsPerPage);
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
   };
 
-  const actionColumn: GridColDef = {
-    field: "action",
-    headerName: "Action",
-    width: 200,
-    renderCell: (params) => {
-      return (
-        <div className="action">
-          <Link to={`/dashboard/${props.slug}/${params.row.id}`}>
-            <img src="/view.svg" alt="" />
-          </Link>
-          <div className="delete" onClick={() => handleDelete(params.row.id)}>
-            <img src="/delete.svg" alt="" />
-          </div>
-        </div>
-      );
-    },
+  const handleSearch = (query: string) => {
+    setSearchQuery(query);
+    setCurrentPage(1);
   };
 
-  // Define your dark mode theme
-const theme = createTheme({
-  palette: {
-    mode: "dark",
-  
-  },
-});
+  const filteredRows = props.rows.filter((row: any) =>
+    row[props.searchKeyFilter].toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const currentRows = filteredRows.slice(startIndex, endIndex);
+
+  const formatNumber = (value: number) => {
+    return `${value.toFixed(2)} zł`;
+  };
+
+  const handleNavigateToSingleLoan = (id: number) => {
+    navigate(`/dashboard/${props.navigateTo}/${id}`);
+  };
+
 
   return (
     <div className="dataTable">
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <DataGrid
-          className="dataGrid"
-          rows={props.rows}
-          columns={[...props.columns, actionColumn]}
-          initialState={{
-            pagination: {
-              paginationModel: {
-                pageSize: 8,
-              },
-            },
-          }}
-          slots={{ toolbar: GridToolbar }}
-          slotProps={{
-            toolbar: {
-              showQuickFilter: true,
-              quickFilterProps: { debounceMs: 500 },
-            },
-          }}
-          pageSizeOptions={[8]}
-          checkboxSelection
-          disableRowSelectionOnClick
-          disableDensitySelector
+      <div className="searchBar">
+        <img src="/search.svg" alt="" />
+        <input
+          type="text"
+          placeholder={
+            props.searchPlaceholder ? props.searchPlaceholder : "Search..."
+          }
+          value={searchQuery}
+          onChange={(e) => handleSearch(e.target.value)}
         />
-      </ThemeProvider>
+      </div>
+
+      <table className="rowsTable">
+        <thead>
+          <tr>
+            <th>No.</th>
+
+            {props.columns.map((column: string) => (
+              <th key={column}>{column}</th>
+            ))}
+            <th>Nearest repayment date</th>
+            <th>Amount to pay</th>
+            {props.actionButtonsActive ? <th>Actions</th> : <th></th>}
+          </tr>
+        </thead>
+        <tbody>
+          {currentRows.map((row: any, index: number) => (
+            <tr
+              key={index}
+              className={row.loanStatus === "UNPAID" ? "unpaidRow" : ""}
+            >
+              <td>{index + 1}.</td>
+
+              {props.filteredKeys.map((key) => (
+                <td
+                  key={key}
+                  onClick={() => handleNavigateToSingleLoan(row.id)}
+                >
+                  <div className="contentArea">
+                    {typeof row[key] === "number" && key !== "id" ? (
+                      <p className={key}>{formatNumber(row[key])}</p>
+                    ) : (
+                      <p className={key}>{row[key]}</p>
+                    )}
+                  </div>
+                </td>
+              ))}
+              <td onClick={() => handleNavigateToSingleLoan(row.id)}>
+                {props.loansWithPayment && (
+                  <p>
+                    {
+                      props.loansWithPayment.find(
+                        (loan: LoanWithPayment) => loan.loan.id === row.id
+                      )?.nextPaymentDate
+                    }
+                  </p>
+                )}
+              </td>
+              <td onClick={() => handleNavigateToSingleLoan(row.id)}>
+                {row.loanStatus === "UNPAID"
+                  ? `${row["amountOfSingleInstallment"].toFixed(2)} zł`
+                  : "0 zł"}
+              </td>
+
+              <td>
+                {props.actionButtons && (
+                  <div className="actionButtons">
+                    {props.actionButtons.map((button) => (
+                      <>
+                        <img
+                          src={`/${button}.svg`}
+                          alt="button"
+                          className={`${button}Button`}
+                          onClick={() => {
+                            if (button === "delete") {
+                              props.setDeleting &&
+                                props.setDeleting(
+                                  (prevDeleting) => !prevDeleting
+                                );
+                              if (props.setElementId) {
+                                props.setElementId(row.id);
+                              }
+                            }
+                            if (button === "paid") {
+                              props.setPaying && row.loanStatus === "UNPAID" &&
+                                props.setPaying((prevPaying) => !prevPaying);
+                              if (props.setElementId) {
+                                props.setElementId(row.id);
+                              }
+                            }
+                          }}
+                        />
+                      </>
+                    ))}
+                  </div>
+                )}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      <Pagination
+        currentPage={currentPage}
+        currentRows={currentRows}
+        endIndex={endIndex}
+        filteredRows={filteredRows}
+        handlePageChange={handlePageChange}
+        itemsPerPage={itemsPerPage}
+        startIndex={startIndex}
+        totalPages={totalPages}
+      />
     </div>
   );
 };

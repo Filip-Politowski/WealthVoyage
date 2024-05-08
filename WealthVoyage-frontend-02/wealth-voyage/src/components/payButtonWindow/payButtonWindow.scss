@@ -1,7 +1,7 @@
 @import "../../styles/variables.scss";
 @import "../../styles/responsive.scss";
 
-.deleteElement {
+.payButtonWindow {
   width: 100%;
   height: 100%;
   position: fixed;
@@ -39,28 +39,28 @@
       background-color: rgba(255, 0, 0, 0.725);
       border-radius: 5px;
     }
-.deletingButtons{
-    display: flex;
-    gap: 20px;
-    justify-content: center;
-    align-items: center;
+    .payingButtons {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      align-items: center;
 
-    button {
-      width: 30%;
-      border: none;
-      border-radius: 8px;
-      padding: 10px;
-      transition: 0.8s;
-      color: $soft-color;
-      background-color: $element-color-2;
-    }
-    .deleteButton{
-      background-color: rgba(255, 0, 0, 0.725);
-    }
-    button:hover {
-      cursor: pointer;
-      background-color: $element-color-3;
-    }
+      button {
+        width: 30%;
+        border: none;
+        border-radius: 8px;
+        padding: 10px;
+        transition: 0.8s;
+        color: $soft-color;
+        background-color: $element-color-2;
+      }
+      .payButton {
+        background-color: rgba(255, 0, 0, 0.725);
+      }
+      button:hover {
+        cursor: pointer;
+        background-color: $element-color-3;
+      }
     }
   }
 }

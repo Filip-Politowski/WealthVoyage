@@ -5,6 +5,11 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import pl.savings.wealthvoyage.paymentDates.PaymentDate;
+import pl.savings.wealthvoyage.transactions.Transaction;
+
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Data
@@ -18,8 +23,10 @@ public class Loan {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String username;
-    @Column(name = "loan_name")
+
     private String loanName;
+
+
 
     @Column(name = "number_of_installments")
     private Integer numberOfInstallments;
@@ -30,11 +37,19 @@ public class Loan {
     @Column(name = "total_amount_of_loan")
     private Double totalAmountOfLoan;
 
+
     @Column(name = "start_date_of_installment")
     private String startDateOfInstallment;
 
     @Column(name = "end_date_of_installment")
     private String endDateOfInstallment;
+
     @Enumerated(EnumType.STRING)
     private LoanStatus loanStatus;
+
+    @OneToMany(mappedBy = "loan", cascade = CascadeType.ALL)
+    private List<PaymentDate> paymentDates;
+
+    @OneToMany(mappedBy = "loan", cascade = CascadeType.ALL)
+    private List<Transaction> transactions;
 }

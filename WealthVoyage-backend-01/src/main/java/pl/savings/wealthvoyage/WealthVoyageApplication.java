@@ -4,11 +4,13 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import pl.savings.wealthvoyage.authentication.AuthenticationService;
 import pl.savings.wealthvoyage.authentication.RegisterRequest;
 
 
 @SpringBootApplication
+@EnableScheduling
 public class WealthVoyageApplication {
 
     public static void main(String[] args) {

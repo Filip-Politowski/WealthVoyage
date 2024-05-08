@@ -17,7 +17,7 @@ public class LoanMapper {
                 .numberOfInstallments(request.getNumberOfInstallments())
                 .numberOfPaidInstallments(request.getNumberOfPaidInstallments())
                 .totalAmountOfLoan(request.getTotalAmountOfLoan())
-                .startDateOfInstallment(request.getStartDataOfInstallment())
+                .startDateOfInstallment(request.getStartDateOfInstallment())
                 .endDateOfInstallment(request.getEndDateOFInstallment())
                 .loanStatus(request.getLoanStatus())
                 .build();
@@ -33,9 +33,10 @@ public class LoanMapper {
                 .numberOfInstallments(loan.getNumberOfInstallments())
                 .numberOfPaidInstallments(loan.getNumberOfPaidInstallments())
                 .totalAmountOfLoan(loan.getTotalAmountOfLoan())
-                .startDataOfInstallment(loan.getStartDateOfInstallment())
+                .startDateOfInstallment(loan.getStartDateOfInstallment())
                 .endDateOFInstallment(loan.getEndDateOfInstallment())
                 .loanStatus(loan.getLoanStatus())
+                .amountOfSingleInstallment(loan.getTotalAmountOfLoan() / loan.getNumberOfInstallments())
                 .build();
     }
 

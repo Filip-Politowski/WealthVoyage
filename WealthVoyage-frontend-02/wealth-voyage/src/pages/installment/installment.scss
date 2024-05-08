@@ -1,3 +1,118 @@
-.installment{
+@import "../../styles/responsive.scss";
+@import "../../styles/variables.scss";
+
+.instalment {
+    .backButton{
+    width: fit-content;
+    height: fit-content;
+   
+    margin: 15px  10px 30px;
+     
+      img
+      {
+        width: 20px;
+        height: 20px;
+      } 
+    }
+  .topInfo {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    img {
+      width: 120px;
+      height: 120px;
+    }
+    @include md{
+      flex-direction: column;
+    }
+  }
+
+  .instalmentContent {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
     
+    .info {
+      margin-top: 10px;
+      max-width: 600px;
+      width: 100%;
+      .details {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        .item {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 5px;
+          padding: 10px;
+          background-color: $navigation-color;
+          border: solid 1px $element-color-2;
+          border-radius: 5px;
+          label {
+            font-weight: 700;
+            font-size: larger;
+          }
+          p {
+            color: $element-color-3;
+            font-size: 20px;
+          }
+        }
+      }
+      .progressContainer {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        align-items: center;
+        width: 90%;
+        padding: 10px;
+        margin: auto;
+        span {
+          font-size: larger;
+        }
+      }
+    }
+    .activities {
+      position: relative;
+      flex: 1;
+      margin-bottom: 50px;
+      width: 90%;
+      table {
+        border-collapse: collapse;
+        width: 100%;
+        border: solid 1px $element-color-2;
+      }
+
+      table td,
+      table th {
+        padding: 8px;
+      }
+
+      table tr:nth-child(even) {
+        background-color: $navigation-color;
+      }
+
+      table tr:hover {
+        background-color: $element-color-2;
+      }
+
+      table th {
+        padding-top: 10px;
+        padding-bottom: 10px;
+        text-align: left;
+        background-color: $element-color-1;
+        color: white;
+      }
+
+      .pagination {
+        position: absolute;
+        right: 0;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-top: 10px;
+      }
+    }
+  }
 }
