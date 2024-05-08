@@ -53,6 +53,13 @@
         gap: 10px;
         margin-bottom: 20px;
 
+        .isPaidCheck{
+          display: flex;
+          align-items: center;
+          gap: 40px;
+          color:$element-color-3
+        }
+
         label {
           font-size: 14px;
         }

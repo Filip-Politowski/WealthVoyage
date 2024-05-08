@@ -141,7 +141,7 @@ const DataTable = (props: Props) => {
                               }
                             }
                             if (button === "paid") {
-                              props.setPaying &&
+                              props.setPaying && row.loanStatus === "UNPAID" &&
                                 props.setPaying((prevPaying) => !prevPaying);
                               if (props.setElementId) {
                                 props.setElementId(row.id);

@@ -124,7 +124,7 @@ const Installment = () => {
             </div>
             <div className="item">
               <label>Status: </label>
-              <p>{loan?.loanStatus}</p>
+              <p>{loan?.loanStatus === "PAID_OFF" ? "PAID IN THIS MONTH" : loan?.loanStatus}</p>
             </div>
           </div>
           <div className="progressContainer">

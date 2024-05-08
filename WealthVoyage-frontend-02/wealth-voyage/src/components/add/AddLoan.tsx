@@ -3,6 +3,7 @@ import "./addLoan.scss";
 import { Loan } from "../../models/Loan";
 import axios from "axios";
 import { handleError } from "../../helpers/ErrorHandler";
+import Slider from "../utils/slider/Slider";
 const api = "http://localhost:8080/api/";
 
 type Props = {
@@ -29,6 +30,7 @@ const AddLoan = (props: Props) => {
           amountOfSingleInstallment: 0,
           loanStatus: "UNPAID",
         });
+        setIsPaidInThisMonth(false);
       })
       .catch((error) => {
         handleError(error);
@@ -39,6 +41,7 @@ const AddLoan = (props: Props) => {
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
     const { name, value } = e.target;
+
     props.setLoan((prevState) => ({
       ...prevState,
       [name]: value,
@@ -48,6 +51,19 @@ const AddLoan = (props: Props) => {
   const handleDateKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     e.preventDefault();
   };
+
+  const [isPaidInThisMonth, setIsPaidInThisMonth] = useState<boolean>(false);
+
+  const handleToggleChange = () => {
+    setIsPaidInThisMonth(!isPaidInThisMonth);
+  };
+
+  useEffect(() => {
+    props.setLoan((prevState) => ({
+      ...prevState,
+      loanStatus: isPaidInThisMonth ? "PAID_OFF" : "UNPAID",
+    }));
+  },[isPaidInThisMonth]);
 
   return (
     <div className="addLoan">
@@ -110,6 +126,17 @@ const AddLoan = (props: Props) => {
               onChange={handleAddNewLoanDataChange}
               placeholder="Type date of last installment..."
             ></input>
+          </div>
+          <div className="item">
+            <label>Instalment is already paid in this month ?</label>
+            <div className="isPaidCheck">
+              <Slider
+                handleToggleChange={handleToggleChange}
+                isChecked={isPaidInThisMonth}
+              />
+              {isPaidInThisMonth && <p>Yes</p>}
+              {!isPaidInThisMonth && <p>No</p>}
+            </div>
           </div>
           <button type="submit">Add</button>
         </form>
