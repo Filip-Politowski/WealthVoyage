@@ -17,6 +17,7 @@ import pl.savings.wealthvoyage.transactions.TransactionType;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.Date;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -39,8 +40,11 @@ public class LoanService {
     }
 
     public Loan saveUserLoan(LoanRequest loanRequest, @NotNull UserDetails userDetails) {
+
         Loan loan = loanMapper.toLoan(loanRequest);
         loan.setUsername(userDetails.getUsername());
+        Integer monthsBetween = Math.toIntExact(ChronoUnit.MONTHS.between(LocalDate.parse(loan.getStartDateOfInstallment()), LocalDate.parse(loan.getEndDateOfInstallment())));
+        loan.setNumberOfInstallments(monthsBetween);
         Loan loanInDB = loanRepository.save(loan);
         paymentDateService.generatePaymentDatesForLoan(loanInDB);
         return loanInDB;
@@ -55,6 +59,8 @@ public class LoanService {
         Loan loan = loanMapper.toLoan(loanRequest);
         loan.setUsername(userDetails.getUsername());
         loan.setId(id);
+        Integer monthsBetween = Math.toIntExact(ChronoUnit.MONTHS.between(LocalDate.parse(loan.getStartDateOfInstallment()), LocalDate.parse(loan.getEndDateOfInstallment())));
+        loan.setNumberOfInstallments(monthsBetween);
         loanRepository.save(loan);
     }
 
@@ -125,4 +131,5 @@ public class LoanService {
             }
         }
     }
+
 }
