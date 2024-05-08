@@ -26,7 +26,7 @@ const AddLoan = (props: Props) => {
           numberOfPaidInstallments: 0,
           startDateOfInstallment: "",
           totalAmountOfLoan: 0,
-          amountOfSingleInstallment:0,
+          amountOfSingleInstallment: 0,
           loanStatus: "UNPAID",
         });
       })
@@ -39,29 +39,10 @@ const AddLoan = (props: Props) => {
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
     const { name, value } = e.target;
-    const updatedLoan = {
-      ...props.loan,
-      [name]: value,
-    };
-    const numberOfInstallments = calculateMonthDifference(
-      new Date(updatedLoan.startDateOfInstallment),
-      new Date(updatedLoan.endDateOFInstallment)
-    );
     props.setLoan((prevState) => ({
       ...prevState,
-      ...updatedLoan,
-      numberOfInstallments: numberOfInstallments,
+      [name]: value,
     }));
-  };
-  const calculateMonthDifference = (
-    startDateString: Date,
-    endDateString: Date
-  ) => {
-    let months: number;
-    months = (endDateString.getFullYear() - startDateString.getFullYear()) * 12;
-    months -= startDateString.getMonth();
-    months += endDateString.getMonth();
-    return months <= 0 ? 0 : months;
   };
 
   const handleDateKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
