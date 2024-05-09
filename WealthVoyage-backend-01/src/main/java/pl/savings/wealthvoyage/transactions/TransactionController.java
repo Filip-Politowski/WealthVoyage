@@ -14,7 +14,11 @@ public class TransactionController {
     private final TransactionService transactionService;
 
     @GetMapping("/loan/all/{id}")
-    public List<TransactionResponse> getAllTransactionsByRelationshipNumber(@AuthenticationPrincipal UserDetails userDetails ,@PathVariable Long id) {
+    public List<TransactionResponse> getAllTransactionsByLoan(@AuthenticationPrincipal UserDetails userDetails ,@PathVariable Long id) {
         return transactionService.findAllTransactionsByLoanId(id, userDetails);
+    }
+    @GetMapping("/all")
+    public List<TransactionResponse> getAllUserTransactions(@AuthenticationPrincipal UserDetails userDetails){
+        return transactionService.findAllTransactionsByUsername(userDetails);
     }
 }

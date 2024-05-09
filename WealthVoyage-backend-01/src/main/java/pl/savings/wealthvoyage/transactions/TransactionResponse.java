@@ -9,7 +9,7 @@ import lombok.*;
 @NoArgsConstructor
 public class TransactionResponse {
 
-
+    private Long id;
     private double amount;
     private TransactionType transactionType;
     private String category;

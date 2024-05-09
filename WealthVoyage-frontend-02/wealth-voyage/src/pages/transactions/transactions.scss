@@ -2,26 +2,19 @@
 @import "../../styles/variables.scss";
 
 .transactions {
-  .dataTableMobile {
-    display: none;
-  }
-
   .info {
     display: flex;
     align-items: center;
     gap: 20px;
     margin-bottom: 20px;
   }
+  .dataTable{
+    margin: auto
+  }
 
   @include md {
     .info {
       flex-direction: column;
-    }
-    .dataTable {
-      display: none;
-    }
-    .dataTableMobile {
-      display: grid;
     }
   }
 }

@@ -48,9 +48,9 @@ const AddLoan = (props: Props) => {
     }));
   };
 
-  const handleDateKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    e.preventDefault();
-  };
+  // const handleDateKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+  //   e.preventDefault();
+  // };
 
   const [isPaidInThisMonth, setIsPaidInThisMonth] = useState<boolean>(false);
 
@@ -109,7 +109,6 @@ const AddLoan = (props: Props) => {
             <label>Start date of installment</label>
             <input
               type="date"
-              onKeyDown={handleDateKeyDown}
               name="startDateOfInstallment"
               value={props.loan.startDateOfInstallment}
               onChange={handleAddNewLoanDataChange}
@@ -120,7 +119,6 @@ const AddLoan = (props: Props) => {
             <label>Date of last installment</label>
             <input
               type="date"
-              onKeyDown={handleDateKeyDown}
               name="endDateOFInstallment"
               value={props.loan.endDateOFInstallment}
               onChange={handleAddNewLoanDataChange}

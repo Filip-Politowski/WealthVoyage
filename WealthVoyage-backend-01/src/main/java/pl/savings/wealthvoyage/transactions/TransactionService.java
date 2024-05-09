@@ -21,8 +21,11 @@ public class TransactionService {
     }
 
     public List<TransactionResponse> findAllTransactionsByLoanId(Long id, UserDetails userDetails) {
-        return transactionMapper.toTransactionResponses(transactionRepository.findAllByLoanIdAndUsername(id, userDetails.getUsername()).orElseThrow(NoSuchElementException::new));
+        return transactionMapper.toTransactionResponses(transactionRepository.findAllByLoanIdAndUsername(id, userDetails.getUsername()));
     }
 
 
+    public List<TransactionResponse> findAllTransactionsByUsername(UserDetails userDetails) {
+        return transactionMapper.toTransactionResponses(transactionRepository.findAllByUsername(userDetails.getUsername()));
+    }
 }

@@ -28,6 +28,7 @@ public class TransactionMapper {
             throw new NullPointerException("Transaction cannot be null");
         }
         return TransactionResponse.builder()
+                .id(transaction.getId())
                 .transactionType(transaction.getTransactionType())
                 .amount(transaction.getAmount())
                 .category(transaction.getCategory())
