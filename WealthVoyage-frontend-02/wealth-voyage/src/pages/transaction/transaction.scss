@@ -8,6 +8,21 @@
   background-color: rgba($navigation-color, 0.6);
   border: 2px solid $soft-bg;
   border-radius: 10px;
+
+  .backButton{
+    width: fit-content;
+    height: fit-content;
+   
+    margin: 15px  10px 30px;
+     
+      img
+      {
+        width: 20px;
+        height: 20px;
+      } 
+    }
+
+
   @include md {
     width: 100%;
     margin: auto;
@@ -54,6 +69,10 @@
         margin-right: 30%;
         margin-left: 30%;
         padding: 10px;
+
+        .amount{
+          color: $element-color-3
+        }
 
         @include md {
           margin-left: 0%;

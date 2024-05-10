@@ -8,7 +8,7 @@ import Menu from "./components/menu/Menu";
 import Dashboard from "./pages/dashboard/Dashboard";
 import AuthForm from "./pages/authForm/AuthForm";
 import Installment from "./pages/installment/Installment";
-import Transaction from "./pages/transaction/Transaction";
+
 import SavingGoals from "./pages/savingGoals/SavingGoals";
 import Transactions from "./pages/transactions/Transactions";
 import Profile from "./pages/profile/Profile";
@@ -19,6 +19,7 @@ import Home from "./pages/home/Home";
 import { UserProvider } from "./context/useAuth";
 import ProtectedRoute from "./routes/ProtectedRoutes";
 import { SavingGoalContextProvider } from "./context/SavingGoalContext";
+import SingleTransaction from "./pages/transaction/SingleTransaction";
 
 function App() {
   const Layout = () => {
@@ -105,7 +106,7 @@ function App() {
           path: "/dashboard/transaction/:id",
           element: (
             <ProtectedRoute>
-              <Transaction />
+              <SingleTransaction />
             </ProtectedRoute>
           ),
         },
