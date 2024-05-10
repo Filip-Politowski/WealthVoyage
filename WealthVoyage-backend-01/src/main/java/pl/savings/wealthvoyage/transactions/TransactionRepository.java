@@ -14,4 +14,8 @@ public interface TransactionRepository extends JpaRepository<Transaction, Long> 
    List<Transaction> findAllByLoanIdAndUsername(Long id, String username);
 
     List<Transaction> findAllByUsername(String username);
+
+    Transaction findByUsernameAndId(String username, long id);
+
+    void deleteByUsernameAndId(String username, long id);
 }

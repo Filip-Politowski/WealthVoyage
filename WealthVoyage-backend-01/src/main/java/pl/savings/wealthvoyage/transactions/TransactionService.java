@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import pl.savings.wealthvoyage.loans.Loan;
 
 import java.util.List;
@@ -27,5 +28,21 @@ public class TransactionService {
 
     public List<TransactionResponse> findAllTransactionsByUsername(UserDetails userDetails) {
         return transactionMapper.toTransactionResponses(transactionRepository.findAllByUsername(userDetails.getUsername()));
+    }
+
+    public TransactionResponse findTransactionByUsernameAndId(UserDetails userDetails, long id) {
+        return transactionMapper.toTransactionResponse(transactionRepository.findByUsernameAndId(userDetails.getUsername(), id));
+    }
+
+    @Transactional
+    public void deleteUserTransaction(UserDetails userDetails, long id) {
+        transactionRepository.deleteByUsernameAndId(userDetails.getUsername(), id);
+    }
+
+    public void updateUserTransaction(UserDetails userDetails, long id, TransactionRequest transactionRequest) {
+        Transaction transaction = transactionMapper.toTransaction(transactionRequest);
+        transaction.setId(id);
+        transaction.setUsername(userDetails.getUsername());
+        transactionRepository.save(transaction);
     }
 }
