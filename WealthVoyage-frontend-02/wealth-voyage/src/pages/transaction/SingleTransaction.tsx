@@ -6,25 +6,38 @@ import { handleError } from "../../helpers/ErrorHandler";
 import axios from "axios";
 import { Transaction } from "../../models/Transaction";
 import BackButton from "../../components/utils/backButton/BackButton";
+import DeleteElement from "../../components/delete/DeleteElement";
+import UpdateTransaction from "./components/UpdateTransaction";
 
 const api = "http://localhost:8080/api/";
 
 const SingleTransaction = () => {
   const navigate = useNavigate();
   const { id } = useParams();
-  const [transaction, setTransaction] = useState<Transaction>();
+    const [transaction, setTransaction] = useState<Transaction>({
+      amount: 0,
+      category: "",
+      date: "",
+      id: 0,
+      transactionType: "",
+    });
+  const [deleting, setDeleting] = useState<boolean>(false);
+  const [open, setOpen] = useState<boolean>(false);
+
 
   useEffect(() => {
     const fetchSingleTransaction = async () => {
       try {
         const response = await axios.get(`${api}transactions/${id}`);
-        setTransaction(response.data);
+        if (JSON.stringify(transaction) !== JSON.stringify(response.data)) {
+          setTransaction(response.data);
+        }
       } catch (error) {
         handleError(error);
       }
     };
     fetchSingleTransaction();
-  }, [id]);
+  }, [id, transaction, open]);
 
   const handleDelete = async () => {
     try {
@@ -67,9 +80,11 @@ const SingleTransaction = () => {
             ))}
       </div>
       <div className="buttonsSection">
-        <button onClick={handleDelete}>Delete</button>
-        <button>Update</button>
+        <button onClick={() =>setDeleting(true)}>Delete</button>
+        <button onClick={() => setOpen(true)}>Update</button>
       </div>
+      {deleting && <DeleteElement setDeleting={setDeleting} handleDelete={handleDelete} />}
+      {open && <UpdateTransaction setOpen={setOpen} transaction={transaction}/>}
     </div>
   );
 };

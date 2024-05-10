@@ -30,4 +30,8 @@ public class TransactionController {
     public void deleteUserTransaction(@AuthenticationPrincipal UserDetails userDetails, @PathVariable long id){
         transactionService.deleteUserTransaction(userDetails, id);
     }
+    @PutMapping("/update/{id}")
+    public void updateUserTransaction(@AuthenticationPrincipal UserDetails userDetails, @PathVariable long id, @RequestBody TransactionRequest transactionRequest){
+        transactionService.updateUserTransaction(userDetails, id, transactionRequest);
+    }
 }

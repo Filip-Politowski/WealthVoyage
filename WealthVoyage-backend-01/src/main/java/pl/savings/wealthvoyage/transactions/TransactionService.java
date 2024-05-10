@@ -38,4 +38,11 @@ public class TransactionService {
     public void deleteUserTransaction(UserDetails userDetails, long id) {
         transactionRepository.deleteByUsernameAndId(userDetails.getUsername(), id);
     }
+
+    public void updateUserTransaction(UserDetails userDetails, long id, TransactionRequest transactionRequest) {
+        Transaction transaction = transactionMapper.toTransaction(transactionRequest);
+        transaction.setId(id);
+        transaction.setUsername(userDetails.getUsername());
+        transactionRepository.save(transaction);
+    }
 }
