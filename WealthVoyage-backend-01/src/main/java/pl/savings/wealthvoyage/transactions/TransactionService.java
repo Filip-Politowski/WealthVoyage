@@ -21,6 +21,12 @@ public class TransactionService {
         transactionRepository.save(transaction);
     }
 
+    public void addTransactionFromRequest(UserDetails userDetails, TransactionRequest transactionRequest) {
+        Transaction transaction = transactionMapper.toTransaction(transactionRequest);
+        transaction.setUsername(userDetails.getUsername());
+        transactionRepository.save(transaction);
+    }
+
     public List<TransactionResponse> findAllTransactionsByLoanId(Long id, UserDetails userDetails) {
         return transactionMapper.toTransactionResponses(transactionRepository.findAllByLoanIdAndUsername(id, userDetails.getUsername()));
     }

@@ -81,6 +81,27 @@
           -webkit-text-fill-color: $element-color-3; /* Set your desired text color */
           -webkit-box-shadow: 0 0 0px 1000px $navigation-color inset; /* Large inset shadow to cover background */
         }
+
+         select {
+          padding: 10px;
+          background-color: transparent;
+          color: $element-color-3;
+          outline: none;
+          border: 1px solid $element-color-1;
+          border-radius: 3px;
+        }
+
+        select::-ms-expand {
+          display: none;
+        }
+
+        select::-webkit-select-arrow {
+          display: none;
+        }
+
+        select::-moz-select-arrow {
+          display: none;
+        }
       }
       button {
         width: 100%;

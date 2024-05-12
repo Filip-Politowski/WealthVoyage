@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "./addLoan.scss";
+import "./add.scss";
 import { Loan } from "../../models/Loan";
 import axios from "axios";
 import { handleError } from "../../helpers/ErrorHandler";
