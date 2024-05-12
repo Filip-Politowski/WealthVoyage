@@ -4,6 +4,7 @@ import TransactionDataTable from "../../components/dataTable/TransactionDataTabl
 import axios from "axios";
 import { Transaction } from "../../models/Transaction";
 import { handleError } from "../../helpers/ErrorHandler";
+import AddTransaction from "../../components/add/AddTransaction";
 const api = "http://localhost:8080/api/";
 
 const Transactions = () => {
@@ -21,7 +22,7 @@ const Transactions = () => {
     };
     fetchUserTransactions();
   }, [open]);
-  
+
   return (
     <div className="transactions">
       <div className="info">
@@ -34,6 +35,7 @@ const Transactions = () => {
         filteredKeys={["amount", "date", "category", "transactionType"]}
         searchKeyFilter="date"
       />
+      {open && <AddTransaction setOpen={setOpen} />}
     </div>
   );
 };

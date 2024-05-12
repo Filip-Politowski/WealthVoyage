@@ -34,4 +34,8 @@ public class TransactionController {
     public void updateUserTransaction(@AuthenticationPrincipal UserDetails userDetails, @PathVariable long id, @RequestBody TransactionRequest transactionRequest){
         transactionService.updateUserTransaction(userDetails, id, transactionRequest);
     }
+    @PostMapping("/add")
+    public void addTransaction (@AuthenticationPrincipal UserDetails userDetails, @RequestBody TransactionRequest transactionRequest){
+        transactionService.addTransactionFromRequest(userDetails, transactionRequest);
+    }
 }
