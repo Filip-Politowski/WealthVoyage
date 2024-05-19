@@ -32,6 +32,9 @@ public class User implements UserDetails {
     private String username;
     @Column(unique = true)
     private String email;
+    @Column(name="profile_img")
+    private String profilePicturePath;
+
     @JsonIgnore
     private String password;
     @Enumerated(EnumType.STRING)
