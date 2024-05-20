@@ -16,60 +16,81 @@
       width: 200px;
       border-radius: 50%;
       object-fit: cover;
+      cursor: pointer;
     }
-    input {
-      display: none;
+
+    .error {
+      color: red;
+      margin-top: 10px;
     }
-    .profileHeaderInformation {
+
+    button {
+      width: 100px;
+      height: 50px;
+    }
+    .credentials {
       display: flex;
       flex-direction: column;
       gap: 10px;
-
-      .fullName {
-        color: $element-color-3;
-      }
-
-      .profileDetails {
+      .credentialsDetails {
         display: flex;
-        gap: 50px;
-        .username {
-          display: flex;
-          align-items: center;
-          gap: 5px;
-        }
-        .userEmail {
-          display: flex;
-          align-items: center;
-          gap: 5px;
-        }
+        gap: 10px;
+        align-items: center;
         img {
-          height: 25px;
-          width: 25px;
-          object-fit: cover;
-          border-radius: 0%;
+          height: 20px;
+          width: 20px;
+          cursor: auto;
+          border-radius: 0;
+        }
+        p {
+          color: $element-color-3;
         }
       }
     }
   }
-  .financialContainer {
+
+  .userFinancialInformation {
     display: flex;
-    gap: 20px;
-    @include md {
-      flex-direction: column;
-      align-items: center;
-    
-    }
-    .financialDescription {
-      margin-top: 20px;
-      color: gray;
-    }
-    .financialInformation {
+    padding: 20px;
+    max-height: 100vh;
+    gap: 50px;
+
+    .financialInformationBox {
       display: flex;
       flex-direction: column;
-      gap: 10px;
-      padding: 20px;
-      strong {
-        color: $element-color-3;
+      gap: 15px;
+      min-width: 400px;
+  
+
+      .financialInformationBoxHeader {
+        background: linear-gradient(
+          to right,
+          $navigation-color,
+          $element-color-2
+        );
+        padding: 20px;
+      }
+
+      .financialInformationBoxText {
+        display: flex;
+        flex-direction: column;
+       
+        gap: 5px;
+        p {
+          padding: 15px;
+           font-size: large;
+           font-weight: 700;
+          
+        }
+        .financialInformationBoxTextRow{
+          display: flex;
+          flex-direction: row;
+          background-color: rgba($element-color-2, 0.1);
+         .financialInformationBoxTextRowFetchedData{
+          color: $element-color-3;
+          
+         }
+        }
       }
     }
   }

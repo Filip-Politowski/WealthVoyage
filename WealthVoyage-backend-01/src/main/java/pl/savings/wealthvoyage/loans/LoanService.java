@@ -67,6 +67,14 @@ public class LoanService {
     public Integer getUserLoansCount(@NotNull UserDetails userDetails) {
         return loanRepository.findAllByUsername(userDetails.getUsername()).orElseThrow(NoSuchElementException::new).size();
     }
+    public Double getUserSumOfAllLoans(@NotNull UserDetails userDetails) {
+        return loanRepository.findAllByUsername(userDetails.getUsername())
+                .orElseThrow(NoSuchElementException::new)
+                .stream()
+                .mapToDouble(Loan::getTotalAmountOfLoan)
+                .reduce(0.0, Double::sum);
+    }
+
 
     public void payOneUserInstalment(@NotNull UserDetails userDetails, Long id) {
         Optional<Loan> optionalLoan = loanRepository.findByIdAndUsername(id, userDetails.getUsername());

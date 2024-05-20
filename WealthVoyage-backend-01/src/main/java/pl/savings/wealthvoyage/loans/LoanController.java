@@ -28,6 +28,10 @@ public class LoanController {
     public Integer getLoansCount(@AuthenticationPrincipal UserDetails userDetails) {
         return loanService.getUserLoansCount(userDetails);
     }
+    @GetMapping(value = "/sum")
+    public double getLoansSum(@AuthenticationPrincipal UserDetails userDetails){
+        return loanService.getUserSumOfAllLoans(userDetails);
+    }
 
     @PostMapping(value = "/add")
     public Loan addLoan(@AuthenticationPrincipal UserDetails userDetails, @RequestBody LoanRequest loanRequest) {

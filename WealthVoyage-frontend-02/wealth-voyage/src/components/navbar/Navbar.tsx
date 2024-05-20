@@ -1,11 +1,15 @@
 import React, { useState, useEffect, useRef } from "react";
 import "./navbar.scss";
 import { useAuth } from "../../context/useAuth";
+import axios from "axios";
+import { Link } from "react-router-dom";
+const api = "http://localhost:8080/api/";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const settingsWindowRef = useRef<HTMLDivElement>(null);
-  const {logout} = useAuth();
+  const [imageURL, setImageURL] = useState<string | null>(null);
+  const { logout } = useAuth();
 
   useEffect(() => {
     const handleOutsideClick = (event: MouseEvent) => {
@@ -24,6 +28,22 @@ const Navbar = () => {
     };
   }, []);
 
+  useEffect(() => {
+    getUserImage();
+  }, [imageURL]);
+
+  const getUserImage = async () => {
+    try {
+      const response = await axios.get(`${api}images/load-image`, {
+        responseType: "arraybuffer",
+      });
+      const blob = new Blob([response.data], { type: "image/png" });
+      const url = URL.createObjectURL(blob);
+      setImageURL(url);
+    } catch (error) {
+      console.error("Error loading image:", error);
+    }
+  };
   return (
     <div className="navbar">
       <div className="logo">
@@ -43,20 +63,33 @@ const Navbar = () => {
             setIsOpen(!isOpen);
           }}
         >
-          <img
-            src="https://avatars.githubusercontent.com/u/117862850?v=4"
-            alt=""
-          ></img>
+          {imageURL ? (
+            <img src={imageURL} alt=""></img>
+          ) : (
+            <p>Loading image...</p>
+          )}
+
           <span>Filip</span>
         </div>
         {isOpen && (
           <div className="settingsWindow">
-            <p>Set profile img</p>
-            <hr />
-            <p>Your profile</p>
-            <p>Your goals</p>
-            <p>Your transactions</p>
-            <p>Your installments</p>
+            <Link to="/dashboard">
+              <p>Dashboard</p>
+            </Link>
+            <hr/>
+            <Link to="/dashboard/profile">
+              <p>Your profile</p>
+            </Link>
+            <Link to="/dashboard/savingGoals">
+              <p>Your goals</p>
+            </Link>
+            <Link to="/dashboard/transactions">
+              <p>Your transactions</p>
+            </Link>
+            <Link to="/dashboard/loans">
+              <p>Your installments</p>
+            </Link>
+
             <hr />
             <p onClick={logout}>Sign out</p>
           </div>
