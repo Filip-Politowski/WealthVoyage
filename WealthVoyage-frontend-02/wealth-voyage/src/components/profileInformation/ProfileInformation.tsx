@@ -138,12 +138,14 @@ const ProfileInformation = () => {
           <hr />
           <div className="financialInformationBoxText">
             <div className="financialInformationBoxTextRow">
-              <p>Fixed monthly income:</p>
+              <p>Monthly income:</p>
             </div>
+          </div>
+          <div className="financialInformationBoxText">
             <div className="financialInformationBoxTextRow">
-              <p>Savings: </p>
+              <p>Savings:</p>
               <p className="financialInformationBoxTextRowFetchedData">
-                {userSavings} zł
+                {userSavings.toFixed(2)} zł
               </p>
             </div>
           </div>
@@ -155,8 +157,10 @@ const ProfileInformation = () => {
           <hr />
           <div className="financialInformationBoxText">
             <div className="financialInformationBoxTextRow">
-              <p>Fixed monthly income :</p>
+              <p>Monthly expense :</p>
             </div>
+          </div>
+          <div className="financialInformationBoxText">
             <div className="financialInformationBoxTextRow">
               <p>Savings: </p>
             </div>
@@ -174,10 +178,12 @@ const ProfileInformation = () => {
                 {userLoansNumber}
               </p>
             </div>
+          </div>
+          <div className="financialInformationBoxText">
             <div className="financialInformationBoxTextRow">
               <p>Cost of all loans: </p>
               <p className="financialInformationBoxTextRowFetchedData">
-                {userLoansSum} zł
+                {userLoansSum.toFixed(2)} zł
               </p>
             </div>
           </div>

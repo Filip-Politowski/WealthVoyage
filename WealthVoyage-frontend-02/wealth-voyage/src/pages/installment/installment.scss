@@ -2,18 +2,21 @@
 @import "../../styles/variables.scss";
 
 .instalment {
-    .backButton{
+  .backButton {
     width: fit-content;
     height: fit-content;
-   
-    margin: 15px  10px 30px;
-     
-      img
-      {
-        width: 20px;
-        height: 20px;
-      } 
+    background: none;
+    margin: 15px 10px 30px;
+
+    img {
+      width: 20px;
+      height: 20px;
     }
+  }
+  .backButton:hover{
+    cursor: pointer;
+    background: none;
+  }
   .topInfo {
     display: flex;
     gap: 20px;
@@ -22,7 +25,7 @@
       width: 120px;
       height: 120px;
     }
-    @include md{
+    @include md {
       flex-direction: column;
     }
   }
@@ -32,7 +35,7 @@
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
-    
+
     .info {
       margin-top: 10px;
       max-width: 600px;

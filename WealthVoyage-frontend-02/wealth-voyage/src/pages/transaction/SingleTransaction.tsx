@@ -53,8 +53,9 @@ const SingleTransaction = () => {
       <BackButton />
       <div className="topInfo">
         <h1>Transaction Details</h1>
-        <img src="/transaction2.svg" alt="" />
+        {/* <img src="/transaction2.svg" alt="" /> */}
       </div>
+      <hr/>
       <div className="transactionDetails">
         {transaction &&
           Object.entries(transaction)
@@ -69,13 +70,13 @@ const SingleTransaction = () => {
                         .replace(/([A-Z])/g, " $1")
                         .toLowerCase()}
                   </p>
-                  <p className={item[0]}>
+                  <p className="fetchedDataFromTransaction">
                     {typeof item[1] === "number"
                       ? `${item[1].toFixed(2)} zł`
                       : item[1]}
                   </p>
                 </div>
-                <hr />
+                
               </div>
             ))}
       </div>

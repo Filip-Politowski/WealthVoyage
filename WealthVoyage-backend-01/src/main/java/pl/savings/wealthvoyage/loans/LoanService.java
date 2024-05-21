@@ -72,7 +72,7 @@ public class LoanService {
                 .orElseThrow(NoSuchElementException::new)
                 .stream()
                 .mapToDouble(Loan::getTotalAmountOfLoan)
-                .reduce(0.0, Double::sum);
+                .reduce(0.00, Double::sum);
     }
 
 

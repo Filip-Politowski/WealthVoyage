@@ -22,7 +22,9 @@
       padding: 20px;
       border-radius: 10px;
       border: 2px solid $soft-bg;
-      background-color: $navigation-color;
+      background: linear-gradient(45deg, $navigation-color 30%, $element-color-2 70%); /* Czerwony zajmuje 30%, niebieski 70% */
+
+
       display: flex;
       justify-content: space-around;
       align-items: center;
@@ -39,7 +41,7 @@
 
       .amountTarget {
         display: flex;
-        gap: 10px;
+        gap: 5px;
         p {
           padding: 10px;
           border-radius: 10px;
@@ -47,7 +49,7 @@
         }
         .amount {
           p {
-            background-color: $element-color-1;
+            background-color: $navigation-color;
           }
         }
         .target {
