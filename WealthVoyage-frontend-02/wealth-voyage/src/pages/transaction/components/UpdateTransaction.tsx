@@ -23,6 +23,7 @@ const UpdateTransaction = (props: Props) => {
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
     const { name, value } = e.target;
+  
     setTransaction((prevState) => ({
       ...prevState,
       [name]: value,
@@ -66,6 +67,7 @@ console.log(transaction)
                 type="number"
                 name="amount"
                 value={transaction.amount}
+
                 onChange={handleUpdateTransactionDataChange}
                 placeholder="Update the amount of transaction..."
               ></input>

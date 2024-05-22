@@ -40,6 +40,18 @@ export const menu = [
         url: "/dashboard/transactions",
         icon: "/transaction.svg",
       },
+      {
+        id: 4,
+        title: "Incomes",
+        url: "/dashboard/incomes",
+        icon: "/income.svg",
+      },
+      {
+        id: 5,
+        title: "Expenses",
+        url: "/dashboard/expenses",
+        icon: "/expense.svg",
+      },
     ],
   },
 ];

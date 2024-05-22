@@ -10,10 +10,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class IncomeResponse {
-    private Integer id;
+    private Long id;
     private Double amount;
     private String incomeDate;
     private SourceOfIncome sourceOfIncome;
+    private TypeOfIncome typeOfIncome;
+    private String description;
 
 
 

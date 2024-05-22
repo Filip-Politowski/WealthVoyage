@@ -16,6 +16,8 @@ public class IncomeMapper {
                 .amount(request.getAmount())
                 .incomeDate(request.getIncomeDate())
                 .sourceOfIncome(request.getSourceOfIncome())
+                .typeofIncome(request.getTypeOfIncome())
+                .description(request.getDescription())
                 .build();
     }
 
@@ -28,6 +30,8 @@ public class IncomeMapper {
                 .amount(monthlyIncome.getAmount())
                 .incomeDate(monthlyIncome.getIncomeDate())
                 .sourceOfIncome(monthlyIncome.getSourceOfIncome())
+                .typeOfIncome(monthlyIncome.getTypeofIncome())
+                .description(monthlyIncome.getDescription())
                 .build();
     }
 

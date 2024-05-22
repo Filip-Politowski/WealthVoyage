@@ -7,7 +7,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 
-
 @Entity
 @Builder
 @Data
@@ -17,11 +16,14 @@ public class Income {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
     private String username;
     private Double amount;
     private String incomeDate;
     @Enumerated(EnumType.STRING)
     private SourceOfIncome sourceOfIncome;
+    @Enumerated(EnumType.STRING)
+    private TypeOfIncome typeofIncome;
+    private String description;
 
 }

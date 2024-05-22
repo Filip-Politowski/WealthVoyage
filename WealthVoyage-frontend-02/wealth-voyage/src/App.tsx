@@ -20,6 +20,8 @@ import { UserProvider } from "./context/useAuth";
 import ProtectedRoute from "./routes/ProtectedRoutes";
 import { SavingGoalContextProvider } from "./context/SavingGoalContext";
 import SingleTransaction from "./pages/transaction/SingleTransaction";
+import Incomes from "./pages/Incomes/Incomes";
+import Expenses from "./pages/Expenses/Expenses";
 
 function App() {
   const Layout = () => {
@@ -115,6 +117,22 @@ function App() {
           element: (
             <ProtectedRoute>
               <Profile />
+            </ProtectedRoute>
+          ),
+        },
+        {
+          path: "/dashboard/incomes",
+          element: (
+            <ProtectedRoute>
+              <Incomes />
+            </ProtectedRoute>
+          ),
+        },
+        {
+          path: "/dashboard/expenses",
+          element: (
+            <ProtectedRoute>
+              <Expenses />
             </ProtectedRoute>
           ),
         },

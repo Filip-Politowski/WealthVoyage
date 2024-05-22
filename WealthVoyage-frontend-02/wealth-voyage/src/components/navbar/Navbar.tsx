@@ -46,10 +46,12 @@ const Navbar = () => {
   };
   return (
     <div className="navbar">
-      <div className="logo">
-        <img src="/loginLogo.jpeg" alt="" />
-        <span>Wealth Voyage</span>
-      </div>
+      <Link to="/dashboard">
+        <div className="logo">
+          <img src="/loginLogo.jpeg" alt="" />
+          <span>Wealth Voyage</span>
+        </div>
+      </Link>
       <div className="icons" ref={settingsWindowRef}>
         <img src="/search.svg" alt="" className="icon"></img>
 
@@ -76,7 +78,7 @@ const Navbar = () => {
             <Link to="/dashboard">
               <p>Dashboard</p>
             </Link>
-            <hr/>
+            <hr />
             <Link to="/dashboard/profile">
               <p>Your profile</p>
             </Link>

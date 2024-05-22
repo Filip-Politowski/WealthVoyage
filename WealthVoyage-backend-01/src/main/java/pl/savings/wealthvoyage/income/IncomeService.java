@@ -2,10 +2,13 @@ package pl.savings.wealthvoyage.income;
 
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.data.domain.Page;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import org.springframework.data.domain.Pageable;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.NoSuchElementException;
 
 @Service
@@ -14,12 +17,14 @@ public class IncomeService {
     private final IncomeRepository incomeRepository;
     private final IncomeMapper incomeMapper;
 
-    public IncomeResponse getUserIncomeById(Integer id, @NotNull UserDetails userDetails) {
+    public IncomeResponse getUserIncomeById(Long id, @NotNull UserDetails userDetails) {
         return incomeMapper.toIncomeResponse(incomeRepository.findByIdAndUsername(id, userDetails.getUsername()).orElseThrow(NoSuchElementException::new));
     }
 
-    public List<IncomeResponse> getUserIncomes(@NotNull UserDetails userDetails) {
-        return incomeMapper.toIncomeResponseList(incomeRepository.findAllByUsername(userDetails.getUsername()).orElseThrow(NoSuchElementException::new));
+    public Page<IncomeResponse> getUserIncomes(@NotNull UserDetails userDetails, Pageable pageable) {
+        Page<Income> incomePage = incomeRepository.findAllByUsername(userDetails.getUsername(), pageable)
+                .orElseThrow(NoSuchElementException::new);
+        return incomePage.map(incomeMapper::toIncomeResponse);
     }
 
     public Income saveUserIncome(IncomeRequest incomeRequest, @NotNull UserDetails userDetails) {
@@ -27,17 +32,21 @@ public class IncomeService {
         income.setUsername(userDetails.getUsername());
         return incomeRepository.save(income);
     }
-    public void deleteUserIncomeById(Integer id, @NotNull UserDetails userDetails) {
+
+    @Transactional
+    public void deleteUserIncomeById(Long id, @NotNull UserDetails userDetails) {
         incomeRepository.deleteByIdAndUsername(id, userDetails.getUsername());
     }
-    public void updateUserIncome(Integer id, IncomeRequest incomeRequest, @NotNull UserDetails userDetails) {
+
+    public void updateUserIncome(Long id, IncomeRequest incomeRequest, @NotNull UserDetails userDetails) {
         Income income = incomeMapper.toIncome(incomeRequest);
         income.setUsername(userDetails.getUsername());
         income.setId(id);
         incomeRepository.save(income);
     }
+
     public Double getUserIncomeSum(@NotNull UserDetails userDetails) {
-        return incomeRepository.findAllByUsername(userDetails.getUsername()).orElseThrow(NoSuchElementException::new).stream().mapToDouble(Income::getAmount).sum();
+        return incomeRepository.findTotalIncomeByUsername(userDetails.getUsername()).orElseThrow(NoSuchElementException::new);
     }
 
 
