@@ -22,13 +22,11 @@
       padding: 20px;
       border-radius: 10px;
       border: 2px solid $soft-bg;
-      background: linear-gradient(45deg, $navigation-color 30%, $element-color-2 70%); /* Czerwony zajmuje 30%, niebieski 70% */
-
-
+      background: linear-gradient(45deg, $navigation-color 30%, $element-color-2 70%); 
       display: flex;
       justify-content: space-around;
       align-items: center;
-      transition: 1s;
+      transition: 0.8s;
 
       .theme {
         display: flex;
@@ -76,7 +74,7 @@
     }
     .box:hover {
       cursor: pointer;
-      box-shadow: 5px 5px 20px $element-color-3;
+      box-shadow: 5px 5px 20px rgba($element-color-3, 0.4);
       transform: scale(1.05);
     }
 
