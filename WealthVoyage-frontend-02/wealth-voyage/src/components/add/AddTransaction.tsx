@@ -62,7 +62,7 @@ const AddTransaction = (props: Props) => {
   };
 
   return (
-    <div className="addLoan">
+    <div className="add">
       <div className="modal">
         <span className="close" onClick={() => props.setOpen(false)}>
           X

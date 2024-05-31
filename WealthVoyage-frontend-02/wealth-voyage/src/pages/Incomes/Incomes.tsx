@@ -1,63 +1,48 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./incomes.scss";
-
-
-const exampleData = [
-  {
-    username: "user1",
-    amount: 1500.0,
-    incomeDate: "2024-01-01",
-    sourceOfIncome: "JOB",
-    typeofIncome: "FIXED",
-    description: "Monthly salary",
-  },
-  {
-    username: "user2",
-    amount: 200.0,
-    incomeDate: "2024-01-15",
-    sourceOfIncome: "FREELANCE",
-    typeofIncome: "FIXED",
-    description: "Freelance project",
-  },
-  {
-    username: "user2",
-    amount: 200.0,
-    incomeDate: "2024-01-15",
-    sourceOfIncome: "FREELANCE",
-    typeofIncome: "FIXED",
-    description: "Freelance project",
-  },
-  {
-    username: "user2",
-    amount: 200.0,
-    incomeDate: "2024-01-15",
-    sourceOfIncome: "FREELANCE",
-    typeofIncome: "FIXED",
-    description: "Freelance project",
-  },
-  {
-    username: "user3",
-    amount: 300.0,
-    incomeDate: "2024-02-01",
-    sourceOfIncome: "INVESTMENT",
-    typeofIncome: "SUPPLEMENTARY",
-    description: "Stock dividends",
-  },
-];
+import { Link } from "react-router-dom";
+import AddNewIncome from "../../components/add/AddNewIncome";
+import { handleError } from "../../helpers/ErrorHandler";
+import axios from "axios";
+import { Income } from "../../models/Income";
+const api = "http://localhost:8080/api/";
 
 const Incomes = () => {
   const [selectedIncome, setSelectedIncome] = useState<string>("fixed");
+  const [open, setOpen] = useState(false);
+
+  const [incomes, setIncomes] = useState<Income[]>([]);
+
+  useEffect(() => {
+    const fetchAllIncomes = async () => {
+      try {
+        const response = await axios.get(`${api}incomes/all`);
+        const data = response.data;
+
+        if (data && Array.isArray(data.content)) {
+          console.log(data.content);
+          setIncomes(data.content);
+        } else {
+          console.error("Expected an array but got:", data);
+        }
+      } catch (error) {
+        handleError(error);
+      }
+    };
+    fetchAllIncomes();
+  }, [open]);
 
   const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedIncome(event.target.value);
   };
-
   return (
     <div className="incomes">
       <div className="incomesHeader">
         <div className="title">
           <h1>Incomes</h1>
-          <button>Add new source of income</button>
+          <button onClick={() => setOpen(true)}>
+            Add new source of income
+          </button>
         </div>
         <div className="customSelect">
           <select name="" id="" onChange={handleSelectChange}>
@@ -71,30 +56,30 @@ const Incomes = () => {
         {selectedIncome === "fixed" && (
           <div className="fixedIncomesList">
             <h1>Fixed incomes</h1>
+
             <div className="incomeBoxes">
-              {exampleData
-                .filter((income) => income.typeofIncome === "FIXED")
+              {incomes
+                .filter((income) => income.typeOfIncome === "FIXED_INCOME")
                 .map((income, index) => (
-                  <div key={index} className="incomeBox">
-                    <p>
-                      <strong>Username:</strong> {income.username}
-                    </p>
-                    <p>
-                      <strong>Amount:</strong> ${income.amount}
-                    </p>
-                    <p>
-                      <strong>Date:</strong> {income.incomeDate}
-                    </p>
-                    <p>
-                      <strong>Source:</strong> {income.sourceOfIncome}
-                    </p>
-                    <p>
-                      <strong>Type:</strong> {income.typeofIncome}
-                    </p>
-                    <p>
-                      <strong>Description:</strong> {income.description}
-                    </p>
-                  </div>
+                  <Link to={`/dashboard/income/${income.id}`}>
+                    <div key={index} className="incomeBox">
+                      <h2>
+                        <strong>Amount:</strong> ${income.amount}
+                      </h2>
+                      <p>
+                        <strong>Date:</strong> {income.incomeDate}
+                      </p>
+                      <p>
+                        <strong>Source:</strong> {income.sourceOfIncome}
+                      </p>
+                      <p>
+                        <strong>Type:</strong> {income.typeOfIncome}
+                      </p>
+                      <p>
+                        <strong>Description:</strong> {income.description}
+                      </p>
+                    </div>
+                  </Link>
                 ))}
             </div>
           </div>
@@ -103,16 +88,15 @@ const Incomes = () => {
           <div className="supplementaryIncomesList">
             <h1>Supplementary incomes</h1>
             <div className="incomeBoxes">
-              {exampleData
-                .filter((income) => income.typeofIncome === "SUPPLEMENTARY")
+              {incomes
+                .filter(
+                  (income) => income.typeOfIncome === "SUPPLEMENTARY_INCOME"
+                )
                 .map((income, index) => (
                   <div key={index} className="incomeBox">
-                    <p>
-                      <strong>Username:</strong> {income.username}
-                    </p>
-                    <p>
+                    <h2>
                       <strong>Amount:</strong> ${income.amount}
-                    </p>
+                    </h2>
                     <p>
                       <strong>Date:</strong> {income.incomeDate}
                     </p>
@@ -120,7 +104,7 @@ const Incomes = () => {
                       <strong>Source:</strong> {income.sourceOfIncome}
                     </p>
                     <p>
-                      <strong>Type:</strong> {income.typeofIncome}
+                      <strong>Type:</strong> {income.typeOfIncome}
                     </p>
                     <p>
                       <strong>Description:</strong> {income.description}
@@ -130,6 +114,7 @@ const Incomes = () => {
             </div>
           </div>
         )}
+        {open && <AddNewIncome setOpen={setOpen} />}
       </div>
     </div>
   );

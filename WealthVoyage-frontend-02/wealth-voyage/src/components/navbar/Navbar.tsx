@@ -91,6 +91,12 @@ const Navbar = () => {
             <Link to="/dashboard/loans">
               <p>Your installments</p>
             </Link>
+            <Link to="/dashboard/incomes">
+              <p>Your incomes</p>
+            </Link>
+            <Link to="/dashboard/expenses">
+              <p>Your expenses</p>
+            </Link>
 
             <hr />
             <p onClick={logout}>Sign out</p>

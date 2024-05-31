@@ -66,7 +66,7 @@ const AddLoan = (props: Props) => {
   },[isPaidInThisMonth]);
 
   return (
-    <div className="addLoan">
+    <div className="add">
       <div className="modal">
         <span className="close" onClick={() => props.setOpen(false)}>
           X
