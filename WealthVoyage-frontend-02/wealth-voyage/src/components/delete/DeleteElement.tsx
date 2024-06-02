@@ -1,8 +1,5 @@
 import React from "react";
 import "./deleteElement.scss";
-import axios from "axios";
-import { handleError } from "../../helpers/ErrorHandler";
-import { useNavigate } from "react-router-dom";
 
 type Props = {
   setDeleting: React.Dispatch<React.SetStateAction<boolean>>;

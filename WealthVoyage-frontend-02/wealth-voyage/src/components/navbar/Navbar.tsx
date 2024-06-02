@@ -30,7 +30,7 @@ const Navbar = () => {
 
   useEffect(() => {
     getUserImage();
-  }, [imageURL]);
+  }, []);
 
   const getUserImage = async () => {
     try {

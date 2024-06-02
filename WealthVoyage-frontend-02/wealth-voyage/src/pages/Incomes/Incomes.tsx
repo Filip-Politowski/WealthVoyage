@@ -93,23 +93,25 @@ const Incomes = () => {
                   (income) => income.typeOfIncome === "SUPPLEMENTARY_INCOME"
                 )
                 .map((income, index) => (
-                  <div key={index} className="incomeBox">
-                    <h2>
-                      <strong>Amount:</strong> ${income.amount}
-                    </h2>
-                    <p>
-                      <strong>Date:</strong> {income.incomeDate}
-                    </p>
-                    <p>
-                      <strong>Source:</strong> {income.sourceOfIncome}
-                    </p>
-                    <p>
-                      <strong>Type:</strong> {income.typeOfIncome}
-                    </p>
-                    <p>
-                      <strong>Description:</strong> {income.description}
-                    </p>
-                  </div>
+                  <Link to={`/dashboard/income/${income.id}`}>
+                    <div key={index} className="incomeBox">
+                      <h2>
+                        <strong>Amount:</strong> ${income.amount}
+                      </h2>
+                      <p>
+                        <strong>Date:</strong> {income.incomeDate}
+                      </p>
+                      <p>
+                        <strong>Source:</strong> {income.sourceOfIncome}
+                      </p>
+                      <p>
+                        <strong>Type:</strong> {income.typeOfIncome}
+                      </p>
+                      <p>
+                        <strong>Description:</strong> {income.description}
+                      </p>
+                    </div>
+                  </Link>
                 ))}
             </div>
           </div>

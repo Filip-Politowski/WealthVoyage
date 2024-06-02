@@ -26,7 +26,7 @@ public class IncomeController {
 
     }
 
-    @GetMapping("/income/{id}")
+    @GetMapping("/{id}")
     public IncomeResponse getUserSingleIncome(@AuthenticationPrincipal UserDetails userDetails, @PathVariable Long id) {
         return incomeService.getUserIncomeById(id, userDetails);
     }
@@ -36,7 +36,7 @@ public class IncomeController {
         incomeService.saveUserIncome(incomeRequest, userdetails);
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     public void deleteUserIncomeById(@AuthenticationPrincipal UserDetails userDetails, @PathVariable Long id) {
         incomeService.deleteUserIncomeById(id, userDetails);
     }

@@ -22,7 +22,7 @@ import { SavingGoalContextProvider } from "./context/SavingGoalContext";
 import SingleTransaction from "./pages/transaction/SingleTransaction";
 import Incomes from "./pages/Incomes/Incomes";
 import Expenses from "./pages/Expenses/Expenses";
-import Income from "./pages/income/Income";
+import Income from "./pages/income/SingleIncome";
 
 function App() {
   const Layout = () => {

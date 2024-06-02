@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import "./add.scss";
-import { Loan } from "../../models/Loan";
+
 import axios from "axios";
 import { handleError } from "../../helpers/ErrorHandler";
-import Slider from "../utils/slider/Slider";
+
 import { Income } from "../../models/Income";
 const api = "http://localhost:8080/api/";
 
@@ -17,8 +17,8 @@ const AddNewIncome = (props: Props) => {
     amount: 0,
     description: "",
     incomeDate: "",
-    sourceOfIncome: "",
-    typeOfIncome: "",
+    sourceOfIncome: "EMPLOYMENT_CONTRACT",
+    typeOfIncome: "FIXED_INCOME",
   });
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -31,15 +31,15 @@ const AddNewIncome = (props: Props) => {
           amount: 0,
           description: "",
           incomeDate: "",
-          sourceOfIncome: "",
-          typeOfIncome: "",
+          sourceOfIncome: "EMPLOYMENT_CONTRACT",
+          typeOfIncome: "FIXED_INCOME",
         });
       })
       .catch((error) => {
         handleError(error);
       });
   };
-
+console.log(income)
   const handleAddNewIncomeDataChange = (
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
@@ -96,7 +96,7 @@ const AddNewIncome = (props: Props) => {
               value={income.sourceOfIncome}
               onChange={handleAddNewIncomeSelectChange}
             >
-              <option value="EMPLOYMENT_CONTRACT">Employment contract</option>
+              <option value="EMPLOYMENT_CONTRACT" >Employment contract</option>
               <option value="B2B">B2B</option>
               <option value="CONTRACT">Contract</option>
               <option value="RETIREMENT">Retirement</option>
@@ -111,7 +111,7 @@ const AddNewIncome = (props: Props) => {
               value={income.typeOfIncome}
               onChange={handleAddNewIncomeSelectChange}
             >
-              <option value="FIXED_INCOME">Fixed income</option>
+              <option value="FIXED_INCOME" >Fixed income</option>
               <option value="SUPPLEMENTARY_INCOME">Supplementary income</option>
             </select>
           </div>

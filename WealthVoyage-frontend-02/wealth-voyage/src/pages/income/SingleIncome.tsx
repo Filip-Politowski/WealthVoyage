@@ -1,47 +1,48 @@
 import { useNavigate, useParams } from "react-router-dom";
-import "./transaction.scss";
+import "./income.scss";
 
 import { useEffect, useState } from "react";
 import { handleError } from "../../helpers/ErrorHandler";
 import axios from "axios";
-import { Transaction } from "../../models/Transaction";
+import { Income } from "../../models/Income";
 import BackButton from "../../components/utils/backButton/BackButton";
 import DeleteElement from "../../components/delete/DeleteElement";
-import UpdateTransaction from "./components/UpdateTransaction";
+import UpdateIncome from "./components/UpdateIncome";
+
 
 const api = "http://localhost:8080/api/";
 
-const SingleTransaction = () => {
+const SingleIncome = () => {
   const navigate = useNavigate();
   const { id } = useParams();
-    const [transaction, setTransaction] = useState<Transaction>({
-      amount: 0,
-      category: "",
-      date: "",
-      id: 0,
-      transactionType: "",
-    });
+  const [income, setIncome] = useState<Income>({
+    id:0,
+    amount:0,
+    incomeDate:"",
+    sourceOfIncome:"",
+    typeOfIncome:"",
+    description:""
+  });
   const [deleting, setDeleting] = useState<boolean>(false);
   const [open, setOpen] = useState<boolean>(false);
 
-
   useEffect(() => {
-    const fetchSingleTransaction = async () => {
+    const fetchSingleIncome = async () => {
       try {
-        const response = await axios.get(`${api}transactions/${id}`);
-        if (JSON.stringify(transaction) !== JSON.stringify(response.data)) {
-          setTransaction(response.data);
+        const response = await axios.get(`${api}incomes/${id}`);
+        if (JSON.stringify(income) !== JSON.stringify(response.data)) {
+          setIncome(response.data);
         }
       } catch (error) {
         handleError(error);
       }
     };
-    fetchSingleTransaction();
-  }, [id, transaction, open]);
+    fetchSingleIncome();
+  }, [id, income, open]);
 
   const handleDelete = async () => {
     try {
-      await axios.delete(`${api}transactions/${id}`);
+      await axios.delete(`${api}incomes/${id}`);
       navigate(-1);
     } catch (error) {
       handleError(error);
@@ -49,15 +50,15 @@ const SingleTransaction = () => {
   };
 
   return (
-    <div className="transaction">
+    <div className="income">
       <BackButton />
       <div className="topInfo">
-        <h1>Transaction Details</h1>
+        <h1>Income Details</h1>
       </div>
-      <hr/>
-      <div className="transactionDetails">
-        {transaction &&
-          Object.entries(transaction)
+      <hr />
+      <div className="incomeDetails">
+        {income &&
+          Object.entries(income)
             .filter((item) => item[0] !== "id")
             .map((item, index) => (
               <div className="row" key={index}>
@@ -69,24 +70,26 @@ const SingleTransaction = () => {
                         .replace(/([A-Z])/g, " $1")
                         .toLowerCase()}
                   </p>
-                  <p className="fetchedDataFromTransaction">
+                  <p className="fetchedDataFromIncome">
                     {typeof item[1] === "number"
                       ? `${item[1].toFixed(2)} zł`
                       : item[1]}
                   </p>
                 </div>
-                
               </div>
             ))}
       </div>
       <div className="buttonsSection">
-        <button onClick={() =>setDeleting(true)}>Delete</button>
+        <button onClick={() => setDeleting(true)}>Delete</button>
         <button onClick={() => setOpen(true)}>Update</button>
       </div>
-      {deleting && <DeleteElement setDeleting={setDeleting} handleDelete={handleDelete} />}
-      {open && <UpdateTransaction setOpen={setOpen} transaction={transaction}/>}
+      {deleting && (
+        <DeleteElement setDeleting={setDeleting} handleDelete={handleDelete} />
+      )}
+      {open && <UpdateIncome income={income} setOpen={setOpen}/>}
+     
     </div>
   );
 };
 
-export default SingleTransaction;
+export default SingleIncome;
