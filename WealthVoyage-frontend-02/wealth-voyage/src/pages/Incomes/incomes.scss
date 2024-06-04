@@ -23,12 +23,32 @@
       @include md {
         flex-direction: column;
       }
+
+      .sumOfIncomes {
+        margin-left: 20px;
+        display: flex;
+        flex-direction: row;
+        gap: 10px;
+        align-items: center;
+        p {
+          font-size: larger;
+          font-weight: 700;
+          background-color: $navigation-color;
+          padding: 8px;
+          border: thin solid rgba(255, 255, 255, 0.5);
+          border-radius: 5px;
+          box-shadow: 3px 6px 10px rgba(black, 0.1);
+          color:$element-color-3;
+        }
+      }
     }
 
     .customSelect {
       position: relative;
       width: fit-content;
       height: fit-content;
+      display: flex;
+      gap: 10px;
 
       select {
         box-shadow: 0 10px 25px rgba(0, 0, 0, 1);
@@ -39,47 +59,33 @@
         padding: 0.5em 3em 0.5em 0.5em;
       }
 
-      .customArrow {
-        position: absolute;
-        display: block;
-        background: $navigation-color;
-        height: 100%;
-        width: 3rem;
-        top: 0;
-        right: 0;
-        pointer-events: none;
-
-        &::before,
-        &::after {
-          --size: 0.5em;
-
-          content: "";
-          position: absolute;
-          width: 0;
-          height: 0;
-          left: 50%;
-          top: 50%;
-          transform: translate(-50%, -50%);
-        }
-
-        &::before {
-          border-left: var(--size) solid transparent;
-          border-right: var(--size) solid transparent;
-          border-bottom: var(--size) solid white;
-          top: 30%;
-        }
-
-        &::after {
-          border-left: var(--size) solid transparent;
-          border-right: var(--size) solid transparent;
-          border-top: var(--size) solid white;
-          top: 70%;
-        }
-      }
-
       option {
         background: $navigation-color;
+        color: rgba($element-color-3, 1);
+        line-height: 4;
+      }
+
+      .my-select-container .my-select__control {
+        background-color: $navigation-color;
         color: white;
+      }
+      .my-select-container .my-select__menu {
+        background-color: $navigation-color; /* Dropdown menu background color */
+      }
+      .my-select__single-value {
+        color: white;
+      }
+
+      .my-select__option {
+        background-color: rgba($navigation-color, 1);
+        color: $element-color-3;
+        padding: 10px;
+        
+      }
+
+      .my-select__option--is-selected {
+        background-color: rgba($element-color-3, 1);
+        color: #222;
       }
     }
   }
@@ -115,7 +121,7 @@
         );
         transition: 0.8s;
         word-wrap: break-word;
-        
+
         p {
           margin: 0 0 10px;
           font-size: 1rem;

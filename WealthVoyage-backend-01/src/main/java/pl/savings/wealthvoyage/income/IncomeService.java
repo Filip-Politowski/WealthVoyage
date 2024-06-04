@@ -45,8 +45,12 @@ public class IncomeService {
         incomeRepository.save(income);
     }
 
-    public Double getUserIncomeSum(@NotNull UserDetails userDetails) {
-        return incomeRepository.findTotalIncomeByUsername(userDetails.getUsername()).orElseThrow(NoSuchElementException::new);
+    public Double getUserFixedIncomeSum(@NotNull UserDetails userDetails) {
+        return incomeRepository.findTotalFixedIncomeByUsername(userDetails.getUsername()).orElseThrow(NoSuchElementException::new);
+    }
+
+    public Double getUserSupplementaryIncomeSum(@NotNull UserDetails userDetails) {
+        return incomeRepository.findTotalSupplementaryIncomeByUsername(userDetails.getUsername()).orElseThrow(NoSuchElementException::new);
     }
 
 

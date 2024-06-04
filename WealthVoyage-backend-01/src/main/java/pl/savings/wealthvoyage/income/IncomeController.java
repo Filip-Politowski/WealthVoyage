@@ -15,10 +15,16 @@ import org.springframework.web.bind.annotation.*;
 public class IncomeController {
     private final IncomeService incomeService;
 
-    @GetMapping("/sum")
-    public Double getUserIncomesSum(@AuthenticationPrincipal UserDetails userDetails) {
-        return incomeService.getUserIncomeSum(userDetails);
+    @GetMapping("/fixed/sum")
+    public Double getUserFixedIncomesSum(@AuthenticationPrincipal UserDetails userDetails) {
+        return incomeService.getUserFixedIncomeSum(userDetails);
     }
+
+    @GetMapping("/supplementary/sum")
+    public Double getUserSupplementaryIncomesSum(@AuthenticationPrincipal UserDetails userDetails) {
+        return incomeService.getUserSupplementaryIncomeSum(userDetails);
+    }
+
 
     @GetMapping("/all")
     public Page<IncomeResponse> getAllUserIncomes(@AuthenticationPrincipal UserDetails userDetails, Pageable pageable) {
