@@ -26,10 +26,14 @@ public class IncomeController {
     }
 
 
-    @GetMapping("/all")
-    public Page<IncomeResponse> getAllUserIncomes(@AuthenticationPrincipal UserDetails userDetails, Pageable pageable) {
-        return incomeService.getUserIncomes(userDetails, pageable);
+    @GetMapping("/all/active")
+    public Page<IncomeResponse> getAllActiveUserIncomes(@AuthenticationPrincipal UserDetails userDetails, Pageable pageable) {
+        return incomeService.getUserActiveIncomes(userDetails, pageable);
+    }
 
+    @GetMapping("/all/inactive")
+    public Page<IncomeResponse> getAllInactiveUserIncomes(@AuthenticationPrincipal UserDetails userDetails, Pageable pageable) {
+        return incomeService.getUserInactiveIncomes(userDetails, pageable);
     }
 
     @GetMapping("/{id}")
@@ -40,6 +44,16 @@ public class IncomeController {
     @PostMapping("/add")
     public void addUserIncome(@AuthenticationPrincipal UserDetails userdetails, @RequestBody IncomeRequest incomeRequest) {
         incomeService.saveUserIncome(incomeRequest, userdetails);
+    }
+
+    @PostMapping("/deactivate/{id}")
+    public void deactivateUserIncome(@AuthenticationPrincipal UserDetails userDetails, @PathVariable Long id) {
+        incomeService.deactivateIncome(userDetails, id);
+    }
+
+    @PostMapping("/activate/{id}")
+    public void activateUserIncome(@AuthenticationPrincipal UserDetails userDetails, @PathVariable Long id) {
+        incomeService.activateIncome(userDetails, id);
     }
 
     @DeleteMapping("/{id}")

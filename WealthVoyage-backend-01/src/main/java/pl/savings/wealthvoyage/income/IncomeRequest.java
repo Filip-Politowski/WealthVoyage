@@ -18,4 +18,5 @@ public class IncomeRequest {
     private SourceOfIncome sourceOfIncome;
     private TypeOfIncome typeOfIncome;
     private String description;
+
 }

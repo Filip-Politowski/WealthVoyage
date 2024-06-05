@@ -25,5 +25,8 @@ public class Income {
     @Enumerated(EnumType.STRING)
     private TypeOfIncome typeofIncome;
     private String description;
+    @Enumerated(EnumType.STRING)
+    private IncomeStatus incomeStatus;
+
 
 }

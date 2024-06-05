@@ -16,13 +16,14 @@ import java.util.Optional;
 public interface IncomeRepository extends JpaRepository<Income, Long> {
     Optional<Income> findByIdAndUsername(Long id, String username);
 
-    Optional<Page<Income>> findAllByUsername(String username, Pageable pageable);
+    Optional<Page<Income>> findAllByUsernameAndIncomeStatus(String username,IncomeStatus incomeStatus, Pageable pageable);
+
 
     void deleteByIdAndUsername(Long id, String username);
 
-    @Query("SELECT SUM(i.amount) FROM Income i WHERE i.username = :username AND i.typeofIncome = 'FIXED_INCOME' ")
+    @Query("SELECT SUM(i.amount) FROM Income i WHERE i.username = :username AND i.typeofIncome = 'FIXED_INCOME'  AND i.incomeStatus ='ACTIVE' ")
     Optional<Double> findTotalFixedIncomeByUsername(@Param("username") String username);
 
-    @Query("SELECT SUM(i.amount) FROM Income i WHERE i.username = :username AND i.typeofIncome = 'SUPPLEMENTARY_INCOME'")
+    @Query("SELECT SUM(i.amount) FROM Income i WHERE i.username = :username AND i.typeofIncome = 'SUPPLEMENTARY_INCOME' AND i.incomeStatus ='ACTIVE'")
     Optional<Double> findTotalSupplementaryIncomeByUsername(@Param("username") String username);
 }
