@@ -16,6 +16,7 @@ public class IncomeResponse {
     private SourceOfIncome sourceOfIncome;
     private TypeOfIncome typeOfIncome;
     private String description;
+    private IncomeStatus incomeStatus;
 
 
 

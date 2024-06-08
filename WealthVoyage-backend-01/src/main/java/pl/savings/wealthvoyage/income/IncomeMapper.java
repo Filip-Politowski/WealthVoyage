@@ -33,7 +33,7 @@ public class IncomeMapper {
                 .sourceOfIncome(monthlyIncome.getSourceOfIncome())
                 .typeOfIncome(monthlyIncome.getTypeofIncome())
                 .description(monthlyIncome.getDescription())
-
+                .incomeStatus(monthlyIncome.getIncomeStatus())
                 .build();
     }
 

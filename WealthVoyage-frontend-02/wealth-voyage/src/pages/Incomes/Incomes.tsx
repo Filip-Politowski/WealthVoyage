@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import "./incomes.scss";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import AddNewIncome from "../../components/add/AddNewIncome";
 import { handleError } from "../../helpers/ErrorHandler";
 import axios from "axios";
 import { Income } from "../../models/Income";
 import Select from "react-select";
 import { MonthsOptions, monthsOptions } from "../../data";
+import { Label } from "recharts";
 
 const api = "http://localhost:8080/api/";
 
@@ -16,8 +17,16 @@ const incomeTypeOptions = [
   { value: "supplementary", label: "Supplementary incomes" },
 ];
 
+const incomeStatusOptions = [
+  { value: "ACTIVE", label: "Active incomes" },
+  { value: "INACTIVE", label: "Inactive incomes" },
+];
+
 const Incomes = () => {
+  const navigate = useNavigate();
   const [selectedIncome, setSelectedIncome] = useState<string>("all");
+  const [selectedIncomeStatus, setSelectedIncomeStatus] =
+    useState<string>("ACTIVE");
   const [open, setOpen] = useState(false);
   const [selectedMonth, setSelectedMonth] = useState<number | null>(null);
   const [selectedYear, setSelectedYear] = useState<number | null>(null);
@@ -44,10 +53,21 @@ const Incomes = () => {
     label: string;
   } | null>(incomeTypeOptions[0]);
 
+  const [selectedIncomeStatusOption, setSelectedIncomeStatusOption] = useState<{
+    value: string;
+    label: string;
+  } | null>(incomeStatusOptions[0]);
+
   useEffect(() => {
-    const fetchAllIncomes = async () => {
+    const fetchAllActiveIncomes = async () => {
       try {
-        const response1 = await axios.get(`${api}incomes/all`);
+        let response1;
+        if (selectedIncomeStatus === "ACTIVE") {
+          response1 = await axios.get(`${api}incomes/all/active`);
+        }else{
+          response1 = await axios.get(`${api}incomes/all/inactive`)
+        }
+
         const response2 = await axios.get(`${api}incomes/fixed/sum`);
         const response3 = await axios.get(`${api}incomes/supplementary/sum`);
 
@@ -58,8 +78,10 @@ const Incomes = () => {
         handleError(error);
       }
     };
-    fetchAllIncomes();
-  }, [open]);
+    fetchAllActiveIncomes();
+  }, [open, selectedIncomeStatus]);
+
+ 
 
   const filteredIncomes = incomes.filter((income) => {
     const incomeDate = new Date(income.incomeDate);
@@ -96,6 +118,34 @@ const Incomes = () => {
     setSelectedIncome(selectedOption?.value || "all");
   };
 
+  const handleIncomeStatusChange = (
+    selectedOption: {
+      value: string;
+      label: string;
+    } | null
+  ) => {
+    setSelectedIncomeStatusOption(selectedOption);
+    setSelectedIncomeStatus(selectedOption?.value || "ACTIVE");
+  };
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 6;
+
+  const totalItems = incomes.length;
+  const totalPages = Math.ceil(totalItems / itemsPerPage);
+
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentIncomes = incomes.slice(indexOfFirstItem, indexOfLastItem);
+
+  const handlePreviousPage = () => {
+    setCurrentPage(currentPage - 1);
+  };
+
+  const handleNextPage = () => {
+    setCurrentPage(currentPage + 1);
+  };
+
   return (
     <div className="incomes">
       <div className="incomesHeader">
@@ -125,6 +175,15 @@ const Incomes = () => {
           )}
         </div>
         <div className="customSelect">
+          <Select
+            className="my-select-container"
+            classNamePrefix="my-select"
+            defaultValue={incomeStatusOptions[0]}
+            value={selectedIncomeStatusOption}
+            onChange={handleIncomeStatusChange}
+            options={incomeStatusOptions}
+          />
+
           <Select
             className="my-select-container"
             classNamePrefix="my-select"
@@ -158,37 +217,76 @@ const Incomes = () => {
           />
         </div>
       </div>
-
-      <div className="listOfAllIncomes">
-        <div className="incomeBoxes">
-          {filteredIncomes.length > 0 ? (
-            filteredIncomes.map((income, index) => (
-              <Link key={index} to={`/dashboard/income/${income.id}`}>
-                <div className="incomeBox">
-                  <h2>
-                    <strong>Amount:</strong> ${income.amount}
-                  </h2>
-                  <p>
-                    <strong>Date:</strong> {income.incomeDate}
-                  </p>
-                  <p>
-                    <strong>Source:</strong> {income.sourceOfIncome}
-                  </p>
-                  <p>
-                    <strong>Type:</strong> {income.typeOfIncome}
-                  </p>
-                  <p>
-                    <strong>Description:</strong> {income.description}
-                  </p>
-                </div>
-              </Link>
-            ))
-          ) : (
-            <p>No incomes found for the selected filters.</p>
-          )}
+      {selectedIncomeStatus === "ACTIVE" && (
+        <div className="listOfAllIncomes">
+          <div className="incomeBoxes">
+            {filteredIncomes.length > 0 ? (
+              filteredIncomes.map((income, index) => (
+                <Link key={index} to={`/dashboard/income/${income.id}`}>
+                  <div className="incomeBox">
+                    <h2>
+                      <strong>Amount:</strong> ${income.amount}
+                    </h2>
+                    <p>
+                      <strong>Date:</strong> {income.incomeDate}
+                    </p>
+                    <p>
+                      <strong>Source:</strong> {income.sourceOfIncome}
+                    </p>
+                    <p>
+                      <strong>Type:</strong> {income.typeOfIncome}
+                    </p>
+                    <p>
+                      <strong>Description:</strong> {income.description}
+                    </p>
+                  </div>
+                </Link>
+              ))
+            ) : (
+              <p>No incomes found for the selected filters.</p>
+            )}
+          </div>
         </div>
-      </div>
-
+      )}
+      {selectedIncomeStatus === "INACTIVE" && (
+        <div className="activities">
+          <h2>Inactive incomes</h2>
+          <table>
+            <thead>
+              <tr>
+                <th>Type of income</th>
+                <th>Source of income</th>
+                <th>Amount</th>
+              </tr>
+            </thead>
+            <tbody>
+              {currentIncomes.map((income) => (
+                <tr onClick={() => navigate(`/dashboard/income/${income.id}`)}>
+                  <td>{income.typeOfIncome}</td>
+                  <td>{income.sourceOfIncome} </td>
+                  <td>{income.amount} zł</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          <div className="pagination">
+            <div>
+              {indexOfFirstItem + 1} to {Math.min(indexOfLastItem, totalItems)}{" "}
+              of {totalItems}
+            </div>
+            <button onClick={handlePreviousPage} disabled={currentPage === 1}>
+              Previous
+            </button>
+            <span>{`Page ${currentPage} of ${totalPages}`}</span>
+            <button
+              onClick={handleNextPage}
+              disabled={indexOfLastItem >= totalItems}
+            >
+              Next
+            </button>
+          </div>
+        </div>
+      )}
       {open && <AddNewIncome setOpen={setOpen} />}
     </div>
   );
