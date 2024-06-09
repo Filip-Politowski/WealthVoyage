@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.Mapping;
 import pl.savings.wealthvoyage.loans.Loan;
 import pl.savings.wealthvoyage.savingGoals.SavingGoal;
 
+import java.util.Date;
+
 @Entity
 @Data
 @Builder
@@ -26,15 +28,19 @@ public class Transaction {
     @Column(name = "amount")
     private double amount;
 
+    private String transactionName;
+
     @Column(name = "transaction_type")
     @Enumerated(EnumType.STRING)
     private TransactionType transactionType;
 
     @Column(name = "category")
-    private String category;
+    @Enumerated(EnumType.STRING)
+    private TransactionCategory transactionCategory;
 
     @Column(name = "date")
-    private String date;
+    @Temporal(TemporalType.DATE)
+    private Date date;
 
     @ManyToOne
     @JoinColumn(name = "loan_id")

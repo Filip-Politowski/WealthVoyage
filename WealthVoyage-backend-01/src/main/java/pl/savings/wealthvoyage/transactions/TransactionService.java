@@ -6,7 +6,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import pl.savings.wealthvoyage.income.*;
 import pl.savings.wealthvoyage.loans.Loan;
+import pl.savings.wealthvoyage.singleExpense.ExpenseCategory;
+import pl.savings.wealthvoyage.singleExpense.SingleExpense;
+import pl.savings.wealthvoyage.singleExpense.SingleExpenseRepository;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -16,8 +20,11 @@ import java.util.NoSuchElementException;
 public class TransactionService {
     private final TransactionRepository transactionRepository;
     private final TransactionMapper transactionMapper;
+    private final IncomeRepository incomeRepository;
+    private final SingleExpenseRepository singleExpenseRepository;
 
     public void addTransaction(Transaction transaction) {
+
         transactionRepository.save(transaction);
     }
 
@@ -25,6 +32,27 @@ public class TransactionService {
         Transaction transaction = transactionMapper.toTransaction(transactionRequest);
         transaction.setUsername(userDetails.getUsername());
         transactionRepository.save(transaction);
+        if (transaction.getTransactionType() == TransactionType.INCOME) {
+            Income income = new Income();
+            income.setUsername(transaction.getUsername());
+            income.setIncomeDate(transaction.getDate());
+            income.setAmount(transaction.getAmount());
+            income.setIncomeStatus(IncomeStatus.SINGLE_PAYMENT);
+            income.setTypeofIncome(TypeOfIncome.SUPPLEMENTARY_INCOME);
+            income.setSourceOfIncome(SourceOfIncome.OTHER);
+            income.setDescription(transaction.getTransactionName());
+            incomeRepository.save(income);
+
+        } else {
+            SingleExpense singleExpense = new SingleExpense();
+            singleExpense.setUsername(transaction.getUsername());
+            singleExpense.setExpenseCategory(ExpenseCategory.valueOf(String.valueOf(transaction.getTransactionCategory())));
+            singleExpense.setDescription(transaction.getTransactionName());
+            singleExpense.setDate(transaction.getDate());
+            singleExpense.setAmount(transaction.getAmount());
+            singleExpenseRepository.save(singleExpense);
+        }
+
     }
 
     public List<TransactionResponse> findAllTransactionsByLoanId(Long id, UserDetails userDetails) {

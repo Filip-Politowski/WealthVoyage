@@ -5,4 +5,5 @@ export type Income = {
   sourceOfIncome: string;
   typeOfIncome: string;
   description: string;
+  incomeStatus:String;
 };

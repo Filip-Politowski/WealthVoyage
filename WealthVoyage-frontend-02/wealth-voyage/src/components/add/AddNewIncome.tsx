@@ -19,6 +19,7 @@ const AddNewIncome = (props: Props) => {
     incomeDate: "",
     sourceOfIncome: "EMPLOYMENT_CONTRACT",
     typeOfIncome: "FIXED_INCOME",
+    incomeStatus:""
   });
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -33,6 +34,7 @@ const AddNewIncome = (props: Props) => {
           incomeDate: "",
           sourceOfIncome: "EMPLOYMENT_CONTRACT",
           typeOfIncome: "FIXED_INCOME",
+          incomeStatus:""
         });
       })
       .catch((error) => {

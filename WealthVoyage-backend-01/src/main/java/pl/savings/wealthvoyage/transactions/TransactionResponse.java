@@ -3,6 +3,8 @@ package pl.savings.wealthvoyage.transactions;
 import jakarta.persistence.Column;
 import lombok.*;
 
+import java.util.Date;
+
 @Data
 @Builder
 @AllArgsConstructor
@@ -11,7 +13,8 @@ public class TransactionResponse {
 
     private Long id;
     private double amount;
+    private String transactionName;
     private TransactionType transactionType;
-    private String category;
-    private String date;
+    private TransactionCategory transactionCategory;
+    private Date date;
 }

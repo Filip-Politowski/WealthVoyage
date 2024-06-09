@@ -1,23 +1,21 @@
-package pl.savings.wealthvoyage.income;
+package pl.savings.wealthvoyage.singleExpense;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.lang.reflect.Type;
 import java.util.Date;
 
-@Builder
 @Data
-@NoArgsConstructor
+@Builder
 @AllArgsConstructor
-public class IncomeRequest {
+@NoArgsConstructor
+public class SingleExpenseRequest {
     private Long id;
+    private String username;
     private Double amount;
-    private Date incomeDate;
-    private SourceOfIncome sourceOfIncome;
-    private TypeOfIncome typeOfIncome;
+    private Date date;
     private String description;
-
+    private ExpenseCategory expenseCategory;
 }

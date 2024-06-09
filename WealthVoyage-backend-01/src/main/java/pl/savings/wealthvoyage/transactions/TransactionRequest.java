@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
+
 @Data
 @Builder
 @AllArgsConstructor
@@ -12,9 +14,9 @@ import lombok.NoArgsConstructor;
 public class TransactionRequest {
     private Long id;
     private String username;
-
     private double amount;
+    private String transactionName;
     private TransactionType transactionType;
-    private String category;
-    private String date;
+    private TransactionCategory transactionCategory;
+    private Date date;
 }

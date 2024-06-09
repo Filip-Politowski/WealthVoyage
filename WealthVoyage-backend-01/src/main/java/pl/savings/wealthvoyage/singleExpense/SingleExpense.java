@@ -1,4 +1,4 @@
-package pl.savings.wealthvoyage.income;
+package pl.savings.wealthvoyage.singleExpense;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -8,28 +8,22 @@ import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
-
 @Entity
-@Builder
 @Data
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Income {
-
+@Table(name = "single_expense")
+public class SingleExpense {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String username;
     private Double amount;
+    @Column(name = "date")
     @Temporal(TemporalType.DATE)
-    private Date incomeDate;
-    @Enumerated(EnumType.STRING)
-    private SourceOfIncome sourceOfIncome;
-    @Enumerated(EnumType.STRING)
-    private TypeOfIncome typeofIncome;
+    private Date date;
     private String description;
     @Enumerated(EnumType.STRING)
-    private IncomeStatus incomeStatus;
-
-
+    private ExpenseCategory expenseCategory;
 }

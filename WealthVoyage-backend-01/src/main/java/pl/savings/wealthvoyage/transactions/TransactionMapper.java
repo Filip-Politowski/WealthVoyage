@@ -16,10 +16,11 @@ public class TransactionMapper {
         return Transaction.builder()
                 .transactionType(request.getTransactionType())
                 .amount(request.getAmount())
-                .category(request.getCategory())
+                .transactionCategory(request.getTransactionCategory())
                 .username(request.getUsername())
                 .date(request.getDate())
                 .id(request.getId())
+                .transactionName(request.getTransactionName())
                 .build();
     }
 
@@ -31,8 +32,9 @@ public class TransactionMapper {
                 .id(transaction.getId())
                 .transactionType(transaction.getTransactionType())
                 .amount(transaction.getAmount())
-                .category(transaction.getCategory())
+                .transactionCategory(transaction.getTransactionCategory())
                 .date(transaction.getDate())
+                .transactionName(transaction.getTransactionName())
                 .build();
     }
 

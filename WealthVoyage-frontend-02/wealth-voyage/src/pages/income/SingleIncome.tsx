@@ -9,19 +9,19 @@ import BackButton from "../../components/utils/backButton/BackButton";
 import DeleteElement from "../../components/delete/DeleteElement";
 import UpdateIncome from "./components/UpdateIncome";
 
-
 const api = "http://localhost:8080/api/";
 
 const SingleIncome = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const [income, setIncome] = useState<Income>({
-    id:0,
-    amount:0,
-    incomeDate:"",
-    sourceOfIncome:"",
-    typeOfIncome:"",
-    description:""
+    id: 0,
+    amount: 0,
+    incomeDate: "",
+    sourceOfIncome: "",
+    typeOfIncome: "",
+    description: "",
+    incomeStatus: "",
   });
   const [deleting, setDeleting] = useState<boolean>(false);
   const [open, setOpen] = useState<boolean>(false);
@@ -30,15 +30,36 @@ const SingleIncome = () => {
     const fetchSingleIncome = async () => {
       try {
         const response = await axios.get(`${api}incomes/${id}`);
-        if (JSON.stringify(income) !== JSON.stringify(response.data)) {
-          setIncome(response.data);
-        }
+        setIncome(response.data);
       } catch (error) {
         handleError(error);
       }
     };
+
     fetchSingleIncome();
-  }, [id, income, open]);
+  }, [id, open]);
+
+  const handleDeactivate = async () => {
+    try {
+      await axios.post(`${api}incomes/deactivate/${id}`);
+
+      const response = await axios.get(`${api}incomes/${id}`);
+      setIncome(response.data);
+    } catch (error) {
+      handleError(error);
+    }
+  };
+
+  const handleActivate = async () => {
+    try {
+      await axios.post(`${api}incomes/activate/${id}`);
+
+      const response = await axios.get(`${api}incomes/${id}`);
+      setIncome(response.data);
+    } catch (error) {
+      handleError(error);
+    }
+  };
 
   const handleDelete = async () => {
     try {
@@ -48,6 +69,8 @@ const SingleIncome = () => {
       handleError(error);
     }
   };
+
+ 
 
   return (
     <div className="income">
@@ -81,13 +104,25 @@ const SingleIncome = () => {
       </div>
       <div className="buttonsSection">
         <button onClick={() => setDeleting(true)}>Delete</button>
-        <button onClick={() => setOpen(true)}>Update</button>
+        <button onClick={() => setOpen(true)}> Update</button>
+        <button
+          onClick={
+            income.incomeStatus === "ACTIVE" ? handleDeactivate : handleActivate
+          }
+          title={
+            income.incomeStatus === "ACTIVE"
+              ? "Deactivate the revenue and move it to inactive revenue."
+              : "Activate the revenue and move it to active revenue."
+          }
+        >
+          {income.incomeStatus === "ACTIVE" ? "Deactivate" : "Activate"}
+        </button>
       </div>
+
       {deleting && (
         <DeleteElement setDeleting={setDeleting} handleDelete={handleDelete} />
       )}
-      {open && <UpdateIncome income={income} setOpen={setOpen}/>}
-     
+      {open && <UpdateIncome income={income} setOpen={setOpen} />}
     </div>
   );
 };

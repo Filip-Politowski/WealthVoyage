@@ -38,7 +38,7 @@
           border: thin solid rgba(255, 255, 255, 0.5);
           border-radius: 5px;
           box-shadow: 3px 6px 10px rgba(black, 0.1);
-          color:$element-color-3;
+          color: $element-color-3;
         }
       }
     }
@@ -80,7 +80,6 @@
         background-color: rgba($navigation-color, 1);
         color: $element-color-3;
         padding: 10px;
-        
       }
 
       .my-select__option--is-selected {
@@ -136,6 +135,51 @@
         box-shadow: 5px 5px 20px rgba($element-color-3, 0.4);
         transform: scale(1.05);
       }
+    }
+  }
+
+  .activities {
+    margin: auto;
+    position: relative;
+    flex: 1;
+    margin-bottom: 50px;
+    margin-top: 50px;
+    width: 90%;
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      border: solid 1px $element-color-2;
+    }
+
+    table td,
+    table th {
+      padding: 8px;
+    }
+
+    table tr:nth-child(even) {
+      background-color: $navigation-color;
+    }
+
+    table tr:hover {
+      background-color: $element-color-2;
+      cursor: pointer;
+    }
+
+    table th {
+      padding-top: 10px;
+      padding-bottom: 10px;
+      text-align: left;
+      background-color: $element-color-1;
+      color: white;
+    }
+
+    .pagination {
+      position: absolute;
+      right: 0;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 10px;
     }
   }
 }

@@ -18,6 +18,7 @@ const UpdateIncome = (props: Props) => {
     incomeDate: props.income.incomeDate,
     sourceOfIncome: props.income.sourceOfIncome,
     typeOfIncome: props.income.typeOfIncome,
+    incomeStatus:props.income.incomeStatus
   });
 
   const handleUpdateIncomeDataChange = (

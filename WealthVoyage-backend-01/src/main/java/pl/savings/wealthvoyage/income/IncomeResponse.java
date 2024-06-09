@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
+
 @Builder
 @Data
 @NoArgsConstructor
@@ -12,7 +14,7 @@ import lombok.NoArgsConstructor;
 public class IncomeResponse {
     private Long id;
     private Double amount;
-    private String incomeDate;
+    private Date incomeDate;
     private SourceOfIncome sourceOfIncome;
     private TypeOfIncome typeOfIncome;
     private String description;

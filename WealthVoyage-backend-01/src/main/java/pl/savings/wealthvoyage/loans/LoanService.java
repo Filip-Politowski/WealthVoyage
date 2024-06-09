@@ -10,10 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import pl.savings.wealthvoyage.income.Income;
 import pl.savings.wealthvoyage.paymentDates.PaymentDate;
 import pl.savings.wealthvoyage.paymentDates.PaymentDateService;
-import pl.savings.wealthvoyage.transactions.Transaction;
-import pl.savings.wealthvoyage.transactions.TransactionRepository;
-import pl.savings.wealthvoyage.transactions.TransactionService;
-import pl.savings.wealthvoyage.transactions.TransactionType;
+import pl.savings.wealthvoyage.transactions.*;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -83,8 +80,7 @@ public class LoanService {
 
         double instalmentAmount = 0.0;
 
-        Date currentDate = new Date();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date currentDate = new Date(); // Aktualna data i czas
 
         if (optionalLoan.isPresent()) {
             Loan loan = optionalLoan.get();
@@ -101,20 +97,17 @@ public class LoanService {
 
             if (loan.getNumberOfPaidInstallments().equals(loan.getNumberOfInstallments())) {
                 loan.setLoanStatus(LoanStatus.ENDED);
-
             }
 
             transaction.setTransactionType(TransactionType.EXPENSE);
             transaction.setLoan(loan);
-            transaction.setDate(dateFormat.format(currentDate));
+            transaction.setDate(currentDate);
             transaction.setAmount(instalmentAmount);
-            transaction.setCategory("Loan");
+            transaction.setTransactionCategory(TransactionCategory.DEBT);
             transaction.setUsername(userDetails.getUsername());
 
             transactionService.addTransaction(transaction);
             loanRepository.save(loan);
-
-
         } else {
             throw new NoSuchElementException("Nie znaleziono pożyczki dla określonego identyfikatora i użytkownika.");
         }
