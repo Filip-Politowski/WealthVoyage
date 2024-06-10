@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import org.springframework.data.domain.Pageable;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,7 +17,7 @@ import java.util.Optional;
 public interface IncomeRepository extends JpaRepository<Income, Long> {
     Optional<Income> findByIdAndUsername(Long id, String username);
 
-    Optional<Page<Income>> findAllByUsernameAndIncomeStatus(String username,IncomeStatus incomeStatus, Pageable pageable);
+    Optional<Page<Income>> findAllByUsernameAndIncomeStatus(String username, IncomeStatus incomeStatus, Pageable pageable);
 
 
     void deleteByIdAndUsername(Long id, String username);
@@ -26,4 +27,14 @@ public interface IncomeRepository extends JpaRepository<Income, Long> {
 
     @Query("SELECT SUM(i.amount) FROM Income i WHERE i.username = :username AND i.typeofIncome = 'SUPPLEMENTARY_INCOME' AND i.incomeStatus ='ACTIVE'")
     Optional<Double> findTotalSupplementaryIncomeByUsername(@Param("username") String username);
+
+    @Query("SELECT SUM(e.amount) FROM Income e" +
+            " WHERE e.incomeDate BETWEEN :startDate AND :endDate" +
+            " AND e.username = :username AND e.incomeStatus = 'ACTIVE' AND e.typeofIncome = :typeOfIncome")
+    Double sumAmountByDateBetweenAndUsername(
+            @Param("startDate") Date startDate,
+            @Param("endDate") Date endDate,
+            @Param("username") String username,
+            @Param("typeOfIncome") TypeOfIncome typeOfIncome
+    );
 }

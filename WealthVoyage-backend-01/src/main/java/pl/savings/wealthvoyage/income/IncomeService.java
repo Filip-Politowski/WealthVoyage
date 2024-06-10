@@ -8,7 +8,10 @@ import org.springframework.stereotype.Service;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
+import pl.savings.wealthvoyage.exceptions.InvalidNumberOfMonthsException;
 
+import java.lang.reflect.Type;
+import java.time.LocalDate;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
@@ -60,6 +63,57 @@ public class IncomeService {
     public Double getUserSupplementaryIncomeSum(@NotNull UserDetails userDetails) {
         return incomeRepository.findTotalSupplementaryIncomeByUsername(userDetails.getUsername()).orElse(0.0);
     }
+
+
+    public Double calculateTotalIncomeForCurrentMonthAndSelectedType(@NotNull UserDetails userDetails, TypeOfIncome typeOfIncome) {
+        LocalDate today = LocalDate.now();
+        LocalDate startOfMonth = today.withDayOfMonth(1);
+        LocalDate endOfMonth = today.withDayOfMonth(today.lengthOfMonth());
+
+        return incomeRepository.sumAmountByDateBetweenAndUsername(
+                java.sql.Date.valueOf(startOfMonth),
+                java.sql.Date.valueOf(endOfMonth),
+                userDetails.getUsername(),
+                typeOfIncome
+        );
+    }
+
+    public Double calculateTotalIncomeForSelectedNumberOfMonths(
+            @NotNull UserDetails userDetails,
+            long numberOfMonths,
+            TypeOfIncome typeOfIncome
+    ) {
+        if (numberOfMonths < 1 || numberOfMonths > 12) {
+            throw new InvalidNumberOfMonthsException("Number of months cannot exceed 12 and be less than 1");
+        }
+        LocalDate today = LocalDate.now();
+        LocalDate startOfMonthsAgo = today.minusMonths(numberOfMonths).withDayOfMonth(1);
+        LocalDate endOfMonthsAgo = today.withDayOfMonth(1).minusDays(1);
+
+        return incomeRepository.sumAmountByDateBetweenAndUsername(
+                java.sql.Date.valueOf(startOfMonthsAgo),
+                java.sql.Date.valueOf(endOfMonthsAgo),
+                userDetails.getUsername(),
+                typeOfIncome
+        );
+    }
+
+    public Double calculateTotalIncomeForSelectedYear(
+            @NotNull UserDetails userDetails,
+            int year,
+            TypeOfIncome typeOfIncome
+    ) {
+        LocalDate startOfYear = LocalDate.of(year, 1, 1);
+        LocalDate endOfYear = LocalDate.of(year, 12, 31);
+
+        return incomeRepository.sumAmountByDateBetweenAndUsername(
+                java.sql.Date.valueOf(startOfYear),
+                java.sql.Date.valueOf(endOfYear),
+                userDetails.getUsername(),
+                typeOfIncome
+        );
+    }
+
 
     public void deactivateIncome(@NotNull UserDetails userDetails, Long id) {
 

@@ -15,9 +15,27 @@ import org.springframework.web.bind.annotation.*;
 public class IncomeController {
     private final IncomeService incomeService;
 
-    @GetMapping("/fixed/sum")
-    public Double getUserFixedIncomesSum(@AuthenticationPrincipal UserDetails userDetails) {
-        return incomeService.getUserFixedIncomeSum(userDetails);
+    @GetMapping("/sum/months/{numberOfMonths}/{typeOfIncome}")
+    public Double getUserIncomesSumFromSelectedMonthsAndSelectedType(
+            @AuthenticationPrincipal UserDetails userDetails,
+            @PathVariable long numberOfMonths,
+            @PathVariable TypeOfIncome typeOfIncome
+    ) {
+        return incomeService.calculateTotalIncomeForSelectedNumberOfMonths(
+                userDetails,
+                numberOfMonths,
+                typeOfIncome
+        );
+    }
+
+    @GetMapping("/sum/currentMonth/{typeOfIncome}")
+    public Double getUserIncomesSumForCurrentMonthAndSelectedType(@AuthenticationPrincipal UserDetails userDetails, @PathVariable TypeOfIncome typeOfIncome) {
+        return incomeService.calculateTotalIncomeForCurrentMonthAndSelectedType(userDetails, typeOfIncome);
+    }
+
+    @GetMapping("/sum/selectedYear/{year}/{typeOfIncome}")
+    public Double getUserIncomeSumForSelectedYear(@AuthenticationPrincipal UserDetails userDetails, @PathVariable int year, @PathVariable TypeOfIncome typeOfIncome) {
+        return incomeService.calculateTotalIncomeForSelectedYear(userDetails, year, typeOfIncome);
     }
 
     @GetMapping("/supplementary/sum")
