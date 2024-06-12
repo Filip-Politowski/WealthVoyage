@@ -1,4 +1,3 @@
-
 export const menu = [
   {
     id: 1,
@@ -55,8 +54,6 @@ export const menu = [
     ],
   },
 ];
-
-
 
 export const lastTransactions = [
   {
@@ -257,8 +254,6 @@ export const bigChartData = [
   },
 ];
 
-
-
 export const savingGoalImages = [
   "/money.svg",
   "/car.svg",
@@ -277,6 +272,7 @@ export interface MonthsOptions {
 
 export const monthsOptions: readonly MonthsOptions[] = [
   { value: null, label: "All Months" },
+  { value: 13, label: "Current Month" },
   { value: 1, label: "January" },
   { value: 2, label: "February" },
   { value: 3, label: "March" },
@@ -290,4 +286,3 @@ export const monthsOptions: readonly MonthsOptions[] = [
   { value: 11, label: "November" },
   { value: 12, label: "December" },
 ];
-

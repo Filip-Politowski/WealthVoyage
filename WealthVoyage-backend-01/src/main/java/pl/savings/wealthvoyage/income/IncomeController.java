@@ -1,13 +1,16 @@
 package pl.savings.wealthvoyage.income;
 
 import lombok.RequiredArgsConstructor;
-import org.jetbrains.annotations.NotNull;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.ResponseEntity;
+
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Date;
 
 @RestController
 @RequiredArgsConstructor
@@ -15,41 +18,38 @@ import org.springframework.web.bind.annotation.*;
 public class IncomeController {
     private final IncomeService incomeService;
 
-    @GetMapping("/sum/months/{numberOfMonths}/{typeOfIncome}")
-    public Double getUserIncomesSumFromSelectedMonthsAndSelectedType(
+    @GetMapping("/filtered/month/{monthDate}/{typeOfIncome}/{incomeStatus}")
+    public Page<IncomeResponse> getUserFilteredIncomes(
             @AuthenticationPrincipal UserDetails userDetails,
-            @PathVariable long numberOfMonths,
-            @PathVariable TypeOfIncome typeOfIncome
-    ) {
-        return incomeService.calculateTotalIncomeForSelectedNumberOfMonths(
-                userDetails,
-                numberOfMonths,
-                typeOfIncome
-        );
+            @PathVariable @DateTimeFormat(pattern = "yyyy-MM") Date monthDate,
+            @PathVariable TypeOfIncome typeOfIncome,
+            @PathVariable IncomeStatus incomeStatus,
+            Pageable pageable) {
+        return incomeService.getUserIncomeBySelectedMonthAndTypeOfIncomeAndStatusOfIncome(userDetails, monthDate, typeOfIncome, incomeStatus, pageable);
+    }
+    @GetMapping("/filtered/range/{startDate}/{endDate}/{typeOfIncome}/{incomeStatus}")
+    public Page<IncomeResponse> getUserIncomesByTimeRange(
+            @AuthenticationPrincipal UserDetails userDetails,
+            @PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") Date startDate,
+            @PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") Date endDate,
+            @PathVariable TypeOfIncome typeOfIncome,
+            @PathVariable IncomeStatus incomeStatus,
+            Pageable pageable) {
+        return incomeService.getUserIncomesByTimeRange(userDetails, startDate, endDate, typeOfIncome, incomeStatus, pageable);
     }
 
-    @GetMapping("/sum/currentMonth/{typeOfIncome}")
-    public Double getUserIncomesSumForCurrentMonthAndSelectedType(@AuthenticationPrincipal UserDetails userDetails, @PathVariable TypeOfIncome typeOfIncome) {
-        return incomeService.calculateTotalIncomeForCurrentMonthAndSelectedType(userDetails, typeOfIncome);
-    }
-
-    @GetMapping("/sum/selectedYear/{year}/{typeOfIncome}")
-    public Double getUserIncomeSumForSelectedYear(@AuthenticationPrincipal UserDetails userDetails, @PathVariable int year, @PathVariable TypeOfIncome typeOfIncome) {
-        return incomeService.calculateTotalIncomeForSelectedYear(userDetails, year, typeOfIncome);
-    }
-
-    @GetMapping("/supplementary/sum")
-    public Double getUserSupplementaryIncomesSum(@AuthenticationPrincipal UserDetails userDetails) {
-        return incomeService.getUserSupplementaryIncomeSum(userDetails);
+    @GetMapping("/filtered/year/{year}/{typeOfIncome}/{incomeStatus}")
+    public Page<IncomeResponse> getUserIncomesByYear(
+            @AuthenticationPrincipal UserDetails userDetails,
+            @PathVariable int year,
+            @PathVariable TypeOfIncome typeOfIncome,
+            @PathVariable IncomeStatus incomeStatus,
+            Pageable pageable) {
+        return incomeService.getUserIncomesByYear(userDetails, year, typeOfIncome, incomeStatus, pageable);
     }
 
 
-    @GetMapping("/all/active")
-    public Page<IncomeResponse> getAllActiveUserIncomes(@AuthenticationPrincipal UserDetails userDetails, Pageable pageable) {
-        return incomeService.getUserActiveIncomes(userDetails, pageable);
-    }
-
-    @GetMapping("/all/inactive")
+        @GetMapping("/all/inactive")
     public Page<IncomeResponse> getAllInactiveUserIncomes(@AuthenticationPrincipal UserDetails userDetails, Pageable pageable) {
         return incomeService.getUserInactiveIncomes(userDetails, pageable);
     }

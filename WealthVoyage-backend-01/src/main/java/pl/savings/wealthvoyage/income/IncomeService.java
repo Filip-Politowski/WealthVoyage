@@ -3,15 +3,23 @@ package pl.savings.wealthvoyage.income;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 import pl.savings.wealthvoyage.exceptions.InvalidNumberOfMonthsException;
 
 import java.lang.reflect.Type;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
+import java.util.Date;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
@@ -25,9 +33,62 @@ public class IncomeService {
         return incomeMapper.toIncomeResponse(incomeRepository.findByIdAndUsername(id, userDetails.getUsername()).orElseThrow(NoSuchElementException::new));
     }
 
-    public Page<IncomeResponse> getUserActiveIncomes(@NotNull UserDetails userDetails, Pageable pageable) {
-        Page<Income> incomePage = incomeRepository.findAllByUsernameAndIncomeStatus(userDetails.getUsername(), IncomeStatus.ACTIVE, pageable)
-                .orElseThrow(NoSuchElementException::new);
+
+    public Page<IncomeResponse> getUserIncomeBySelectedMonthAndTypeOfIncomeAndStatusOfIncome(
+            @NotNull UserDetails userDetails,
+            Date monthDate,
+            TypeOfIncome typeOfIncome,
+            IncomeStatus incomeStatus,
+            Pageable pageable
+    ) {
+        LocalDate localMonthDate = monthDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate().withDayOfMonth(1);  // Ensure first day of month
+        Date startDate = Date.from(localMonthDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+        Date endDate = Date.from(localMonthDate.plusMonths(1).atStartOfDay(ZoneId.systemDefault()).toInstant());
+
+        Page<Income> incomePage = incomeRepository.findIncomesByUsernameAndMonthAndStatusAndType(userDetails.getUsername(), startDate, endDate, incomeStatus, typeOfIncome, pageable);
+        return incomePage.map(incomeMapper::toIncomeResponse);
+    }
+
+    public Page<IncomeResponse> getUserIncomesByTimeRange(
+            @NotNull UserDetails userDetails,
+            Date startDate,
+            Date endDate,
+            TypeOfIncome typeOfIncome,
+            IncomeStatus incomeStatus,
+            Pageable pageable
+    ) {
+        LocalDate startLocalDate = startDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        LocalDate endLocalDate = endDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+
+        if (ChronoUnit.MONTHS.between(startLocalDate, endLocalDate) > 12) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Time range cannot exceed 12 months.");
+        }
+
+        // Adjust the end date to the end of the day for inclusiveness
+        Date inclusiveEndDate = Date.from(endLocalDate.plusDays(1).atStartOfDay(ZoneId.systemDefault()).toInstant().minusMillis(1));
+
+        Page<Income> incomePage = incomeRepository.findIncomesByUsernameAndDateRangeAndStatusAndType(
+                userDetails.getUsername(), startDate, inclusiveEndDate, incomeStatus, typeOfIncome, pageable
+        );
+        return incomePage.map(incomeMapper::toIncomeResponse);
+    }
+
+    public Page<IncomeResponse> getUserIncomesByYear(
+            @NotNull UserDetails userDetails,
+            int year,
+            TypeOfIncome typeOfIncome,
+            IncomeStatus incomeStatus,
+            Pageable pageable
+    ) {
+        LocalDate firstDayOfYear = LocalDate.of(year, 1, 1);
+        LocalDate firstDayOfNextYear = firstDayOfYear.plusYears(1);
+
+
+        Date startDate = Date.from(firstDayOfYear.atStartOfDay(ZoneId.systemDefault()).toInstant());
+        Date endDate = Date.from(firstDayOfNextYear.atStartOfDay(ZoneId.systemDefault()).toInstant());
+
+        Page<Income> incomePage = incomeRepository.findIncomesByUsernameAndDateRangeAndStatusAndType(
+                userDetails.getUsername(), startDate, endDate, incomeStatus, typeOfIncome, pageable);
         return incomePage.map(incomeMapper::toIncomeResponse);
     }
 
@@ -52,68 +113,10 @@ public class IncomeService {
     public void updateUserIncome(Long id, IncomeRequest incomeRequest, @NotNull UserDetails userDetails) {
         Income income = incomeMapper.toIncome(incomeRequest);
         income.setUsername(userDetails.getUsername());
+        income.setIncomeStatus(IncomeStatus.ACTIVE);
         income.setId(id);
         incomeRepository.save(income);
     }
-
-    public Double getUserFixedIncomeSum(@NotNull UserDetails userDetails) {
-        return incomeRepository.findTotalFixedIncomeByUsername(userDetails.getUsername()).orElse(0.0);
-    }
-
-    public Double getUserSupplementaryIncomeSum(@NotNull UserDetails userDetails) {
-        return incomeRepository.findTotalSupplementaryIncomeByUsername(userDetails.getUsername()).orElse(0.0);
-    }
-
-
-    public Double calculateTotalIncomeForCurrentMonthAndSelectedType(@NotNull UserDetails userDetails, TypeOfIncome typeOfIncome) {
-        LocalDate today = LocalDate.now();
-        LocalDate startOfMonth = today.withDayOfMonth(1);
-        LocalDate endOfMonth = today.withDayOfMonth(today.lengthOfMonth());
-
-        return incomeRepository.sumAmountByDateBetweenAndUsername(
-                java.sql.Date.valueOf(startOfMonth),
-                java.sql.Date.valueOf(endOfMonth),
-                userDetails.getUsername(),
-                typeOfIncome
-        );
-    }
-
-    public Double calculateTotalIncomeForSelectedNumberOfMonths(
-            @NotNull UserDetails userDetails,
-            long numberOfMonths,
-            TypeOfIncome typeOfIncome
-    ) {
-        if (numberOfMonths < 1 || numberOfMonths > 12) {
-            throw new InvalidNumberOfMonthsException("Number of months cannot exceed 12 and be less than 1");
-        }
-        LocalDate today = LocalDate.now();
-        LocalDate startOfMonthsAgo = today.minusMonths(numberOfMonths).withDayOfMonth(1);
-        LocalDate endOfMonthsAgo = today.withDayOfMonth(1).minusDays(1);
-
-        return incomeRepository.sumAmountByDateBetweenAndUsername(
-                java.sql.Date.valueOf(startOfMonthsAgo),
-                java.sql.Date.valueOf(endOfMonthsAgo),
-                userDetails.getUsername(),
-                typeOfIncome
-        );
-    }
-
-    public Double calculateTotalIncomeForSelectedYear(
-            @NotNull UserDetails userDetails,
-            int year,
-            TypeOfIncome typeOfIncome
-    ) {
-        LocalDate startOfYear = LocalDate.of(year, 1, 1);
-        LocalDate endOfYear = LocalDate.of(year, 12, 31);
-
-        return incomeRepository.sumAmountByDateBetweenAndUsername(
-                java.sql.Date.valueOf(startOfYear),
-                java.sql.Date.valueOf(endOfYear),
-                userDetails.getUsername(),
-                typeOfIncome
-        );
-    }
-
 
     public void deactivateIncome(@NotNull UserDetails userDetails, Long id) {
 

@@ -64,16 +64,15 @@ const Incomes = () => {
         let response1;
         if (selectedIncomeStatus === "ACTIVE") {
           response1 = await axios.get(`${api}incomes/all/active`);
-        }else{
-          response1 = await axios.get(`${api}incomes/all/inactive`)
+        } else {
+          response1 = await axios.get(`${api}incomes/all/inactive`);
         }
 
-        const response2 = await axios.get(`${api}incomes/fixed/sum`);
-        const response3 = await axios.get(`${api}incomes/supplementary/sum`);
+        // const response3 = await axios.get(`${api}incomes/supplementary/sum`);
 
         setIncomes(response1.data.content);
-        setSumOfFixedIncomes(response2.data);
-        setSumOfSupplementaryIncomes(response3.data);
+        // setSumOfFixedIncomes(response2.data);
+        // setSumOfSupplementaryIncomes(response3.data);
       } catch (error) {
         handleError(error);
       }
@@ -81,7 +80,33 @@ const Incomes = () => {
     fetchAllActiveIncomes();
   }, [open, selectedIncomeStatus]);
 
- 
+  
+  if (selectedIncome === "fixed" && selectedMonth === 13) {
+    const fetchFixedSumOfIncomes = async () => {
+      try {
+        const response = await axios.get(`${api}incomes/sum/currentMonth/FIXED_INCOME`);
+        setSumOfFixedIncomes(response.data);
+      } catch (error) {
+        handleError(error);
+      }
+    };
+    fetchFixedSumOfIncomes();
+  }
+  console.log(selectedMonth)
+
+    if (selectedIncome === "supplementary") {
+      const fetchFixedSumOfIncomes = async () => {
+        try {
+          const response = await axios.get(
+            `${api}incomes/sum/currentMonth/SUPPLEMENTARY`
+          );
+          setSumOfFixedIncomes(response.data);
+        } catch (error) {
+          handleError(error);
+        }
+      };
+      fetchFixedSumOfIncomes();
+    }
 
   const filteredIncomes = incomes.filter((income) => {
     const incomeDate = new Date(income.incomeDate);
@@ -103,7 +128,7 @@ const Incomes = () => {
     setSelectedYear(selectedOption?.value || null);
   };
 
-  const handleMonthChange = (selectedOption: MonthsOptions | null) => {
+  const handleMonthChange = (selectedOption: MonthsOptions | null ) => {
     setSelectedMonthOption(selectedOption);
     setSelectedMonth(selectedOption?.value || null);
   };
