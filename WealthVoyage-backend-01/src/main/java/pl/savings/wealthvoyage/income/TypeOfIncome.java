@@ -9,4 +9,5 @@ import lombok.RequiredArgsConstructor;
 public enum TypeOfIncome {
     FIXED_INCOME,
     SUPPLEMENTARY_INCOME,
+    SINGLE_PAYMENT,
 }

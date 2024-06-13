@@ -37,8 +37,8 @@ public class TransactionService {
             income.setUsername(transaction.getUsername());
             income.setIncomeDate(transaction.getDate());
             income.setAmount(transaction.getAmount());
-            income.setIncomeStatus(IncomeStatus.SINGLE_PAYMENT);
-            income.setTypeofIncome(TypeOfIncome.SUPPLEMENTARY_INCOME);
+            income.setIncomeStatus(IncomeStatus.ACTIVE);
+            income.setTypeofIncome(TypeOfIncome.SINGLE_PAYMENT);
             income.setSourceOfIncome(SourceOfIncome.OTHER);
             income.setDescription(transaction.getTransactionName());
             incomeRepository.save(income);
