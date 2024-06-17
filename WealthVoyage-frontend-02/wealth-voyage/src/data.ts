@@ -264,14 +264,14 @@ export const savingGoalImages = [
 ];
 
 export interface MonthsOptions {
-  readonly value: string | null;
+  readonly value: string ;
   readonly label: string;
   readonly isFixed?: boolean;
   readonly isDisabled?: boolean;
 }
 
 export const monthsOptions: readonly MonthsOptions[] = [
-  { value: null, label: "All Months" },
+  // {value: null, label: new Date().toLocaleString('en-US', { month: 'long' })},
   { value: "01", label: "January" },
   { value: "02", label: "February" },
   { value: "03", label: "March" },

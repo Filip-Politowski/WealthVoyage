@@ -16,31 +16,21 @@ const Incomes = () => {
   const [typeOfIncome, setTypeOfIncome] = useState<string>("FIXED_INCOME");
   const [incomeStatus, setIncomeStatus] = useState<string>("ACTIVE");
   const [open, setOpen] = useState(false);
-  const [currentDate, setCurrentDate] = useState<string>("");
-  const [endpointType, setEndpointType] = useState<string>("month"); // 'month', 'range', or 'year'
+  const [endpointType, setEndpointType] = useState<string>("month");
   const [startDate, setStartDate] = useState<string>("");
   const [endDate, setEndDate] = useState<string>("");
-  const [year, setYear] = useState<string>("");
+  const [year, setYear] = useState<string>(new Date().getFullYear().toString());
+  const [month, setMonth] = useState<string>((new Date().getMonth() + 1).toString().padStart(2,"0"));
+  const [selectedMonthOption, setSelectedMonthOption] =
+    useState<MonthsOptions | null>(null);
 
-  const getCurrentDateFormatted = (): string => {
-    const date = new Date();
-    const year = date.getFullYear();
-    const month = (date.getMonth() + 1).toString().padStart(2, "0");
-    return `${year}-${month}`;
-  };
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const formattedDate = getCurrentDateFormatted();
-      setCurrentDate(formattedDate);
-    };
-    fetchData();
-  }, []);
+
 
   const generateEndpoint = () => {
     switch (endpointType) {
       case "month":
-        return `${api}incomes/filtered/month/${currentDate}/${typeOfIncome}/${incomeStatus}`;
+        return `${api}incomes/filtered/month/${year}-${month}/${typeOfIncome}/${incomeStatus}`;
       case "range":
         return `${api}incomes/filtered/range/${startDate}/${endDate}/${typeOfIncome}/${incomeStatus}`;
       case "year":
@@ -64,7 +54,15 @@ const Incomes = () => {
     };
 
     fetchFilteredIncomes();
-  }, [endpointType, currentDate, startDate, endDate, year, typeOfIncome, incomeStatus]);
+  }, [
+    endpointType,
+    startDate,
+    endDate,
+    year,
+    typeOfIncome,
+    incomeStatus,
+    month
+  ]);
 
   const handleEndpointTypeChange = (
     selectedOption: SingleValue<{ value: string; label: string }>
@@ -87,6 +85,13 @@ const Incomes = () => {
   ) => {
     if (selectedOption) {
       setIncomeStatus(selectedOption.value);
+    }
+  };
+
+  const handleMonthSelection = (selectedOption: SingleValue<MonthsOptions>) => {
+    if (selectedOption) {
+      setSelectedMonthOption(selectedOption);
+      setMonth(selectedOption.value);
     }
   };
 
@@ -125,9 +130,9 @@ const Incomes = () => {
             value={{ value: endpointType, label: endpointType.toUpperCase() }}
             onChange={handleEndpointTypeChange}
             options={[
-              { value: "month", label: "Month" },
-              { value: "range", label: "Range" },
-              { value: "year", label: "Year" },
+              { value: "month", label: "Select by month" },
+              { value: "range", label: "Select by range" },
+              { value: "year", label: "Select by Year" },
             ]}
           />
           <Select
@@ -138,6 +143,7 @@ const Incomes = () => {
             options={[
               { value: "FIXED_INCOME", label: "Fixed Income" },
               { value: "SUPPLEMENTARY_INCOME", label: "Supplementary Income" },
+              { value: "SINGLE_PAYMENT", label: "Single Payment" },
             ]}
           />
           <Select
@@ -148,9 +154,17 @@ const Incomes = () => {
             options={[
               { value: "ACTIVE", label: "Active" },
               { value: "INACTIVE", label: "Inactive" },
-              { value: "SINGLE_PAYMENT", label: "Single Payment" },
             ]}
           />
+          {endpointType === "month" && (
+            <Select
+              className="my-select-container"
+              classNamePrefix="my-select"
+              value={selectedMonthOption}
+              onChange={handleMonthSelection}
+              options={monthsOptions}
+            />
+          )}
         </div>
       </div>
 
@@ -180,6 +194,11 @@ const Incomes = () => {
             ))}
         </div>
       </div>
+      {incomes.length === 0 && (
+        <p className="incomesNotFound">
+          There are no incomes in selected category 😔
+        </p>
+      )}
 
       {/* {selectedIncomeStatus === "INACTIVE" && (
         <div className="activities">
