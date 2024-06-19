@@ -1,17 +1,21 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import "./incomes.scss";
 import { Link, useNavigate } from "react-router-dom";
 import AddNewIncome from "../../components/add/AddNewIncome";
 import { handleError } from "../../helpers/ErrorHandler";
 import axios from "axios";
 import { Income } from "../../models/Income";
-import Select, { SingleValue, ActionMeta } from "react-select";
-import { MonthsOptions, monthsOptions } from "../../data";
+import Select, { SingleValue } from "react-select";
+import {
+  MonthsOptions,
+  YearsOptions,
+  monthsOptions,
+  yearsOptions,
+} from "../../data";
 
 const api = "http://localhost:8080/api/";
 
 const Incomes = () => {
-  const navigate = useNavigate();
   const [incomes, setIncomes] = useState<Income[]>([]);
   const [typeOfIncome, setTypeOfIncome] = useState<string>("FIXED_INCOME");
   const [incomeStatus, setIncomeStatus] = useState<string>("ACTIVE");
@@ -20,12 +24,13 @@ const Incomes = () => {
   const [startDate, setStartDate] = useState<string>("");
   const [endDate, setEndDate] = useState<string>("");
   const [year, setYear] = useState<string>(new Date().getFullYear().toString());
-  const [month, setMonth] = useState<string>((new Date().getMonth() + 1).toString().padStart(2,"0"));
+  const [month, setMonth] = useState<string>(
+    (new Date().getMonth() + 1).toString().padStart(2, "0")
+  );
   const [selectedMonthOption, setSelectedMonthOption] =
     useState<MonthsOptions | null>(null);
-
-
-
+  const [selectedYearOption, setSelectedYearOption] =
+    useState<YearsOptions | null>(null);
 
   const generateEndpoint = () => {
     switch (endpointType) {
@@ -61,7 +66,7 @@ const Incomes = () => {
     year,
     typeOfIncome,
     incomeStatus,
-    month
+    month,
   ]);
 
   const handleEndpointTypeChange = (
@@ -95,23 +100,19 @@ const Incomes = () => {
     }
   };
 
-  // Pagination
-  const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 6;
-
-  const totalItems = incomes.length;
-  const totalPages = Math.ceil(totalItems / itemsPerPage);
-
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentIncomes = incomes.slice(indexOfFirstItem, indexOfLastItem);
-
-  const handlePreviousPage = () => {
-    setCurrentPage(currentPage - 1);
+  const handleYearSelection = (selectedOption: SingleValue<YearsOptions>) => {
+    if (selectedOption) {
+      setSelectedYearOption(selectedOption);
+      setYear(selectedOption.value);
+    }
   };
 
-  const handleNextPage = () => {
-    setCurrentPage(currentPage + 1);
+  const sumOfSelectedIncomes = (): number => {
+    let sum: number = 0;
+    for (let i = 0; i < incomes.length; i++) {
+      sum += incomes[i].amount;
+    }
+    return sum;
   };
 
   return (
@@ -122,6 +123,8 @@ const Incomes = () => {
           <button onClick={() => setOpen(true)}>
             Add new source of income
           </button>
+
+          <h2>Sum of selected incomes: {sumOfSelectedIncomes()} zł</h2>
         </div>
         <div className="customSelect">
           <Select
@@ -135,6 +138,41 @@ const Incomes = () => {
               { value: "year", label: "Select by Year" },
             ]}
           />
+
+          {endpointType === "year" && (
+            <Select
+              className="my-select-container"
+              classNamePrefix="my-select"
+              value={selectedYearOption}
+              onChange={handleYearSelection}
+              options={yearsOptions}
+            />
+          )}
+
+          {endpointType === "month" && (
+            <Select
+              className="my-select-container"
+              classNamePrefix="my-select"
+              value={selectedMonthOption}
+              onChange={handleMonthSelection}
+              options={monthsOptions}
+            />
+          )}
+          {endpointType === "range" && (
+            <>
+              <input
+                type="date"
+                value={startDate}
+                onChange={(e) => setStartDate(e.target.value)}
+              />
+              <input
+                type="date"
+                value={endDate}
+                onChange={(e) => setEndDate(e.target.value)}
+              />
+            </>
+          )}
+
           <Select
             className="my-select-container"
             classNamePrefix="my-select"
@@ -156,15 +194,6 @@ const Incomes = () => {
               { value: "INACTIVE", label: "Inactive" },
             ]}
           />
-          {endpointType === "month" && (
-            <Select
-              className="my-select-container"
-              classNamePrefix="my-select"
-              value={selectedMonthOption}
-              onChange={handleMonthSelection}
-              options={monthsOptions}
-            />
-          )}
         </div>
       </div>
 
@@ -199,49 +228,6 @@ const Incomes = () => {
           There are no incomes in selected category 😔
         </p>
       )}
-
-      {/* {selectedIncomeStatus === "INACTIVE" && (
-        <div className="activities">
-          <h2>Inactive incomes</h2>
-          <table>
-            <thead>
-              <tr>
-                <th>Type of income</th>
-                <th>Source of income</th>
-                <th>Amount</th>
-              </tr>
-            </thead>
-            <tbody>
-              {currentIncomes.map((income) => (
-                <tr
-                  key={income.id}
-                  onClick={() => navigate(`/dashboard/income/${income.id}`)}
-                >
-                  <td>{income.typeOfIncome}</td>
-                  <td>{income.sourceOfIncome}</td>
-                  <td>{income.amount} zł</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-          <div className="pagination">
-            <div>
-              {indexOfFirstItem + 1} to {Math.min(indexOfLastItem, totalItems)}{" "}
-              of {totalItems}
-            </div>
-            <button onClick={handlePreviousPage} disabled={currentPage === 1}>
-              Previous
-            </button>
-            <span>{`Page ${currentPage} of ${totalPages}`}</span>
-            <button
-              onClick={handleNextPage}
-              disabled={indexOfLastItem >= totalItems}
-            >
-              Next
-            </button>
-          </div>
-        </div>
-      )} */}
 
       {open && <AddNewIncome setOpen={setOpen} />}
     </div>

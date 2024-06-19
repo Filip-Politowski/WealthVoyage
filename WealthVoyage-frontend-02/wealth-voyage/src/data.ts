@@ -267,11 +267,16 @@ export interface MonthsOptions {
   readonly value: string ;
   readonly label: string;
   readonly isFixed?: boolean;
-  readonly isDisabled?: boolean;
+  readonly isDisabled?: boolean;  
 }
 
+export interface  YearsOptions  {
+  value: string;
+  label: string;
+};
+
+
 export const monthsOptions: readonly MonthsOptions[] = [
-  // {value: null, label: new Date().toLocaleString('en-US', { month: 'long' })},
   { value: "01", label: "January" },
   { value: "02", label: "February" },
   { value: "03", label: "March" },
@@ -285,3 +290,14 @@ export const monthsOptions: readonly MonthsOptions[] = [
   { value: "11", label: "November" },
   { value: "12", label: "December" },
 ];
+
+export const yearsOptions: readonly YearsOptions[] = (() => {
+  const currentYear = new Date().getFullYear();
+  const years: YearsOptions[] = [];
+
+  for (let year = currentYear; year >= currentYear - 50; year--) {
+    years.push({ value: year.toString(), label: year.toString() });
+  }
+
+  return years;
+})();

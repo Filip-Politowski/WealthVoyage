@@ -57,13 +57,8 @@ public class IncomeService {
             IncomeStatus incomeStatus,
             Pageable pageable
     ) {
-        LocalDate startLocalDate = startDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+
         LocalDate endLocalDate = endDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-
-        if (ChronoUnit.MONTHS.between(startLocalDate, endLocalDate) > 12) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Time range cannot exceed 12 months.");
-        }
-
         // Adjust the end date to the end of the day for inclusiveness
         Date inclusiveEndDate = Date.from(endLocalDate.plusDays(1).atStartOfDay(ZoneId.systemDefault()).toInstant().minusMillis(1));
 
