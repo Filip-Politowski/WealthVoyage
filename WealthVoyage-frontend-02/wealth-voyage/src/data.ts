@@ -264,17 +264,27 @@ export const savingGoalImages = [
 ];
 
 export interface MonthsOptions {
-  readonly value: string ;
+  readonly value: string;
   readonly label: string;
   readonly isFixed?: boolean;
-  readonly isDisabled?: boolean;  
+  readonly isDisabled?: boolean;
 }
 
-export interface  YearsOptions  {
+export interface YearsOptions {
   value: string;
   label: string;
-};
+}
 
+export interface ExpenseOptions {
+  value: string;
+  label: string;
+}
+
+export const expenseOptions: readonly ExpenseOptions[] = [
+  { value: "singleExpenses", label: "Single Expenses" },
+  { value: "recurringExpenses", label: "Recurring Expenses" },
+  { value: "planedExpenses", label: "Planed Expenses" },
+];
 
 export const monthsOptions: readonly MonthsOptions[] = [
   { value: "01", label: "January" },

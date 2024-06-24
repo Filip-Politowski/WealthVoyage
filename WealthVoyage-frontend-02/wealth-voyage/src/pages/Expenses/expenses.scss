@@ -1,0 +1,25 @@
+@import "../../styles/responsive.scss";
+@import "../../styles/variables.scss";
+@import "../../styles/responsive.scss";
+.expenses {
+  .expensesHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    @include md {
+      flex-direction: column;
+      gap: 10px;
+    }
+    .title {
+      display: flex;
+      flex-direction: row;
+      gap: 10px;
+      align-items: center;
+      justify-content: center;
+      @include md {
+        flex-direction: column;
+      }
+    }
+  }
+}

@@ -12,6 +12,7 @@ import {
   monthsOptions,
   yearsOptions,
 } from "../../data";
+import StyledSelect from "../../components/select/StyledSelect";
 
 const api = "http://localhost:8080/api/";
 
@@ -67,6 +68,7 @@ const Incomes = () => {
     typeOfIncome,
     incomeStatus,
     month,
+    open,
   ]);
 
   const handleEndpointTypeChange = (
@@ -127,9 +129,7 @@ const Incomes = () => {
           <h2>Sum of selected incomes: {sumOfSelectedIncomes()} zł</h2>
         </div>
         <div className="customSelect">
-          <Select
-            className="my-select-container"
-            classNamePrefix="my-select"
+          <StyledSelect
             value={{ value: endpointType, label: endpointType.toUpperCase() }}
             onChange={handleEndpointTypeChange}
             options={[
@@ -140,9 +140,7 @@ const Incomes = () => {
           />
 
           {endpointType === "year" && (
-            <Select
-              className="my-select-container"
-              classNamePrefix="my-select"
+            <StyledSelect
               value={selectedYearOption}
               onChange={handleYearSelection}
               options={yearsOptions}
@@ -150,9 +148,7 @@ const Incomes = () => {
           )}
 
           {endpointType === "month" && (
-            <Select
-              className="my-select-container"
-              classNamePrefix="my-select"
+            <StyledSelect
               value={selectedMonthOption}
               onChange={handleMonthSelection}
               options={monthsOptions}
@@ -172,10 +168,7 @@ const Incomes = () => {
               />
             </>
           )}
-
-          <Select
-            className="my-select-container"
-            classNamePrefix="my-select"
+          <StyledSelect
             value={{ value: typeOfIncome, label: typeOfIncome }}
             onChange={handleTypeOfIncomeChange}
             options={[
@@ -184,9 +177,8 @@ const Incomes = () => {
               { value: "SINGLE_PAYMENT", label: "Single Payment" },
             ]}
           />
-          <Select
-            className="my-select-container"
-            classNamePrefix="my-select"
+       
+          <StyledSelect
             value={{ value: incomeStatus, label: incomeStatus }}
             onChange={handleIncomeStatusChange}
             options={[
