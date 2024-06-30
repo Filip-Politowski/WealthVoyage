@@ -8,8 +8,8 @@ Implementacja weryfikacji dwuetapowej dla zwiększenia bezpieczeństwa.
 Wyświetlanie podstawowych statystyk budżetowych, takich jak saldo, miesięczne dochody i wydatki.
 Zarządzanie Kontami Bankowymi:
 
-### Dodawanie i zarządzanie różnymi kontami bankowymi.
-Monitorowanie aktualnych sald.
+### Śledzenie źródeł dochodów.
+Możliwość wpisania aktualnych źródeł zarobkowych, podzielonych na typ i kategorie
 ### Transakcje:
 
 Dodawanie transakcji (dochód, wydatek).
@@ -32,39 +32,6 @@ Generowanie raportów i wykresów prezentujących trendy finansowe.
 
 Edycja danych osobowych.
 
-# Przykładowa Baza Danych:
-
-### Account Table:
-
-ID (Primary Key)  
-Email użytkownika
-Nazwa konta  
-Saldo  
-### Transaction Table:  
-
-ID (Primary Key)  
-Email użytkownika
-Kwota  
-Typ transakcji (dochód/wydatek)  
-Kategoria  
-Data transakcji  
-### Saving Goal Table:  
-
-ID (Primary Key)  
-Email użytkownika  
-Nazwa celu  
-Kwota celu  
-Kwota oszczędzona  
-Progres oszczędzania  
-
-### Installments
-ID (Primary Key)  
-Email użytkownika  
-Kwota raty  
-ilość rat  
-data rozpoczęcia raty  
-data zakończenia raty
-
 # Technologie i Narzędzia:  
 ### Backend:
 
@@ -78,8 +45,11 @@ data zakończenia raty
  
 ### Frontend:
 
-* JavaScript
+* TypeScript
 * React (do budowy interfejsu użytkownika)
+* scss
+* HTML
+  
 ### Baza Danych:
 
 * MySQL
@@ -88,6 +58,4 @@ data zakończenia raty
 * JWT (do zarządzania sesjami)
 * Spring Security
 ### Inne:
-
-* Okta (do zarządzania tożsamością i autentykacją)
 * Narzędzia do zarządzania projektem (np. Git, Jira)
