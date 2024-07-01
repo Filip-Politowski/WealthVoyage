@@ -1,14 +1,76 @@
-
+import React, { useState } from "react";
+import Select, { SingleValue } from "react-select";
 import { SingleExpense } from "../../../../models/SingleExpense";
-import "./singleExpense.scss"
+import "./singleExpense.scss";
+import StyledSelect from "../../../../components/select/StyledSelect";
+import {
+  OrderOptionsSingleExpense,
+  SortOptionsSingleExpense,
+} from "../../../../data";
 
 type Props = {
   singleExpenses: SingleExpense[];
+  sortField: string;
+  sortOrder: string;
+  sortOptions: SortOptionsSingleExpense[];
+  orderOptions: OrderOptionsSingleExpense[];
+  onSortFieldChange: (
+    selectedOption: SingleValue<SortOptionsSingleExpense>
+  ) => void;
+  onSortOrderChange: (
+    selectedOption: SingleValue<OrderOptionsSingleExpense>
+  ) => void;
+  currentPage: number;
+  totalPages: number;
+  goToPage: (page: number) => void;
 };
 
 const SingleExpenseComponent = (props: Props) => {
+  const [searchTerm, setSearchTerm] = useState<string>("");
+  const handleSearchTermChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setSearchTerm(event.target.value);
+  };
+
+  const filteredExpenses = props.singleExpenses.filter((expense) =>
+    expense.description.toLowerCase().includes(searchTerm.toLowerCase())
+  );
   return (
     <div className="singleExpenses">
+      <div className="sortingControls">
+        <div className="searchBar">
+          <label htmlFor="search">Search by Description:</label>
+          <img src="/search.svg" alt="" />
+          <input
+            type="text"
+            placeholder={"Enter description..."}
+            value={searchTerm}
+            onChange={handleSearchTermChange}
+          />
+        </div>
+
+        <div className="customSelect">
+          <label htmlFor="sortField">Sort by: </label>
+          <StyledSelect
+            value={props.sortOptions.find(
+              (option) => option.value === props.sortField
+            )}
+            onChange={props.onSortFieldChange}
+            options={props.sortOptions}
+          />
+
+          <label htmlFor="sortOrder">Order: </label>
+
+          <StyledSelect
+            value={props.orderOptions.find(
+              (option) => option.value === props.sortOrder
+            )}
+            onChange={props.onSortOrderChange}
+            options={props.orderOptions}
+          />
+        </div>
+      </div>
       <table>
         <thead>
           <tr>
@@ -19,7 +81,7 @@ const SingleExpenseComponent = (props: Props) => {
           </tr>
         </thead>
         <tbody>
-          {props.singleExpenses.map((singleExpense) => (
+          {filteredExpenses.map((singleExpense) => (
             <tr key={singleExpense.id}>
               <td>{singleExpense.expenseCategory}</td>
               <td>{singleExpense.amount}</td>
@@ -29,6 +91,21 @@ const SingleExpenseComponent = (props: Props) => {
           ))}
         </tbody>
       </table>
+      <div className="pagination">
+        {props.currentPage > 1 && (
+          <button onClick={() => props.goToPage(props.currentPage - 1)}>
+            Previous
+          </button>
+        )}
+        <span>
+          Page {props.currentPage} of {props.totalPages}
+        </span>
+        {props.currentPage < props.totalPages && (
+          <button onClick={() => props.goToPage(props.currentPage + 1)}>
+            Next
+          </button>
+        )}
+      </div>
     </div>
   );
 };
