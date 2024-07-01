@@ -1,0 +1,40 @@
+ @import "../../../../styles/variables.scss";
+ 
+ 
+ .singleExpenses{
+    width: 90%;
+    margin: auto;
+    margin-top: 80px;
+ }
+ 
+ 
+ 
+ 
+ 
+ 
+ table {
+        border-collapse: collapse;
+        width: 100%;
+        border: solid 1px $element-color-2;
+      }
+
+      table td,
+      table th {
+        padding: 8px;
+      }
+
+      table tr:nth-child(even) {
+        background-color: $navigation-color;
+      }
+
+      table tr:hover {
+        background-color: $element-color-2;
+      }
+
+      table th {
+        padding-top: 10px;
+        padding-bottom: 10px;
+        text-align: left;
+        background-color: $element-color-1;
+        color: white;
+      }
