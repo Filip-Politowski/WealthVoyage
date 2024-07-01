@@ -2,48 +2,59 @@
 @import "../../styles/responsive.scss";
 
 .customSelect {
-      position: relative;
-      width: fit-content;
-      height: fit-content;
-      display: flex;
-      gap: 10px;
+  position: relative;
+  width: fit-content;
+  height: fit-content;
+  display: flex;
+  gap: 10px;
 
-      @include md {
-        flex-direction: column;
-      }
+  @include md {
+    flex-direction: column;
+  }
 
-      input {
-        padding: 10px;
-        background-color: $navigation-color;
-        color: white;
-        outline: none;
-        border: 1px solid white;
-        border-radius: 3px;
-      }
+  input {
+    padding: 10px;
+    background-color: $navigation-color;
+    color: white;
+    outline: none;
+    border: 1px solid white;
+    border-radius: 3px;
+  }
 
-      input[type="date"]::-webkit-calendar-picker-indicator {
-        filter: invert(1);
-      }
+  input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+  }
 
-      .my-select-container .my-select__control {
-        background-color: $navigation-color;
-        color: white;
-      }
-      .my-select-container .my-select__menu {
-        background-color: $navigation-color; /* Dropdown menu background color */
-      }
-      .my-select__single-value {
-        color: white;
-      }
+  .my-select-container .my-select__control {
+    background-color: $navigation-color;
+    color: white;
+  }
+  .my-select-container .my-select__menu {
+    background-color: $navigation-color; /* Dropdown menu background color */
+  }
+  .my-select__single-value {
+    color: white;
+  }
 
-      .my-select__option {
-        background-color: rgba($navigation-color, 1);
-        color: $element-color-3;
-        padding: 10px;
-      }
+  .my-select__option {
+    background-color: rgba($navigation-color, 1);
+    color: $element-color-3;
+    padding: 10px;
 
-      .my-select__option--is-selected {
-        background-color: rgba($element-color-3, 1);
-        color: #222;
-      }
+    &--is-focused {
+      background-color: rgba($element-color-3, 0.1);
     }
+
+    &:active {
+      background-color: rgba(
+        $element-color-1,
+        0.4
+      ); // Change this to the color you want when an option is clicked
+    }
+  }
+
+  .my-select__option--is-selected {
+    background-color: rgba($element-color-3, 1);
+    color: #222;
+  }
+}

@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import "./expenses.scss";
-import { Select } from "@mui/material";
 import StyledSelect from "../../components/select/StyledSelect";
 import { ExpenseOptions, expenseOptions } from "../../data";
 import { SingleValue } from "react-select";
@@ -34,6 +33,15 @@ const Expenses = () => {
           />
         </div>
       </div>
+      {expenseOption === "singleExpenses" && (
+        <div className="singleExpenses">Welcome single expenses</div>
+      )}
+      {expenseOption === "recurringExpenses" && (
+        <div className="recurringExpenses">Welcome recurring expenses</div>
+      )}
+      {expenseOption === "planedExpenses" && (
+        <div className="budget">Welcome planedExpenses</div>
+      )}
     </div>
   );
 };
