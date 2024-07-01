@@ -5,7 +5,9 @@ import "./singleExpense.scss";
 import StyledSelect from "../../../../components/select/StyledSelect";
 import {
   OrderOptionsSingleExpense,
+  SingleExpenseCategory,
   SortOptionsSingleExpense,
+  singleExpenseCategory,
 } from "../../../../data";
 
 type Props = {
@@ -27,15 +29,36 @@ type Props = {
 
 const SingleExpenseComponent = (props: Props) => {
   const [searchTerm, setSearchTerm] = useState<string>("");
+  const [selectedCategory, setSelectedCategory] = useState<string>("All");
+  const [selectedCategoryLabel, setSelectedCategoryLabel] =
+    useState<string>("All");
+
   const handleSearchTermChange = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     setSearchTerm(event.target.value);
   };
 
-  const filteredExpenses = props.singleExpenses.filter((expense) =>
-    expense.description.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const filteredExpenses = props.singleExpenses.filter((expense) => {
+    const matchesSearchTerm = expense.description
+      .toLowerCase()
+      .includes(searchTerm.toLowerCase());
+    const matchesCategory =
+      selectedCategory === "All" ||
+      expense.expenseCategory === selectedCategory;
+
+    return matchesSearchTerm && matchesCategory;
+  });
+
+  const handleCategoryChange = (
+    selectedOption: SingleValue<SingleExpenseCategory> | null
+  ) => {
+    if (selectedOption) {
+      setSelectedCategory(selectedOption.value);
+      setSelectedCategoryLabel(selectedOption.label);
+    }
+  };
+
   return (
     <div className="singleExpenses">
       <div className="sortingControls">
@@ -51,6 +74,12 @@ const SingleExpenseComponent = (props: Props) => {
         </div>
 
         <div className="customSelect">
+          <label htmlFor="category">Category: </label>
+          <StyledSelect
+            value={{ label: selectedCategoryLabel, value: selectedCategory }}
+            onChange={handleCategoryChange}
+            options={singleExpenseCategory}
+          />
           <label htmlFor="sortField">Sort by: </label>
           <StyledSelect
             value={props.sortOptions.find(

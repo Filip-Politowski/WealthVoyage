@@ -41,21 +41,23 @@ const Expenses = () => {
     }
   }, [expenseOption, sortField, sortOrder, currentPage]);
 
-  const fetchSingleExpenses = (field: string, order: string, page: number) => {
-    axios
-      .get(`${api}singleExpenses/all`, {
-        params: {
-          sort: `${field},${order}`,
-          page: page - 1,
-          size: 10,
-        },
-      })
-      .then((response) => {
-        setSingleExpenses(response.data.content);
-        setTotalPages(response.data.totalPages);
-      })
-      .catch((error: any) => handleError(error));
-  };
+ const fetchSingleExpenses = (field: string, order: string, page: number) => {
+
+   axios
+     .get(`${api}singleExpenses/all`, {
+       params: {
+         sort: `${field},${order}`,
+         page: page - 1,
+         size: 10,
+       },
+     })
+     .then((response) => {
+       const sortedExpenses = response.data.content; 
+       setSingleExpenses(sortedExpenses);
+       setTotalPages(response.data.totalPages);
+     })
+     .catch((error: any) => handleError(error));
+ };
 
   const handleExpenseSelection = (
     selectedOption: SingleValue<ExpenseOptions>
