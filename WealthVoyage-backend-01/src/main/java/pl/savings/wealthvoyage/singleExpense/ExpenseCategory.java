@@ -1,6 +1,7 @@
 package pl.savings.wealthvoyage.singleExpense;
 
 public enum ExpenseCategory {
+    All,
     ACCOMMODATION,
     FOOD,
     TRANSPORTATION,

@@ -20,9 +20,9 @@ public class SingleExpenseController {
         return singleExpenseService.getUserSingleExpenseById(id, userDetails);
     }
 
-    @GetMapping("/all")
-    public Page<SingleExpenseResponse> getAllUserSingleExpense(@AuthenticationPrincipal UserDetails userDetails, Pageable pageable) {
-            return singleExpenseService.getUserAllSingleExpenses(userDetails, pageable);
+    @GetMapping("/all/{expenseCategory}")
+    public Page<SingleExpenseResponse> getAllUserSingleExpense(@AuthenticationPrincipal UserDetails userDetails, Pageable pageable, @PathVariable ExpenseCategory expenseCategory) {
+            return singleExpenseService.getUserAllSingleExpenses(userDetails, pageable, expenseCategory);
     }
     @GetMapping("/monthly")
     public double getUserSingleExpensesMonthlySum (@AuthenticationPrincipal UserDetails userDetails){

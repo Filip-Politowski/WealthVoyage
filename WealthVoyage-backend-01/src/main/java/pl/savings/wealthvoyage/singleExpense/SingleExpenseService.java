@@ -3,6 +3,7 @@ package pl.savings.wealthvoyage.singleExpense;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -10,7 +11,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -23,10 +26,18 @@ public class SingleExpenseService {
         return singleExpenseMapper.toSingleExpenseResponse(singleExpenseRepository.findByIdAndUsername(id, userDetails.getUsername()));
     }
 
-    public Page<SingleExpenseResponse> getUserAllSingleExpenses(@NotNull UserDetails userDetails, Pageable pageable) {
+    public Page<SingleExpenseResponse> getUserAllSingleExpenses(@NotNull UserDetails userDetails, Pageable pageable, ExpenseCategory expenseCategory) {
         Page<SingleExpense> singleExpensePage = singleExpenseRepository.findAllByUsername(userDetails.getUsername(), pageable)
                 .orElseThrow(NoSuchElementException::new);
-        return singleExpensePage.map(singleExpenseMapper::toSingleExpenseResponse);
+        if (expenseCategory.equals(ExpenseCategory.All)) {
+            return singleExpensePage.map(singleExpenseMapper::toSingleExpenseResponse);
+        } else {
+            List<SingleExpenseResponse> filteredExpenses = singleExpensePage.stream()
+                    .filter(singleExpense -> singleExpense.getExpenseCategory().equals(expenseCategory))
+                    .map(singleExpenseMapper::toSingleExpenseResponse)
+                    .collect(Collectors.toList());
+            return new PageImpl<>(filteredExpenses, pageable, filteredExpenses.size());
+        }
     }
 
     public SingleExpense saveUserSingleExpense(SingleExpenseRequest singleExpenseRequest, @NotNull UserDetails userDetails) {
