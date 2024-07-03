@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
@@ -27,17 +29,30 @@ public class SingleExpenseService {
     }
 
     public Page<SingleExpenseResponse> getUserAllSingleExpenses(@NotNull UserDetails userDetails, Pageable pageable, ExpenseCategory expenseCategory) {
-        Page<SingleExpense> singleExpensePage = singleExpenseRepository.findAllByUsername(userDetails.getUsername(), pageable)
-                .orElseThrow(NoSuchElementException::new);
+
+
         if (expenseCategory.equals(ExpenseCategory.All)) {
+            Page<SingleExpense> singleExpensePage = singleExpenseRepository.findAllByUsername(userDetails.getUsername(), pageable)
+                    .orElseThrow(NoSuchElementException::new);
             return singleExpensePage.map(singleExpenseMapper::toSingleExpenseResponse);
         } else {
-            List<SingleExpenseResponse> filteredExpenses = singleExpensePage.stream()
-                    .filter(singleExpense -> singleExpense.getExpenseCategory().equals(expenseCategory))
-                    .map(singleExpenseMapper::toSingleExpenseResponse)
-                    .collect(Collectors.toList());
-            return new PageImpl<>(filteredExpenses, pageable, filteredExpenses.size());
+            Page<SingleExpense> singleExpensePage = singleExpenseRepository.findAllByUsernameAndExpenseCategory(userDetails.getUsername(), expenseCategory, pageable)
+                    .orElseThrow(NoSuchElementException::new);
+            return singleExpensePage.map(singleExpenseMapper::toSingleExpenseResponse);
         }
+    }
+
+    public Page<SingleExpenseResponse> getUserSingleExpensesByCategoryAndDate(@NotNull UserDetails userDetails, Pageable pageable, ExpenseCategory expenseCategory, Date date) {
+
+        Page<SingleExpense> singleExpensePage;
+        if (!expenseCategory.equals(ExpenseCategory.All)) {
+            singleExpensePage = singleExpenseRepository.findAllByUsernameAndExpenseCategoryAndDate(userDetails.getUsername(), expenseCategory, pageable, date)
+                    .orElseThrow(NoSuchElementException::new);
+        } else {
+            singleExpensePage = singleExpenseRepository.findAllByUsernameAndDate(userDetails.getUsername(), pageable, date)
+                    .orElseThrow(NoSuchElementException::new);
+        }
+        return singleExpensePage.map(singleExpenseMapper::toSingleExpenseResponse);
     }
 
     public SingleExpense saveUserSingleExpense(SingleExpenseRequest singleExpenseRequest, @NotNull UserDetails userDetails) {
@@ -50,6 +65,7 @@ public class SingleExpenseService {
     public void deleteUserSingleExpenseById(Long id, @NotNull UserDetails userDetails) {
         singleExpenseRepository.deleteByIdAndUsername(id, userDetails.getUsername());
     }
+
 
     public void updateUserSingleExpense(Long id, SingleExpenseRequest singleExpenseRequest, @NotNull UserDetails userDetails) {
         SingleExpense singleExpense = singleExpenseMapper.toSingleExpense(singleExpenseRequest);

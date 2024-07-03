@@ -25,11 +25,15 @@ type Props = {
   currentPage: number;
   totalPages: number;
   goToPage: (page: number) => void;
+  selectedCategory: string;
+  setSelectedCategory: (category: string) => void;
+  itemsPerPage: number;
+  selectedDate: string;
+  setSelectedDate: (date: string) => void;
 };
 
 const SingleExpenseComponent = (props: Props) => {
   const [searchTerm, setSearchTerm] = useState<string>("");
-  const [selectedCategory, setSelectedCategory] = useState<string>("All");
   const [selectedCategoryLabel, setSelectedCategoryLabel] =
     useState<string>("All");
 
@@ -43,18 +47,14 @@ const SingleExpenseComponent = (props: Props) => {
     const matchesSearchTerm = expense.description
       .toLowerCase()
       .includes(searchTerm.toLowerCase());
-    const matchesCategory =
-      selectedCategory === "All" ||
-      expense.expenseCategory === selectedCategory;
-
-    return matchesSearchTerm && matchesCategory;
+    return matchesSearchTerm;
   });
 
   const handleCategoryChange = (
     selectedOption: SingleValue<SingleExpenseCategory> | null
   ) => {
     if (selectedOption) {
-      setSelectedCategory(selectedOption.value);
+      props.setSelectedCategory(selectedOption.value);
       setSelectedCategoryLabel(selectedOption.label);
     }
   };
@@ -72,11 +72,19 @@ const SingleExpenseComponent = (props: Props) => {
             onChange={handleSearchTermChange}
           />
         </div>
-
         <div className="customSelect">
+          <label>Date:</label>
+          <input
+            type="date"
+            value={props.selectedDate}
+            onChange={(e) => props.setSelectedDate(e.target.value)}
+          />
           <label htmlFor="category">Category: </label>
           <StyledSelect
-            value={{ label: selectedCategoryLabel, value: selectedCategory }}
+            value={{
+              label: selectedCategoryLabel,
+              value: props.selectedCategory,
+            }}
             onChange={handleCategoryChange}
             options={singleExpenseCategory}
           />
@@ -88,9 +96,7 @@ const SingleExpenseComponent = (props: Props) => {
             onChange={props.onSortFieldChange}
             options={props.sortOptions}
           />
-
           <label htmlFor="sortOrder">Order: </label>
-
           <StyledSelect
             value={props.orderOptions.find(
               (option) => option.value === props.sortOrder
@@ -103,19 +109,23 @@ const SingleExpenseComponent = (props: Props) => {
       <table>
         <thead>
           <tr>
-            <th>Category</th>
+            <th>No.</th>
+            <th>Description</th>
             <th>Amount</th>
             <th>Date</th>
-            <th>Description</th>
+            <th>Category</th>
           </tr>
         </thead>
         <tbody>
-          {filteredExpenses.map((singleExpense) => (
+          {filteredExpenses.map((singleExpense, index) => (
             <tr key={singleExpense.id}>
-              <td>{singleExpense.expenseCategory}</td>
-              <td>{singleExpense.amount}</td>
-              <td>{singleExpense.date}</td>
+              <td>
+                {index + 1 + (props.currentPage - 1) * props.itemsPerPage}.
+              </td>
               <td>{singleExpense.description}</td>
+              <td>{singleExpense.amount} zł</td>
+              <td>{singleExpense.date}</td>
+              <td>{singleExpense.expenseCategory}</td>
             </tr>
           ))}
         </tbody>

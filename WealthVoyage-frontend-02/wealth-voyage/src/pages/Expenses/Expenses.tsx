@@ -14,6 +14,7 @@ import { SingleExpense } from "../../models/SingleExpense";
 import { handleError } from "../../helpers/ErrorHandler";
 import axios from "axios";
 import SingleExpenseComponent from "./components/singleExpense/SingleExpenseComponent";
+import { set } from "date-fns";
 const api = "http://localhost:8080/api/";
 
 const Expenses = () => {
@@ -28,6 +29,9 @@ const Expenses = () => {
   const [sortOrder, setSortOrder] = useState<string>("asc");
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [totalPages, setTotalPages] = useState<number>(0);
+  const [selectedCategory, setSelectedCategory] = useState<string>("All");
+  const [selectedDate, setSelectedDate] = useState<string>("");
+  const itemsPerPage = 10;
 
   useEffect(() => {
     if (expenseOption === "singleExpenses") {
@@ -39,25 +43,34 @@ const Expenses = () => {
     } else {
       console.log("No expense option selected");
     }
-  }, [expenseOption, sortField, sortOrder, currentPage]);
+  }, [
+    expenseOption,
+    sortField,
+    sortOrder,
+    currentPage,
+    selectedCategory,
+    selectedDate,
+  ]);
+  console.log(selectedCategory)
+  const fetchSingleExpenses = (field: string, order: string, page: number) => {
+    const endpointAll = `${api}singleExpenses/all/${selectedCategory}`;
+    const endpointByDate = `${api}singleExpenses/byDate/${selectedCategory}/${selectedDate}`;
 
- const fetchSingleExpenses = (field: string, order: string, page: number) => {
-
-   axios
-     .get(`${api}singleExpenses/all`, {
-       params: {
-         sort: `${field},${order}`,
-         page: page - 1,
-         size: 10,
-       },
-     })
-     .then((response) => {
-       const sortedExpenses = response.data.content; 
-       setSingleExpenses(sortedExpenses);
-       setTotalPages(response.data.totalPages);
-     })
-     .catch((error: any) => handleError(error));
- };
+    axios
+      .get(selectedDate === "" ? endpointAll : endpointByDate, {
+        params: {
+          sort: `${field},${order}`,
+          page: page - 1,
+          size: itemsPerPage,
+        },
+      })
+      .then((response) => {
+        const sortedExpenses = response.data.content;
+        setSingleExpenses(sortedExpenses);
+        setTotalPages(response.data.totalPages);
+      })
+      .catch((error: any) => handleError(error));
+  };
 
   const handleExpenseSelection = (
     selectedOption: SingleValue<ExpenseOptions>
@@ -116,6 +129,11 @@ const Expenses = () => {
           goToPage={goToPage}
           onSortFieldChange={handleSortFieldChange}
           onSortOrderChange={handleSortOrderChange}
+          selectedCategory={selectedCategory}
+          setSelectedCategory={setSelectedCategory}
+          itemsPerPage={itemsPerPage}
+          selectedDate={selectedDate}
+          setSelectedDate={setSelectedDate}
         />
       )}
       {expenseOption === "recurringExpenses" && (
