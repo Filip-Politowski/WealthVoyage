@@ -15,6 +15,7 @@ import { handleError } from "../../helpers/ErrorHandler";
 import axios from "axios";
 import SingleExpenseComponent from "./components/singleExpense/SingleExpenseComponent";
 import { set } from "date-fns";
+import ExpenseCardSlider from "../../components/utils/expenseCardSlider/ExpenseCardSlider";
 const api = "http://localhost:8080/api/";
 
 const Expenses = () => {
@@ -46,7 +47,7 @@ const Expenses = () => {
   }, [
     expenseOption,
     sortField,
-    sortOrder,
+    sortOrder, 
     currentPage,
     selectedCategory,
     selectedDate,
@@ -137,7 +138,12 @@ const Expenses = () => {
         />
       )}
       {expenseOption === "recurringExpenses" && (
-        <div className="recurringExpenses">Welcome recurring expenses</div>
+        <>
+          <ExpenseCardSlider />
+          <ExpenseCardSlider />
+          <ExpenseCardSlider />
+          <ExpenseCardSlider />
+        </>
       )}
       {expenseOption === "planedExpenses" && (
         <div className="budget">Welcome planned expenses</div>
