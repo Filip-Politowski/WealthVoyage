@@ -3,6 +3,7 @@ package pl.savings.wealthvoyage.singleExpense;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -10,7 +11,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
+import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -23,9 +28,30 @@ public class SingleExpenseService {
         return singleExpenseMapper.toSingleExpenseResponse(singleExpenseRepository.findByIdAndUsername(id, userDetails.getUsername()));
     }
 
-    public Page<SingleExpenseResponse> getUserAllSingleExpenses(@NotNull UserDetails userDetails, Pageable pageable) {
-        Page<SingleExpense> singleExpensePage = singleExpenseRepository.findAllByUsername(userDetails.getUsername(), pageable)
-                .orElseThrow(NoSuchElementException::new);
+    public Page<SingleExpenseResponse> getUserAllSingleExpenses(@NotNull UserDetails userDetails, Pageable pageable, ExpenseCategory expenseCategory) {
+
+
+        if (expenseCategory.equals(ExpenseCategory.All)) {
+            Page<SingleExpense> singleExpensePage = singleExpenseRepository.findAllByUsername(userDetails.getUsername(), pageable)
+                    .orElseThrow(NoSuchElementException::new);
+            return singleExpensePage.map(singleExpenseMapper::toSingleExpenseResponse);
+        } else {
+            Page<SingleExpense> singleExpensePage = singleExpenseRepository.findAllByUsernameAndExpenseCategory(userDetails.getUsername(), expenseCategory, pageable)
+                    .orElseThrow(NoSuchElementException::new);
+            return singleExpensePage.map(singleExpenseMapper::toSingleExpenseResponse);
+        }
+    }
+
+    public Page<SingleExpenseResponse> getUserSingleExpensesByCategoryAndDate(@NotNull UserDetails userDetails, Pageable pageable, ExpenseCategory expenseCategory, Date date) {
+
+        Page<SingleExpense> singleExpensePage;
+        if (!expenseCategory.equals(ExpenseCategory.All)) {
+            singleExpensePage = singleExpenseRepository.findAllByUsernameAndExpenseCategoryAndDate(userDetails.getUsername(), expenseCategory, pageable, date)
+                    .orElseThrow(NoSuchElementException::new);
+        } else {
+            singleExpensePage = singleExpenseRepository.findAllByUsernameAndDate(userDetails.getUsername(), pageable, date)
+                    .orElseThrow(NoSuchElementException::new);
+        }
         return singleExpensePage.map(singleExpenseMapper::toSingleExpenseResponse);
     }
 
@@ -39,6 +65,7 @@ public class SingleExpenseService {
     public void deleteUserSingleExpenseById(Long id, @NotNull UserDetails userDetails) {
         singleExpenseRepository.deleteByIdAndUsername(id, userDetails.getUsername());
     }
+
 
     public void updateUserSingleExpense(Long id, SingleExpenseRequest singleExpenseRequest, @NotNull UserDetails userDetails) {
         SingleExpense singleExpense = singleExpenseMapper.toSingleExpense(singleExpenseRequest);

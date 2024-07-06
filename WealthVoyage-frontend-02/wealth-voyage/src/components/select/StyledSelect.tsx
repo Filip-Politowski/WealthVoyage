@@ -1,6 +1,5 @@
-import React from "react";
 import "./styledSelect.scss";
-import Select, { SingleValue } from "react-select";
+import Select from "react-select";
 type Props = {
   value: any;
   onChange: any;
@@ -18,7 +17,6 @@ const StyledSelect = (props: Props) => {
         onChange={props.onChange}
         options={props.options}
         defaultValue={props.defaultValue}
-        
       />
     </>
   );

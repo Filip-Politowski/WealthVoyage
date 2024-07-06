@@ -28,6 +28,7 @@
   .my-select-container .my-select__control {
     background-color: $navigation-color;
     color: white;
+    min-width: 150px;
   }
   .my-select-container .my-select__menu {
     background-color: $navigation-color; /* Dropdown menu background color */

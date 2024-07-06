@@ -41,7 +41,7 @@ public class IncomeService {
             IncomeStatus incomeStatus,
             Pageable pageable
     ) {
-        LocalDate localMonthDate = monthDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate().withDayOfMonth(1);  // Ensure first day of month
+        LocalDate localMonthDate = monthDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate().withDayOfMonth(1);
         Date startDate = Date.from(localMonthDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
         Date endDate = Date.from(localMonthDate.plusMonths(1).atStartOfDay(ZoneId.systemDefault()).toInstant());
 
@@ -59,7 +59,7 @@ public class IncomeService {
     ) {
 
         LocalDate endLocalDate = endDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-        // Adjust the end date to the end of the day for inclusiveness
+
         Date inclusiveEndDate = Date.from(endLocalDate.plusDays(1).atStartOfDay(ZoneId.systemDefault()).toInstant().minusMillis(1));
 
         Page<Income> incomePage = incomeRepository.findIncomesByUsernameAndDateRangeAndStatusAndType(

@@ -279,13 +279,57 @@ export interface ExpenseOptions {
   value: string;
   label: string;
 }
+export interface ExpenseOptions {
+  value: string;
+  label: string;
+}
 
-export const expenseOptions: readonly ExpenseOptions[] = [
-  { value: "singleExpenses", label: "Single Expenses" },
-  { value: "recurringExpenses", label: "Recurring Expenses" },
-  { value: "planedExpenses", label: "Planed Expenses" },
+export interface SingleExpenseCategory {
+  value: string;
+  label: string;
+}
+
+export const singleExpenseCategory: SingleExpenseCategory[] = [
+  { value: "All", label: "All" },
+  { value: "ACCOMMODATION", label: "Accommodation" },
+  { value: "FOOD", label: "Food" },
+  { value: "TRANSPORTATION", label: "Transportation" },
+  { value: "HEALTHCARE", label: "Healthcare" },
+  { value: "PERSONAL_CARE", label: "Personal care" },
+  { value: "CLOTHING_AND_FOOTWEAR", label: "Clothing and footwear" },
+  { value: "ENTERTAINMENT", label: "Entertainment" },
+  { value: "EDUCATION", label: "Education" },
+  { value: "SAVINGS", label: "Savings" },
+  { value: "DEBT", label: "Debt" },
+  { value: "OTHER", label: "Other" },
 ];
 
+export const expenseOptions: ExpenseOptions[] = [
+  { value: "singleExpenses", label: "Single Expenses" },
+  { value: "recurringExpenses", label: "Recurring Expenses" },
+  { value: "planedExpenses", label: "Planned Expenses" },
+];
+
+export interface SortOptionsSingleExpense {
+  value: string;
+  label: string;
+}
+
+export interface OrderOptionsSingleExpense {
+  value: string;
+  label: string;
+}
+
+export const sortOptions: SortOptionsSingleExpense[] = [
+  { value: "date", label: "Date" },
+  { value: "amount", label: "Amount" },
+  { value: "expenseCategory", label: "Category" },
+];
+
+export const orderOptions: OrderOptionsSingleExpense[] = [
+  { value: "asc", label: "Ascending" },
+  { value: "desc", label: "Descending" },
+];
 export const monthsOptions: readonly MonthsOptions[] = [
   { value: "01", label: "January" },
   { value: "02", label: "February" },
