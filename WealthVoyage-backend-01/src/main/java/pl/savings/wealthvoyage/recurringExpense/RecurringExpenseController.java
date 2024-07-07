@@ -1,6 +1,8 @@
 package pl.savings.wealthvoyage.recurringExpense;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
@@ -17,17 +19,17 @@ public class RecurringExpenseController {
         return recurringExpenseService.getUserRecurringExpense(id, userDetails);
     }
     @GetMapping("/all")
-    public List<RecurringExpenseResponse>  getUserRecurringExpenses(@AuthenticationPrincipal UserDetails userDetails) {
-        return recurringExpenseService.getUserRecurringExpenses(userDetails);
+    public Page<RecurringExpenseResponse> getUserRecurringExpenses(@AuthenticationPrincipal UserDetails userDetails, Pageable pageable) {
+        return recurringExpenseService.getUserRecurringExpenses(userDetails, pageable);
     }
 
     @GetMapping("/monthlySum")
-    public Double getUserRecurringExpensesMonthlySum(@AuthenticationPrincipal UserDetails userDetails) {
-        return recurringExpenseService.getUserRecurringExpensesMonthlySum(userDetails);
+    public Double getUserRecurringExpensesMonthlySum(@AuthenticationPrincipal UserDetails userDetails, Pageable pageable) {
+        return recurringExpenseService.getUserRecurringExpensesMonthlySum(userDetails, pageable);
     }
     @GetMapping("/yearlySum")
-    public Double getUserRecurringExpensesYearlySum(@AuthenticationPrincipal UserDetails userDetails) {
-        return recurringExpenseService.getUserRecurringExpensesYearlySum(userDetails);
+    public Double getUserRecurringExpensesYearlySum(@AuthenticationPrincipal UserDetails userDetails, Pageable pageable) {
+        return recurringExpenseService.getUserRecurringExpensesYearlySum(userDetails, pageable);
     }
 
     @PostMapping("/add")

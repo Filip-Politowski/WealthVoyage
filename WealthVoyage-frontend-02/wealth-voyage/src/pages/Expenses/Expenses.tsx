@@ -14,8 +14,8 @@ import { SingleExpense } from "../../models/SingleExpense";
 import { handleError } from "../../helpers/ErrorHandler";
 import axios from "axios";
 import SingleExpenseComponent from "./components/singleExpense/SingleExpenseComponent";
-import { set } from "date-fns";
-import ExpenseCardSlider from "../../components/utils/expenseCardSlider/ExpenseCardSlider";
+import RecurringExpenseComponent from "./components/recurringExpenses/RecurringExpenseComponent";
+import { RecurringExpense } from "../../models/RecurringExpense";
 const api = "http://localhost:8080/api/";
 
 const Expenses = () => {
@@ -26,6 +26,9 @@ const Expenses = () => {
     );
   const [expenseOption, setExpenseOption] = useState<string>("singleExpenses");
   const [singleExpenses, setSingleExpenses] = useState<SingleExpense[]>([]);
+  const [recurringExpenses, setRecurringExpenses] = useState<
+    RecurringExpense[]
+  >([]);
   const [sortField, setSortField] = useState<string>("date");
   const [sortOrder, setSortOrder] = useState<string>("asc");
   const [currentPage, setCurrentPage] = useState<number>(1);
@@ -38,7 +41,7 @@ const Expenses = () => {
     if (expenseOption === "singleExpenses") {
       fetchSingleExpenses(sortField, sortOrder, currentPage);
     } else if (expenseOption === "recurringExpenses") {
-      console.log("recurringExpenses");
+      fetchRecurringExpenses("amount", "asc", currentPage);
     } else if (expenseOption === "planedExpenses") {
       console.log("planedExpenses");
     } else {
@@ -47,12 +50,12 @@ const Expenses = () => {
   }, [
     expenseOption,
     sortField,
-    sortOrder, 
+    sortOrder,
     currentPage,
     selectedCategory,
     selectedDate,
   ]);
-  console.log(selectedCategory)
+
   const fetchSingleExpenses = (field: string, order: string, page: number) => {
     const endpointAll = `${api}singleExpenses/all/${selectedCategory}`;
     const endpointByDate = `${api}singleExpenses/byDate/${selectedCategory}/${selectedDate}`;
@@ -73,12 +76,34 @@ const Expenses = () => {
       .catch((error: any) => handleError(error));
   };
 
+  const fetchRecurringExpenses = (
+    field: string,
+    order: string,
+    page: number
+  ) => {
+    const endpoint = `${api}recurringExpenses/all`;
+    axios
+      .get(endpoint, {
+        params: {
+          sort: `${field},${order}`,
+          page: page - 1,
+          size: 3,
+        },
+      })
+      .then((response) => {
+        setRecurringExpenses(response.data.content);
+        setTotalPages(response.data.totalPages);
+      })
+      .catch((error: any) => handleError(error));
+  };
+
   const handleExpenseSelection = (
     selectedOption: SingleValue<ExpenseOptions>
   ) => {
     if (selectedOption) {
       setSelectedExpenseOption(selectedOption);
       setExpenseOption(selectedOption.value);
+      setCurrentPage(1);
     }
   };
 
@@ -138,12 +163,12 @@ const Expenses = () => {
         />
       )}
       {expenseOption === "recurringExpenses" && (
-        <>
-          <ExpenseCardSlider />
-          <ExpenseCardSlider />
-          <ExpenseCardSlider />
-          <ExpenseCardSlider />
-        </>
+        <RecurringExpenseComponent
+          recurringExpenses={recurringExpenses}
+          currentPage={currentPage}
+          goToPage={goToPage}
+          totalPages={totalPages}
+        />
       )}
       {expenseOption === "planedExpenses" && (
         <div className="budget">Welcome planned expenses</div>

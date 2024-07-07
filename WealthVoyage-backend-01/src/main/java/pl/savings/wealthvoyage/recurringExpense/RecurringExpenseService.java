@@ -2,6 +2,8 @@ package pl.savings.wealthvoyage.recurringExpense;
 
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -17,8 +19,9 @@ public class RecurringExpenseService {
         RecurringExpense recurringExpense = recurringExpenseRepository.findByIdAndUsername(id,userDetails.getUsername()).orElseThrow();
         return recurringExpenseMapper.toRecurringExpenseResponse(recurringExpense);
     }
-    public List<RecurringExpenseResponse> getUserRecurringExpenses(UserDetails userDetails) {
-        return recurringExpenseMapper.toRecurringExpenseResponses(recurringExpenseRepository.findAllByUsername(userDetails.getUsername()).orElseThrow(NoSuchElementException::new));
+    public Page<RecurringExpenseResponse> getUserRecurringExpenses(UserDetails userDetails, Pageable pageable) {
+            Page<RecurringExpense> recurringExpensePage = recurringExpenseRepository.findAllByUsername(userDetails.getUsername(), pageable).orElseThrow(NoSuchElementException::new);
+        return recurringExpensePage.map(recurringExpenseMapper::toRecurringExpenseResponse);
     }
     public RecurringExpense saveUserRecurringExpense(RecurringExpenseRequest recurringExpenseRequest, @NotNull UserDetails userDetails) {
         RecurringExpense recurringExpense = recurringExpenseMapper.toRecurringExpense(recurringExpenseRequest);
@@ -34,15 +37,15 @@ public class RecurringExpenseService {
         recurringExpense.setId(id);
         recurringExpenseRepository.save(recurringExpense);
     }
-    public Double getUserRecurringExpensesMonthlySum(@NotNull UserDetails userDetails) {
-        return recurringExpenseRepository.findAllByUsername(userDetails.getUsername()).orElseThrow(NoSuchElementException::new)
+    public Double getUserRecurringExpensesMonthlySum(@NotNull UserDetails userDetails, Pageable pageable) {
+        return recurringExpenseRepository.findAllByUsername(userDetails.getUsername(), pageable).orElseThrow(NoSuchElementException::new)
                 .stream()
                 .filter(recurringExpense -> recurringExpense.getExpenseFrequency().equals(ExpenseFrequency.MONTHLY))
                 .mapToDouble(RecurringExpense::getAmount)
                 .sum();
     }
-    public Double getUserRecurringExpensesYearlySum(@NotNull UserDetails userDetails) {
-        return recurringExpenseRepository.findAllByUsername(userDetails.getUsername()).orElseThrow(NoSuchElementException::new)
+    public Double getUserRecurringExpensesYearlySum(@NotNull UserDetails userDetails, Pageable pageable) {
+        return recurringExpenseRepository.findAllByUsername(userDetails.getUsername(), pageable).orElseThrow(NoSuchElementException::new)
                 .stream()
                 .filter(recurringExpense -> recurringExpense.getExpenseFrequency().equals(ExpenseFrequency.YEARLY))
                 .mapToDouble(RecurringExpense::getAmount)

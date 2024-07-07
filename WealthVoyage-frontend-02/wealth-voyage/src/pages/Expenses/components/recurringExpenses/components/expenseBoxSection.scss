@@ -1,0 +1,72 @@
+ @import "../../../../../styles/variables.scss";
+@import "../../../../../styles/global.scss";
+@import "../../../../../styles/responsive.scss";
+ 
+ .expenseBoxSection {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    margin: 20px;
+
+    .nextPage {
+      display: flex;
+      justify-content: center;
+      min-width: 40px;
+      margin-top: 20px;
+      img {
+        width: 15px;
+        height: 15px;
+      }
+      button {
+        background-color: transparent;
+      }
+    }
+    .expenseType {
+      max-width: 70px;
+      margin: 0px 15px 0px 5px;
+    }
+
+    .incomeBoxes {
+      width: 100%;
+      margin-top: 20px;
+      display: grid;
+      gap: 20px;
+      grid-template-columns: repeat(3, 1fr);
+      grid-auto-rows: minmax(140px, auto);
+      grid-auto-flow: dense;
+
+      @include xl {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      @include md {
+        grid-template-columns: repeat(1, 1fr);
+      }
+
+      .incomeBox {
+        padding: 20px;
+        border-radius: 10px;
+        border: 2px solid $soft-bg;
+        background: linear-gradient(
+          45deg,
+          $navigation-color 30%,
+          $element-color-2 70%
+        );
+        transition: 0.8s;
+        word-wrap: break-word;
+
+        p {
+          margin: 0 0 10px;
+          font-size: 1rem;
+        }
+
+        strong {
+          font-weight: bold;
+        }
+      }
+      .incomeBox:hover {
+        cursor: pointer;
+        box-shadow: 5px 5px 20px rgba($element-color-3, 0.4);
+        transform: scale(1.05);
+      }
+    }
+  }
