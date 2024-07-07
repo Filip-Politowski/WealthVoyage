@@ -12,7 +12,7 @@ public class RecurringExpenseMapper {
                 .expenseType(request.getExpenseType())
                 .expenseFrequency(request.getExpenseFrequency())
                 .amount(request.getAmount())
-                .paymentDate(request.getPaymentDate())
+                .date(request.getDate())
                 .expenseName(request.getExpenseName())
                 .description(request.getDescription())
                 .build();
@@ -23,7 +23,7 @@ public class RecurringExpenseMapper {
                 .expenseType(recurringExpense.getExpenseType())
                 .expenseFrequency(recurringExpense.getExpenseFrequency())
                 .amount(recurringExpense.getAmount())
-                .paymentDate(recurringExpense.getPaymentDate())
+                .date(recurringExpense.getDate())
                 .expenseName(recurringExpense.getExpenseName())
                 .description(recurringExpense.getDescription())
                 .build();

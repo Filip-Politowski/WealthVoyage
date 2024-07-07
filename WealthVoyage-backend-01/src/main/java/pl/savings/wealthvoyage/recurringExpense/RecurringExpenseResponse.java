@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.awt.*;
+import java.util.Date;
 
 @Builder
 @Data
@@ -18,6 +19,6 @@ public class RecurringExpenseResponse {
     private Double amount;
     private ExpenseFrequency expenseFrequency;
     private String description;
-    private String paymentDate;
+    private Date date;
 
 }

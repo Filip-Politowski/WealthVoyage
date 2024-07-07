@@ -41,7 +41,7 @@ const Expenses = () => {
     if (expenseOption === "singleExpenses") {
       fetchSingleExpenses(sortField, sortOrder, currentPage);
     } else if (expenseOption === "recurringExpenses") {
-      fetchRecurringExpenses("amount", "asc", currentPage);
+      console.log("recurringExpense")
     } else if (expenseOption === "planedExpenses") {
       console.log("planedExpenses");
     } else {
@@ -76,26 +76,6 @@ const Expenses = () => {
       .catch((error: any) => handleError(error));
   };
 
-  const fetchRecurringExpenses = (
-    field: string,
-    order: string,
-    page: number
-  ) => {
-    const endpoint = `${api}recurringExpenses/all`;
-    axios
-      .get(endpoint, {
-        params: {
-          sort: `${field},${order}`,
-          page: page - 1,
-          size: 3,
-        },
-      })
-      .then((response) => {
-        setRecurringExpenses(response.data.content);
-        setTotalPages(response.data.totalPages);
-      })
-      .catch((error: any) => handleError(error));
-  };
 
   const handleExpenseSelection = (
     selectedOption: SingleValue<ExpenseOptions>
@@ -163,12 +143,7 @@ const Expenses = () => {
         />
       )}
       {expenseOption === "recurringExpenses" && (
-        <RecurringExpenseComponent
-          recurringExpenses={recurringExpenses}
-          currentPage={currentPage}
-          goToPage={goToPage}
-          totalPages={totalPages}
-        />
+        <RecurringExpenseComponent />
       )}
       {expenseOption === "planedExpenses" && (
         <div className="budget">Welcome planned expenses</div>

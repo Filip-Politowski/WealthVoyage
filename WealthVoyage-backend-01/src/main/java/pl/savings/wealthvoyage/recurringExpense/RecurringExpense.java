@@ -3,6 +3,8 @@ package pl.savings.wealthvoyage.recurringExpense;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.Date;
+
 @Entity
 @Builder
 @AllArgsConstructor
@@ -20,7 +22,8 @@ public class RecurringExpense {
     @Enumerated(EnumType.STRING)
     private ExpenseFrequency expenseFrequency;
     private String description;
-    private String paymentDate;
+    @Temporal(TemporalType.DATE)
+    private Date date;
 
 
 

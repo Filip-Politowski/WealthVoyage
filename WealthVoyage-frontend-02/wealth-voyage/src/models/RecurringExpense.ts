@@ -5,5 +5,5 @@ export type RecurringExpense = {
   amount: number;
   expenseFrequency: string;
   description: string;
-  paymentDate: string;
+  date: string;
 };
