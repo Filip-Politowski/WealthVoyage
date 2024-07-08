@@ -1,18 +1,20 @@
 import React, { useEffect, useState } from "react";
 import "./recurringExpense.scss";
 import { RecurringExpense } from "../../../../models/RecurringExpense";
-import ExpenseBoxSection from "./components/ExpenseBoxSection";
+import ExpenseBoxSection from "./components/expenseBoxSection/ExpenseBoxSection";
 import axios from "axios";
 import { handleError } from "../../../../helpers/ErrorHandler";
 import DeleteElement from "../../../../components/delete/DeleteElement";
 import { useNavigate } from "react-router-dom";
+import UpdateRecurringExpense from "./components/updateRecurringExpense/UpdateRecurringExpense";
 
 const api = "http://localhost:8080/api/";
 
 const RecurringExpenseComponent = () => {
   const [elementId, setElementId] = useState<number>(0);
   const navigate = useNavigate();
-  const [deleting, setDeleting] = useState<boolean>(false)
+  const [deleting, setDeleting] = useState<boolean>(false);
+  const [openUpdateWindow, setOpenUpdateWindow] = useState<boolean>(false);
   const [sortField, setSortField] = useState<string>("date");
   const [sortOrder, setSortOrder] = useState<string>("asc");
   const [currentPageSection1, setCurrentPageSection1] = useState<number>(1);
@@ -23,6 +25,15 @@ const RecurringExpenseComponent = () => {
   const [totalPagesSection2, setTotalPagesSection2] = useState<number>(0);
   const [totalPagesSection3, setTotalPagesSection3] = useState<number>(0);
   const [totalPagesSection4, setTotalPagesSection4] = useState<number>(0);
+  const [recurringExpense, setRecurringExpense] = useState<RecurringExpense>({
+    amount: 0,
+    date: "",
+    description: "",
+    expenseFrequency: "",
+    expenseName: "",
+    expenseType: "",
+    id: 0,
+  });
   const [weeklyRecurringExpenses, setWeeklyRecurringExpenses] = useState<
     RecurringExpense[]
   >([]);
@@ -38,22 +49,18 @@ const RecurringExpenseComponent = () => {
 
   useEffect(() => {
     fetchWeeklyRecurringExpenses(sortField, sortOrder, currentPageSection1);
-  }, [sortField, sortOrder, currentPageSection1, deleting]);
+  }, [sortField, sortOrder, currentPageSection1, deleting, openUpdateWindow]);
 
   useEffect(() => {
     fetchMonthlyRecurringExpenses(sortField, sortOrder, currentPageSection2);
-  }, [sortField, sortOrder, currentPageSection2, deleting]);
-    useEffect(() => {
-      fetchBimonthlyRecurringExpenses(
-        sortField,
-        sortOrder,
-        currentPageSection3
-      );
-    }, [sortField, sortOrder, currentPageSection3, deleting]);
+  }, [sortField, sortOrder, currentPageSection2, deleting, openUpdateWindow]);
+  useEffect(() => {
+    fetchBimonthlyRecurringExpenses(sortField, sortOrder, currentPageSection3);
+  }, [sortField, sortOrder, currentPageSection3, deleting, openUpdateWindow]);
 
   useEffect(() => {
     fetchYearlyRecurringExpenses(sortField, sortOrder, currentPageSection4);
-  }, [sortField, sortOrder, currentPageSection4, deleting]);
+  }, [sortField, sortOrder, currentPageSection4, deleting, openUpdateWindow]);
 
   const fetchWeeklyRecurringExpenses = (
     field: string,
@@ -138,14 +145,14 @@ const RecurringExpenseComponent = () => {
       .catch((error: any) => handleError(error));
   };
 
-   const handleDelete = async () => {
-     try {
-       await axios.delete(`${api}recurringExpenses/delete/${elementId}`);
-        setDeleting(false);
-     } catch (error) {
-       handleError(error);
-     }
-   };
+  const handleDelete = async () => {
+    try {
+      await axios.delete(`${api}recurringExpenses/delete/${elementId}`);
+      setDeleting(false);
+    } catch (error) {
+      handleError(error);
+    }
+  };
 
   return (
     <div>
@@ -157,6 +164,8 @@ const RecurringExpenseComponent = () => {
         recurringExpenseTypeDescription="Weekly Expenses"
         setElementId={setElementId}
         setDeleting={setDeleting}
+        setRecurringExpense={setRecurringExpense}
+        setOpenUpdateWindow={setOpenUpdateWindow}
       />
       <ExpenseBoxSection
         currentPage={currentPageSection2}
@@ -166,6 +175,8 @@ const RecurringExpenseComponent = () => {
         recurringExpenseTypeDescription="Monthly Expenses"
         setElementId={setElementId}
         setDeleting={setDeleting}
+        setRecurringExpense={setRecurringExpense}
+        setOpenUpdateWindow={setOpenUpdateWindow}
       />
       <ExpenseBoxSection
         currentPage={currentPageSection3}
@@ -175,6 +186,8 @@ const RecurringExpenseComponent = () => {
         recurringExpenseTypeDescription="Bimonthly Expenses"
         setElementId={setElementId}
         setDeleting={setDeleting}
+        setRecurringExpense={setRecurringExpense}
+        setOpenUpdateWindow={setOpenUpdateWindow}
       />
       <ExpenseBoxSection
         currentPage={currentPageSection4}
@@ -184,9 +197,17 @@ const RecurringExpenseComponent = () => {
         recurringExpenseTypeDescription="Yearly Expenses"
         setElementId={setElementId}
         setDeleting={setDeleting}
+        setRecurringExpense={setRecurringExpense}
+        setOpenUpdateWindow={setOpenUpdateWindow}
       />
       {deleting && (
         <DeleteElement setDeleting={setDeleting} handleDelete={handleDelete} />
+      )}
+      {openUpdateWindow && (
+        <UpdateRecurringExpense
+          setOpenUpdateWindow={setOpenUpdateWindow}
+          elementId={elementId}
+        />
       )}
     </div>
   );

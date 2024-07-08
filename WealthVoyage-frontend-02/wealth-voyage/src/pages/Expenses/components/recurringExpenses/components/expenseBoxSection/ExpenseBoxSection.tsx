@@ -1,6 +1,6 @@
 import React from "react";
 import "./expenseBoxSection.scss";
-import { RecurringExpense } from "../../../../../models/RecurringExpense";
+import { RecurringExpense } from "../../../../../../models/RecurringExpense";
 
 type Props = {
   currentPage: number;
@@ -10,13 +10,21 @@ type Props = {
   recurringExpenseTypeDescription: string;
   setElementId: React.Dispatch<React.SetStateAction<number>>;
   setDeleting: React.Dispatch<React.SetStateAction<boolean>>;
+  setRecurringExpense: React.Dispatch<React.SetStateAction<RecurringExpense>>;
+  setOpenUpdateWindow: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 const ExpenseBoxSection = (props: Props) => {
+
   const handleClickOnDeleteImg = (id: number) => {
     props.setElementId(id);
     props.setDeleting((prevState) => !prevState);
   };
+
+ const handleClickOnEditImg = (id: number) => {
+   props.setElementId(id);
+   props.setOpenUpdateWindow((prevState) => !prevState);
+ };
 
   return (
     <div className="expenseBoxSection">
@@ -34,7 +42,10 @@ const ExpenseBoxSection = (props: Props) => {
         {props.recurringExpenses.map((recurringExpense, index) => (
           <div key={index} className="incomeBox">
             <div className="actionIcons">
-              <img src="/edit.svg" alt="edit" />
+              <img 
+              onClick={() => handleClickOnEditImg(recurringExpense.id)}
+              src="/edit.svg" 
+              alt="edit" />
               <img
                 onClick={() => handleClickOnDeleteImg(recurringExpense.id)}
                 src="/delete-orange.svg"
