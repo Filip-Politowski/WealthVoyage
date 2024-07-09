@@ -127,7 +127,7 @@ const handleDataChange = (
           placeholder="Type the date of recurring expense..."
         ></input>
       </div>
-      <button>Update</button>
+      <button>Add</button>
     </form>
   );
 };
