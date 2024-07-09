@@ -33,7 +33,7 @@ const UpdateRecurringExpense = (props: Props) => {
   }, [props.elementId]);
   console.log(recurringExpense);
 
-  const handleUpdateIncomeDataChange = (
+  const handleUpdateRecurringExpenseDataChange = (
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
     const { name, value } = e.target;
@@ -82,7 +82,7 @@ const UpdateRecurringExpense = (props: Props) => {
                 type="text"
                 name="expenseName"
                 value={recurringExpense.expenseName}
-                onChange={handleUpdateIncomeDataChange}
+                onChange={handleUpdateRecurringExpenseDataChange}
                 placeholder="Update recurring expense name..."
               />
             </div>
@@ -110,7 +110,7 @@ const UpdateRecurringExpense = (props: Props) => {
                 type="number"
                 name="amount"
                 value={recurringExpense.amount}
-                onChange={handleUpdateIncomeDataChange}
+                onChange={handleUpdateRecurringExpenseDataChange}
                 placeholder="Update the amount of recurring expense..."
               ></input>
             </div>
@@ -133,7 +133,7 @@ const UpdateRecurringExpense = (props: Props) => {
                 type="text"
                 name="description"
                 value={recurringExpense.description}
-                onChange={handleUpdateIncomeDataChange}
+                onChange={handleUpdateRecurringExpenseDataChange}
                 placeholder="Update the description of recurring expense..."
               ></input>
             </div>
@@ -143,7 +143,7 @@ const UpdateRecurringExpense = (props: Props) => {
                 type="date"
                 name="date"
                 value={recurringExpense.date}
-                onChange={handleUpdateIncomeDataChange}
+                onChange={handleUpdateRecurringExpenseDataChange}
                 placeholder="Update the date of recurring expense..."
               ></input>
             </div>

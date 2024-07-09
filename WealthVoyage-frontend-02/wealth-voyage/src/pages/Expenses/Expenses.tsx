@@ -16,6 +16,7 @@ import axios from "axios";
 import SingleExpenseComponent from "./components/singleExpense/SingleExpenseComponent";
 import RecurringExpenseComponent from "./components/recurringExpenses/RecurringExpenseComponent";
 import { RecurringExpense } from "../../models/RecurringExpense";
+import AddNewExpense from "./components/addNewExpense/AddNewExpense";
 const api = "http://localhost:8080/api/";
 
 const Expenses = () => {
@@ -24,6 +25,7 @@ const Expenses = () => {
       expenseOptions.find((option) => option.value === "singleExpenses") ||
         expenseOptions[0]
     );
+  const [openAddWindow, setOpenAddWindow] = useState<boolean>(false);
   const [expenseOption, setExpenseOption] = useState<string>("singleExpenses");
   const [singleExpenses, setSingleExpenses] = useState<SingleExpense[]>([]);
   const [recurringExpenses, setRecurringExpenses] = useState<
@@ -41,7 +43,7 @@ const Expenses = () => {
     if (expenseOption === "singleExpenses") {
       fetchSingleExpenses(sortField, sortOrder, currentPage);
     } else if (expenseOption === "recurringExpenses") {
-      console.log("recurringExpense")
+      console.log("recurringExpense");
     } else if (expenseOption === "planedExpenses") {
       console.log("planedExpenses");
     } else {
@@ -76,7 +78,6 @@ const Expenses = () => {
       .catch((error: any) => handleError(error));
   };
 
-
   const handleExpenseSelection = (
     selectedOption: SingleValue<ExpenseOptions>
   ) => {
@@ -106,13 +107,13 @@ const Expenses = () => {
   const goToPage = (page: number) => {
     setCurrentPage(page);
   };
-
+  console.log(selectedExpenseOption);
   return (
     <div className="expenses">
       <div className="expensesHeader">
         <div className="title">
           <h1>Expenses</h1>
-          <button>Add new expense</button>
+          <button onClick={() => setOpenAddWindow(true)}>Add new expense</button>
         </div>
         <div className="customSelect">
           <StyledSelect
@@ -142,11 +143,15 @@ const Expenses = () => {
           setSelectedDate={setSelectedDate}
         />
       )}
-      {expenseOption === "recurringExpenses" && (
-        <RecurringExpenseComponent />
-      )}
+      {expenseOption === "recurringExpenses" && <RecurringExpenseComponent openAddWindow={openAddWindow}/>}
       {expenseOption === "planedExpenses" && (
         <div className="budget">Welcome planned expenses</div>
+      )}
+      {openAddWindow && (
+        <AddNewExpense
+          setOpenAddWindow={setOpenAddWindow}
+          selectedExpenseOption={selectedExpenseOption as ExpenseOptions}
+        />
       )}
     </div>
   );

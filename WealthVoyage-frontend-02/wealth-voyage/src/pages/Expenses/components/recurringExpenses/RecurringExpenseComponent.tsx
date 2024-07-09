@@ -10,7 +10,7 @@ import UpdateRecurringExpense from "./components/updateRecurringExpense/UpdateRe
 
 const api = "http://localhost:8080/api/";
 
-const RecurringExpenseComponent = () => {
+const RecurringExpenseComponent = (props: { openAddWindow: boolean }) => {
   const [elementId, setElementId] = useState<number>(0);
   const navigate = useNavigate();
   const [deleting, setDeleting] = useState<boolean>(false);
@@ -49,18 +49,46 @@ const RecurringExpenseComponent = () => {
 
   useEffect(() => {
     fetchWeeklyRecurringExpenses(sortField, sortOrder, currentPageSection1);
-  }, [sortField, sortOrder, currentPageSection1, deleting, openUpdateWindow]);
+  }, [
+    sortField,
+    sortOrder,
+    currentPageSection1,
+    deleting,
+    openUpdateWindow,
+    props.openAddWindow,
+  ]);
 
   useEffect(() => {
     fetchMonthlyRecurringExpenses(sortField, sortOrder, currentPageSection2);
-  }, [sortField, sortOrder, currentPageSection2, deleting, openUpdateWindow]);
+  }, [
+    sortField,
+    sortOrder,
+    currentPageSection2,
+    deleting,
+    openUpdateWindow,
+    props.openAddWindow,
+  ]);
   useEffect(() => {
     fetchBimonthlyRecurringExpenses(sortField, sortOrder, currentPageSection3);
-  }, [sortField, sortOrder, currentPageSection3, deleting, openUpdateWindow]);
+  }, [
+    sortField,
+    sortOrder,
+    currentPageSection3,
+    deleting,
+    openUpdateWindow,
+    props.openAddWindow,
+  ]);
 
   useEffect(() => {
     fetchYearlyRecurringExpenses(sortField, sortOrder, currentPageSection4);
-  }, [sortField, sortOrder, currentPageSection4, deleting, openUpdateWindow]);
+  }, [
+    sortField,
+    sortOrder,
+    currentPageSection4,
+    deleting,
+    openUpdateWindow,
+    props.openAddWindow,
+  ]);
 
   const fetchWeeklyRecurringExpenses = (
     field: string,
