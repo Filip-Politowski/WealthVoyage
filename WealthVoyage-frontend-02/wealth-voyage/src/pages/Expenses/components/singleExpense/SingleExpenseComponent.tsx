@@ -16,6 +16,7 @@ import Pagination from "../../../../components/utils/springPagination/Pagination
 import DeleteElement from "../../../../components/delete/DeleteElement";
 import axios from "axios";
 import { handleError } from "../../../../helpers/ErrorHandler";
+import UpdateSingleExpense from "./components/updateSingleExpense/UpdateSingleExpense";
 const api = "http://localhost:8080/api/";
 
 const SingleExpenseComponent = () => {
@@ -49,6 +50,7 @@ const SingleExpenseComponent = () => {
     selectedCategory,
     selectedDate,
     deleting,
+    editing,
   ]);
 
   const fetchSingleExpenses = (field: string, order: string, page: number) => {
@@ -167,6 +169,7 @@ const SingleExpenseComponent = () => {
         singleExpenses={filteredExpenses}
         setDeleting={setDeleting}
         setElementId={setElementId}
+        setEditing={setEditing}
       />
       <Pagination
         currentPage={currentPage}
@@ -175,6 +178,12 @@ const SingleExpenseComponent = () => {
       />
       {deleting && (
         <DeleteElement setDeleting={setDeleting} handleDelete={handleDelete} />
+      )}
+      {editing && (
+        <UpdateSingleExpense
+          elementId={elementId}
+          setOpenUpdateWindow={setEditing}
+        />
       )}
     </div>
   );

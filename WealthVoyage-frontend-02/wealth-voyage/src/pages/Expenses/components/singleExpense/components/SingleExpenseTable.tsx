@@ -7,9 +7,15 @@ const SingleExpenseTable = (props: {
   itemsPerPage: number;
   setDeleting: React.Dispatch<React.SetStateAction<boolean>>;
   setElementId: React.Dispatch<React.SetStateAction<number>>;
+  setEditing: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
   const handleDeleteClick = (id: number) => {
     props.setDeleting((prevState) => !prevState);
+    props.setElementId(id);
+  };
+
+  const handleEditClick = (id: number) => {
+    props.setEditing((prevState) => !prevState);
     props.setElementId(id);
   };
 
@@ -34,7 +40,7 @@ const SingleExpenseTable = (props: {
             <td>{singleExpense.date}</td>
             <td>{singleExpense.expenseCategory}</td>
             <td className="actions">
-              <img src="/edit.svg" alt="edit" />
+              <img src="/edit.svg" alt="edit" onClick={() => handleEditClick(singleExpense.id)}/>
               <img
                 src="/delete-orange.svg"
                 alt="delete"

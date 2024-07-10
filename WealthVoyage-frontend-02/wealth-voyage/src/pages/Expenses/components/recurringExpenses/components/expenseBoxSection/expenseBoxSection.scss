@@ -85,11 +85,12 @@
         }
         img:hover{
           transform: scale(1.3);
+          cursor: pointer;
         }
       }
     }
     .incomeBox:hover {
-      cursor: pointer;
+      // cursor: pointer;
       box-shadow: 5px 5px 20px rgba($element-color-3, 0.4);
       // transform: scale(1.05);
     }
