@@ -9,6 +9,8 @@ import {
   SortOptionsSingleExpense,
   singleExpenseCategory,
 } from "../../../../data";
+import SingleExpenseTable from "./components/SingleExpenseTable";
+import Pagination from "../../../../components/utils/springPagination/Pagination";
 
 type Props = {
   singleExpenses: SingleExpense[];
@@ -34,6 +36,8 @@ type Props = {
 
 const SingleExpenseComponent = (props: Props) => {
   const [searchTerm, setSearchTerm] = useState<string>("");
+  const [deleting, setDeleting] = useState<boolean>(false);
+  const [editing, setEditing] = useState<boolean>(false);
   const [selectedCategoryLabel, setSelectedCategoryLabel] =
     useState<string>("All");
 
@@ -106,45 +110,16 @@ const SingleExpenseComponent = (props: Props) => {
           />
         </div>
       </div>
-      <table>
-        <thead>
-          <tr>
-            <th>No.</th>
-            <th>Description</th>
-            <th>Amount</th>
-            <th>Date</th>
-            <th>Category</th>
-          </tr>
-        </thead>
-        <tbody>
-          {filteredExpenses.map((singleExpense, index) => (
-            <tr key={singleExpense.id}>
-              <td>
-                {index + 1 + (props.currentPage - 1) * props.itemsPerPage}.
-              </td>
-              <td>{singleExpense.description}</td>
-              <td>{singleExpense.amount} zł</td>
-              <td>{singleExpense.date}</td>
-              <td>{singleExpense.expenseCategory}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-      <div className="pagination">
-        {props.currentPage > 1 && (
-          <button onClick={() => props.goToPage(props.currentPage - 1)}>
-            Previous
-          </button>
-        )}
-        <span>
-          Page {props.currentPage} of {props.totalPages}
-        </span>
-        {props.currentPage < props.totalPages && (
-          <button onClick={() => props.goToPage(props.currentPage + 1)}>
-            Next
-          </button>
-        )}
-      </div>
+      <SingleExpenseTable
+        currentPage={props.currentPage}
+        itemsPerPage={props.itemsPerPage}
+        singleExpenses={filteredExpenses}
+      />
+      <Pagination
+        currentPage={props.currentPage}
+        goToPage={props.goToPage}
+        totalPages={props.totalPages}
+      />
     </div>
   );
 };
