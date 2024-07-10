@@ -5,7 +5,14 @@ const SingleExpenseTable = (props: {
   singleExpenses: SingleExpense[];
   currentPage: number;
   itemsPerPage: number;
+  setDeleting: React.Dispatch<React.SetStateAction<boolean>>;
+  setElementId: React.Dispatch<React.SetStateAction<number>>;
 }) => {
+  const handleDeleteClick = (id: number) => {
+    props.setDeleting((prevState) => !prevState);
+    props.setElementId(id);
+  };
+
   return (
     <table className="singleExpenseTable">
       <thead>
@@ -27,8 +34,12 @@ const SingleExpenseTable = (props: {
             <td>{singleExpense.date}</td>
             <td>{singleExpense.expenseCategory}</td>
             <td className="actions">
-              <img src="/edit.svg" alt="edit" />{" "}
-              <img src="/delete-orange.svg" alt="delete" />
+              <img src="/edit.svg" alt="edit" />
+              <img
+                src="/delete-orange.svg"
+                alt="delete"
+                onClick={() => handleDeleteClick(singleExpense.id)}
+              />
             </td>
           </tr>
         ))}

@@ -73,5 +73,10 @@ public class SingleExpenseController {
         singleExpenseService.updateUserSingleExpense(id, singleExpenseRequest, userDetails);
     }
 
+    @DeleteMapping("/delete/{id}")
+    public void deleteUserSingleExpenseByID(@AuthenticationPrincipal UserDetails userDetails, @PathVariable Long id){
+        singleExpenseService.deleteUserSingleExpenseById(id, userDetails);
+    }
+
 
 }
