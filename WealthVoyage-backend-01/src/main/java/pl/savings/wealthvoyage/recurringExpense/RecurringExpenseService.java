@@ -8,8 +8,11 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.NoSuchElementException;
+import java.time.LocalDate;
+import java.time.YearMonth;
+import java.time.ZoneId;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -30,6 +33,33 @@ public class RecurringExpenseService {
     public Page<RecurringExpenseResponse> getUserRecurringExpensesByExpenseFrequency(UserDetails userDetails, ExpenseFrequency expenseFrequency, Pageable pageable) {
         Page<RecurringExpense> recurringExpensePage = recurringExpenseRepository.findAllByUsernameAndExpenseFrequency(userDetails.getUsername(), expenseFrequency, pageable).orElseThrow(NoSuchElementException::new);
         return recurringExpensePage.map(recurringExpenseMapper::toRecurringExpenseResponse);
+    }
+
+    public Map<String, Double> getUserSumsOfExpensesInCurrentMonth(UserDetails userDetails) {
+        YearMonth currentMonth = YearMonth.now();
+        LocalDate startLocalDate = currentMonth.atDay(1);
+        LocalDate endLocalDate = currentMonth.atEndOfMonth();
+
+        Date startDate = Date.from(startLocalDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+        Date endDate = Date.from(endLocalDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+
+        List<RecurringExpense> listOfRecurringExpensesInCurrentMonth = recurringExpenseRepository.findAllByUsernameAndCurrentMonth(userDetails.getUsername(), startDate, endDate);
+
+        Double sumOfWeeklyRecurringExpenses= listOfRecurringExpensesInCurrentMonth.stream().filter(recurringExpense -> recurringExpense.getExpenseFrequency().equals(ExpenseFrequency.WEEKLY)).mapToDouble(RecurringExpense::getAmount).sum();
+        Double sumOfMonthlyRecurringExpenses = listOfRecurringExpensesInCurrentMonth.stream().filter(recurringExpense -> recurringExpense.getExpenseFrequency().equals(ExpenseFrequency.MONTHLY)).mapToDouble(RecurringExpense::getAmount).sum();
+        Double sumOfBimonthlyRecurringExpenses = listOfRecurringExpensesInCurrentMonth.stream().filter(recurringExpense -> recurringExpense.getExpenseFrequency().equals(ExpenseFrequency.BIMONTHLY)).mapToDouble(RecurringExpense::getAmount).sum();
+        Double sumOfYearlyRecurringExpenses = listOfRecurringExpensesInCurrentMonth.stream().filter(recurringExpense -> recurringExpense.getExpenseFrequency().equals(ExpenseFrequency.YEARLY)).mapToDouble(RecurringExpense::getAmount).sum();
+
+        Map<String, Double> totalsDependingOnFrequencyOfOccurrence = new HashMap<>();
+
+        totalsDependingOnFrequencyOfOccurrence.put(ExpenseFrequency.WEEKLY.toString(), sumOfWeeklyRecurringExpenses);
+        totalsDependingOnFrequencyOfOccurrence.put(ExpenseFrequency.MONTHLY.toString(), sumOfMonthlyRecurringExpenses);
+        totalsDependingOnFrequencyOfOccurrence.put(ExpenseFrequency.BIMONTHLY.toString(), sumOfBimonthlyRecurringExpenses);
+        totalsDependingOnFrequencyOfOccurrence.put(ExpenseFrequency.YEARLY.toString(), sumOfYearlyRecurringExpenses);
+
+        System.out.println(totalsDependingOnFrequencyOfOccurrence);
+
+        return totalsDependingOnFrequencyOfOccurrence;
     }
 
 

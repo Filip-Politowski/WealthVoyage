@@ -8,6 +8,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -38,6 +39,11 @@ public class RecurringExpenseController {
     @GetMapping("/yearlySum")
     public Double getUserRecurringExpensesYearlySum(@AuthenticationPrincipal UserDetails userDetails, Pageable pageable) {
         return recurringExpenseService.getUserRecurringExpensesYearlySum(userDetails, pageable);
+    }
+
+    @GetMapping("/sumsOfExpensesInCurrentMonth")
+    public Map<String,Double> getUserSumOfExpensesInCurrentMonth(@AuthenticationPrincipal UserDetails userDetails){
+        return recurringExpenseService.getUserSumsOfExpensesInCurrentMonth(userDetails);
     }
 
     @PostMapping("/add")

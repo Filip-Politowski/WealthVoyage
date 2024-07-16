@@ -1,0 +1,44 @@
+@import "../../../../../../styles/variables.scss";
+.expenseSummary {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  hr {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    width: 100%;
+  }
+  .expenseSummaryTitle {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+    margin-bottom: 10px;
+    h1{
+        display: flex;
+        flex-direction: row;
+        gap: 10px;
+        p{
+            color: $element-color-3;
+        }
+    }
+  }
+  .expenseSummaryList {
+    list-style: none;
+    li {
+      display: flex;
+      flex-direction: row;
+      font-size: x-large;
+      gap: 30px;
+      margin-top: 10px;
+      margin-bottom: 10px;
+
+      p {
+        margin-left: auto;
+        color: $element-color-3;
+        font-weight: bold;
+      }
+    }
+  }
+}

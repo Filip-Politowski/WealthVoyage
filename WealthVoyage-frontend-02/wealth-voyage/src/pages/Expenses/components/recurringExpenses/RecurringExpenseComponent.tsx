@@ -7,6 +7,7 @@ import { handleError } from "../../../../helpers/ErrorHandler";
 import DeleteElement from "../../../../components/delete/DeleteElement";
 import { useNavigate } from "react-router-dom";
 import UpdateRecurringExpense from "./components/updateRecurringExpense/UpdateRecurringExpense";
+import ExpenseSummary from "./components/expenseSummary/ExpenseSummary";
 
 const api = "http://localhost:8080/api/";
 
@@ -25,6 +26,12 @@ const RecurringExpenseComponent = (props: { openAddWindow: boolean }) => {
   const [totalPagesSection2, setTotalPagesSection2] = useState<number>(0);
   const [totalPagesSection3, setTotalPagesSection3] = useState<number>(0);
   const [totalPagesSection4, setTotalPagesSection4] = useState<number>(0);
+  const [expensesSum, setExpenseSums] = useState<Record<string, number>>({
+    WEEKLY: 0,
+    MONTHLY: 0,
+    BIMONTHLY: 0,
+    YEARLY: 0,
+  });
   const [recurringExpense, setRecurringExpense] = useState<RecurringExpense>({
     amount: 0,
     date: "",
@@ -89,6 +96,10 @@ const RecurringExpenseComponent = (props: { openAddWindow: boolean }) => {
     openUpdateWindow,
     props.openAddWindow,
   ]);
+
+  useEffect(() => {
+    fetchExpensesSum();
+  }, [openUpdateWindow]);
 
   const fetchWeeklyRecurringExpenses = (
     field: string,
@@ -173,6 +184,17 @@ const RecurringExpenseComponent = (props: { openAddWindow: boolean }) => {
       .catch((error: any) => handleError(error));
   };
 
+  const fetchExpensesSum = () => {
+    axios
+      .get(`${api}recurringExpenses/sumsOfExpensesInCurrentMonth`)
+      .then((response) => {
+        setExpenseSums(response.data);
+      })
+      .catch((error) => {
+        handleError(error);
+      });
+  };
+
   const handleDelete = async () => {
     try {
       await axios.delete(`${api}recurringExpenses/delete/${elementId}`);
@@ -228,6 +250,7 @@ const RecurringExpenseComponent = (props: { openAddWindow: boolean }) => {
         setRecurringExpense={setRecurringExpense}
         setOpenUpdateWindow={setOpenUpdateWindow}
       />
+      <ExpenseSummary expensesSum={expensesSum} />
       {deleting && (
         <DeleteElement setDeleting={setDeleting} handleDelete={handleDelete} />
       )}
