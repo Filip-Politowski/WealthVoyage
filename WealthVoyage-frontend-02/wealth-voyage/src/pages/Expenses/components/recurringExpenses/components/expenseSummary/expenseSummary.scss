@@ -15,13 +15,13 @@
     gap: 20px;
     align-items: center;
     margin-bottom: 10px;
-    h1{
-        display: flex;
-        flex-direction: row;
-        gap: 10px;
-        p{
-            color: $element-color-3;
-        }
+    h1 {
+      display: flex;
+      flex-direction: row;
+      gap: 10px;
+      p {
+        color: $element-color-3;
+      }
     }
   }
   .expenseSummaryList {

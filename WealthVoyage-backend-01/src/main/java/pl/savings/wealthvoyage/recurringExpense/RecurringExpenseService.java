@@ -8,11 +8,12 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.YearMonth;
 import java.time.ZoneId;
 import java.util.*;
-import java.util.stream.Collectors;
+
 
 @Service
 @RequiredArgsConstructor
@@ -45,7 +46,7 @@ public class RecurringExpenseService {
 
         List<RecurringExpense> listOfRecurringExpensesInCurrentMonth = recurringExpenseRepository.findAllByUsernameAndCurrentMonth(userDetails.getUsername(), startDate, endDate);
 
-        Double sumOfWeeklyRecurringExpenses= listOfRecurringExpensesInCurrentMonth.stream().filter(recurringExpense -> recurringExpense.getExpenseFrequency().equals(ExpenseFrequency.WEEKLY)).mapToDouble(RecurringExpense::getAmount).sum();
+        Double sumOfWeeklyRecurringExpenses = listOfRecurringExpensesInCurrentMonth.stream().filter(recurringExpense -> recurringExpense.getExpenseFrequency().equals(ExpenseFrequency.WEEKLY)).mapToDouble(RecurringExpense::getAmount).sum();
         Double sumOfMonthlyRecurringExpenses = listOfRecurringExpensesInCurrentMonth.stream().filter(recurringExpense -> recurringExpense.getExpenseFrequency().equals(ExpenseFrequency.MONTHLY)).mapToDouble(RecurringExpense::getAmount).sum();
         Double sumOfBimonthlyRecurringExpenses = listOfRecurringExpensesInCurrentMonth.stream().filter(recurringExpense -> recurringExpense.getExpenseFrequency().equals(ExpenseFrequency.BIMONTHLY)).mapToDouble(RecurringExpense::getAmount).sum();
         Double sumOfYearlyRecurringExpenses = listOfRecurringExpensesInCurrentMonth.stream().filter(recurringExpense -> recurringExpense.getExpenseFrequency().equals(ExpenseFrequency.YEARLY)).mapToDouble(RecurringExpense::getAmount).sum();
@@ -80,6 +81,50 @@ public class RecurringExpenseService {
         recurringExpense.setId(id);
         recurringExpenseRepository.save(recurringExpense);
     }
+
+    public void UpdateRecurringExpensesAutomaticallyWhenTheDateExpires() {
+        List<RecurringExpense> recurringExpenses = recurringExpenseRepository.findAll();
+
+
+        for (RecurringExpense recurringExpense : recurringExpenses) {
+            if (shouldUpdateDate(recurringExpense)) {
+                updateExpenseDate(recurringExpense);
+                recurringExpenseRepository.save(recurringExpense);
+            }
+        }
+    }
+
+    private boolean shouldUpdateDate(RecurringExpense expense) {
+
+        Date expenseDate = expense.getDate();
+        Date today = Date.from(LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant());
+
+        return !expenseDate.after(today);
+
+    }
+    private void updateExpenseDate(RecurringExpense recurringExpense) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(recurringExpense.getDate());
+
+        while (!calendar.getTime().after(new Date())) {
+            switch (recurringExpense.getExpenseFrequency()) {
+                case WEEKLY:
+                    calendar.add(Calendar.WEEK_OF_YEAR, 1);
+                    break;
+                case MONTHLY:
+                    calendar.add(Calendar.MONTH, 1);
+                    break;
+                case BIMONTHLY:
+                    calendar.add(Calendar.MONTH, 2);
+                    break;
+                case YEARLY:
+                    calendar.add(Calendar.YEAR, 1);
+                    break;
+            }
+        }
+        recurringExpense.setDate(calendar.getTime());
+    }
+
 
     public Double getUserRecurringExpensesMonthlySum(@NotNull UserDetails userDetails, Pageable pageable) {
         return recurringExpenseRepository.findAllByUsername(userDetails.getUsername(), pageable).orElseThrow(NoSuchElementException::new)

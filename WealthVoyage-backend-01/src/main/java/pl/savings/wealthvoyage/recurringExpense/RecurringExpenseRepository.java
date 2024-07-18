@@ -19,6 +19,7 @@ public interface RecurringExpenseRepository extends JpaRepository<RecurringExpen
 
     Optional<Page<RecurringExpense>> findAllByUsername(String username, Pageable pageable);
 
+
     @Query("SELECT re FROM RecurringExpense re WHERE re.username= :username AND re.expenseFrequency = :expenseFrequency")
     Optional<Page<RecurringExpense>> findAllByUsernameAndExpenseFrequency(@Param("username") String username, @Param("expenseFrequency") ExpenseFrequency expenseFrequency, Pageable pageable);
 

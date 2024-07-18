@@ -88,6 +88,10 @@
           cursor: pointer;
         }
       }
+      .recurringExpenseDate{
+        margin-top: 5px;
+        color: $element-color-3;
+      }
     }
     .incomeBox:hover {
       // cursor: pointer;

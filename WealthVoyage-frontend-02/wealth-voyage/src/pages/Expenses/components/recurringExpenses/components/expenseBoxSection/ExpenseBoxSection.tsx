@@ -57,8 +57,8 @@ const ExpenseBoxSection = (props: Props) => {
             <h3>{recurringExpense.amount} zł</h3>
             <p>Type: {recurringExpense.expenseType}</p>
             <div className="dateRow">
-              <p>Date:</p>
-              <p>{recurringExpense.date}</p>
+              <p>Next Payment Date:</p>
+              <p className="recurringExpenseDate">{recurringExpense.date}</p>
             </div>
           </div>
         ))}

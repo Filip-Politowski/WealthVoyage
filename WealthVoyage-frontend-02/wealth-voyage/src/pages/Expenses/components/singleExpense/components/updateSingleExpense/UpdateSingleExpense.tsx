@@ -59,6 +59,9 @@ const UpdateSingleExpense = (props: {
         handleError(error);
       });
   };
+
+
+
   return (
     <div className="updateSingleExpense">
       <div className="modal">
@@ -113,7 +116,7 @@ const UpdateSingleExpense = (props: {
                 placeholder="Update the amount of single expense..."
               ></input>
             </div>
-            
+
             <div className="item">
               <label>Single Expense Date:</label>
               <input
