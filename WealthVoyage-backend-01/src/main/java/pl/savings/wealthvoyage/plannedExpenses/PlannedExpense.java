@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import pl.savings.wealthvoyage.savingGoals.SavingGoal;
 
+import java.util.Date;
 
 
 @Entity
@@ -21,11 +22,12 @@ public class PlannedExpense {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String category;
+    private String name;
 
     private double amount;
-
-    private String paymentDate;
+    @Column(name = "payment_date")
+    @Temporal(TemporalType.DATE)
+    private Date paymentDate;
 
     @Enumerated(EnumType.STRING)
     private Status status;

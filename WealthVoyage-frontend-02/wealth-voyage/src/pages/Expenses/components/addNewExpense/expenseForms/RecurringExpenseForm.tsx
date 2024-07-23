@@ -14,9 +14,9 @@ const RecurringExpenseForm = (props: Props) => {
       amount: 0,
       date: "",
       description: "",
-      expenseFrequency: "",
+      expenseFrequency: "WEEKLY",
       expenseName: "",
-      expenseType: "",
+      expenseType: "SUBSCRIPTION",
       id: 0,
     });
 
@@ -115,6 +115,7 @@ const getTodayDate = (): string => {
           name="expenseFrequency"
           value={recurringExpense.expenseFrequency}
           onChange={handleDataChange}
+         
         >
           <option value="WEEKLY">Weekly</option>
           <option value="MONTHLY">Monthly</option>

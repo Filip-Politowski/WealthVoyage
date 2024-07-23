@@ -8,6 +8,7 @@ import SingleExpenseComponent from "./components/singleExpense/SingleExpenseComp
 import RecurringExpenseComponent from "./components/recurringExpenses/RecurringExpenseComponent";
 
 import AddNewExpense from "./components/addNewExpense/AddNewExpense";
+import PlannedExpenses from "./components/plannedExpenses/PlannedExpenses";
 
 const Expenses = () => {
   const [selectedExpenseOption, setSelectedExpenseOption] =
@@ -50,7 +51,7 @@ const Expenses = () => {
         <RecurringExpenseComponent openAddWindow={openAddWindow} />
       )}
       {expenseOption === "planedExpenses" && (
-        <div className="budget">Welcome planned expenses</div>
+        <PlannedExpenses />
       )}
       {openAddWindow && (
         <AddNewExpense

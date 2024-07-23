@@ -2,15 +2,17 @@ package pl.savings.wealthvoyage.plannedExpenses;
 
 import lombok.*;
 
+import java.util.Date;
+
 @Builder
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class PlannedExpenseResponse {
     private Long id;
-    private String category;
+    private String name;
     private double amount;
-    private String paymentDate;
+    private Date paymentDate;
     private Status status;
     private Integer priority;
     private String description;

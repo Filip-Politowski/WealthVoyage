@@ -12,7 +12,7 @@ public class PlannedExpenseMapper {
             throw new NullPointerException("Request cannot be null");
         }
         return PlannedExpense.builder()
-                .category(request.getCategory())
+                .name(request.getName())
                 .amount(request.getAmount())
                 .paymentDate(request.getPaymentDate())
                 .status(request.getStatus())
@@ -28,7 +28,7 @@ public class PlannedExpenseMapper {
         }
         return PlannedExpenseResponse.builder()
                 .id(plannedExpense.getId())
-                .category(plannedExpense.getCategory())
+                .name(plannedExpense.getName())
                 .amount(plannedExpense.getAmount())
                 .paymentDate(plannedExpense.getPaymentDate())
                 .status(plannedExpense.getStatus())

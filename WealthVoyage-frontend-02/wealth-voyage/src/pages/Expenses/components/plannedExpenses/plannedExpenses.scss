@@ -1,0 +1,60 @@
+@import "../../../../styles/variables.scss";
+.plannedExpenses {
+  display: flex;
+  flex-direction: column;
+  margin: 40px auto;
+  width: 60%;
+  .plannedExpensesHeader {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: $element-color-2;
+    height: 100px;
+    width: 100%;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    border-bottom: solid $element-color-1;
+  }
+  .plannedExpensesBody {
+    display: flex;
+    flex-direction: column;
+    background-color: $navigation-color;
+    width: 100%;
+    li {
+      list-style: none;
+      padding: 10px;
+      .plannedExpenseRow {
+        display: flex;
+        padding: 10px;
+        justify-content: space-between;
+        .checkBoxAndText {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          p {
+            color: $element-color-3;
+           font-weight: 900;
+          }
+        }
+        .actionButtons{
+            display: flex;
+            flex-direction: row;
+            gap: 10px;
+            img{
+                width: 20px;
+                height: 20px;
+            }
+            img:hover{
+                transform: scale(1.2);
+                cursor: pointer;
+            }
+        }
+      }
+      .plannedExpenseRow:hover{
+        background-color: rgba($element-color-1, 0.2);
+        cursor: pointer;
+      }
+    }
+  }
+}
