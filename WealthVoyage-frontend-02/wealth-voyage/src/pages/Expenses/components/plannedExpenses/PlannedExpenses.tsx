@@ -7,14 +7,11 @@ import { handleError } from "../../../../helpers/ErrorHandler";
 const api = "http://localhost:8080/api/";
 
 const PlannedExpenses = () => {
-  const [isChecked, setIsChecked] = useState<boolean>(false);
-  const handleCheckboxChange = (checked: boolean) => {
-    setIsChecked(checked);
-  };
   const [plannedExpenses, setPlannedExpenses] = useState<PlannedExpense[]>([]);
+
   useEffect(() => {
     fetchPlannedExpanses();
-  }, [isChecked]);
+  }, []);
 
   const fetchPlannedExpanses = () => {
     axios
@@ -27,32 +24,50 @@ const PlannedExpenses = () => {
       });
   };
 
+  const handleCheckboxChange = (id: number, checked: boolean) => {
+    const newStatus:string = checked ? "PAID" : "PAYABLE";
+    console.log(newStatus)
+    axios
+      .put(`${api}planedExpenses/${id}/${newStatus}`)
+      .then(() => {
+     
+        setPlannedExpenses((prevExpenses) =>
+          prevExpenses.map((expense) =>
+            expense.id === id ? { ...expense, status: newStatus } : expense
+          )
+        );
+      })
+      .catch((error) => {
+        handleError(error);
+      });
+  };
+
   return (
     <div className="plannedExpenses">
       <div className="plannedExpensesHeader">
-        <h1>Yours planned expenses</h1>
+        <h1>Your planned expenses</h1>
       </div>
       <div className="plannedExpensesBody">
         <ul>
-          {plannedExpenses &&
-            plannedExpenses.map((plannedExpense) => (
-              <li>
-                <div className="plannedExpenseRow">
-                  <div className="checkBoxAndText">
-                    <Checkbox
-                      checked={isChecked}
-                      label={`${plannedExpense.name};`}
-                      onChange={handleCheckboxChange}
-                    />
-                    <p>{plannedExpense.amount} zł</p>
-                  </div>
-                  <div className="actionButtons">
-                    <img src="/edit.svg" alt="" />
-                    <img src="/delete-orange.svg" alt="" />
-                  </div>
+          {plannedExpenses.map((plannedExpense) => (
+            <li key={plannedExpense.id}>
+              <div className="plannedExpenseRow">
+                <div className="checkBoxAndText">
+                  <Checkbox
+                    checked={plannedExpense.status === "PAID"}
+                    label={`${plannedExpense.name}`}
+                    id={plannedExpense.id}
+                    onChange={handleCheckboxChange}
+                  />
+                  <p>{plannedExpense.amount} zł</p>
                 </div>
-              </li>
-            ))}
+                <div className="actionButtons">
+                  <img src="/edit.svg" alt="Edit" />
+                  <img src="/delete-orange.svg" alt="Delete" />
+                </div>
+              </div>
+            </li>
+          ))}
         </ul>
       </div>
     </div>

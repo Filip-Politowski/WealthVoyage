@@ -34,27 +34,32 @@
           gap: 10px;
           p {
             color: $element-color-3;
-           font-weight: 900;
+            font-weight: 900;
           }
         }
-        .actionButtons{
-            display: flex;
-            flex-direction: row;
-            gap: 10px;
-            img{
-                width: 20px;
-                height: 20px;
-            }
-            img:hover{
-                transform: scale(1.2);
-                cursor: pointer;
-            }
+        .actionButtons {
+          display: flex;
+          flex-direction: row;
+          gap: 10px;
+          img {
+            width: 20px;
+            height: 20px;
+          }
+          img:hover {
+            transform: scale(1.2);
+            cursor: pointer;
+          }
         }
       }
-      .plannedExpenseRow:hover{
+
+      .plannedExpenseRow:hover {
         background-color: rgba($element-color-1, 0.2);
         cursor: pointer;
       }
     }
+  }
+  .plannedExpensesBody:last-child {
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
   }
 }

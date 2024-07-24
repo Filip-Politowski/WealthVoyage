@@ -42,4 +42,10 @@ public class PlannedExpenseController {
 
         plannedExpenseService.updateUserPlannedExpense(id, plannedExpenseRequest, userDetails);
     }
+
+    @PutMapping("/{id}/{status}")
+    public PlannedExpenseResponse updateUserPlannedExpenseStatus (@AuthenticationPrincipal UserDetails userDetails, @PathVariable Long id, @PathVariable Status status){
+        System.out.println(status);
+        return plannedExpenseService.updateUserPlannedExpense(userDetails, id, status);
+    }
 }

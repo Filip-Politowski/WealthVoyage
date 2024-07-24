@@ -19,7 +19,8 @@ public class PlannedExpenseService {
 
         Optional<List<PlannedExpense>> plannedExpensesOptional = plannedExpenseRepository.findAllByUsername(userDetails.getUsername());
         List<PlannedExpenseResponse> plannedExpenseResponses = new ArrayList<>();
-            plannedExpensesOptional.ifPresent(plannedExpenses -> plannedExpenseResponses.addAll(plannedExpenseMapper.toPlannedExpenseResponseList(plannedExpenses)));;
+        plannedExpensesOptional.ifPresent(plannedExpenses -> plannedExpenseResponses.addAll(plannedExpenseMapper.toPlannedExpenseResponseList(plannedExpenses)));
+        ;
         return plannedExpenseResponses;
     }
 
@@ -47,5 +48,16 @@ public class PlannedExpenseService {
         plannedExpense.setId(id);
         plannedExpenseRepository.save(plannedExpense);
 
+    }
+
+    public PlannedExpenseResponse updateUserPlannedExpense(UserDetails userDetails, Long id, Status status) {
+        Optional<PlannedExpense> optionalPlannedExpense = plannedExpenseRepository.findByIdAndUsername(id, userDetails.getUsername());
+        if (optionalPlannedExpense.isPresent()) {
+            PlannedExpense plannedExpense = optionalPlannedExpense.get();
+            plannedExpense.setStatus(status);
+            return plannedExpenseMapper.toPlannedExpenseResponse(plannedExpenseRepository.save(plannedExpense));
+        } else {
+            throw new IllegalArgumentException("PlannedExpense not found");
+        }
     }
 }
