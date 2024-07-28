@@ -6,9 +6,10 @@ import { PlannedExpense } from "../../../../models/PlannedExpense";
 import { handleError } from "../../../../helpers/ErrorHandler";
 import DeleteElement from "../../../../components/delete/DeleteElement";
 import UpdatePlannedExpense from "./components/updatePlannedExpense/UpdatePlannedExpense";
+import { Link } from "react-router-dom";
 const api = "http://localhost:8080/api/";
 
-const PlannedExpenses = (props:{addNewElement:boolean}) => {
+const PlannedExpenses = (props: { addNewElement: boolean }) => {
   const [plannedExpenses, setPlannedExpenses] = useState<PlannedExpense[]>([]);
   const [deleting, setDeleting] = useState<boolean>(false);
   const [elementId, setElementId] = useState<number>(0);
@@ -76,22 +77,22 @@ const PlannedExpenses = (props:{addNewElement:boolean}) => {
     }
   };
 
-  const getPriorityColor = (priority: number) =>{
-      switch (priority) {
-        case 1:
-          return "green"; 
-        case 2:
-          return "yellowgreen"; 
-        case 3:
-          return "yellow"; 
-        case 4:
-          return "orange"; 
-        case 5:
-          return "red"; 
-        default:
-          return "grey"; 
-      }
-  }
+  const getPriorityColor = (priority: number) => {
+    switch (priority) {
+      case 1:
+        return "green";
+      case 2:
+        return "yellowgreen";
+      case 3:
+        return "yellow";
+      case 4:
+        return "orange";
+      case 5:
+        return "red";
+      default:
+        return "grey";
+    }
+  };
 
   const handleDelete = async () => {
     try {
@@ -102,7 +103,6 @@ const PlannedExpenses = (props:{addNewElement:boolean}) => {
     }
   };
 
-
   return (
     <div className="plannedExpenses">
       <div className="plannedExpensesHeader">
@@ -111,7 +111,10 @@ const PlannedExpenses = (props:{addNewElement:boolean}) => {
       <div className="plannedExpensesBody">
         <ul>
           {plannedExpenses.map((plannedExpense) => (
-            <li key={plannedExpense.id} className={plannedExpense.status === "PAID" ? "paidElement": ""}>
+            <li
+              key={plannedExpense.id}
+              className={plannedExpense.status === "PAID" ? "paidElement" : ""}
+            >
               <div className="plannedExpenseRow">
                 <div className="checkBoxAndText">
                   <Checkbox
@@ -119,22 +122,34 @@ const PlannedExpenses = (props:{addNewElement:boolean}) => {
                     label={`${plannedExpense.name}`}
                     id={plannedExpense.id}
                     onChange={handleCheckboxChange}
-
                   />
                   <p>{plannedExpense.amount} zł</p>
                 </div>
                 <div className="actionButtons">
+                  <Link to={`/dashboard/plannedExpense/${plannedExpense.id}`}>
+                    <img src="/details.svg" alt="details" title="details" />
+                  </Link>
                   <img
                     onClick={() => handleOnClickUpdateImg(plannedExpense.id)}
                     src="/edit.svg"
                     alt="Edit"
+                    title="edit"
                   />
                   <img
                     onClick={() => handleOnClickDeleteImg(plannedExpense.id)}
                     src="/delete-orange.svg"
                     alt="Delete"
+                    title="delete"
                   />
-                  <div className="expensePriority" style={{backgroundColor: getPriorityColor(plannedExpense.priority)}} title="Expense priority"></div>
+                  <div
+                    className="expensePriority"
+                    style={{
+                      backgroundColor: getPriorityColor(
+                        plannedExpense.priority
+                      ),
+                    }}
+                    title="Expense priority"
+                  ></div>
                 </div>
               </div>
             </li>

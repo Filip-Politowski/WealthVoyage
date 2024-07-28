@@ -41,6 +41,13 @@
           display: flex;
           flex-direction: row;
           align-items: center;
+          
+          a{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+          }
+
           gap: 10px;
           img {
             width: 20px;
@@ -63,7 +70,7 @@
        
       .plannedExpenseRow:hover {
         background-color: rgba($element-color-1, 0.2);
-        cursor: pointer;
+        
       }
     }
     .paidElement{

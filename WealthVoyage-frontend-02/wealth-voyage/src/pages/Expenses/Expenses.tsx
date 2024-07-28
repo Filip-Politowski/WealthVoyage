@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./expenses.scss";
 import StyledSelect from "../../components/select/StyledSelect";
 import { ExpenseOptions, expenseOptions } from "../../data";
@@ -11,13 +11,18 @@ import AddNewExpense from "./components/addNewExpense/AddNewExpense";
 import PlannedExpenses from "./components/plannedExpenses/PlannedExpenses";
 
 const Expenses = () => {
+  
+  const storedOptionValue = sessionStorage.getItem("selectedExpenseOption");
+  const initialOption =
+    expenseOptions.find((option) => option.value === storedOptionValue) ||
+    expenseOptions[0];
+
   const [selectedExpenseOption, setSelectedExpenseOption] =
-    useState<ExpenseOptions | null>(
-      expenseOptions.find((option) => option.value === "singleExpenses") ||
-        expenseOptions[0]
-    );
+    useState<ExpenseOptions | null>(initialOption);
   const [openAddWindow, setOpenAddWindow] = useState<boolean>(false);
-  const [expenseOption, setExpenseOption] = useState<string>("singleExpenses");
+  const [expenseOption, setExpenseOption] = useState<string>(
+    initialOption.value
+  );
 
   const handleExpenseSelection = (
     selectedOption: SingleValue<ExpenseOptions>
@@ -25,6 +30,7 @@ const Expenses = () => {
     if (selectedOption) {
       setSelectedExpenseOption(selectedOption);
       setExpenseOption(selectedOption.value);
+      sessionStorage.setItem("selectedExpenseOption", selectedOption.value); 
     }
   };
 
@@ -52,7 +58,9 @@ const Expenses = () => {
       {expenseOption === "recurringExpenses" && (
         <RecurringExpenseComponent openAddWindow={openAddWindow} />
       )}
-      {expenseOption === "plannedExpenses" && <PlannedExpenses addNewElement={openAddWindow}/>}
+      {expenseOption === "plannedExpenses" && (
+        <PlannedExpenses addNewElement={openAddWindow} />
+      )}
       {openAddWindow && (
         <AddNewExpense
           setOpenAddWindow={setOpenAddWindow}

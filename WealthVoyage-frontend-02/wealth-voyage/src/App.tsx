@@ -23,6 +23,7 @@ import SingleTransaction from "./pages/transaction/SingleTransaction";
 import Incomes from "./pages/Incomes/Incomes";
 import Expenses from "./pages/Expenses/Expenses";
 import Income from "./pages/income/SingleIncome";
+import PlannedExpenseComponent from "./pages/Expenses/components/plannedExpenses/components/plannedExpense/PlannedExpenseComponent";
 
 function App() {
   const Layout = () => {
@@ -134,6 +135,14 @@ function App() {
           element: (
             <ProtectedRoute>
               <Expenses />
+            </ProtectedRoute>
+          ),
+        },
+        {
+          path: "/dashboard/plannedExpense/:id",
+          element: (
+            <ProtectedRoute>
+              <PlannedExpenseComponent />
             </ProtectedRoute>
           ),
         },

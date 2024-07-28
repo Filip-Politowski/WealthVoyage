@@ -1,0 +1,94 @@
+@import "../../../../../../styles/variables.scss";
+@import "../../../../../../styles/global.scss";
+@import "../../../../../../styles/responsive.scss";
+.plannedExpense {
+  width: 80%;
+  margin: auto;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  .backButton {
+    position: absolute;
+    top: 10px;
+    background: none;
+    margin: 15px 10px 30px;
+
+    img {
+      width: 20px;
+      height: 20px;
+    }
+  }
+  .backButton:hover {
+    cursor: pointer;
+  }
+
+  @include md {
+    width: 100%;
+    margin: auto;
+    padding: 5px;
+    background-color: transparent;
+    border: none;
+    .backButton {
+      top: 10px;
+    }
+  }
+  .topInfo {
+    width: 100%;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background: linear-gradient(to right, $navigation-color, $element-color-2);
+    @include md {
+     font-size: medium;
+    }
+    img {
+      height: 150px;
+      width: 150px;
+      margin-top: 20px;
+    }
+  }
+.plannedExpenseDetails {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+
+  .row {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    font-size: 25px;
+    background-color: rgba($element-color-2, 0.1);
+
+    .rowDetails {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px;
+      margin: 0 10%; 
+      @include md{
+        margin: 0 0;
+      }
+
+      p {
+        margin: 0;
+      }
+       @include md {
+          p{
+            font-size: large;
+          }
+        }
+
+      .fetchedDataFromPlannedExpense {
+        color: $element-color-3;
+      }
+    }
+  }
+}
+
+}
