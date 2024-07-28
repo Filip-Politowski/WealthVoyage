@@ -99,7 +99,7 @@ const RecurringExpenseComponent = (props: { openAddWindow: boolean }) => {
 
   useEffect(() => {
     fetchExpensesSum();
-  }, [openUpdateWindow]);
+  }, [openUpdateWindow, deleting]);
 
   const fetchWeeklyRecurringExpenses = (
     field: string,

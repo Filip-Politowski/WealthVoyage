@@ -5,5 +5,6 @@ public enum PaymentMethod {
     CASH,
     BANK_TRANSFER,
     PAYPAL,
+    BLIK,
     OTHER;
 }

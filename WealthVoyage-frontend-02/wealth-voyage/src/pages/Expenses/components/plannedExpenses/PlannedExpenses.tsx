@@ -4,18 +4,33 @@ import Checkbox from "../../../../components/utils/checkBox/CheckBox";
 import axios from "axios";
 import { PlannedExpense } from "../../../../models/PlannedExpense";
 import { handleError } from "../../../../helpers/ErrorHandler";
+import DeleteElement from "../../../../components/delete/DeleteElement";
+import UpdatePlannedExpense from "./components/updatePlannedExpense/UpdatePlannedExpense";
 const api = "http://localhost:8080/api/";
 
 const PlannedExpenses = () => {
   const [plannedExpenses, setPlannedExpenses] = useState<PlannedExpense[]>([]);
+  const [deleting, setDeleting] = useState<boolean>(false);
+  const [elementId, setElementId] = useState<number>(0);
+  const [editing, setEditing] = useState<boolean>(false);
+  const [plannedExpense, setPlannedExpense] = useState<PlannedExpense>({
+    amount: 0,
+    description: "",
+    id: 0,
+    name: "",
+    paymentDate: "",
+    paymentMethod: "",
+    priority: 0,
+    status: "",
+  });
 
   useEffect(() => {
     fetchPlannedExpanses();
-  }, []);
+  }, [deleting, editing]);
 
   const fetchPlannedExpanses = () => {
     axios
-      .get(`${api}planedExpenses/all`)
+      .get(`${api}plannedExpenses/all`)
       .then((response) => {
         setPlannedExpenses(response.data);
       })
@@ -25,12 +40,11 @@ const PlannedExpenses = () => {
   };
 
   const handleCheckboxChange = (id: number, checked: boolean) => {
-    const newStatus:string = checked ? "PAID" : "PAYABLE";
-    console.log(newStatus)
+    const newStatus: string = checked ? "PAID" : "PAYABLE";
+    console.log(newStatus);
     axios
-      .put(`${api}planedExpenses/${id}/${newStatus}`)
+      .put(`${api}plannedExpenses/${id}/${newStatus}`)
       .then(() => {
-     
         setPlannedExpenses((prevExpenses) =>
           prevExpenses.map((expense) =>
             expense.id === id ? { ...expense, status: newStatus } : expense
@@ -40,6 +54,33 @@ const PlannedExpenses = () => {
       .catch((error) => {
         handleError(error);
       });
+  };
+
+  const handleOnClickDeleteImg = (id: number) => {
+    setElementId(id);
+    setDeleting((prevState) => !prevState);
+  };
+
+  const handleOnClickUpdateImg = (id: number) => {
+    const filteredExpense = plannedExpenses.find(
+      (plannedExpense) => plannedExpense.id === id
+    );
+    if (filteredExpense) {
+      setPlannedExpense(filteredExpense);
+      setEditing(true);
+      setElementId(id);
+    } else {
+      console.error(`Expense with id ${id} not found.`);
+    }
+  };
+
+  const handleDelete = async () => {
+    try {
+      await axios.delete(`${api}planedExpenses/${elementId}`);
+      setDeleting(false);
+    } catch (error) {
+      handleError(error);
+    }
   };
 
   return (
@@ -62,14 +103,33 @@ const PlannedExpenses = () => {
                   <p>{plannedExpense.amount} zł</p>
                 </div>
                 <div className="actionButtons">
-                  <img src="/edit.svg" alt="Edit" />
-                  <img src="/delete-orange.svg" alt="Delete" />
+                  <img
+                    onClick={() => handleOnClickUpdateImg(plannedExpense.id)}
+                    src="/edit.svg"
+                    alt="Edit"
+                  />
+                  <img
+                    onClick={() => handleOnClickDeleteImg(plannedExpense.id)}
+                    src="/delete-orange.svg"
+                    alt="Delete"
+                  />
                 </div>
               </div>
             </li>
           ))}
         </ul>
       </div>
+      {editing && (
+        <UpdatePlannedExpense
+          elementId={elementId}
+          plannedExpense={plannedExpense}
+          setOpenUpdateWindow={setEditing}
+          setPlannedExpense={setPlannedExpense}
+        />
+      )}
+      {deleting && (
+        <DeleteElement handleDelete={handleDelete} setDeleting={setDeleting} />
+      )}
     </div>
   );
 };

@@ -9,7 +9,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("api/planedExpenses")
+@RequestMapping("api/plannedExpenses")
 public class PlannedExpenseController {
     private final PlannedExpenseService plannedExpenseService;
 
@@ -37,7 +37,7 @@ public class PlannedExpenseController {
         plannedExpenseService.saveUserPlannedExpense(plannedExpenseRequest, userDetails);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/update/{id}")
     public void updateUserPlannedExpense(@AuthenticationPrincipal UserDetails userDetails, @PathVariable Long id, @RequestBody PlannedExpenseRequest plannedExpenseRequest) {
 
         plannedExpenseService.updateUserPlannedExpense(id, plannedExpenseRequest, userDetails);

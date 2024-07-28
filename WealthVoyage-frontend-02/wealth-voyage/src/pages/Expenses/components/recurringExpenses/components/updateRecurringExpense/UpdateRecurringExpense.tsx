@@ -3,6 +3,7 @@ import "./updateRecurringExpense.scss";
 import { RecurringExpense } from "../../../../../../models/RecurringExpense";
 import axios from "axios";
 import { handleError } from "../../../../../../helpers/ErrorHandler";
+import { getTodayDate } from "../../../../../../components/utils/getTodayDate/GetTodayDate";
 const api = "http://localhost:8080/api/";
 
 type Props = {
@@ -64,21 +65,7 @@ const UpdateRecurringExpense = (props: Props) => {
         handleError(error);
       });
   };
-  const getTodayDate = (): string => {
-    const today: Date = new Date();
-    const year: number = today.getFullYear();
-    let month: number | string = today.getMonth() + 1;
-    let day: number | string = today.getDate();
 
-    if (month < 10) {
-      month = `0${month}`;
-    }
-    if (day < 10) {
-      day = `0${day}`;
-    }
-
-    return `${year}-${month}-${day}`;
-  };
   return (
     <div className="updateRecurringExpense">
       <div className="modal">
