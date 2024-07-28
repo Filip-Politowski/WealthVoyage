@@ -1,7 +1,10 @@
 package pl.savings.wealthvoyage.plannedExpenses;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,13 +18,31 @@ public class PlannedExpenseService {
     private final PlannedExpenseRepository plannedExpenseRepository;
     private final PlannedExpenseMapper plannedExpenseMapper;
 
-    public List<PlannedExpenseResponse> getAllPlannedExpensesByUsername(@NotNull UserDetails userDetails) {
+    public Page<PlannedExpenseResponse> getAllPlannedExpensesByUsername(@NotNull UserDetails userDetails, Pageable pageable) {
+        Optional<Page<PlannedExpense>> plannedExpensesOptional = plannedExpenseRepository.findAllByUsername(userDetails.getUsername(), pageable);
 
-        Optional<List<PlannedExpense>> plannedExpensesOptional = plannedExpenseRepository.findAllByUsername(userDetails.getUsername());
-        List<PlannedExpenseResponse> plannedExpenseResponses = new ArrayList<>();
-        plannedExpensesOptional.ifPresent(plannedExpenses -> plannedExpenseResponses.addAll(plannedExpenseMapper.toPlannedExpenseResponseList(plannedExpenses)));
-        ;
-        return plannedExpenseResponses;
+        if (plannedExpensesOptional.isEmpty()) {
+
+            return new PageImpl<>(Collections.emptyList(), pageable, 0);
+        }
+
+        Page<PlannedExpense> plannedExpensesPage = plannedExpensesOptional.get();
+
+        List<PlannedExpense> sortedExpenses = plannedExpensesPage.getContent().stream()
+                .sorted((e1, e2) -> {
+
+                    int statusComparison = e2.getStatus().compareTo(e1.getStatus());
+                    if (statusComparison != 0) {
+                        return statusComparison;
+                    }
+
+                    return Integer.compare(e2.getPriority(), e1.getPriority());
+                })
+                .collect(Collectors.toList());
+
+        List<PlannedExpenseResponse> plannedExpenseResponses = plannedExpenseMapper.toPlannedExpenseResponseList(sortedExpenses);
+
+        return new PageImpl<>(plannedExpenseResponses, pageable, plannedExpensesPage.getTotalElements());
     }
 
 

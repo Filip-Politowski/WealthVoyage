@@ -46,13 +46,13 @@ const Expenses = () => {
           />
         </div>
       </div>
-      {expenseOption === "singleExpenses" && <SingleExpenseComponent />}
+      {expenseOption === "singleExpenses" && (
+        <SingleExpenseComponent openAddWindow={openAddWindow} />
+      )}
       {expenseOption === "recurringExpenses" && (
         <RecurringExpenseComponent openAddWindow={openAddWindow} />
       )}
-      {expenseOption === "planedExpenses" && (
-        <PlannedExpenses />
-      )}
+      {expenseOption === "plannedExpenses" && <PlannedExpenses addNewElement={openAddWindow}/>}
       {openAddWindow && (
         <AddNewExpense
           setOpenAddWindow={setOpenAddWindow}

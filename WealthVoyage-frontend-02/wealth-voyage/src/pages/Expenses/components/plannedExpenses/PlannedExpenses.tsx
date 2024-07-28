@@ -8,11 +8,12 @@ import DeleteElement from "../../../../components/delete/DeleteElement";
 import UpdatePlannedExpense from "./components/updatePlannedExpense/UpdatePlannedExpense";
 const api = "http://localhost:8080/api/";
 
-const PlannedExpenses = () => {
+const PlannedExpenses = (props:{addNewElement:boolean}) => {
   const [plannedExpenses, setPlannedExpenses] = useState<PlannedExpense[]>([]);
   const [deleting, setDeleting] = useState<boolean>(false);
   const [elementId, setElementId] = useState<number>(0);
   const [editing, setEditing] = useState<boolean>(false);
+  const [checkBoxChange, setCheckBoxChange] = useState<boolean>(false);
   const [plannedExpense, setPlannedExpense] = useState<PlannedExpense>({
     amount: 0,
     description: "",
@@ -26,13 +27,13 @@ const PlannedExpenses = () => {
 
   useEffect(() => {
     fetchPlannedExpanses();
-  }, [deleting, editing]);
+  }, [deleting, editing, props.addNewElement, checkBoxChange]);
 
   const fetchPlannedExpanses = () => {
     axios
       .get(`${api}plannedExpenses/all`)
       .then((response) => {
-        setPlannedExpenses(response.data);
+        setPlannedExpenses(response.data.content);
       })
       .catch((error) => {
         handleError(error);
@@ -45,6 +46,7 @@ const PlannedExpenses = () => {
     axios
       .put(`${api}plannedExpenses/${id}/${newStatus}`)
       .then(() => {
+        setCheckBoxChange((prevState) => !prevState);
         setPlannedExpenses((prevExpenses) =>
           prevExpenses.map((expense) =>
             expense.id === id ? { ...expense, status: newStatus } : expense
@@ -74,6 +76,23 @@ const PlannedExpenses = () => {
     }
   };
 
+  const getPriorityColor = (priority: number) =>{
+      switch (priority) {
+        case 1:
+          return "green"; 
+        case 2:
+          return "yellowgreen"; 
+        case 3:
+          return "yellow"; 
+        case 4:
+          return "orange"; 
+        case 5:
+          return "red"; 
+        default:
+          return "grey"; 
+      }
+  }
+
   const handleDelete = async () => {
     try {
       await axios.delete(`${api}planedExpenses/${elementId}`);
@@ -83,6 +102,7 @@ const PlannedExpenses = () => {
     }
   };
 
+
   return (
     <div className="plannedExpenses">
       <div className="plannedExpensesHeader">
@@ -91,7 +111,7 @@ const PlannedExpenses = () => {
       <div className="plannedExpensesBody">
         <ul>
           {plannedExpenses.map((plannedExpense) => (
-            <li key={plannedExpense.id}>
+            <li key={plannedExpense.id} className={plannedExpense.status === "PAID" ? "paidElement": ""}>
               <div className="plannedExpenseRow">
                 <div className="checkBoxAndText">
                   <Checkbox
@@ -99,6 +119,7 @@ const PlannedExpenses = () => {
                     label={`${plannedExpense.name}`}
                     id={plannedExpense.id}
                     onChange={handleCheckboxChange}
+
                   />
                   <p>{plannedExpense.amount} zł</p>
                 </div>
@@ -113,6 +134,7 @@ const PlannedExpenses = () => {
                     src="/delete-orange.svg"
                     alt="Delete"
                   />
+                  <div className="expensePriority" style={{backgroundColor: getPriorityColor(plannedExpense.priority)}} title="Expense priority"></div>
                 </div>
               </div>
             </li>

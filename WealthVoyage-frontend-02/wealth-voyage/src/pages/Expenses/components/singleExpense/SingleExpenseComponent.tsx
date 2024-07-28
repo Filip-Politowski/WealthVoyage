@@ -19,7 +19,7 @@ import { handleError } from "../../../../helpers/ErrorHandler";
 import UpdateSingleExpense from "./components/updateSingleExpense/UpdateSingleExpense";
 const api = "http://localhost:8080/api/";
 
-const SingleExpenseComponent = () => {
+const SingleExpenseComponent = (props: { openAddWindow: boolean}) => {
   const [singleExpenses, setSingleExpenses] = useState<SingleExpense[]>([]);
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [deleting, setDeleting] = useState<boolean>(false);
@@ -51,6 +51,7 @@ const SingleExpenseComponent = () => {
     selectedDate,
     deleting,
     editing,
+    props.openAddWindow
   ]);
 
   const fetchSingleExpenses = (field: string, order: string, page: number) => {
