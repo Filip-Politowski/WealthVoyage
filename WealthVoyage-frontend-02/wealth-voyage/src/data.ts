@@ -307,7 +307,7 @@ export const singleExpenseCategory: SingleExpenseCategory[] = [
 export const expenseOptions: ExpenseOptions[] = [
   { value: "singleExpenses", label: "Single Expenses" },
   { value: "recurringExpenses", label: "Recurring Expenses" },
-  { value: "planedExpenses", label: "Planned Expenses" },
+  { value: "plannedExpenses", label: "Planned Expenses" },
 ];
 
 export interface SortOptionsSingleExpense {

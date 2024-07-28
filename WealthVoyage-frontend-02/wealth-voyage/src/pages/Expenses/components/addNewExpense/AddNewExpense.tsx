@@ -3,6 +3,7 @@ import { ExpenseOptions } from "../../../../data";
 import RecurringExpenseForm from "./expenseForms/RecurringExpenseForm";
 import "./addNewExpense.scss";
 import SingleExpenseForm from "./expenseForms/SingleExpenseForm";
+import PlannedExpenseForm from "./expenseForms/PlannedExpenseForm";
 type Props = {
   setOpenAddWindow: React.Dispatch<React.SetStateAction<boolean>>;
   selectedExpenseOption: ExpenseOptions;
@@ -26,6 +27,9 @@ const AddNewExpense = (props: Props) => {
         )}
         {props.selectedExpenseOption.value === "singleExpenses" && (
           <SingleExpenseForm setOpenAddWindow={props.setOpenAddWindow} />
+        )}
+        {props.selectedExpenseOption.value === "plannedExpenses" && (
+          <PlannedExpenseForm setOpenAddWindow={props.setOpenAddWindow} />
         )}
       </div>
     </div>
