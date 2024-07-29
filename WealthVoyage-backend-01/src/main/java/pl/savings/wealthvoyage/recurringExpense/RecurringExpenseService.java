@@ -21,6 +21,8 @@ public class RecurringExpenseService {
     private final RecurringExpenseRepository recurringExpenseRepository;
     private final RecurringExpenseMapper recurringExpenseMapper;
 
+
+
     public RecurringExpenseResponse getUserRecurringExpense(Long id, @NotNull UserDetails userDetails) {
         RecurringExpense recurringExpense = recurringExpenseRepository.findByIdAndUsername(id, userDetails.getUsername()).orElseThrow();
         return recurringExpenseMapper.toRecurringExpenseResponse(recurringExpense);

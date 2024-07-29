@@ -15,10 +15,10 @@ import java.util.List;
 public class PlannedExpenseController {
     private final PlannedExpenseService plannedExpenseService;
 
-    @GetMapping("/all")
-    public Page<PlannedExpenseResponse> getAllUserPlannedExpenses(@AuthenticationPrincipal UserDetails userDetails, Pageable pageable) {
+    @GetMapping("/all/{setOfPlannedExpensesId}")
+    public Page<PlannedExpenseResponse> getAllUserPlannedExpenses(@AuthenticationPrincipal UserDetails userDetails,@PathVariable Long setOfPlannedExpensesId, Pageable pageable) {
 
-        return plannedExpenseService.getAllPlannedExpensesByUsername(userDetails, pageable);
+        return plannedExpenseService.getAllPlannedExpensesByUsername(userDetails,setOfPlannedExpensesId , pageable);
     }
 
     @GetMapping("/{id}")
@@ -33,10 +33,14 @@ public class PlannedExpenseController {
         plannedExpenseService.deleteUserPlannedExpenseById(id, userDetails);
     }
 
-    @PostMapping("/add")
-    public void addUserPlannedExpense(@AuthenticationPrincipal UserDetails userDetails, @RequestBody PlannedExpenseRequest plannedExpenseRequest) {
+    @PostMapping("/add/{setOfPlannedExpenseId}")
+    public void addUserPlannedExpense(
+            @AuthenticationPrincipal UserDetails userDetails,
+            @RequestBody PlannedExpenseRequest plannedExpenseRequest,
+            @PathVariable Long setOfPlannedExpenseId
+            ) {
 
-        plannedExpenseService.saveUserPlannedExpense(plannedExpenseRequest, userDetails);
+        plannedExpenseService.saveUserPlannedExpense(plannedExpenseRequest,setOfPlannedExpenseId , userDetails);
     }
 
     @PutMapping("/update/{id}")
@@ -47,7 +51,7 @@ public class PlannedExpenseController {
 
     @PutMapping("/{id}/{status}")
     public PlannedExpenseResponse updateUserPlannedExpenseStatus (@AuthenticationPrincipal UserDetails userDetails, @PathVariable Long id, @PathVariable Status status){
-        System.out.println(status);
-        return plannedExpenseService.updateUserPlannedExpense(userDetails, id, status);
+
+        return plannedExpenseService.updateUserPlannedExpenseStatus(userDetails, id, status);
     }
 }

@@ -22,4 +22,5 @@ public class PlannedExpenseResponse {
     private String description;
     private PaymentMethod paymentMethod;
 
+
 }

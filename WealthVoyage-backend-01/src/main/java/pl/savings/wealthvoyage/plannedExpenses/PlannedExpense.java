@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import pl.savings.wealthvoyage.savingGoals.SavingGoal;
+import pl.savings.wealthvoyage.setOfPlannedExpenses.SetOfPlannedExpenses;
 
 import java.util.Date;
 
@@ -40,6 +41,10 @@ public class PlannedExpense {
     private PaymentMethod paymentMethod;
 
     private String username ;
+
+    @ManyToOne
+    @JoinColumn(name="set_id", nullable = false)
+    private SetOfPlannedExpenses setOfPlannedExpenses;
 
 
 

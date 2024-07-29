@@ -9,6 +9,7 @@ import RecurringExpenseComponent from "./components/recurringExpenses/RecurringE
 
 import AddNewExpense from "./components/addNewExpense/AddNewExpense";
 import PlannedExpenses from "./components/plannedExpenses/PlannedExpenses";
+import SetOfPlannedExpensesComponent from "./setOfPlannedExpenses/SetOfPlannedExpensesComponent";
 
 const Expenses = () => {
   
@@ -59,7 +60,7 @@ const Expenses = () => {
         <RecurringExpenseComponent openAddWindow={openAddWindow} />
       )}
       {expenseOption === "plannedExpenses" && (
-        <PlannedExpenses addNewElement={openAddWindow} />
+        <SetOfPlannedExpensesComponent />
       )}
       {openAddWindow && (
         <AddNewExpense

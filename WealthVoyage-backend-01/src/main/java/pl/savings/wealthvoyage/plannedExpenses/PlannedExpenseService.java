@@ -8,6 +8,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import pl.savings.wealthvoyage.setOfPlannedExpenses.SetOfPlannedExpenses;
+import pl.savings.wealthvoyage.setOfPlannedExpenses.SetOfPlannedExpensesRepository;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -17,9 +19,15 @@ import java.util.stream.Collectors;
 public class PlannedExpenseService {
     private final PlannedExpenseRepository plannedExpenseRepository;
     private final PlannedExpenseMapper plannedExpenseMapper;
+    private final SetOfPlannedExpensesRepository setOfPlannedExpensesRepository;
 
-    public Page<PlannedExpenseResponse> getAllPlannedExpensesByUsername(@NotNull UserDetails userDetails, Pageable pageable) {
-        Optional<Page<PlannedExpense>> plannedExpensesOptional = plannedExpenseRepository.findAllByUsername(userDetails.getUsername(), pageable);
+    public Page<PlannedExpenseResponse> getAllPlannedExpensesByUsername(@NotNull UserDetails userDetails, Long setOfPlannedExpensesId, Pageable pageable) {
+        Optional<SetOfPlannedExpenses> optionalSetOfPlannedExpenses = setOfPlannedExpensesRepository.findById(setOfPlannedExpensesId);
+        SetOfPlannedExpenses setOfPlannedExpenses = new SetOfPlannedExpenses();
+        if (optionalSetOfPlannedExpenses.isPresent()) {
+            setOfPlannedExpenses = optionalSetOfPlannedExpenses.get();
+        }
+        Optional<Page<PlannedExpense>> plannedExpensesOptional = plannedExpenseRepository.findAllByUsernameAndSetOfPlannedExpenses(userDetails.getUsername(), setOfPlannedExpenses, pageable);
 
         if (plannedExpensesOptional.isEmpty()) {
 
@@ -56,9 +64,18 @@ public class PlannedExpenseService {
         plannedExpenseRepository.deleteByIdAndUsername(id, userDetails.getUsername());
     }
 
-    public PlannedExpense saveUserPlannedExpense(PlannedExpenseRequest plannedExpenseRequest, UserDetails userDetails) {
+    public PlannedExpense saveUserPlannedExpense(PlannedExpenseRequest plannedExpenseRequest, Long setOfPlannedExpensesId, UserDetails userDetails) {
         PlannedExpense plannedExpense = plannedExpenseMapper.toPlannedExpense(plannedExpenseRequest);
+
+        SetOfPlannedExpenses setOfPlannedExpenses = new SetOfPlannedExpenses();
+        Optional<SetOfPlannedExpenses> optionalSetOfPlannedExpenses = setOfPlannedExpensesRepository.findById(setOfPlannedExpensesId);
+        if (optionalSetOfPlannedExpenses.isPresent()) {
+            setOfPlannedExpenses = optionalSetOfPlannedExpenses.get();
+        }
+
+        plannedExpense.setSetOfPlannedExpenses(setOfPlannedExpenses);
         plannedExpense.setUsername(userDetails.getUsername());
+
         plannedExpenseRepository.save(plannedExpense);
         return plannedExpense;
     }
@@ -71,7 +88,7 @@ public class PlannedExpenseService {
 
     }
 
-    public PlannedExpenseResponse updateUserPlannedExpense(UserDetails userDetails, Long id, Status status) {
+    public PlannedExpenseResponse updateUserPlannedExpenseStatus(UserDetails userDetails, Long id, Status status) {
         Optional<PlannedExpense> optionalPlannedExpense = plannedExpenseRepository.findByIdAndUsername(id, userDetails.getUsername());
         if (optionalPlannedExpense.isPresent()) {
             PlannedExpense plannedExpense = optionalPlannedExpense.get();
