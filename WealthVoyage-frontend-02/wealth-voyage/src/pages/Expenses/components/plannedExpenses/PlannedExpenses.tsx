@@ -6,15 +6,19 @@ import { PlannedExpense } from "../../../../models/PlannedExpense";
 import { handleError } from "../../../../helpers/ErrorHandler";
 import DeleteElement from "../../../../components/delete/DeleteElement";
 import UpdatePlannedExpense from "./components/updatePlannedExpense/UpdatePlannedExpense";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
+import BackButton from "../../../../components/utils/backButton/BackButton";
+import AddPlannedExpense from "./components/addPlannedExpenses/AddPlannedExpense";
 const api = "http://localhost:8080/api/";
 
-const PlannedExpenses = (props: { addNewElement: boolean }) => {
+const PlannedExpenses = () => {
   const [plannedExpenses, setPlannedExpenses] = useState<PlannedExpense[]>([]);
   const [deleting, setDeleting] = useState<boolean>(false);
   const [elementId, setElementId] = useState<number>(0);
   const [editing, setEditing] = useState<boolean>(false);
   const [checkBoxChange, setCheckBoxChange] = useState<boolean>(false);
+  const [openAddWindow, setOpenAddWindow] = useState<boolean>(false);
+  const { id, name } = useParams();
   const [plannedExpense, setPlannedExpense] = useState<PlannedExpense>({
     amount: 0,
     description: "",
@@ -28,11 +32,11 @@ const PlannedExpenses = (props: { addNewElement: boolean }) => {
 
   useEffect(() => {
     fetchPlannedExpanses();
-  }, [deleting, editing, props.addNewElement, checkBoxChange]);
+  }, [deleting, editing, checkBoxChange, openAddWindow]);
 
   const fetchPlannedExpanses = () => {
     axios
-      .get(`${api}plannedExpenses/all`)
+      .get(`${api}plannedExpenses/all/${id}`)
       .then((response) => {
         setPlannedExpenses(response.data.content);
       })
@@ -43,7 +47,7 @@ const PlannedExpenses = (props: { addNewElement: boolean }) => {
 
   const handleCheckboxChange = (id: number, checked: boolean) => {
     const newStatus: string = checked ? "PAID" : "PAYABLE";
-    console.log(newStatus);
+
     axios
       .put(`${api}plannedExpenses/${id}/${newStatus}`)
       .then(() => {
@@ -104,9 +108,10 @@ const PlannedExpenses = (props: { addNewElement: boolean }) => {
   };
 
   return (
-    <div className="plannedExpenses">
+    <div className="plannedExpensesToDoList">
       <div className="plannedExpensesHeader">
-        <h1>Your planned expenses</h1>
+        <h1>{name}</h1>
+        <BackButton />
       </div>
       <div className="plannedExpensesBody">
         <ul>
@@ -156,6 +161,10 @@ const PlannedExpenses = (props: { addNewElement: boolean }) => {
           ))}
         </ul>
       </div>
+      <button onClick={() => setOpenAddWindow((prevState) => !prevState)}>Add new</button>
+      {openAddWindow &&
+      <AddPlannedExpense setOpenAddWindow={setOpenAddWindow}/>
+      }
       {editing && (
         <UpdatePlannedExpense
           elementId={elementId}

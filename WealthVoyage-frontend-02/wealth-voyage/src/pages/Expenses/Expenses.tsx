@@ -41,7 +41,7 @@ const Expenses = () => {
         <div className="title">
           <h1>Expenses</h1>
           <button onClick={() => setOpenAddWindow(true)}>
-            Add new expense
+            Add new
           </button>
         </div>
         <div className="customSelect">
@@ -60,7 +60,7 @@ const Expenses = () => {
         <RecurringExpenseComponent openAddWindow={openAddWindow} />
       )}
       {expenseOption === "plannedExpenses" && (
-        <SetOfPlannedExpensesComponent />
+        <SetOfPlannedExpensesComponent openAddWindow={openAddWindow} />
       )}
       {openAddWindow && (
         <AddNewExpense

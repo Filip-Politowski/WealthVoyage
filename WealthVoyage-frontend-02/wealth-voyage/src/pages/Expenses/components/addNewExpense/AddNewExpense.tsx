@@ -3,12 +3,13 @@ import { ExpenseOptions } from "../../../../data";
 import RecurringExpenseForm from "./expenseForms/RecurringExpenseForm";
 import "./addNewExpense.scss";
 import SingleExpenseForm from "./expenseForms/SingleExpenseForm";
-import PlannedExpenseForm from "./expenseForms/PlannedExpenseForm";
+import SetOfPlannedExpensesForm from "./expenseForms/SetOfPlannedExpensesForm";
 type Props = {
   setOpenAddWindow: React.Dispatch<React.SetStateAction<boolean>>;
   selectedExpenseOption: ExpenseOptions;
 };
 const AddNewExpense = (props: Props) => {
+  console.log(props.selectedExpenseOption)
   return (
     <div className="addNewExpense">
       <div className="modal">
@@ -17,10 +18,12 @@ const AddNewExpense = (props: Props) => {
         </span>
         <h1>
           Add New{" "}
-          {props.selectedExpenseOption.label.slice(
-            0,
-            props.selectedExpenseOption.label.length - 1
-          )}
+          {props.selectedExpenseOption.value === "plannedExpenses"
+            ? "List Of Planned Expenses"
+            : props.selectedExpenseOption.label.slice(
+                0,
+                props.selectedExpenseOption.label.length - 1
+              )}
         </h1>
         {props.selectedExpenseOption.value === "recurringExpenses" && (
           <RecurringExpenseForm setOpenAddWindow={props.setOpenAddWindow} />
@@ -29,7 +32,7 @@ const AddNewExpense = (props: Props) => {
           <SingleExpenseForm setOpenAddWindow={props.setOpenAddWindow} />
         )}
         {props.selectedExpenseOption.value === "plannedExpenses" && (
-          <PlannedExpenseForm setOpenAddWindow={props.setOpenAddWindow} />
+          <SetOfPlannedExpensesForm setOpenAddWindow={props.setOpenAddWindow} />
         )}
       </div>
     </div>

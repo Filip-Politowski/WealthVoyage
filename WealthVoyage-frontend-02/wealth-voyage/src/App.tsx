@@ -24,6 +24,7 @@ import Incomes from "./pages/Incomes/Incomes";
 import Expenses from "./pages/Expenses/Expenses";
 import Income from "./pages/income/SingleIncome";
 import PlannedExpenseComponent from "./pages/Expenses/components/plannedExpenses/components/plannedExpense/PlannedExpenseComponent";
+import PlannedExpenses from "./pages/Expenses/components/plannedExpenses/PlannedExpenses";
 
 function App() {
   const Layout = () => {
@@ -135,6 +136,14 @@ function App() {
           element: (
             <ProtectedRoute>
               <Expenses />
+            </ProtectedRoute>
+          ),
+        },
+        {
+          path: "/dashboard/plannedExpenses/:id/:name",
+          element: (
+            <ProtectedRoute>
+              <PlannedExpenses />
             </ProtectedRoute>
           ),
         },

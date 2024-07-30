@@ -67,7 +67,7 @@ const UpdateSetOfPlannedExpense = (props: {
         <h1>Update Set Of Planned Expenses</h1>
         {setOfPlannedExpense && (
           <form onSubmit={handleSubmit}>
-            <div className="item">
+            <div className="item" style={{ width: "80%" }}>
               <label>Set Name:</label>
               <input
                 type="text"

@@ -7,7 +7,7 @@ import DeleteElement from "../../../components/delete/DeleteElement";
 import UpdateSetOfPlannedExpense from "./components/updateSetOfPlannedExpense/UpdateSetOfPlannedExpense";
 const api = "http://localhost:8080/api/";
 
-const SetOfPlannedExpensesComponent = () => {
+const SetOfPlannedExpensesComponent = (props: { openAddWindow : boolean}) => {
   const [deleting, setDeleting] = useState<boolean>(false);
   const [elementId, setElementId] = useState<number>(0);
   const [openUpdateWindow, setOpenUpdateWindow] = useState<boolean>(false);
@@ -17,7 +17,7 @@ const SetOfPlannedExpensesComponent = () => {
 
   useEffect(() => {
     fetchSetOfPlannedExpenses();
-  }, [openUpdateWindow, deleting])
+  }, [openUpdateWindow, deleting, props.openAddWindow]);
 
   const fetchSetOfPlannedExpenses = () => {
     axios
@@ -49,10 +49,12 @@ const SetOfPlannedExpensesComponent = () => {
       {deleting && (
         <DeleteElement setDeleting={setDeleting} handleDelete={handleDelete} />
       )}
-      {openUpdateWindow &&
-      <UpdateSetOfPlannedExpense elementId={elementId} setOpenUpdateWindow={setOpenUpdateWindow}/>
-      }
-     
+      {openUpdateWindow && (
+        <UpdateSetOfPlannedExpense
+          elementId={elementId}
+          setOpenUpdateWindow={setOpenUpdateWindow}
+        />
+      )}
     </div>
   );
 };

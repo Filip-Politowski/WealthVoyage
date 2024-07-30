@@ -21,7 +21,7 @@ const Incomes = () => {
   const [typeOfIncome, setTypeOfIncome] = useState<string>("FIXED_INCOME");
   const [incomeStatus, setIncomeStatus] = useState<string>("ACTIVE");
   const [open, setOpen] = useState(false);
-  const [endpointType, setEndpointType] = useState<string>("month");
+  const [endpointType, setEndpointType] = useState<string>("year");
   const [startDate, setStartDate] = useState<string>("");
   const [endDate, setEndDate] = useState<string>("");
   const [year, setYear] = useState<string>(new Date().getFullYear().toString());
