@@ -100,7 +100,7 @@ const PlannedExpenses = () => {
 
   const handleDelete = async () => {
     try {
-      await axios.delete(`${api}planedExpenses/${elementId}`);
+      await axios.delete(`${api}plannedExpenses/${elementId}`);
       setDeleting(false);
     } catch (error) {
       handleError(error);

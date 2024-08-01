@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.savings.wealthvoyage.setOfPlannedExpenses.SetOfPlannedExpenses;
 import pl.savings.wealthvoyage.setOfPlannedExpenses.SetOfPlannedExpensesRepository;
+import pl.savings.wealthvoyage.setOfPlannedExpenses.SetOfPlannedExpensesService;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -20,6 +21,7 @@ public class PlannedExpenseService {
     private final PlannedExpenseRepository plannedExpenseRepository;
     private final PlannedExpenseMapper plannedExpenseMapper;
     private final SetOfPlannedExpensesRepository setOfPlannedExpensesRepository;
+    private final SetOfPlannedExpensesService setOfPlannedExpensesService;
 
     public Page<PlannedExpenseResponse> getAllPlannedExpensesByUsername(@NotNull UserDetails userDetails, Long setOfPlannedExpensesId, Pageable pageable) {
         Optional<SetOfPlannedExpenses> optionalSetOfPlannedExpenses = setOfPlannedExpensesRepository.findById(setOfPlannedExpensesId);
@@ -61,7 +63,14 @@ public class PlannedExpenseService {
 
     @Transactional
     public void deleteUserPlannedExpenseById(Long id, @NotNull UserDetails userDetails) {
+        PlannedExpense plannedExpense = new PlannedExpense();
+        Optional<PlannedExpense> optionalPlannedExpense = plannedExpenseRepository.findById(id);
+        if (optionalPlannedExpense.isPresent()) {
+            plannedExpense = optionalPlannedExpense.get();
+        }
+        setOfPlannedExpensesService.updateAmountWhileDeletingPlannedExpense(plannedExpense);
         plannedExpenseRepository.deleteByIdAndUsername(id, userDetails.getUsername());
+
     }
 
     public PlannedExpense saveUserPlannedExpense(PlannedExpenseRequest plannedExpenseRequest, Long setOfPlannedExpensesId, UserDetails userDetails) {
@@ -77,14 +86,26 @@ public class PlannedExpenseService {
         plannedExpense.setUsername(userDetails.getUsername());
 
         plannedExpenseRepository.save(plannedExpense);
+
+        setOfPlannedExpensesService.updateAmount(plannedExpense.getSetOfPlannedExpenses().getId());
         return plannedExpense;
     }
 
-    public void updateUserPlannedExpense(Long id, PlannedExpenseRequest plannedExpenseRequest, @NotNull UserDetails userDetails) {
+    public void updateUserPlannedExpense(Long id, PlannedExpenseRequest plannedExpenseRequest, Long setOfPlannedExpensesId,  UserDetails userDetails) {
+        SetOfPlannedExpenses setOfPlannedExpenses = new SetOfPlannedExpenses();
+        Optional<SetOfPlannedExpenses> optionalSetOfPlannedExpenses = setOfPlannedExpensesRepository.findById(setOfPlannedExpensesId);
+        if (optionalSetOfPlannedExpenses.isPresent()) {
+            setOfPlannedExpenses = optionalSetOfPlannedExpenses.get();
+        }
+
         PlannedExpense plannedExpense = plannedExpenseMapper.toPlannedExpense(plannedExpenseRequest);
         plannedExpense.setUsername(userDetails.getUsername());
         plannedExpense.setId(id);
+        plannedExpense.setSetOfPlannedExpenses(setOfPlannedExpenses);
+
         plannedExpenseRepository.save(plannedExpense);
+
+        setOfPlannedExpensesService.updateAmount(plannedExpense.getSetOfPlannedExpenses().getId());
 
     }
 
@@ -93,6 +114,7 @@ public class PlannedExpenseService {
         if (optionalPlannedExpense.isPresent()) {
             PlannedExpense plannedExpense = optionalPlannedExpense.get();
             plannedExpense.setStatus(status);
+            setOfPlannedExpensesService.updateAmount(plannedExpense.getSetOfPlannedExpenses().getId());
             return plannedExpenseMapper.toPlannedExpenseResponse(plannedExpenseRepository.save(plannedExpense));
         } else {
             throw new IllegalArgumentException("PlannedExpense not found");

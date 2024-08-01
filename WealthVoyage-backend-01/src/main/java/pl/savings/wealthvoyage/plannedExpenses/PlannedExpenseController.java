@@ -43,10 +43,10 @@ public class PlannedExpenseController {
         plannedExpenseService.saveUserPlannedExpense(plannedExpenseRequest,setOfPlannedExpenseId , userDetails);
     }
 
-    @PutMapping("/update/{id}")
-    public void updateUserPlannedExpense(@AuthenticationPrincipal UserDetails userDetails, @PathVariable Long id, @RequestBody PlannedExpenseRequest plannedExpenseRequest) {
+    @PutMapping("/update/{id}/{setOfPlannedExpenseId}")
+    public void updateUserPlannedExpense(@AuthenticationPrincipal UserDetails userDetails, @PathVariable Long id, @RequestBody PlannedExpenseRequest plannedExpenseRequest,@PathVariable Long setOfPlannedExpenseId) {
 
-        plannedExpenseService.updateUserPlannedExpense(id, plannedExpenseRequest, userDetails);
+        plannedExpenseService.updateUserPlannedExpense(id, plannedExpenseRequest,setOfPlannedExpenseId, userDetails);
     }
 
     @PutMapping("/{id}/{status}")

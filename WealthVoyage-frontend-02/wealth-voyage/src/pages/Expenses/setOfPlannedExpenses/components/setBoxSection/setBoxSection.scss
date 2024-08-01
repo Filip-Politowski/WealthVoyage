@@ -31,6 +31,7 @@
       padding: 15px;
       border-radius: 10px;
       border: 2px solid $soft-bg;
+      transition: 0.8s;
       background: linear-gradient(
         45deg,
         $navigation-color 30%,
@@ -81,16 +82,11 @@
         flex-direction: column;
         gap: 10px;
         margin-top: auto;
-        p{
-          font-weight: 700;
-          letter-spacing: 1.4px;
-          font-size: larger;
-          
-        }
+        
       }
     }
-    .incomeBox:hover {
-      // cursor: pointer;
+    .setBox:hover {
+      scale: 1.05;
       box-shadow: 5px 5px 20px rgba($element-color-3, 0.4);
     }
   }

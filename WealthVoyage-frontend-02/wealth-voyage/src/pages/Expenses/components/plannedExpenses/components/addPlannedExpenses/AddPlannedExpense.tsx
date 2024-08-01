@@ -17,7 +17,7 @@ const AddPlannedExpense = (props: {
     id: 0,
     name: "",
     paymentDate: "",
-    paymentMethod: "",
+    paymentMethod: "CARD",
     priority: 1,
     status: "PAYABLE",
   });

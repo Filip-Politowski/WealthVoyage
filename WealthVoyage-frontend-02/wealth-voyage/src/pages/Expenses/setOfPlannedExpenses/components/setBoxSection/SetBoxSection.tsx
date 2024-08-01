@@ -25,7 +25,9 @@ const SetBoxSection = (props: {
         {props.setOfPlannedExpenses.map((setOfPlannedExpense, index) => (
           <div key={index} className="setBox">
             <div className="actionIcons">
-              <Link to={`/dashboard/plannedExpenses/${setOfPlannedExpense.id}/${setOfPlannedExpense.name}`}>
+              <Link
+                to={`/dashboard/plannedExpenses/${setOfPlannedExpense.id}/${setOfPlannedExpense.name}`}
+              >
                 <img src="/details.svg" alt="details" />
               </Link>
               <img
@@ -43,7 +45,8 @@ const SetBoxSection = (props: {
               <h3 className="setOfPlannedExpensesName">
                 {setOfPlannedExpense.name}
               </h3>
-              <p>{setOfPlannedExpense.amount.toFixed(2)} zł</p>
+              <p>Remaining amount due:  </p>
+              <h2>{setOfPlannedExpense.amount.toFixed(2)} zł</h2>
             </div>
           </div>
         ))}

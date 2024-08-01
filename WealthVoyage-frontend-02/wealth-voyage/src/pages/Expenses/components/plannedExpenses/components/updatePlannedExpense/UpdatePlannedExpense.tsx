@@ -5,6 +5,7 @@ import { PlannedExpense } from "../../../../../../models/PlannedExpense";
 import { getTodayDate } from "../../../../../../components/utils/getTodayDate/GetTodayDate";
 import axios from "axios";
 import { handleError } from "../../../../../../helpers/ErrorHandler";
+import { useParams } from "react-router-dom";
 const api = "http://localhost:8080/api/";
 
 const UpdatePlannedExpense = (props: {
@@ -13,11 +14,12 @@ const UpdatePlannedExpense = (props: {
   plannedExpense: PlannedExpense;
   setPlannedExpense: React.Dispatch<React.SetStateAction<PlannedExpense>>;
 }) => {
+  const {id} = useParams();
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     axios
       .put(
-        `${api}plannedExpenses/update/${props.elementId}`,
+        `${api}plannedExpenses/update/${props.elementId}/${id}`,
         props.plannedExpense
       )
       .then(() => {
