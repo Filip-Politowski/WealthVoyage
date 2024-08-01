@@ -2,6 +2,7 @@ package pl.savings.wealthvoyage.income;
 
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.cglib.core.Local;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.User;
@@ -18,10 +19,10 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
-import java.util.Date;
-import java.util.NoSuchElementException;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -48,6 +49,36 @@ public class IncomeService {
         Page<Income> incomePage = incomeRepository.findIncomesByUsernameAndMonthAndStatusAndType(userDetails.getUsername(), startDate, endDate, incomeStatus, typeOfIncome, pageable);
         return incomePage.map(incomeMapper::toIncomeResponse);
     }
+
+    public Double getUserIncomesInCurrentMonth(UserDetails userDetails){
+        List<Income> incomes = incomeRepository.findAll();
+        Double amountSumOfFixedIncomes = incomes.stream()
+                .filter(income -> income.getTypeofIncome() == TypeOfIncome.FIXED_INCOME && income.getIncomeStatus() ==  IncomeStatus.ACTIVE && Objects.equals(income.getUsername(), userDetails.getUsername()))
+                .mapToDouble(Income::getAmount)
+                .sum();
+
+        LocalDate currentDate = LocalDate.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM");
+        String formattedDate = currentDate.format(formatter);
+
+
+        Double amountSumOfSupplementaryIncomesInCurrentMonth = incomes.stream()
+                .filter(income -> income.getTypeofIncome() == TypeOfIncome.SUPPLEMENTARY_INCOME
+                && income.getIncomeStatus().equals(IncomeStatus.ACTIVE)
+                        && income.getIncomeDate().toString().substring(0,7).equals(formattedDate))
+                .mapToDouble(Income::getAmount)
+                .sum();
+        Double amountSumOfSinglePaymentIncomesInCurrentMonth = incomes.stream()
+                .filter(income -> income.getTypeofIncome() == TypeOfIncome.SINGLE_PAYMENT
+                        && income.getIncomeDate().toString().substring(0,7).equals(formattedDate))
+                .mapToDouble(Income::getAmount)
+                .sum();
+
+
+        return amountSumOfFixedIncomes + amountSumOfSupplementaryIncomesInCurrentMonth + amountSumOfSinglePaymentIncomesInCurrentMonth;
+
+    }
+
 
     public Page<IncomeResponse> getUserIncomesByTimeRange(
             @NotNull UserDetails userDetails,
@@ -140,4 +171,5 @@ public class IncomeService {
                 }
         );
     }
+
 }

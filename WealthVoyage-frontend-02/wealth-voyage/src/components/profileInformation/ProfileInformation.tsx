@@ -12,6 +12,7 @@ const ProfileInformation = () => {
   const [userSavings, setUserSavings] = useState<number>(0);
   const [userLoansNumber, setUserLoansNumber] = useState<number>(0);
   const [userLoansSum, setUserLoansSum] = useState<number>(0);
+  const [sumOfIncome, setSumOfIncome] = useState<number>(0);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   const getUserImage = async () => {
@@ -64,6 +65,15 @@ const ProfileInformation = () => {
     };
     fetchUserLoansInformation();
   }, [userSavings]);
+  useEffect(() => {
+    axios.get(`${api}incomes/getSumInCurrentMonth`)
+    .then((response) =>{
+        setSumOfIncome(response.data);
+    }).catch((error) => {
+      handleError(error);
+    })
+    ;
+  },[])
 
   const handleFileChange = async (
     event: React.ChangeEvent<HTMLInputElement>
@@ -138,7 +148,10 @@ const ProfileInformation = () => {
           <hr />
           <div className="financialInformationBoxText">
             <div className="financialInformationBoxTextRow">
-              <p>Monthly income:</p>
+              <p>Income in this month:</p>
+              <p className="financialInformationBoxTextRowFetchedData">
+                {sumOfIncome} zł
+              </p>
             </div>
           </div>
           <div className="financialInformationBoxText">

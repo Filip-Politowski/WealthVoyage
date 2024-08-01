@@ -5,6 +5,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.data.domain.Pageable;
+
+import java.time.LocalDate;
 import java.time.temporal.Temporal;
 import java.util.Date;
 import java.util.Optional;
@@ -23,6 +25,10 @@ public interface IncomeRepository extends JpaRepository<Income, Long> {
             @Param("typeOfIncome") TypeOfIncome typeOfIncome,
             Pageable pageable
     );
+
+
+
+
     @Query("SELECT i FROM Income i WHERE i.username = :username AND i.incomeDate >= :startDate AND i.incomeDate <= :endDate AND i.incomeStatus = :incomeStatus AND i.typeofIncome = :typeOfIncome")
     Page<Income> findIncomesByUsernameAndDateRangeAndStatusAndType(
             @Param("username") String username,
@@ -50,4 +56,5 @@ public interface IncomeRepository extends JpaRepository<Income, Long> {
             @Param("username") String username,
             @Param("typeOfIncome") TypeOfIncome typeOfIncome
     );
+
 }

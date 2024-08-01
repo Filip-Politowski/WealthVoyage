@@ -27,6 +27,11 @@ public class IncomeController {
             Pageable pageable) {
         return incomeService.getUserIncomeBySelectedMonthAndTypeOfIncomeAndStatusOfIncome(userDetails, monthDate, typeOfIncome, incomeStatus, pageable);
     }
+    @GetMapping("/getSumInCurrentMonth")
+    public Double getSumOfIncomeInCurrentMonth(@AuthenticationPrincipal UserDetails userDetails){
+        return incomeService.getUserIncomesInCurrentMonth(userDetails);
+    }
+
     @GetMapping("/filtered/range/{startDate}/{endDate}/{typeOfIncome}/{incomeStatus}")
     public Page<IncomeResponse> getUserIncomesByTimeRange(
             @AuthenticationPrincipal UserDetails userDetails,
@@ -49,7 +54,7 @@ public class IncomeController {
     }
 
 
-        @GetMapping("/all/inactive")
+    @GetMapping("/all/inactive")
     public Page<IncomeResponse> getAllInactiveUserIncomes(@AuthenticationPrincipal UserDetails userDetails, Pageable pageable) {
         return incomeService.getUserInactiveIncomes(userDetails, pageable);
     }
@@ -58,6 +63,7 @@ public class IncomeController {
     public IncomeResponse getUserSingleIncome(@AuthenticationPrincipal UserDetails userDetails, @PathVariable Long id) {
         return incomeService.getUserIncomeById(id, userDetails);
     }
+
 
     @PostMapping("/add")
     public void addUserIncome(@AuthenticationPrincipal UserDetails userdetails, @RequestBody IncomeRequest incomeRequest) {
