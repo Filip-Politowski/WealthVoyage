@@ -85,10 +85,10 @@ const DataTable = (props: Props) => {
         <tbody>
           {currentRows.map((row: any, index: number) => (
             <tr
-              key={index}
+              key={index + 1 + (currentPage - 1) * itemsPerPage}
               className={row.loanStatus === "UNPAID" ? "unpaidRow" : ""}
             >
-              <td>{index + 1}.</td>
+              <td>{index + 1 + (currentPage - 1) * itemsPerPage}.</td>
 
               {props.filteredKeys.map((key) => (
                 <td
@@ -141,7 +141,8 @@ const DataTable = (props: Props) => {
                               }
                             }
                             if (button === "paid") {
-                              props.setPaying && row.loanStatus === "UNPAID" &&
+                              props.setPaying &&
+                                row.loanStatus === "UNPAID" &&
                                 props.setPaying((prevPaying) => !prevPaying);
                               if (props.setElementId) {
                                 props.setElementId(row.id);

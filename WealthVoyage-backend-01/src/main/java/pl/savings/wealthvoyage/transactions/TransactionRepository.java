@@ -1,5 +1,7 @@
 package pl.savings.wealthvoyage.transactions;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import pl.savings.wealthvoyage.loans.Loan;
@@ -13,9 +15,11 @@ public interface TransactionRepository extends JpaRepository<Transaction, Long> 
 
    List<Transaction> findAllByLoanIdAndUsername(Long id, String username);
 
-    List<Transaction> findAllByUsername(String username);
+
 
     Transaction findByUsernameAndId(String username, long id);
+
+    Page<Transaction> findAllByUsername(String username, Pageable pageable);
 
     void deleteByUsernameAndId(String username, long id);
 }

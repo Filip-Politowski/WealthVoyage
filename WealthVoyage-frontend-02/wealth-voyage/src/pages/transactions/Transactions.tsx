@@ -15,7 +15,7 @@ const Transactions = () => {
     const fetchUserTransactions = async () => {
       try {
         const response = await axios.get(`${api}transactions/all`);
-        setTransactions(response.data);
+        setTransactions(response.data.content);
       } catch (error) {
         handleError(error);
       }
@@ -32,7 +32,7 @@ const Transactions = () => {
       <TransactionDataTable
         rows={transactions}
         columns={["Amount", "Date", "Category", "Transaction Type"]}
-        filteredKeys={["amount", "date", "category", "transactionType"]}
+        filteredKeys={["amount", "date", "transactionCategory", "transactionType"]}
         searchKeyFilter="date"
       />
       {open && <AddTransaction setOpen={setOpen} />}

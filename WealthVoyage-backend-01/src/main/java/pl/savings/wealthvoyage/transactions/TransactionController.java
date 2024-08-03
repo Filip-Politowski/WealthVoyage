@@ -1,6 +1,8 @@
 package pl.savings.wealthvoyage.transactions;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
@@ -18,8 +20,8 @@ public class TransactionController {
         return transactionService.findAllTransactionsByLoanId(id, userDetails);
     }
     @GetMapping("/all")
-    public List<TransactionResponse> getAllUserTransactions(@AuthenticationPrincipal UserDetails userDetails){
-        return transactionService.findAllTransactionsByUsername(userDetails);
+    public Page<TransactionResponse> getAllUserTransactions(@AuthenticationPrincipal UserDetails userDetails, Pageable pageable){
+        return transactionService.findAllTransactionsByUsername(userDetails, pageable);
     }
     @GetMapping("/{id}")
     public TransactionResponse getUserSingleTransaction (@AuthenticationPrincipal UserDetails userDetails, @PathVariable long id){

@@ -1,11 +1,10 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./pieChartBox.scss";
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from "recharts";
+import axios from "axios";
+import { handleError } from "../../helpers/ErrorHandler";
+const api = "http://localhost:8080/api/";
 
-const data = [
-  { name: "Saved", value: 700, color: "#4caf50" },
-  { name: "Goal", value: 300, color: "#e45807" },
-];
 
 const RADIAN = Math.PI / 180;
 
@@ -37,6 +36,38 @@ const renderCustomizedLabel = ({
 };
 
 const PieChartBox = () => {
+
+const [userSavings, setUserSavings] = useState<number>(0);
+const [userSavingsAmount, setUserSavingsAmount] = useState<number>(0);
+
+   useEffect(() => {
+     const fetchUserSavingsSum = async () => {
+       try {
+         const response = await axios.get(`${api}savingGoals/get/sum`);
+         setUserSavings(response.data);
+       } catch (error) {
+         handleError(error);
+       }
+     };
+     fetchUserSavingsSum();
+   }, [userSavings]);
+    useEffect(() => {
+      const fetchUserSavingsSum = async () => {
+        try {
+          const response = await axios.get(`${api}savingGoals/get/amount/sum`);
+          setUserSavingsAmount(response.data);
+        } catch (error) {
+          handleError(error);
+        }
+      };
+      fetchUserSavingsSum();
+    }, [userSavings]);
+
+
+const data = [
+  { name: "Saved", value: userSavings, color: "#02735e" },
+  { name: "Goal", value: userSavingsAmount, color: "#F28705" },
+];
   return (
     <div className="pieChartBox">
       <h1>Goals</h1>

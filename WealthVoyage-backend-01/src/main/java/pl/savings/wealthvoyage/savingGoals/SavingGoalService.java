@@ -42,4 +42,7 @@ public class SavingGoalService {
     public Double getUserSavingGoalSum(@NotNull UserDetails userDetails){
         return savingGoalRepository.findAllByUsername(userDetails.getUsername()).orElseThrow(NoSuchElementException::new).stream().mapToDouble(SavingGoal::getAmountSaved).sum();
     }
+    public Double getUserSavingGoalAmountSum(@NotNull UserDetails userDetails){
+        return savingGoalRepository.findAllByUsername(userDetails.getUsername()).orElseThrow(NoSuchElementException::new).stream().mapToDouble(SavingGoal::getSavingGoalAmount).sum();
+    }
 }

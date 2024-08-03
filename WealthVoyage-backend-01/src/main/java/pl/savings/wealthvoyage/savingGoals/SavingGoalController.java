@@ -23,6 +23,10 @@ public class SavingGoalController {
     public Double  getUserSavingGoalsSum(@AuthenticationPrincipal UserDetails userDetails){
         return savingGoalService.getUserSavingGoalSum(userDetails);
     }
+    @GetMapping(value = "/get/amount/sum")
+    public Double  getUserSavingGoalsAmountSum(@AuthenticationPrincipal UserDetails userDetails){
+        return savingGoalService.getUserSavingGoalAmountSum(userDetails);
+    }
 
     @PostMapping(value = "/add")
     public SavingGoal saveUserSavingGoal(@RequestBody SavingGoalRequest savingGoalRequest, @AuthenticationPrincipal UserDetails userDetails){

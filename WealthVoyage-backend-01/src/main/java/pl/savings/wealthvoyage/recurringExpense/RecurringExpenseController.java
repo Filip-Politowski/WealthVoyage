@@ -45,6 +45,10 @@ public class RecurringExpenseController {
     public Map<String,Double> getUserSumOfExpensesInCurrentMonth(@AuthenticationPrincipal UserDetails userDetails){
         return recurringExpenseService.getUserSumsOfExpensesInCurrentMonth(userDetails);
     }
+    @GetMapping("/amountOfSumsInCurrentMonth")
+    public Double getUserAmountOfRecurringExpensesInCurrentMonth(@AuthenticationPrincipal UserDetails userDetails){
+        return recurringExpenseService.getAmountOfSumUserExpensesInCurrentMonth(userDetails);
+    }
 
     @PostMapping("/add")
     public RecurringExpense addUserRecurringExpense(@RequestBody RecurringExpenseRequest recurringExpenseRequest, @AuthenticationPrincipal UserDetails userDetails) {

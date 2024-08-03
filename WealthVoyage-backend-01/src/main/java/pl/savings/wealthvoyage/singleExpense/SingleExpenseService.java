@@ -74,16 +74,18 @@ public class SingleExpenseService {
         singleExpenseRepository.save(singleExpense);
     }
 
-    public Double calculateTotalExpensesForCurrentMonth(@NotNull UserDetails userDetails) {
+    public Double calculateTotalExpensesForCurrentMonth(UserDetails userDetails) {
         LocalDate today = LocalDate.now();
         LocalDate startOfMonth = today.withDayOfMonth(1);
         LocalDate endOfMonth = today.withDayOfMonth(today.lengthOfMonth());
 
-        return singleExpenseRepository.sumAmountByDateBetweenAndUsername(
+        Double totalExpenses = singleExpenseRepository.sumAmountByDateBetweenAndUsername(
                 java.sql.Date.valueOf(startOfMonth),
                 java.sql.Date.valueOf(endOfMonth),
                 userDetails.getUsername()
         );
+
+        return (totalExpenses != null) ? totalExpenses : 0.0;
     }
 
     public Double calculateTotalExpensesForLastThreeMonths(@NotNull UserDetails userDetails) {

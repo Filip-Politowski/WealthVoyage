@@ -14,6 +14,8 @@ const ProfileInformation = () => {
   const [userLoansSum, setUserLoansSum] = useState<number>(0);
   const [sumOfIncome, setSumOfIncome] = useState<number>(0);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
+  const [fixedExpensesSum, setFixedExpensesSum] = useState<number>(0);
+  const [additionalExpensesSum, setAdditionalExpensesSum] = useState<number>(0);
 
   const getUserImage = async () => {
     try {
@@ -66,14 +68,41 @@ const ProfileInformation = () => {
     fetchUserLoansInformation();
   }, [userSavings]);
   useEffect(() => {
-    axios.get(`${api}incomes/getSumInCurrentMonth`)
-    .then((response) =>{
+    axios
+      .get(`${api}incomes/getSumInCurrentMonth`)
+      .then((response) => {
         setSumOfIncome(response.data);
-    }).catch((error) => {
-      handleError(error);
-    })
-    ;
-  },[])
+      })
+      .catch((error) => {
+        handleError(error);
+      });
+  }, []);
+  useEffect(() => {
+    const fetchRecurringExpensesSum = () => {
+      axios
+        .get(`${api}recurringExpenses/amountOfSumsInCurrentMonth`)
+        .then((response) => {
+          setFixedExpensesSum(response.data);
+        })
+        .catch((error) => {
+          handleError(error);
+        });
+    };
+    fetchRecurringExpensesSum();
+  }, []);
+    useEffect(() => {
+      const fetchSingleExpensesSum = () => {
+        axios
+          .get(`${api}singleExpenses/monthly`)
+          .then((response) => {
+            setAdditionalExpensesSum(response.data);
+          })
+          .catch((error) => {
+            handleError(error);
+          });
+      };
+      fetchSingleExpensesSum();
+    }, []);
 
   const handleFileChange = async (
     event: React.ChangeEvent<HTMLInputElement>
@@ -143,20 +172,20 @@ const ProfileInformation = () => {
       <div className="userFinancialInformation">
         <div className="financialInformationBox">
           <div className="financialInformationBoxHeader">
-            <h2>Fixed income and savings</h2>
+            <h2>Incomes and savings</h2>
           </div>
           <hr />
           <div className="financialInformationBoxText">
             <div className="financialInformationBoxTextRow">
-              <p>Income in this month:</p>
+              <p>Income in current month:</p>
               <p className="financialInformationBoxTextRowFetchedData">
-                {sumOfIncome} zł
+                {sumOfIncome.toFixed(2)} zł
               </p>
             </div>
           </div>
           <div className="financialInformationBoxText">
             <div className="financialInformationBoxTextRow">
-              <p>Savings:</p>
+              <p>Sum of all savings:</p>
               <p className="financialInformationBoxTextRowFetchedData">
                 {userSavings.toFixed(2)} zł
               </p>
@@ -170,12 +199,18 @@ const ProfileInformation = () => {
           <hr />
           <div className="financialInformationBoxText">
             <div className="financialInformationBoxTextRow">
-              <p>Monthly expense :</p>
+              <p>Fixed expenses in current month :</p>
+              <p className="financialInformationBoxTextRowFetchedData">
+                {fixedExpensesSum.toFixed(2)} zł
+              </p>
             </div>
           </div>
           <div className="financialInformationBoxText">
             <div className="financialInformationBoxTextRow">
-              <p>Savings: </p>
+              <p>Additional expenses this month: </p>
+              <p className="financialInformationBoxTextRowFetchedData">
+                {additionalExpensesSum.toFixed(2)} zł
+              </p>
             </div>
           </div>
         </div>

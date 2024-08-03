@@ -3,6 +3,9 @@ package pl.savings.wealthvoyage.transactions;
 import lombok.RequiredArgsConstructor;
 
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -59,9 +62,11 @@ public class TransactionService {
         return transactionMapper.toTransactionResponses(transactionRepository.findAllByLoanIdAndUsername(id, userDetails.getUsername()));
     }
 
+    public Page<TransactionResponse> findAllTransactionsByUsername(UserDetails userDetails, Pageable pageable) {
+        Page<Transaction> transactionsPage = transactionRepository.findAllByUsername(userDetails.getUsername(), pageable);
+        List<TransactionResponse> transactionResponses = transactionMapper.toTransactionResponses(transactionsPage.getContent());
 
-    public List<TransactionResponse> findAllTransactionsByUsername(UserDetails userDetails) {
-        return transactionMapper.toTransactionResponses(transactionRepository.findAllByUsername(userDetails.getUsername()));
+        return new PageImpl<>(transactionResponses, pageable, transactionsPage.getTotalElements());
     }
 
     public TransactionResponse findTransactionByUsernameAndId(UserDetails userDetails, long id) {

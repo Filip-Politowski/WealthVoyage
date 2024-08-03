@@ -17,7 +17,8 @@ const TransactionDataTable = (props: Props) => {
   const itemsPerPage = 5;
   const [currentPage, setCurrentPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState("");
-
+  console.log(props.columns)
+  console.log(props.rows);
   const totalPages = Math.ceil(props.rows.length / itemsPerPage);
 
   const handlePageChange = (page: number) => {
@@ -64,8 +65,8 @@ const TransactionDataTable = (props: Props) => {
         </thead>
         <tbody>
           {currentRows.map((row: any, index: number) => (
-            <tr key={index}>
-              <td>{index + 1}.</td>
+            <tr key={index + 1 + (currentPage - 1) * itemsPerPage}>
+              <td>{index + 1 + (currentPage - 1) * itemsPerPage}.</td>
               {props.filteredKeys.map((key) => (
                 <td
                   key={key}

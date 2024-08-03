@@ -60,10 +60,30 @@ public class RecurringExpenseService {
         totalsDependingOnFrequencyOfOccurrence.put(ExpenseFrequency.BIMONTHLY.toString(), sumOfBimonthlyRecurringExpenses);
         totalsDependingOnFrequencyOfOccurrence.put(ExpenseFrequency.YEARLY.toString(), sumOfYearlyRecurringExpenses);
 
-        System.out.println(totalsDependingOnFrequencyOfOccurrence);
-
         return totalsDependingOnFrequencyOfOccurrence;
     }
+    public Double getAmountOfSumUserExpensesInCurrentMonth(UserDetails userDetails) {
+
+        YearMonth currentMonth = YearMonth.now();
+
+        LocalDate startLocalDate = currentMonth.atDay(1);
+        LocalDate endLocalDate = currentMonth.atEndOfMonth();
+
+        Date startDate = Date.from(startLocalDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+        Date endDate = Date.from(endLocalDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+
+        List<RecurringExpense> listOfRecurringExpensesInCurrentMonth = recurringExpenseRepository.findAllByUsernameAndCurrentMonth(userDetails.getUsername(), startDate, endDate);
+
+        Double sumOfWeeklyRecurringExpenses = listOfRecurringExpensesInCurrentMonth.stream().filter(recurringExpense -> recurringExpense.getExpenseFrequency().equals(ExpenseFrequency.WEEKLY)).mapToDouble(RecurringExpense::getAmount).sum();
+        Double sumOfMonthlyRecurringExpenses = listOfRecurringExpensesInCurrentMonth.stream().filter(recurringExpense -> recurringExpense.getExpenseFrequency().equals(ExpenseFrequency.MONTHLY)).mapToDouble(RecurringExpense::getAmount).sum();
+        Double sumOfBimonthlyRecurringExpenses = listOfRecurringExpensesInCurrentMonth.stream().filter(recurringExpense -> recurringExpense.getExpenseFrequency().equals(ExpenseFrequency.BIMONTHLY)).mapToDouble(RecurringExpense::getAmount).sum();
+        Double sumOfYearlyRecurringExpenses = listOfRecurringExpensesInCurrentMonth.stream().filter(recurringExpense -> recurringExpense.getExpenseFrequency().equals(ExpenseFrequency.YEARLY)).mapToDouble(RecurringExpense::getAmount).sum();
+
+
+
+        return sumOfBimonthlyRecurringExpenses + sumOfMonthlyRecurringExpenses + sumOfYearlyRecurringExpenses + sumOfWeeklyRecurringExpenses;
+    }
+
 
 
     public RecurringExpense saveUserRecurringExpense(RecurringExpenseRequest recurringExpenseRequest, @NotNull UserDetails userDetails) {
