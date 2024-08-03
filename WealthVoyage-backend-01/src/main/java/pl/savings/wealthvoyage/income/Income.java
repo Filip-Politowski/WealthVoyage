@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import pl.savings.wealthvoyage.transactions.Transaction;
 
 import java.util.Date;
 
@@ -30,6 +31,8 @@ public class Income {
     private String description;
     @Enumerated(EnumType.STRING)
     private IncomeStatus incomeStatus;
+    @OneToOne(mappedBy = "income")
+    private Transaction transaction;
 
 
 }

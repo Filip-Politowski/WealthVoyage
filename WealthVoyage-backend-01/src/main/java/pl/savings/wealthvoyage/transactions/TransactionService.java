@@ -84,4 +84,18 @@ public class TransactionService {
         transaction.setUsername(userDetails.getUsername());
         transactionRepository.save(transaction);
     }
+
+    @Transactional
+    public void addIncomeTransaction(Income income) {
+        Transaction transaction = Transaction.builder()
+                .username(income.getUsername())
+                .amount(income.getAmount())
+                .transactionName("Income: " + income.getSourceOfIncome())
+                .transactionType(TransactionType.INCOME)
+                .transactionCategory(TransactionCategory.valueOf(income.getTypeofIncome().toString()))
+                .date(income.getIncomeDate())
+                .income(income)
+                .build();
+        transactionRepository.save(transaction);
+    }
 }

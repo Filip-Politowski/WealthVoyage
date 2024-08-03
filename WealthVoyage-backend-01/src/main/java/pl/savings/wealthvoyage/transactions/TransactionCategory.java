@@ -11,5 +11,8 @@ public enum TransactionCategory {
     EDUCATION,
     SAVINGS,
     DEBT,
+    FIXED_INCOME,
+    SUPPLEMENTARY_INCOME,
+    SINGLE_PAYMENT,
     OTHER
 }

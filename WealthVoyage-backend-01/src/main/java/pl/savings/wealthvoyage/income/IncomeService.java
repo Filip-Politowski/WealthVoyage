@@ -13,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 import pl.savings.wealthvoyage.exceptions.InvalidNumberOfMonthsException;
+import pl.savings.wealthvoyage.transactions.TransactionService;
 
 import java.lang.reflect.Type;
 import java.time.LocalDate;
@@ -29,6 +30,7 @@ import java.util.stream.Collectors;
 public class IncomeService {
     private final IncomeRepository incomeRepository;
     private final IncomeMapper incomeMapper;
+    private final TransactionService transactionService;
 
     public IncomeResponse getUserIncomeById(Long id, @NotNull UserDetails userDetails) {
         return incomeMapper.toIncomeResponse(incomeRepository.findByIdAndUsername(id, userDetails.getUsername()).orElseThrow(NoSuchElementException::new));
@@ -50,10 +52,10 @@ public class IncomeService {
         return incomePage.map(incomeMapper::toIncomeResponse);
     }
 
-    public Double getUserIncomesInCurrentMonth(UserDetails userDetails){
+    public Double getUserIncomesInCurrentMonth(UserDetails userDetails) {
         List<Income> incomes = incomeRepository.findAll();
         Double amountSumOfFixedIncomes = incomes.stream()
-                .filter(income -> income.getTypeofIncome() == TypeOfIncome.FIXED_INCOME && income.getIncomeStatus() ==  IncomeStatus.ACTIVE && Objects.equals(income.getUsername(), userDetails.getUsername()))
+                .filter(income -> income.getTypeofIncome() == TypeOfIncome.FIXED_INCOME && income.getIncomeStatus() == IncomeStatus.ACTIVE && Objects.equals(income.getUsername(), userDetails.getUsername()))
                 .mapToDouble(Income::getAmount)
                 .sum();
 
@@ -64,13 +66,13 @@ public class IncomeService {
 
         Double amountSumOfSupplementaryIncomesInCurrentMonth = incomes.stream()
                 .filter(income -> income.getTypeofIncome() == TypeOfIncome.SUPPLEMENTARY_INCOME
-                && income.getIncomeStatus().equals(IncomeStatus.ACTIVE)
-                        && income.getIncomeDate().toString().substring(0,7).equals(formattedDate))
+                        && income.getIncomeStatus().equals(IncomeStatus.ACTIVE)
+                        && income.getIncomeDate().toString().substring(0, 7).equals(formattedDate))
                 .mapToDouble(Income::getAmount)
                 .sum();
         Double amountSumOfSinglePaymentIncomesInCurrentMonth = incomes.stream()
                 .filter(income -> income.getTypeofIncome() == TypeOfIncome.SINGLE_PAYMENT
-                        && income.getIncomeDate().toString().substring(0,7).equals(formattedDate))
+                        && income.getIncomeDate().toString().substring(0, 7).equals(formattedDate))
                 .mapToDouble(Income::getAmount)
                 .sum();
 
@@ -128,7 +130,11 @@ public class IncomeService {
         Income income = incomeMapper.toIncome(incomeRequest);
         income.setIncomeStatus(IncomeStatus.ACTIVE);
         income.setUsername(userDetails.getUsername());
-        return incomeRepository.save(income);
+        incomeRepository.save(income);
+        if (income.getTypeofIncome().equals(TypeOfIncome.SINGLE_PAYMENT)) {
+            transactionService.addIncomeTransaction(income);
+        }
+        return income;
     }
 
     @Transactional
@@ -170,6 +176,9 @@ public class IncomeService {
                     throw new NoSuchElementException("Income not found for user " + userDetails.getUsername() + " and id " + id);
                 }
         );
+    }
+    public List<Income> getAllIncomesWithoutSinglePayment(){
+        return incomeRepository.findAllIncomesWhereTypeIsFixedOrSupplementaryAndStatusActive();
     }
 
 }

@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.web.bind.annotation.Mapping;
+import pl.savings.wealthvoyage.income.Income;
 import pl.savings.wealthvoyage.loans.Loan;
 import pl.savings.wealthvoyage.savingGoals.SavingGoal;
 
@@ -49,5 +50,9 @@ public class Transaction {
     @ManyToOne
     @JoinColumn(name = "saving_goal_id")
     private SavingGoal savingsGoal;
+
+    @OneToOne
+    @JoinColumn(name = "income_id")
+    private Income income;
 
 }

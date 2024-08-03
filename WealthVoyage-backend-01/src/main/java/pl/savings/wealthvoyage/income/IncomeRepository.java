@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 import java.time.LocalDate;
 import java.time.temporal.Temporal;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -25,6 +26,9 @@ public interface IncomeRepository extends JpaRepository<Income, Long> {
             @Param("typeOfIncome") TypeOfIncome typeOfIncome,
             Pageable pageable
     );
+
+    @Query("SELECT i FROM Income  i WHERE (i.typeofIncome = 'FIXED_INCOME' OR i.typeofIncome = 'SUPPLEMENTARY_INCOME') AND i.incomeStatus = 'ACTIVE'")
+    List<Income> findAllIncomesWhereTypeIsFixedOrSupplementaryAndStatusActive();
 
 
 
