@@ -2,8 +2,10 @@ package pl.savings.wealthvoyage.recurringExpense;
 
 import jakarta.persistence.*;
 import lombok.*;
+import pl.savings.wealthvoyage.transactions.Transaction;
 
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Builder
@@ -24,7 +26,8 @@ public class RecurringExpense {
     private String description;
     @Temporal(TemporalType.DATE)
     private Date date;
-
+    @OneToMany(mappedBy = "recurringExpense")
+    private List<Transaction> transaction;
 
 
 }

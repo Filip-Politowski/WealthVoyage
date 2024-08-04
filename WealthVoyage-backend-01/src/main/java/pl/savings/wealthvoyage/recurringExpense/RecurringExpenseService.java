@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import pl.savings.wealthvoyage.transactions.TransactionService;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -20,7 +21,7 @@ import java.util.*;
 public class RecurringExpenseService {
     private final RecurringExpenseRepository recurringExpenseRepository;
     private final RecurringExpenseMapper recurringExpenseMapper;
-
+    private final TransactionService transactionService;
 
 
     public RecurringExpenseResponse getUserRecurringExpense(Long id, @NotNull UserDetails userDetails) {
@@ -62,6 +63,7 @@ public class RecurringExpenseService {
 
         return totalsDependingOnFrequencyOfOccurrence;
     }
+
     public Double getAmountOfSumUserExpensesInCurrentMonth(UserDetails userDetails) {
 
         YearMonth currentMonth = YearMonth.now();
@@ -80,10 +82,8 @@ public class RecurringExpenseService {
         Double sumOfYearlyRecurringExpenses = listOfRecurringExpensesInCurrentMonth.stream().filter(recurringExpense -> recurringExpense.getExpenseFrequency().equals(ExpenseFrequency.YEARLY)).mapToDouble(RecurringExpense::getAmount).sum();
 
 
-
         return sumOfBimonthlyRecurringExpenses + sumOfMonthlyRecurringExpenses + sumOfYearlyRecurringExpenses + sumOfWeeklyRecurringExpenses;
     }
-
 
 
     public RecurringExpense saveUserRecurringExpense(RecurringExpenseRequest recurringExpenseRequest, @NotNull UserDetails userDetails) {
@@ -122,8 +122,8 @@ public class RecurringExpenseService {
         Date today = Date.from(LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant());
 
         return !expenseDate.after(today);
-
     }
+
     private void updateExpenseDate(RecurringExpense recurringExpense) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(recurringExpense.getDate());
@@ -145,6 +145,20 @@ public class RecurringExpenseService {
             }
         }
         recurringExpense.setDate(calendar.getTime());
+    }
+
+    public void addRecurringExpenseTransactionToDataBase(){
+        List<RecurringExpense> recurringExpenses = recurringExpenseRepository.findAll();
+        for(RecurringExpense recurringExpense: recurringExpenses){
+            if(shouldAddNewTransactionToDataBase(recurringExpense)){
+                transactionService.addRecurringExpenseTransaction(recurringExpense);
+            }
+        }
+    }
+    private boolean shouldAddNewTransactionToDataBase(RecurringExpense recurringExpense) {
+        Date expenseDate = recurringExpense.getDate();
+        Date today = Date.from(LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant());
+        return expenseDate.equals(today);
     }
 
 

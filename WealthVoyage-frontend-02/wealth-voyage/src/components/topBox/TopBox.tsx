@@ -7,7 +7,7 @@ const api = "http://localhost:8080/api/";
 const TopBox = () => {
 
 const [transactions, setTransactions] = useState<Transaction[]>([]);
-
+   
    useEffect(() => {
      const fetchUserTransactions = async () => {
        try {
@@ -25,7 +25,7 @@ const [transactions, setTransactions] = useState<Transaction[]>([]);
      };
      fetchUserTransactions();
    }, []);
-
+ 
   return (
     <div className="topBox">
       <h1>Last transactions</h1>
@@ -42,6 +42,9 @@ const [transactions, setTransactions] = useState<Transaction[]>([]);
                 <span className="transactionDate">{transaction.date}</span>
                 <span className="transactionType">
                   {transaction.transactionType}
+                </span>
+                <span className="transactionType">
+                  
                   {transaction.transactionCategory}
                 </span>
               </div>

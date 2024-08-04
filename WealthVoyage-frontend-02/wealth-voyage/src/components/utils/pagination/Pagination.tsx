@@ -1,5 +1,5 @@
 import React from "react";
-
+import "./pagination.scss"
 type Props = {
   currentPage: number;
   startIndex: number;
@@ -14,23 +14,27 @@ type Props = {
 const pagination = (props: Props) => {
   return (
     <div className="pagination">
-      <button
-        onClick={() => props.handlePageChange(props.currentPage - 1)}
-        disabled={props.currentPage === 1}
-      >
-        Previous
-      </button>
+      {props.currentPage > 1 && (
+        <button
+          onClick={() => props.handlePageChange(props.currentPage - 1)}
+          disabled={props.currentPage === 1}
+        >
+          Previous
+        </button>
+      )}
       <span>
         {props.startIndex + 1}-
         {props.endIndex - (props.itemsPerPage - props.currentRows.length)} of{" "}
         {props.filteredRows.length}
       </span>
-      <button
-        onClick={() => props.handlePageChange(props.currentPage + 1)}
-        disabled={props.currentPage === props.totalPages}
-      >
-        Next
-      </button>
+      {props.currentPage < props.totalPages && (
+        <button
+          onClick={() => props.handlePageChange(props.currentPage + 1)}
+          disabled={props.currentPage === props.totalPages}
+        >
+          Next
+        </button>
+      )}
     </div>
   );
 };

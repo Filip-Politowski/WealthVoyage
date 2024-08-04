@@ -14,5 +14,8 @@ public enum TransactionCategory {
     FIXED_INCOME,
     SUPPLEMENTARY_INCOME,
     SINGLE_PAYMENT,
-    OTHER
+    SUBSCRIPTION,
+    HOUSE,
+    CHARGES,
+    OTHER,
 }

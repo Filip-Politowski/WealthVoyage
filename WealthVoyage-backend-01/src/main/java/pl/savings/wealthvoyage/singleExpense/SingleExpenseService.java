@@ -9,6 +9,7 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import pl.savings.wealthvoyage.transactions.TransactionService;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -22,6 +23,7 @@ import java.util.stream.Collectors;
 public class SingleExpenseService {
     private final SingleExpenseRepository singleExpenseRepository;
     private final SingleExpenseMapper singleExpenseMapper;
+    private final TransactionService transactionService;
 
 
     public SingleExpenseResponse getUserSingleExpenseById(Long id, @NotNull UserDetails userDetails) {
@@ -58,7 +60,9 @@ public class SingleExpenseService {
     public SingleExpense saveUserSingleExpense(SingleExpenseRequest singleExpenseRequest, @NotNull UserDetails userDetails) {
         SingleExpense singleExpense = singleExpenseMapper.toSingleExpense(singleExpenseRequest);
         singleExpense.setUsername(userDetails.getUsername());
-        return singleExpenseRepository.save(singleExpense);
+        singleExpenseRepository.save(singleExpense);
+        transactionService.addSingleExpenseTransaction(singleExpense);
+        return singleExpense;
     }
 
     @Transactional

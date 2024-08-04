@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.savings.wealthvoyage.income.*;
 import pl.savings.wealthvoyage.loans.Loan;
+import pl.savings.wealthvoyage.recurringExpense.RecurringExpense;
 import pl.savings.wealthvoyage.singleExpense.ExpenseCategory;
 import pl.savings.wealthvoyage.singleExpense.SingleExpense;
 import pl.savings.wealthvoyage.singleExpense.SingleExpenseRepository;
@@ -95,6 +96,33 @@ public class TransactionService {
                 .transactionCategory(TransactionCategory.valueOf(income.getTypeofIncome().toString()))
                 .date(income.getIncomeDate())
                 .income(income)
+                .build();
+        transactionRepository.save(transaction);
+    }
+
+    @Transactional
+    public void addSingleExpenseTransaction(SingleExpense singleExpense){
+        Transaction transaction = Transaction.builder()
+                .username(singleExpense.getUsername())
+                .amount(singleExpense.getAmount())
+                .transactionName("Single Expense: " + singleExpense.getDescription())
+                .transactionType(TransactionType.EXPENSE)
+                .transactionCategory(TransactionCategory.valueOf(singleExpense.getExpenseCategory().toString()))
+                .date(singleExpense.getDate())
+                .singleExpense(singleExpense)
+                .build();
+        transactionRepository.save(transaction);
+    }
+
+    public void addRecurringExpenseTransaction(RecurringExpense recurringExpense) {
+        Transaction transaction = Transaction.builder()
+                .username(recurringExpense.getUsername())
+                .amount(recurringExpense.getAmount())
+                .transactionName("Recurring Expense: " + recurringExpense.getExpenseName())
+                .transactionType(TransactionType.EXPENSE)
+                .transactionCategory(TransactionCategory.valueOf(recurringExpense.getExpenseType().toString()))
+                .date(recurringExpense.getDate())
+                .recurringExpense(recurringExpense)
                 .build();
         transactionRepository.save(transaction);
     }

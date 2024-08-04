@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import pl.savings.wealthvoyage.transactions.Transaction;
 
 import java.util.Date;
 
@@ -26,4 +27,6 @@ public class SingleExpense {
     private String description;
     @Enumerated(EnumType.STRING)
     private ExpenseCategory expenseCategory;
+    @OneToOne(mappedBy = "singleExpense")
+    private Transaction transaction;
 }

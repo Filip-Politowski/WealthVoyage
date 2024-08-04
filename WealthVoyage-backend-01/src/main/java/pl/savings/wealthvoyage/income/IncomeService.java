@@ -177,7 +177,22 @@ public class IncomeService {
                 }
         );
     }
-    public List<Income> getAllIncomesWithoutSinglePayment(){
+
+    public void addIncomeToTransactionOnTheDate() {
+        List<Income> incomes = getAllIncomesWithoutSinglePayment();
+        LocalDate today = LocalDate.now();
+        String formattedMonth = String.format("%02d", today.getMonthValue());
+
+        for (Income income : incomes) {
+            String incomeFormattedDate = String.format("%02d", income.getIncomeDate().getMonth() + 1);
+
+            if (incomeFormattedDate.equals(formattedMonth)) {
+                transactionService.addIncomeTransaction(income);
+            }
+        }
+    }
+
+    private List<Income> getAllIncomesWithoutSinglePayment() {
         return incomeRepository.findAllIncomesWhereTypeIsFixedOrSupplementaryAndStatusActive();
     }
 
