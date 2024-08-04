@@ -14,7 +14,7 @@ const [transactions, setTransactions] = useState<Transaction[]>([]);
          const response = await axios.get(`${api}transactions/all`, {
            params: {
              page: 0,
-             size: 8,
+             size: 5,
              sort: "date,desc",
            },
          });
@@ -42,6 +42,7 @@ const [transactions, setTransactions] = useState<Transaction[]>([]);
                 <span className="transactionDate">{transaction.date}</span>
                 <span className="transactionType">
                   {transaction.transactionType}
+                  {transaction.transactionCategory}
                 </span>
               </div>
             </div>

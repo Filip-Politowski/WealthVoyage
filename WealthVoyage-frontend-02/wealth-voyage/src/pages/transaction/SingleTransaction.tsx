@@ -16,9 +16,9 @@ const SingleTransaction = () => {
   const { id } = useParams();
     const [transaction, setTransaction] = useState<Transaction>({
       amount: 0,
-      category: "",
+      transactionCategory: "",
       date: "",
-      id: 0,
+      id: 0,                                                                    
       transactionType: "",
     });
   const [deleting, setDeleting] = useState<boolean>(false);

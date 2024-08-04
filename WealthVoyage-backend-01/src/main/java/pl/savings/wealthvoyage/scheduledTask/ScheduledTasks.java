@@ -24,15 +24,19 @@ public class ScheduledTasks {
 
         recurringExpenseService.UpdateRecurringExpensesAutomaticallyWhenTheDateExpires();
     }
-    @Scheduled(cron = "0 0 0 * * ?")
-    public void addIncomeToTransactionOnTheDate(){
-       List<Income> incomes =  incomeService.getAllIncomesWithoutSinglePayment();
-        LocalDate today = LocalDate.now();
 
-       for(Income income : incomes){
-          if(income.getIncomeDate().toString().equals(today.toString())){
-              transactionService.addIncomeTransaction(income);
-          }
-       }
+    @Scheduled(cron = "0 0 0 * * ?")
+    public void addIncomeToTransactionOnTheDate() {
+        List<Income> incomes = incomeService.getAllIncomesWithoutSinglePayment();
+        LocalDate today = LocalDate.now();
+        String formattedMonth = String.format("%02d", today.getMonthValue());
+
+        for (Income income : incomes) {
+            String incomeFormattedDate = String.format("%02d", income.getIncomeDate().getMonth() + 1);
+
+            if (incomeFormattedDate.equals(formattedMonth)) {
+                transactionService.addIncomeTransaction(income);
+            }
+        }
     }
 }

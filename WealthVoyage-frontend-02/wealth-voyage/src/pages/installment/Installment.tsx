@@ -124,7 +124,11 @@ const Installment = () => {
             </div>
             <div className="item">
               <label>Status: </label>
-              <p>{loan?.loanStatus === "PAID_OFF" ? "PAID IN THIS MONTH" : loan?.loanStatus}</p>
+              <p>
+                {loan?.loanStatus === "PAID_OFF"
+                  ? "PAID IN THIS MONTH"
+                  : loan?.loanStatus}
+              </p>
             </div>
           </div>
           <div className="progressContainer">
@@ -149,7 +153,7 @@ const Installment = () => {
             <tbody>
               {currentTransactions.map((transaction) => (
                 <tr>
-                  <td>{transaction.category}</td>
+                  <td>{transaction.transactionCategory}</td>
                   <td>{transaction.amount.toFixed(2)} zł</td>
                   <td>{transaction.date}</td>
                 </tr>
@@ -174,12 +178,7 @@ const Installment = () => {
           </div>
         </div>
       </div>
-      {open && (
-        <UpdateLoan
-          setOpen={setOpen}
-          loan={loan}
-        />
-      )}
+      {open && <UpdateLoan setOpen={setOpen} loan={loan} />}
     </div>
   );
 };

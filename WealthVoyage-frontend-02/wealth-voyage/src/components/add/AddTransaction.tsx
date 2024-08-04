@@ -12,7 +12,7 @@ type Props = {
 const AddTransaction = (props: Props) => {
   const [transaction, setTransaction] = useState<Transaction>({
     amount: 0,
-    category: "",
+    transactionCategory: "",
     date: "",
     id: 0,
     transactionType: "INCOME",
@@ -28,7 +28,7 @@ const AddTransaction = (props: Props) => {
         props.setOpen(false);
         setTransaction({
           amount: 0,
-          category: "",
+          transactionCategory: "",
           date: "",
           id: 0,
           transactionType: "",
@@ -96,7 +96,7 @@ const AddTransaction = (props: Props) => {
             <input
               type="text"
               name="category"
-              value={transaction.category}
+              value={transaction.transactionCategory}
               onChange={handleAddNewTransactionDataChange}
               placeholder="Type transaction name..."
             ></input>

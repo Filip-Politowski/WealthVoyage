@@ -79,7 +79,7 @@ console.log(income)
               name="amount"
               value={income.amount}
               onChange={handleAddNewIncomeDataChange}
-              placeholder="Type amount of income..."
+              min={0.01}
             ></input>
           </div>
           <div className="item">
@@ -88,6 +88,7 @@ console.log(income)
               type="date"
               name="incomeDate"
               value={income.incomeDate}
+              required
               onChange={handleAddNewIncomeDataChange}
             ></input>
           </div>
@@ -98,7 +99,7 @@ console.log(income)
               value={income.sourceOfIncome}
               onChange={handleAddNewIncomeSelectChange}
             >
-              <option value="EMPLOYMENT_CONTRACT" >Employment contract</option>
+              <option value="EMPLOYMENT_CONTRACT">Employment contract</option>
               <option value="B2B">B2B</option>
               <option value="CONTRACT">Contract</option>
               <option value="RETIREMENT">Retirement</option>
@@ -113,8 +114,9 @@ console.log(income)
               value={income.typeOfIncome}
               onChange={handleAddNewIncomeSelectChange}
             >
-              <option value="FIXED_INCOME" >Fixed income</option>
+              <option value="FIXED_INCOME">Fixed income</option>
               <option value="SUPPLEMENTARY_INCOME">Supplementary income</option>
+              <option value="SINGLE_PAYMENT">Single payment</option>
             </select>
           </div>
           <div className="item">

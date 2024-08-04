@@ -13,9 +13,9 @@ type Props = {
 const UpdateTransaction = (props: Props) => {
   const [transaction, setTransaction] = useState<Transaction>({
     amount: props.transaction.amount,
-    category: props.transaction.category,
+    transactionCategory: props.transaction.transactionCategory,
     date: props.transaction.date,
-    id: props.transaction.id ,
+    id: props.transaction.id,
     transactionType: props.transaction.transactionType,
   });
 
