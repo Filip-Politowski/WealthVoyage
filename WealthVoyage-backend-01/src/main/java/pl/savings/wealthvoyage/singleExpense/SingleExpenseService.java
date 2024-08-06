@@ -76,6 +76,7 @@ public class SingleExpenseService {
         singleExpense.setUsername(userDetails.getUsername());
         singleExpense.setId(id);
         singleExpenseRepository.save(singleExpense);
+        transactionService.updateSingleExpenseTransaction(singleExpense, userDetails);
     }
 
     public Double calculateTotalExpensesForCurrentMonth(UserDetails userDetails) {

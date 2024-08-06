@@ -56,6 +56,15 @@ public class TransactionService {
         transactionRepository.deleteByUsernameAndPlannedExpense(userDetails.getUsername(), plannedExpense);
     }
 
+    @Transactional
+    public void deleteTransactionBySingleExpense(UserDetails userDetails, SingleExpense singleExpense) {
+        transactionRepository.deleteByUsernameAndSingleExpense(userDetails.getUsername(), singleExpense);
+    }
+    @Transactional
+    public void deleteTransactionByIncome(UserDetails userDetails, Income income){
+        transactionRepository.deleteByUsernameAndIncome(userDetails.getUsername(), income);
+    }
+
     public void updateUserTransaction(UserDetails userDetails, long id, TransactionRequest transactionRequest) {
         Transaction transaction = transactionMapper.toTransaction(transactionRequest);
         transaction.setId(id);
@@ -131,5 +140,27 @@ public class TransactionService {
                 .loan(loan)
                 .build();
         transactionRepository.save(transaction);
+    }
+
+    @Transactional
+    public void updateSingleExpenseTransaction(SingleExpense singleExpense, UserDetails userDetails) {
+        Transaction existingTransaction = transactionRepository.findByUsernameAndSingleExpense(userDetails.getUsername(), singleExpense);
+        existingTransaction.setTransactionName("Single Expense: " + singleExpense.getDescription());
+        existingTransaction.setAmount(singleExpense.getAmount());
+        existingTransaction.setDate(singleExpense.getDate());
+        existingTransaction.setTransactionCategory(TransactionCategory.valueOf(singleExpense.getExpenseCategory().toString()));
+
+        transactionRepository.save(existingTransaction);
+    }
+
+    @Transactional
+    public void updateIncomeTransaction(Income income, UserDetails userDetails) {
+        Transaction existingTransaction = transactionRepository.findByUsernameAndIncome(userDetails.getUsername(), income);
+        existingTransaction.setTransactionName("Income: " + income.getSourceOfIncome());
+        existingTransaction.setAmount(income.getAmount());
+        existingTransaction.setDate(income.getIncomeDate());
+        existingTransaction.setTransactionCategory(TransactionCategory.valueOf(income.getTypeofIncome().toString()));
+
+        transactionRepository.save(existingTransaction);
     }
 }
