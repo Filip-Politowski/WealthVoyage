@@ -17,5 +17,6 @@ public enum TransactionCategory {
     SUBSCRIPTION,
     HOUSE,
     CHARGES,
+    PLANNED_EXPENSE,
     OTHER,
 }

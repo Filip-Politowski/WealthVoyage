@@ -1,18 +1,12 @@
 package pl.savings.wealthvoyage.loans;
 
 import lombok.RequiredArgsConstructor;
-import org.hibernate.Hibernate;
 import org.jetbrains.annotations.NotNull;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import pl.savings.wealthvoyage.income.Income;
-import pl.savings.wealthvoyage.paymentDates.PaymentDate;
 import pl.savings.wealthvoyage.paymentDates.PaymentDateService;
 import pl.savings.wealthvoyage.transactions.*;
-
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
@@ -64,6 +58,7 @@ public class LoanService {
     public Integer getUserLoansCount(@NotNull UserDetails userDetails) {
         return loanRepository.findAllByUsername(userDetails.getUsername()).orElseThrow(NoSuchElementException::new).size();
     }
+
     public Double getUserSumOfAllLoans(@NotNull UserDetails userDetails) {
         return loanRepository.findAllByUsername(userDetails.getUsername())
                 .orElseThrow(NoSuchElementException::new)
@@ -80,7 +75,7 @@ public class LoanService {
 
         double instalmentAmount = 0.0;
 
-        Date currentDate = new Date(); // Aktualna data i czas
+        Date currentDate = new Date();
 
         if (optionalLoan.isPresent()) {
             Loan loan = optionalLoan.get();
@@ -99,22 +94,17 @@ public class LoanService {
                 loan.setLoanStatus(LoanStatus.ENDED);
             }
 
-            transaction.setTransactionType(TransactionType.EXPENSE);
-            transaction.setLoan(loan);
-            transaction.setDate(currentDate);
-            transaction.setAmount(instalmentAmount);
-            transaction.setTransactionCategory(TransactionCategory.DEBT);
-            transaction.setUsername(userDetails.getUsername());
 
-            transactionService.addTransaction(transaction);
+
+            transactionService.addLoanTransaction(loan, instalmentAmount, currentDate);
             loanRepository.save(loan);
         } else {
             throw new NoSuchElementException("Nie znaleziono pożyczki dla określonego identyfikatora i użytkownika.");
         }
     }
 
-    @Scheduled(cron = "0 0 0 * * *")
-    public void updateLoanStatusDaily() {
+
+    public void updateLoanStatus() {
         List<Loan> allLoans = loanRepository.findAll();
 
         for (Loan loan : allLoans) {

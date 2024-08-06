@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import pl.savings.wealthvoyage.setOfPlannedExpenses.SetOfPlannedExpenses;
 import pl.savings.wealthvoyage.setOfPlannedExpenses.SetOfPlannedExpensesRepository;
 import pl.savings.wealthvoyage.setOfPlannedExpenses.SetOfPlannedExpensesService;
+import pl.savings.wealthvoyage.transactions.TransactionService;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -22,6 +23,7 @@ public class PlannedExpenseService {
     private final PlannedExpenseMapper plannedExpenseMapper;
     private final SetOfPlannedExpensesRepository setOfPlannedExpensesRepository;
     private final SetOfPlannedExpensesService setOfPlannedExpensesService;
+    private final TransactionService transactionService;
 
     public Page<PlannedExpenseResponse> getAllPlannedExpensesByUsername(@NotNull UserDetails userDetails, Long setOfPlannedExpensesId, Pageable pageable) {
         Optional<SetOfPlannedExpenses> optionalSetOfPlannedExpenses = setOfPlannedExpensesRepository.findById(setOfPlannedExpensesId);
@@ -91,7 +93,7 @@ public class PlannedExpenseService {
         return plannedExpense;
     }
 
-    public void updateUserPlannedExpense(Long id, PlannedExpenseRequest plannedExpenseRequest, Long setOfPlannedExpensesId,  UserDetails userDetails) {
+    public void updateUserPlannedExpense(Long id, PlannedExpenseRequest plannedExpenseRequest, Long setOfPlannedExpensesId, UserDetails userDetails) {
         SetOfPlannedExpenses setOfPlannedExpenses = new SetOfPlannedExpenses();
         Optional<SetOfPlannedExpenses> optionalSetOfPlannedExpenses = setOfPlannedExpensesRepository.findById(setOfPlannedExpensesId);
         if (optionalSetOfPlannedExpenses.isPresent()) {
@@ -115,6 +117,13 @@ public class PlannedExpenseService {
             PlannedExpense plannedExpense = optionalPlannedExpense.get();
             plannedExpense.setStatus(status);
             setOfPlannedExpensesService.updateAmount(plannedExpense.getSetOfPlannedExpenses().getId());
+            if (plannedExpense.getStatus().equals(Status.PAID)) {
+                transactionService.addPlannedExpenseTransaction(plannedExpense);
+            } else {
+                transactionService.deleteTransactionByPlannedExpense(userDetails, plannedExpense);
+            }
+
+
             return plannedExpenseMapper.toPlannedExpenseResponse(plannedExpenseRepository.save(plannedExpense));
         } else {
             throw new IllegalArgumentException("PlannedExpense not found");

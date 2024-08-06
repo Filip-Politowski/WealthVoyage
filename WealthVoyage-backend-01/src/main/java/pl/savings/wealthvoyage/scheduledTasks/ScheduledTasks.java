@@ -5,6 +5,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import pl.savings.wealthvoyage.income.Income;
 import pl.savings.wealthvoyage.income.IncomeService;
+import pl.savings.wealthvoyage.loans.LoanService;
 import pl.savings.wealthvoyage.recurringExpense.RecurringExpenseService;
 import pl.savings.wealthvoyage.transactions.TransactionService;
 
@@ -16,12 +17,18 @@ import java.util.List;
 public class ScheduledTasks {
     private final RecurringExpenseService recurringExpenseService;
     private final IncomeService incomeService;
+    private final LoanService loanService;
 
 
 
     @Scheduled(cron = "0 0 0 * * ?")
     public void updateRecurringExpenseTask() {
         recurringExpenseService.UpdateRecurringExpensesAutomaticallyWhenTheDateExpires();
+    }
+
+    @Scheduled(cron ="0 0 0 * * ?" )
+    public void updateLoanStatusDailyTask(){
+        loanService.updateLoanStatus();
     }
 
     @Scheduled(cron = "0 0 0 * * ?")

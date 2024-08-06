@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import pl.savings.wealthvoyage.savingGoals.SavingGoal;
 import pl.savings.wealthvoyage.setOfPlannedExpenses.SetOfPlannedExpenses;
+import pl.savings.wealthvoyage.transactions.Transaction;
 
 import java.util.Date;
 
@@ -40,13 +41,14 @@ public class PlannedExpense {
     @Enumerated(EnumType.STRING)
     private PaymentMethod paymentMethod;
 
-    private String username ;
+    private String username;
 
     @ManyToOne
-    @JoinColumn(name="set_id", nullable = false)
+    @JoinColumn(name = "set_id", nullable = false)
     private SetOfPlannedExpenses setOfPlannedExpenses;
 
-
+    @OneToOne(mappedBy = "plannedExpense")
+    private Transaction transaction;
 
 
 }

@@ -11,53 +11,25 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.savings.wealthvoyage.income.*;
 import pl.savings.wealthvoyage.loans.Loan;
+import pl.savings.wealthvoyage.plannedExpenses.PlannedExpense;
 import pl.savings.wealthvoyage.recurringExpense.RecurringExpense;
-import pl.savings.wealthvoyage.singleExpense.ExpenseCategory;
 import pl.savings.wealthvoyage.singleExpense.SingleExpense;
-import pl.savings.wealthvoyage.singleExpense.SingleExpenseRepository;
 
+
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
-import java.util.NoSuchElementException;
 
 @Service
 @RequiredArgsConstructor
 public class TransactionService {
     private final TransactionRepository transactionRepository;
     private final TransactionMapper transactionMapper;
-    private final IncomeRepository incomeRepository;
-    private final SingleExpenseRepository singleExpenseRepository;
 
     public void addTransaction(Transaction transaction) {
-
         transactionRepository.save(transaction);
     }
 
-    public void addTransactionFromRequest(UserDetails userDetails, TransactionRequest transactionRequest) {
-        Transaction transaction = transactionMapper.toTransaction(transactionRequest);
-        transaction.setUsername(userDetails.getUsername());
-        transactionRepository.save(transaction);
-        if (transaction.getTransactionType() == TransactionType.INCOME) {
-            Income income = new Income();
-            income.setUsername(transaction.getUsername());
-            income.setIncomeDate(transaction.getDate());
-            income.setAmount(transaction.getAmount());
-            income.setIncomeStatus(IncomeStatus.ACTIVE);
-            income.setTypeofIncome(TypeOfIncome.SINGLE_PAYMENT);
-            income.setSourceOfIncome(SourceOfIncome.OTHER);
-            income.setDescription(transaction.getTransactionName());
-            incomeRepository.save(income);
-
-        } else {
-            SingleExpense singleExpense = new SingleExpense();
-            singleExpense.setUsername(transaction.getUsername());
-            singleExpense.setExpenseCategory(ExpenseCategory.valueOf(String.valueOf(transaction.getTransactionCategory())));
-            singleExpense.setDescription(transaction.getTransactionName());
-            singleExpense.setDate(transaction.getDate());
-            singleExpense.setAmount(transaction.getAmount());
-            singleExpenseRepository.save(singleExpense);
-        }
-
-    }
 
     public List<TransactionResponse> findAllTransactionsByLoanId(Long id, UserDetails userDetails) {
         return transactionMapper.toTransactionResponses(transactionRepository.findAllByLoanIdAndUsername(id, userDetails.getUsername()));
@@ -77,6 +49,11 @@ public class TransactionService {
     @Transactional
     public void deleteUserTransaction(UserDetails userDetails, long id) {
         transactionRepository.deleteByUsernameAndId(userDetails.getUsername(), id);
+    }
+
+    @Transactional
+    public void deleteTransactionByPlannedExpense(UserDetails userDetails, PlannedExpense plannedExpense) {
+        transactionRepository.deleteByUsernameAndPlannedExpense(userDetails.getUsername(), plannedExpense);
     }
 
     public void updateUserTransaction(UserDetails userDetails, long id, TransactionRequest transactionRequest) {
@@ -101,7 +78,7 @@ public class TransactionService {
     }
 
     @Transactional
-    public void addSingleExpenseTransaction(SingleExpense singleExpense){
+    public void addSingleExpenseTransaction(SingleExpense singleExpense) {
         Transaction transaction = Transaction.builder()
                 .username(singleExpense.getUsername())
                 .amount(singleExpense.getAmount())
@@ -114,6 +91,7 @@ public class TransactionService {
         transactionRepository.save(transaction);
     }
 
+    @Transactional
     public void addRecurringExpenseTransaction(RecurringExpense recurringExpense) {
         Transaction transaction = Transaction.builder()
                 .username(recurringExpense.getUsername())
@@ -123,6 +101,34 @@ public class TransactionService {
                 .transactionCategory(TransactionCategory.valueOf(recurringExpense.getExpenseType().toString()))
                 .date(recurringExpense.getDate())
                 .recurringExpense(recurringExpense)
+                .build();
+        transactionRepository.save(transaction);
+    }
+
+    @Transactional
+    public void addPlannedExpenseTransaction(PlannedExpense plannedExpense) {
+        Transaction transaction = Transaction.builder()
+                .username(plannedExpense.getUsername())
+                .amount(plannedExpense.getAmount())
+                .transactionName(plannedExpense.getName())
+                .transactionType(TransactionType.EXPENSE)
+                .transactionCategory(TransactionCategory.PLANNED_EXPENSE)
+                .date(Date.valueOf(LocalDate.now()))
+                .plannedExpense(plannedExpense)
+                .build();
+        transactionRepository.save(transaction);
+    }
+
+    @Transactional
+    public void addLoanTransaction(Loan loan, double installmentAmount, java.util.Date date) {
+        Transaction transaction = Transaction.builder()
+                .username(loan.getUsername())
+                .amount(installmentAmount)
+                .transactionName(loan.getLoanName())
+                .transactionType(TransactionType.EXPENSE)
+                .transactionCategory(TransactionCategory.DEBT)
+                .date(date)
+                .loan(loan)
                 .build();
         transactionRepository.save(transaction);
     }

@@ -5,9 +5,9 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.web.bind.annotation.Mapping;
 import pl.savings.wealthvoyage.income.Income;
 import pl.savings.wealthvoyage.loans.Loan;
+import pl.savings.wealthvoyage.plannedExpenses.PlannedExpense;
 import pl.savings.wealthvoyage.recurringExpense.RecurringExpense;
 import pl.savings.wealthvoyage.savingGoals.SavingGoal;
 import pl.savings.wealthvoyage.singleExpense.SingleExpense;
@@ -58,11 +58,14 @@ public class Transaction {
     private Income income;
 
     @OneToOne
-    @JoinColumn (name = "single_expense_id")
+    @JoinColumn(name = "single_expense_id")
     private SingleExpense singleExpense;
 
     @ManyToOne
     @JoinColumn(name = "recurring_expense_id")
     private RecurringExpense recurringExpense;
+    @OneToOne
+    @JoinColumn(name = "planned_expense_id")
+    private PlannedExpense plannedExpense;
 
 }

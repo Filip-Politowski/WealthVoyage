@@ -6,23 +6,19 @@ import { handleError } from "../../helpers/ErrorHandler";
 import axios from "axios";
 import { Transaction } from "../../models/Transaction";
 import BackButton from "../../components/utils/backButton/BackButton";
-import DeleteElement from "../../components/delete/DeleteElement";
-import UpdateTransaction from "./components/UpdateTransaction";
 
 const api = "http://localhost:8080/api/";
 
 const SingleTransaction = () => {
   const navigate = useNavigate();
   const { id } = useParams();
-    const [transaction, setTransaction] = useState<Transaction>({
-      amount: 0,
-      transactionCategory: "",
-      date: "",
-      id: 0,                                                                    
-      transactionType: "",
-    });
-  const [deleting, setDeleting] = useState<boolean>(false);
-  const [open, setOpen] = useState<boolean>(false);
+  const [transaction, setTransaction] = useState<Transaction>({
+    amount: 0,
+    transactionCategory: "",
+    date: "",
+    id: 0,
+    transactionType: "",
+  });
 
 
   useEffect(() => {
@@ -37,7 +33,7 @@ const SingleTransaction = () => {
       }
     };
     fetchSingleTransaction();
-  }, [id, transaction, open]);
+  }, [id, transaction]);
 
   const handleDelete = async () => {
     try {
@@ -54,7 +50,7 @@ const SingleTransaction = () => {
       <div className="topInfo">
         <h1>Transaction Details</h1>
       </div>
-      <hr/>
+      <hr />
       <div className="transactionDetails">
         {transaction &&
           Object.entries(transaction)
@@ -75,16 +71,12 @@ const SingleTransaction = () => {
                       : item[1]}
                   </p>
                 </div>
-                
               </div>
             ))}
       </div>
       <div className="buttonsSection">
-        <button onClick={() =>setDeleting(true)}>Delete</button>
-        <button onClick={() => setOpen(true)}>Update</button>
+      
       </div>
-      {deleting && <DeleteElement setDeleting={setDeleting} handleDelete={handleDelete} />}
-      {open && <UpdateTransaction setOpen={setOpen} transaction={transaction}/>}
     </div>
   );
 };

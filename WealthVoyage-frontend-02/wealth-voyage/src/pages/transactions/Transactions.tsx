@@ -4,11 +4,11 @@ import TransactionDataTable from "../../components/dataTable/TransactionDataTabl
 import axios from "axios";
 import { Transaction } from "../../models/Transaction";
 import { handleError } from "../../helpers/ErrorHandler";
-import AddTransaction from "../../components/add/AddTransaction";
+
 const api = "http://localhost:8080/api/";
 
 const Transactions = () => {
-  const [open, setOpen] = useState(false);
+  
   const [transactions, setTransactions] = useState<Transaction[]>([]);
 
   useEffect(() => {
@@ -21,21 +21,21 @@ const Transactions = () => {
       }
     };
     fetchUserTransactions();
-  }, [open]);
+  }, []);
 
   return (
     <div className="transactions">
       <div className="info">
         <h1>Transactions</h1>
-        <button onClick={() => setOpen(true)}>Add New Transaction</button>
+        
       </div>
       <TransactionDataTable
         rows={transactions}
-        columns={["Amount", "Date", "Category", "Transaction Type"]}
-        filteredKeys={["amount", "date", "transactionCategory", "transactionType"]}
+        columns={["Amount", "Date", "Transaction Name", "Transaction Type"]}
+        filteredKeys={["amount", "date", "transactionName", "transactionType"]}
         searchKeyFilter="date"
       />
-      {open && <AddTransaction setOpen={setOpen} />}
+ 
     </div>
   );
 };
