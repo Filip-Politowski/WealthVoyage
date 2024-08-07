@@ -140,37 +140,37 @@ export const chartBoxSavings = {
 };
 
 export const barChartBox1 = {
-  title: "Template1",
+  title: "Incomes in current month",
   color: "#32CD32",
-  dataKey: "savings",
+  dataKey: "income",
   chartData: [
     {
-      name: "Sun",
-      savings: 4000,
+      name: "Su",
+      income: 4000,
     },
     {
-      name: "Mon",
-      savings: 3000,
+      name: "Mo",
+      income: 3000,
     },
     {
-      name: "Tue",
-      savings: 2000,
+      name: "Tu",
+      income: 2000,
     },
     {
-      name: "Wed",
-      savings: 2780,
+      name: "We",
+      income: 2780,
     },
     {
-      name: "Thu",
-      savings: 1890,
+      name: "Th",
+      income: 1890,
     },
     {
-      name: "Fri",
-      savings: 2390,
+      name: "Fr",
+      income: 2390,
     },
     {
-      name: "Sat",
-      savings: 3490,
+      name: "Sa",
+      income: 3490,
     },
   ],
 };

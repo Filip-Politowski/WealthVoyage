@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import "./expenses.scss";
 import StyledSelect from "../../components/select/StyledSelect";
 import { ExpenseOptions, expenseOptions } from "../../data";
@@ -8,7 +8,7 @@ import SingleExpenseComponent from "./components/singleExpense/SingleExpenseComp
 import RecurringExpenseComponent from "./components/recurringExpenses/RecurringExpenseComponent";
 
 import AddNewExpense from "./components/addNewExpense/AddNewExpense";
-import PlannedExpenses from "./components/plannedExpenses/PlannedExpenses";
+
 import SetOfPlannedExpensesComponent from "./setOfPlannedExpenses/SetOfPlannedExpensesComponent";
 
 const Expenses = () => {

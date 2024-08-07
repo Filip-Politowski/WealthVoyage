@@ -11,6 +11,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -31,6 +32,7 @@ public class IncomeController {
     public Double getSumOfIncomeInCurrentMonth(@AuthenticationPrincipal UserDetails userDetails){
         return incomeService.getUserIncomesInCurrentMonth(userDetails);
     }
+
 
     @GetMapping("/filtered/range/{startDate}/{endDate}/{typeOfIncome}/{incomeStatus}")
     public Page<IncomeResponse> getUserIncomesByTimeRange(

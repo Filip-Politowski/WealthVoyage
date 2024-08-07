@@ -77,7 +77,7 @@ public class TransactionService {
         Transaction transaction = Transaction.builder()
                 .username(income.getUsername())
                 .amount(income.getAmount())
-                .transactionName("Income: " + income.getSourceOfIncome())
+                .transactionName("Income: " + income.getDescription())
                 .transactionType(TransactionType.INCOME)
                 .transactionCategory(TransactionCategory.valueOf(income.getTypeofIncome().toString()))
                 .date(income.getIncomeDate())
@@ -163,4 +163,7 @@ public class TransactionService {
 
         transactionRepository.save(existingTransaction);
     }
+
+
+
 }

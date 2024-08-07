@@ -2,28 +2,19 @@ package pl.savings.wealthvoyage.income;
 
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
-import org.springframework.cglib.core.Local;
 import org.springframework.data.domain.Page;
-import org.springframework.http.HttpStatus;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.server.ResponseStatusException;
-import pl.savings.wealthvoyage.exceptions.InvalidNumberOfMonthsException;
 import pl.savings.wealthvoyage.transactions.TransactionService;
 
-import java.lang.reflect.Type;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoUnit;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -80,6 +71,8 @@ public class IncomeService {
         return amountSumOfFixedIncomes + amountSumOfSupplementaryIncomesInCurrentMonth + amountSumOfSinglePaymentIncomesInCurrentMonth;
 
     }
+
+
 
 
     public Page<IncomeResponse> getUserIncomesByTimeRange(
@@ -139,6 +132,14 @@ public class IncomeService {
 
     @Transactional
     public void deleteUserIncomeById(Long id, @NotNull UserDetails userDetails) {
+        Optional<Income> optionalIncome = incomeRepository.findByIdAndUsername(id, userDetails.getUsername());
+        if (optionalIncome.isPresent()) {
+            Income income = optionalIncome.get();
+            if (income.getTypeofIncome().equals(TypeOfIncome.SINGLE_PAYMENT)) {
+                transactionService.deleteTransactionByIncome(userDetails, income);
+            }
+        }
+
         incomeRepository.deleteByIdAndUsername(id, userDetails.getUsername());
     }
 
@@ -148,6 +149,9 @@ public class IncomeService {
         income.setIncomeStatus(IncomeStatus.ACTIVE);
         income.setId(id);
         incomeRepository.save(income);
+        if (income.getTypeofIncome().equals(TypeOfIncome.SINGLE_PAYMENT)) {
+            transactionService.updateIncomeTransaction(income, userDetails);
+        }
     }
 
     public void deactivateIncome(@NotNull UserDetails userDetails, Long id) {

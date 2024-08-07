@@ -47,7 +47,7 @@ const TransactionDataTable = (props: Props) => {
         <img src="/search.svg" alt="" />
         <input
           type="text"
-          placeholder={"Search by date..."}
+          placeholder={"Search by name..."}
           value={searchQuery}
           onChange={(e) => handleSearch(e.target.value)}
         />

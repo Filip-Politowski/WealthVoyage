@@ -27,15 +27,13 @@ const Transactions = () => {
     <div className="transactions">
       <div className="info">
         <h1>Transactions</h1>
-        
       </div>
       <TransactionDataTable
         rows={transactions}
         columns={["Amount", "Date", "Transaction Name", "Transaction Type"]}
         filteredKeys={["amount", "date", "transactionName", "transactionType"]}
-        searchKeyFilter="date"
+        searchKeyFilter="transactionName"
       />
- 
     </div>
   );
 };

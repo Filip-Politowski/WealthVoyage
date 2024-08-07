@@ -17,21 +17,43 @@ import StyledSelect from "../../components/select/StyledSelect";
 const api = "http://localhost:8080/api/";
 
 const Incomes = () => {
+  const storedTypeOfIncomeValue = sessionStorage.getItem("typeOfIncome");
+  const storedIncomeStatusValue = sessionStorage.getItem("incomeStatus");
+  const storedEndpointTypeValue = sessionStorage.getItem("endpointType");
+  const storedYearValue = sessionStorage.getItem("year");
+  const storedMonthValue = sessionStorage.getItem("month");
+  const storedStartDateValue = sessionStorage.getItem("startDate");
+  const storedEndDateValue = sessionStorage.getItem("endDate");
+
   const [incomes, setIncomes] = useState<Income[]>([]);
-  const [typeOfIncome, setTypeOfIncome] = useState<string>("FIXED_INCOME");
-  const [incomeStatus, setIncomeStatus] = useState<string>("ACTIVE");
+  const [typeOfIncome, setTypeOfIncome] = useState<string>(
+    storedTypeOfIncomeValue || "FIXED_INCOME"
+  );
+  const [incomeStatus, setIncomeStatus] = useState<string>(
+    storedIncomeStatusValue || "ACTIVE"
+  );
   const [open, setOpen] = useState(false);
-  const [endpointType, setEndpointType] = useState<string>("year");
-  const [startDate, setStartDate] = useState<string>("");
-  const [endDate, setEndDate] = useState<string>("");
-  const [year, setYear] = useState<string>(new Date().getFullYear().toString());
+  const [endpointType, setEndpointType] = useState<string>(
+    storedEndpointTypeValue || "year"
+  );
+  const [startDate, setStartDate] = useState<string>(
+    storedStartDateValue || ""
+  );
+  const [endDate, setEndDate] = useState<string>(storedEndDateValue || "");
+  const [year, setYear] = useState<string>(
+    storedYearValue || new Date().getFullYear().toString()
+  );
   const [month, setMonth] = useState<string>(
-    (new Date().getMonth() + 1).toString().padStart(2, "0")
+    storedMonthValue || (new Date().getMonth() + 1).toString().padStart(2, "0")
   );
   const [selectedMonthOption, setSelectedMonthOption] =
-    useState<MonthsOptions | null>(null);
+    useState<MonthsOptions | null>(
+      monthsOptions.find((option) => option.value === month) || null
+    );
   const [selectedYearOption, setSelectedYearOption] =
-    useState<YearsOptions | null>(null);
+    useState<YearsOptions | null>(
+      yearsOptions.find((option) => option.value === year) || null
+    );
 
   const generateEndpoint = () => {
     switch (endpointType) {
@@ -76,6 +98,7 @@ const Incomes = () => {
   ) => {
     if (selectedOption) {
       setEndpointType(selectedOption.value);
+      sessionStorage.setItem("endpointType", selectedOption.value);
     }
   };
 
@@ -84,6 +107,7 @@ const Incomes = () => {
   ) => {
     if (selectedOption) {
       setTypeOfIncome(selectedOption.value);
+      sessionStorage.setItem("typeOfIncome", selectedOption.value);
     }
   };
 
@@ -92,6 +116,7 @@ const Incomes = () => {
   ) => {
     if (selectedOption) {
       setIncomeStatus(selectedOption.value);
+      sessionStorage.setItem("incomeStatus", selectedOption.value);
     }
   };
 
@@ -99,6 +124,7 @@ const Incomes = () => {
     if (selectedOption) {
       setSelectedMonthOption(selectedOption);
       setMonth(selectedOption.value);
+      sessionStorage.setItem("month", selectedOption.value);
     }
   };
 
@@ -106,7 +132,18 @@ const Incomes = () => {
     if (selectedOption) {
       setSelectedYearOption(selectedOption);
       setYear(selectedOption.value);
+      sessionStorage.setItem("year", selectedOption.value);
     }
+  };
+
+  const handleStartDateChange = (value: string) => {
+    setStartDate(value);
+    sessionStorage.setItem("startDate", value);
+  };
+
+  const handleEndDateChange = (value: string) => {
+    setEndDate(value);
+    sessionStorage.setItem("endDate", value);
   };
 
   const sumOfSelectedIncomes = (): number => {
@@ -159,12 +196,12 @@ const Incomes = () => {
               <input
                 type="date"
                 value={startDate}
-                onChange={(e) => setStartDate(e.target.value)}
+                onChange={(e) => handleStartDateChange(e.target.value)}
               />
               <input
                 type="date"
                 value={endDate}
-                onChange={(e) => setEndDate(e.target.value)}
+                onChange={(e) => handleEndDateChange(e.target.value)}
               />
             </>
           )}
@@ -177,7 +214,7 @@ const Incomes = () => {
               { value: "SINGLE_PAYMENT", label: "Single Payment" },
             ]}
           />
-       
+
           <StyledSelect
             value={{ value: incomeStatus, label: incomeStatus }}
             onChange={handleIncomeStatusChange}

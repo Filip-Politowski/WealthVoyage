@@ -16,6 +16,7 @@ import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -67,6 +68,8 @@ public class SingleExpenseService {
 
     @Transactional
     public void deleteUserSingleExpenseById(Long id, @NotNull UserDetails userDetails) {
+        SingleExpense singleExpense = singleExpenseRepository.findByIdAndUsername(id, userDetails.getUsername());
+        transactionService.deleteTransactionBySingleExpense(userDetails, singleExpense);
         singleExpenseRepository.deleteByIdAndUsername(id, userDetails.getUsername());
     }
 

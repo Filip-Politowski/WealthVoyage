@@ -3,6 +3,8 @@ import {
   Bar,
   Tooltip,
   ResponsiveContainer,
+  YAxis,
+  XAxis,
 } from "recharts";
 import "./barChartBox.scss";
 
@@ -20,6 +22,8 @@ const BarChartBox = (props: Props) => {
       <div className="chart">
         <ResponsiveContainer width="99%" height={150}>
           <BarChart data={props.chartData}>
+            <XAxis dataKey="name" />
+            <YAxis dataKey="income" />
             <Tooltip
               contentStyle={{ background: "#3e2a47", borderRadius: "5px" }}
               labelStyle={{ display: "none" }}
