@@ -13,11 +13,13 @@ import pl.savings.wealthvoyage.income.*;
 import pl.savings.wealthvoyage.loans.Loan;
 import pl.savings.wealthvoyage.plannedExpenses.PlannedExpense;
 import pl.savings.wealthvoyage.recurringExpense.RecurringExpense;
+import pl.savings.wealthvoyage.savingGoals.SavingGoal;
 import pl.savings.wealthvoyage.singleExpense.SingleExpense;
 
 
 import java.sql.Date;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -46,6 +48,31 @@ public class TransactionService {
         return transactionMapper.toTransactionResponse(transactionRepository.findByUsernameAndId(userDetails.getUsername(), id));
     }
 
+    public List<AmountSumWithMonth> getSumOfLastSixMonthsIncomeOrExpense(UserDetails userDetails, TransactionType transactionType) {
+        List<AmountSumWithMonth> incomesSumWithMonths = new ArrayList<>();
+        LocalDate today = LocalDate.now();
+
+        for (int i = 0; i < 6; i++) {
+            AmountSumWithMonth amountSumWithMonth = new AmountSumWithMonth();
+
+            LocalDate startDate = today.minusMonths(i).withDayOfMonth(1);
+            LocalDate endDate = today.minusMonths(i).withDayOfMonth(today.minusMonths(i).lengthOfMonth());
+
+            Date start = Date.valueOf(startDate);
+            Date end = Date.valueOf(endDate);
+
+
+            Double sum = transactionRepository.findTransactionsByTransactionTypeAndDate(transactionType, start, end, userDetails.getUsername());
+
+            amountSumWithMonth.setAmount(sum != null ? sum : 0.0);
+            amountSumWithMonth.setMonth(today.minusMonths(i).getMonth().toString());
+
+            incomesSumWithMonths.add(amountSumWithMonth);
+        }
+
+        return incomesSumWithMonths;
+    }
+
     @Transactional
     public void deleteUserTransaction(UserDetails userDetails, long id) {
         transactionRepository.deleteByUsernameAndId(userDetails.getUsername(), id);
@@ -60,8 +87,9 @@ public class TransactionService {
     public void deleteTransactionBySingleExpense(UserDetails userDetails, SingleExpense singleExpense) {
         transactionRepository.deleteByUsernameAndSingleExpense(userDetails.getUsername(), singleExpense);
     }
+
     @Transactional
-    public void deleteTransactionByIncome(UserDetails userDetails, Income income){
+    public void deleteTransactionByIncome(UserDetails userDetails, Income income) {
         transactionRepository.deleteByUsernameAndIncome(userDetails.getUsername(), income);
     }
 
@@ -143,6 +171,20 @@ public class TransactionService {
     }
 
     @Transactional
+    public void addSavingGoalTransaction(SavingGoal savingGoal, TransactionType transactionType, Double amount) {
+        Transaction transaction = Transaction.builder()
+                .username(savingGoal.getUsername())
+                .amount(amount)
+                .transactionName("Savings: " + savingGoal.getSavingGoalName())
+                .transactionType(transactionType)
+                .transactionCategory(TransactionCategory.SAVINGS)
+                .date(Date.valueOf(LocalDate.now()))
+                .savingsGoal(savingGoal)
+                .build();
+        transactionRepository.save(transaction);
+    }
+
+    @Transactional
     public void updateSingleExpenseTransaction(SingleExpense singleExpense, UserDetails userDetails) {
         Transaction existingTransaction = transactionRepository.findByUsernameAndSingleExpense(userDetails.getUsername(), singleExpense);
         existingTransaction.setTransactionName("Single Expense: " + singleExpense.getDescription());
@@ -163,7 +205,6 @@ public class TransactionService {
 
         transactionRepository.save(existingTransaction);
     }
-
 
 
 }

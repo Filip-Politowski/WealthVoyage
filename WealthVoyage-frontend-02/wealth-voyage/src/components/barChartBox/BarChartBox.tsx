@@ -15,17 +15,18 @@ type Props = {
   chartData: object[];
 };
 
+
 const BarChartBox = (props: Props) => {
   return (
     <div className="barChartBox">
       <h1>{props.title}</h1>
       <div className="chart">
-        <ResponsiveContainer width="99%" height={150}>
+        <ResponsiveContainer width="99%" height={200}>
           <BarChart data={props.chartData}>
-            <XAxis dataKey="name" />
-            <YAxis dataKey="income" />
+            <XAxis dataKey="month" />
+            <YAxis dataKey="amount" />
             <Tooltip
-              contentStyle={{ background: "#3e2a47", borderRadius: "5px" }}
+              contentStyle={{ background: "#3e2a47", borderRadius: "10%" }}
               labelStyle={{ display: "none" }}
               cursor={{ fill: "none" }}
             />

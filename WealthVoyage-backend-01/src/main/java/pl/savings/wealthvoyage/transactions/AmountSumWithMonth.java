@@ -9,7 +9,7 @@ import lombok.RequiredArgsConstructor;
 @AllArgsConstructor
 @RequiredArgsConstructor
 @Builder
-public class IncomesSumWithMonth {
+public class AmountSumWithMonth {
     private Double amount;
     private String month;
 }

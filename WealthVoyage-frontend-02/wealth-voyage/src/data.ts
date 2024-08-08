@@ -55,71 +55,8 @@ export const menu = [
   },
 ];
 
-export const lastTransactions = [
-  {
-    id: 1,
-    amount: 6000,
-    transactionType: "income",
-    category: "salary",
-    date: "2022-01-01",
-  },
-  {
-    id: 2,
-    amount: -60,
-    transactionType: "expense",
-    category: "groceries",
-    date: "2022-01-02",
-  },
-  {
-    id: 3,
-    amount: -2000,
-    transactionType: "expense",
-    category: "rent",
-    date: "2022-01-03",
-  },
-  {
-    id: 4,
-    amount: 750,
-    transactionType: "income",
-    category: "freelance",
-    date: "2022-01-04",
-  },
-  {
-    id: 5,
-    amount: -200,
-    transactionType: "expense",
-    category: "utilities",
-    date: "2022-01-05",
-  },
-  {
-    id: 6,
-    amount: -500,
-    transactionType: "expense",
-    category: "entertainment",
-    date: "2022-01-06",
-  },
-  {
-    id: 7,
-    amount: 3000,
-    transactionType: "income",
-    category: "bonus",
-    date: "2022-01-07",
-  },
-  {
-    id: 8,
-    amount: 3000,
-    transactionType: "income",
-    category: "bonus",
-    date: "2022-01-07",
-  },
-];
-export const singleTransaction = {
-  id: 1,
-  amount: 6000,
-  transactionType: "income",
-  category: "salary",
-  date: "2022-01-01",
-};
+
+
 
 export const chartBoxSavings = {
   color: "#8884d8",
@@ -139,41 +76,7 @@ export const chartBoxSavings = {
   ],
 };
 
-export const barChartBox1 = {
-  title: "Incomes in current month",
-  color: "#32CD32",
-  dataKey: "income",
-  chartData: [
-    {
-      name: "Su",
-      income: 4000,
-    },
-    {
-      name: "Mo",
-      income: 3000,
-    },
-    {
-      name: "Tu",
-      income: 2000,
-    },
-    {
-      name: "We",
-      income: 2780,
-    },
-    {
-      name: "Th",
-      income: 1890,
-    },
-    {
-      name: "Fr",
-      income: 2390,
-    },
-    {
-      name: "Sa",
-      income: 3490,
-    },
-  ],
-};
+
 export const barChartBox2 = {
   title: "Template2",
   color: "#BC8F8F",

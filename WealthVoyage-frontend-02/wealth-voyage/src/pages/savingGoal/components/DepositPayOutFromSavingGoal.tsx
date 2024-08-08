@@ -16,6 +16,7 @@ type Props = {
 const DepositFromSavingGoal = (props: Props) => {
   const [money, setMoney] = useState<any>();
   const [error, setError] = useState<string>("");
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -25,7 +26,7 @@ const DepositFromSavingGoal = (props: Props) => {
         props.savingGoal.amountSaved +
         (props.isDeposit ? money : props.isPayOut ? -money : 0),
     };
-
+      
     axios
       .put(`${api}savingGoals/update/${props.savingGoal.id}`, updatedSavingGoal)
       .then(() => {
