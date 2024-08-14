@@ -13,6 +13,7 @@ import { BarChartBoxData } from "../../models/BarChartBox";
 import BarChartBox from "../../components/barChartBox/BarChartBox";
 const api = "http://localhost:8080/api/";
 
+
 const Dashboard = () => {
   const [barChartBox1, setBarChartBox1] = useState<BarChartBoxData>({
     title: "Incomes in current month [zł]",
@@ -64,6 +65,8 @@ const Dashboard = () => {
        });
    }, []);
 
+ 
+
   return (
     <div className="dashboard">
       <div className="box box1">
@@ -85,7 +88,7 @@ const Dashboard = () => {
         <ChartBox {...chartBoxSavings} />
       </div>
       <div className="box box7">
-        <BigChartBox />
+        <BigChartBox incomes={barChartBox1.chartData.map(item => item.amount)} expenses={barChartBox2.chartData.map(item => item.amount)} months={barChartBox1.chartData.map(item => item.month)}/>
       </div>
       <div className="box box8">
         <BarChartBox {...barChartBox1} />

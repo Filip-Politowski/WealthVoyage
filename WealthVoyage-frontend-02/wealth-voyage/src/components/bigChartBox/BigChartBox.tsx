@@ -1,64 +1,73 @@
-import React from 'react'
-import "./bigChartBox.scss"
+import React, { useEffect, useState } from "react";
+import "./bigChartBox.scss";
 import {
-  AreaChart,
-  Area,
   XAxis,
   YAxis,
-  CartesianGrid,
   Tooltip,
   ResponsiveContainer,
+  CartesianGrid,
+  Legend,
+  BarChart,
+  Bar,
+  ReferenceLine,
 } from "recharts";
-import { bigChartData } from '../../data';
+import { BigChartData } from "../../models/BigChartData";
 
-const BigChartBox = () => {
-   
+const BigChartBox = (props: {
+  incomes: number[];
+  expenses: number[];
+  months: string[];
+}) => {
+  const [bigChartData, setBigChartData] = useState<BigChartData[]>([]);
 
+  useEffect(() => {
+    const updatedChartData: BigChartData[] = props.months.map(
+      (month, index) => ({
+        name: month,
+        income: props.incomes[index],
+        expense: props.expenses[index],
+        savings:
+          Math.round((props.incomes[index] - props.expenses[index]) * 100) /
+          100,
+      })
+    );
+    setBigChartData(updatedChartData);
+  }, [props.incomes, props.expenses, props.months]);
+  console.log(bigChartData);
 
   return (
     <div className="bigChartBox">
-      <h1>Revenue Analytics</h1>
+      <h1>Income to Revenue</h1>
       <div className="chart">
         <ResponsiveContainer width="99%" height="100%">
-          <AreaChart
+          <BarChart
+            width={500}
+            height={300}
             data={bigChartData}
             margin={{
-              top: 10,
+              top: 5,
               right: 30,
-              left: 0,
-              bottom: 0,
+              left: 20,
+              bottom: 5,
             }}
           >
-            
             <XAxis dataKey="name" />
             <YAxis />
-            <Tooltip />
-            <Area
-              type="monotone"
-              dataKey="uv"
-              stackId="1"
-              stroke="#8884d8"
-              fill="#8884d8"
+            <Tooltip
+              contentStyle={{ background: "#3e2a47", borderRadius: "10%" }}
+              labelStyle={{ display: "none" }}
+              cursor={{ fill: "rgba(242, 135, 5, 0.1)" }}
             />
-            <Area
-              type="monotone"
-              dataKey="pv"
-              stackId="1"
-              stroke="#82ca9d"
-              fill="#82ca9d"
-            />
-            <Area
-              type="monotone"
-              dataKey="amt"
-              stackId="1"
-              stroke="#ffc658"
-              fill="#ffc658"
-            />
-          </AreaChart>
+            <Legend />
+            <ReferenceLine y={0} stroke="#ffffff" />
+            <Bar dataKey="income" fill="#32CD32" />
+            <Bar dataKey="expense" fill="#F28705" />
+            <Bar dataKey="savings" fill="gold" />
+          </BarChart>
         </ResponsiveContainer>
       </div>
     </div>
   );
-}
+};
 
-export default BigChartBox
+export default BigChartBox;

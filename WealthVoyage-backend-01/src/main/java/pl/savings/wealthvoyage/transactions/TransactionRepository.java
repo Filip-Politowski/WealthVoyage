@@ -37,6 +37,6 @@ public interface TransactionRepository extends JpaRepository<Transaction, Long> 
 
     void deleteByUsernameAndIncome(String username, Income income);
 
-    @Query("SELECT SUM(t.amount) FROM Transaction t WHERE t.date BETWEEN :startDate AND :endDate AND t.username =:username AND t.transactionType =:transactionType ")
+    @Query("SELECT SUM(t.amount) FROM Transaction t WHERE t.date BETWEEN :startDate AND :endDate AND t.username =:username AND t.transactionType =:transactionType AND t.transactionCategory != 'SAVINGS'")
     Double findTransactionsByTransactionTypeAndDate(@Param("transactionType") TransactionType transactionType, @Param("startDate") Date startDate, @Param("endDate") Date endDate, @Param("username") String username);
 }
