@@ -90,13 +90,6 @@ const Dashboard = () => {
     fetchExchangeRate();
   }, []);
 
-  // useEffect(() => {
-  //   fetch(
-  //     "http://api.nbp.pl/api/exchangerates/rates/a/gbp/2012-01-01/2012-01-31/"
-  //   )
-  //     .then((response) => response.json())
-  //     .then((data) => console.log(data));
-  // })
 
   return (
     <div className="dashboard">
@@ -140,7 +133,7 @@ const Dashboard = () => {
         )}
       </div>
       <div className="box box6">
-        <ChartBox {...chartBoxSavings} />
+        <ChartBox />
       </div>
       <div className="box box7">
         <BigChartBox
