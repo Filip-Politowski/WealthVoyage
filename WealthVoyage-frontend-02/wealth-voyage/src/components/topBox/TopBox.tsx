@@ -14,7 +14,7 @@ const [transactions, setTransactions] = useState<Transaction[]>([]);
          const response = await axios.get(`${api}transactions/all`, {
            params: {
              page: 0,
-             size: 5,
+             size: 6,
              sort: "date,desc",
            },
          });

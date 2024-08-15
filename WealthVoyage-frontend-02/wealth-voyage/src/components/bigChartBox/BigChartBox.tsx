@@ -12,6 +12,7 @@ import {
   ReferenceLine,
 } from "recharts";
 import { BigChartData } from "../../models/BigChartData";
+import axios from "axios";
 
 const BigChartBox = (props: {
   incomes: number[];
@@ -33,8 +34,8 @@ const BigChartBox = (props: {
     );
     setBigChartData(updatedChartData);
   }, [props.incomes, props.expenses, props.months]);
-  console.log(bigChartData);
-
+  
+ 
   return (
     <div className="bigChartBox">
       <h1>Income to Revenue</h1>
