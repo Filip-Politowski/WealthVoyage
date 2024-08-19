@@ -49,57 +49,65 @@ const AddNewGoal = (props: Props) => {
 
   const handleToggleChange = () => {
     setIsChecked(!isChecked);
-    console.log(isChecked);
   };
 
   const handleAddNewGoalDataChange = (
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
     const { name, value } = e.target;
+    const numericValue = parseFloat(value);
+
     SetSavingGoal((prevData) => ({
       ...prevData,
       [name]: value,
     }));
 
-    if (value !== "" && name === "savingGoalName") {
+    
+    if (name === "savingGoalName" && value.trim() !== "") {
       setWrongGoalName(false);
     }
-    if (value !== "" && name === "savingGoalAmount") {
+
+    if (name === "savingGoalAmount" && numericValue > 0) {
       setTargetValueIsZero(false);
     }
-     if ( value !== "" && name === "savingGoalAmount") {
-       const targetAmount = parseInt(value)
-       const amountSaved = savingGoal.amountSaved;
 
-       setTargetValueIsLowerThanAmountSaved(amountSaved > targetAmount);
-     }
-
+    if (isChecked && name === "savingGoalAmount") {
+      const amountSaved = parseFloat(savingGoal.amountSaved.toString());
+      if (numericValue < amountSaved) {
+        setTargetValueIsLowerThanAmountSaved(true);
+      } else {
+        setTargetValueIsLowerThanAmountSaved(false);
+      }
+    }
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-      if (savingGoal.savingGoalName.trim() === "") {
-        setWrongGoalName(true);
-        return; 
-      } else {
-        setWrongGoalName(false);
-      }
+   
+    if (savingGoal.savingGoalName.trim() === "") {
+      setWrongGoalName(true);
+      return;
+    } else {
+      setWrongGoalName(false);
+    }
 
     
-      if (isChecked && savingGoal.savingGoalAmount <= 0) {
+    if (isChecked) {
+      if (savingGoal.savingGoalAmount <= 0) {
         setTargetValueIsZero(true);
-        return; 
+        return;
       } else {
         setTargetValueIsZero(false);
       }
 
-      if (isChecked && savingGoal.savingGoalAmount < savingGoal.amountSaved) {
+      if (savingGoal.savingGoalAmount < savingGoal.amountSaved) {
         setTargetValueIsLowerThanAmountSaved(true);
-        return; 
+        return;
       } else {
         setTargetValueIsLowerThanAmountSaved(false);
       }
+    }
 
     axios
       .post(`${api}savingGoals/add`, savingGoal)
@@ -156,7 +164,6 @@ const AddNewGoal = (props: Props) => {
             {showImagePicker && (
               <div className="additionalImages">
                 {props.images.map((image, index) => (
-                  // eslint-disable-next-line jsx-a11y/img-redundant-alt
                   <img
                     key={index}
                     src={image}
@@ -187,7 +194,7 @@ const AddNewGoal = (props: Props) => {
                 type="number"
                 name="savingGoalAmount"
                 placeholder="Target amount [zł]"
-                value={savingGoal.savingGoalAmount}
+                value={savingGoal.savingGoalAmount || ""}
                 onChange={handleAddNewGoalDataChange}
                 min={0}
               ></input>

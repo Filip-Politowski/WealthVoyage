@@ -92,6 +92,10 @@ public class TransactionService {
     public void deleteTransactionByIncome(UserDetails userDetails, Income income) {
         transactionRepository.deleteByUsernameAndIncome(userDetails.getUsername(), income);
     }
+    @Transactional
+    public void deleteTransactionBySavingGoal(UserDetails userDetails, SavingGoal savingGoal){
+        transactionRepository.deleteByUsernameAndSavingsGoal(userDetails.getUsername(), savingGoal);
+    }
 
     public void updateUserTransaction(UserDetails userDetails, long id, TransactionRequest transactionRequest) {
         Transaction transaction = transactionMapper.toTransaction(transactionRequest);

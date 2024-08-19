@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 import { UserSavingGoal } from "../../models/UserSavingGoal";
 import { handleError } from "../../helpers/ErrorHandler";
 import { useNavigate, useParams } from "react-router-dom";
@@ -14,7 +14,6 @@ import BackButton from "../../components/utils/backButton/BackButton";
 const api = "http://localhost:8080/api/";
 
 const SavingGoal = () => {
-  
   const [userSavingGoal, setUserSavingGoal] = useState<UserSavingGoal>({
     id: 0,
     savingGoalName: "",
@@ -22,7 +21,7 @@ const SavingGoal = () => {
     amountSaved: 0,
     svgContent: "",
   });
-  
+
   const { id } = useParams();
   const { deleting, setDeleting } = useSavingGoalContext();
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -44,31 +43,29 @@ const SavingGoal = () => {
     fetchUserSavingGoal();
   }, [id, isEditing, isDeposit, isPayOut, deleting]);
 
-  useEffect(() => {
-    const handleOutsideClick = (event: MouseEvent) => {
-      if (
-        settingsWindowRef.current &&
-        !settingsWindowRef.current.contains(event.target as Node)
-      ) {
-        setIsOpen(false);
-      }
-    };
+  const handleOutsideClick = useCallback((event: MouseEvent) => {
+    if (
+      settingsWindowRef.current &&
+      !settingsWindowRef.current.contains(event.target as Node)
+    ) {
+      setIsOpen(false);
+    }
+  }, []);
 
+  useEffect(() => {
     document.body.addEventListener("click", handleOutsideClick);
 
     return () => {
       document.body.removeEventListener("click", handleOutsideClick);
     };
-  }, []);
+  }, [handleOutsideClick]);
 
-  const goalPercentageProgress: number = (
-    (userSavingGoal.amountSaved / userSavingGoal?.savingGoalAmount) *
-    100
-  );
+  const goalPercentageProgress: number =
+    (userSavingGoal.amountSaved / userSavingGoal?.savingGoalAmount) * 100;
 
-  const handleDelete = () => {
+  const handleDelete = async () => {
     try {
-      axios.delete(`${api}savingGoals/delete/${id}`);
+      await axios.delete(`${api}savingGoals/delete/${id}`);
       setDeleting(false);
       navigate(-1);
     } catch (error) {
@@ -93,9 +90,7 @@ const SavingGoal = () => {
                 {isOpen && (
                   <div className="settingsWindow">
                     <p onClick={() => setIsEditing(true)}>Edit Goal</p>
-                    <p onClick={() => setDeleting(!deleting)}>
-                      Delete goal
-                    </p>
+                    <p onClick={() => setDeleting(!deleting)}>Delete goal</p>
                   </div>
                 )}
               </div>
@@ -152,10 +147,7 @@ const SavingGoal = () => {
         />
       )}
       {deleting && (
-        <DeleteElement
-          handleDelete={handleDelete}
-          setDeleting={setDeleting}
-        />
+        <DeleteElement handleDelete={handleDelete} setDeleting={setDeleting} />
       )}
     </div>
   );

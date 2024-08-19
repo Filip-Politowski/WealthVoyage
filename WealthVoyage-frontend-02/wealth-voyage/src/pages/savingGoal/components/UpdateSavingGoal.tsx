@@ -24,6 +24,7 @@ const UpdateSavingGoal = (props: Props) => {
   );
   const [showImagePicker, setShowImagePicker] = useState(false);
   const [wrongGoalName, setWrongGoalName] = useState(false);
+  const [wrongGoalAmount, setWrongGoalAmount] = useState(false);
 
   useEffect(() => {
     setSavingGoal((prevData) => ({
@@ -45,6 +46,17 @@ const UpdateSavingGoal = (props: Props) => {
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
     const { name, value } = e.target;
+
+    
+    if (name === "savingGoalAmount") {
+      const numericValue = Number(value);
+      if (numericValue < 0 || numericValue < savingGoal.amountSaved) {
+        setWrongGoalAmount(true);
+      } else {
+        setWrongGoalAmount(false);
+      }
+    }
+
     setSavingGoal((prevData) => ({
       ...prevData,
       [name]: value,
@@ -59,6 +71,11 @@ const UpdateSavingGoal = (props: Props) => {
     } else {
       setWrongGoalName(false);
     }
+
+    if (wrongGoalAmount) {
+      return; 
+    }
+
     axios
       .put(`${api}savingGoals/update/${savingGoal.id}`, savingGoal)
       .then(() => {
@@ -87,7 +104,6 @@ const UpdateSavingGoal = (props: Props) => {
           {showImagePicker && (
             <div className="additionalImages">
               {savingGoalImages.map((image, index) => (
-                // eslint-disable-next-line jsx-a11y/img-redundant-alt
                 <img
                   key={index}
                   src={image}
@@ -107,17 +123,25 @@ const UpdateSavingGoal = (props: Props) => {
               value={savingGoal.savingGoalName}
               onChange={handleUpdateNewGoalDataChange}
             />
-            {wrongGoalName && <p className="error">Goal name cannot be empty</p>}
+            {wrongGoalName && (
+              <p className="error">Goal name cannot be empty</p>
+            )}
           </div>
           <div className="item">
-            <label>Update Goal Target:</label>
+            <label>Update Goal Target (optional):</label>
             <input
               type="number"
               name="savingGoalAmount"
-              value={savingGoal.savingGoalAmount}
-              min={props.savingGoal.amountSaved}
+              value={savingGoal.savingGoalAmount || ""}
+              min={0}
+              placeholder="Set your target or leave empty"
               onChange={handleUpdateNewGoalDataChange}
             />
+            {wrongGoalAmount && (
+              <p className="error">
+                Target cannot be lower than the saved amount.
+              </p>
+            )}
           </div>
 
           <button>Accept Changes</button>

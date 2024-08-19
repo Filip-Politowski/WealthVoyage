@@ -11,6 +11,7 @@ import pl.savings.wealthvoyage.user.User;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -39,6 +40,12 @@ public class SavingGoalService {
 
     @Transactional
     public void deleteUserSavingGoalById(Long id, @NotNull UserDetails userDetails) {
+        Optional<SavingGoal> optionalSavingGoal = savingGoalRepository.findByIdAndUsername(id, userDetails.getUsername());
+        if (optionalSavingGoal.isPresent()) {
+            SavingGoal savingGoal = optionalSavingGoal.get();
+            transactionService.deleteTransactionBySavingGoal(userDetails, savingGoal);
+        }
+
         savingGoalRepository.deleteByIdAndUsername(id, userDetails.getUsername());
     }
 
