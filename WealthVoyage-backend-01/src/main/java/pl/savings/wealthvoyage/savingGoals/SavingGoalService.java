@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.savings.wealthvoyage.transactions.TransactionService;
 import pl.savings.wealthvoyage.transactions.TransactionType;
-import pl.savings.wealthvoyage.user.User;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -50,10 +49,28 @@ public class SavingGoalService {
     }
 
     public void updateUserSavingGoal(Long id, SavingGoalRequest savingGoalRequest, @NotNull UserDetails userDetails) {
-        SavingGoal savingGoal = savingGoalMapper.toSavingGoal(savingGoalRequest);
-        savingGoal.setUsername(userDetails.getUsername());
-        savingGoal.setId(id);
-        savingGoalRepository.save(savingGoal);
+        SavingGoal savingGoalFromRequest = savingGoalMapper.toSavingGoal(savingGoalRequest);
+        savingGoalFromRequest.setUsername(userDetails.getUsername());
+        savingGoalFromRequest.setId(id);
+        Optional<SavingGoal> optionalSavingGoalBeforeUpdate = savingGoalRepository.findByIdAndUsername(id, userDetails.getUsername());
+        if (optionalSavingGoalBeforeUpdate.isPresent()) {
+
+            SavingGoal savingGoalBeforeUpdate = optionalSavingGoalBeforeUpdate.get();
+            System.out.println(savingGoalBeforeUpdate.getAmountSaved());
+            if (savingGoalFromRequest.getAmountSaved() > savingGoalBeforeUpdate.getAmountSaved()) {
+                Double calculationOfPaymentAmount = savingGoalFromRequest.getAmountSaved() - savingGoalBeforeUpdate.getAmountSaved();
+                System.out.println(calculationOfPaymentAmount);
+                transactionService.addSavingGoalTransaction(savingGoalFromRequest, TransactionType.INCOME, calculationOfPaymentAmount);
+            } else if (savingGoalFromRequest.getAmountSaved() < savingGoalBeforeUpdate.getAmountSaved()) {
+                Double calculationOfPaymentAmount = savingGoalBeforeUpdate.getAmountSaved() - savingGoalFromRequest.getAmountSaved();
+                transactionService.addSavingGoalTransaction(savingGoalFromRequest, TransactionType.EXPENSE, calculationOfPaymentAmount);
+            } else {
+                return;
+            }
+        }
+
+
+        savingGoalRepository.save(savingGoalFromRequest);
     }
 
     public Double getUserSavingGoalSum(@NotNull UserDetails userDetails) {
