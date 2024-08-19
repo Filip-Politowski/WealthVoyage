@@ -53,13 +53,14 @@ public class SavingGoalService {
         savingGoalFromRequest.setUsername(userDetails.getUsername());
         savingGoalFromRequest.setId(id);
         Optional<SavingGoal> optionalSavingGoalBeforeUpdate = savingGoalRepository.findByIdAndUsername(id, userDetails.getUsername());
+
         if (optionalSavingGoalBeforeUpdate.isPresent()) {
 
             SavingGoal savingGoalBeforeUpdate = optionalSavingGoalBeforeUpdate.get();
-            System.out.println(savingGoalBeforeUpdate.getAmountSaved());
+
             if (savingGoalFromRequest.getAmountSaved() > savingGoalBeforeUpdate.getAmountSaved()) {
                 Double calculationOfPaymentAmount = savingGoalFromRequest.getAmountSaved() - savingGoalBeforeUpdate.getAmountSaved();
-                System.out.println(calculationOfPaymentAmount);
+
                 transactionService.addSavingGoalTransaction(savingGoalFromRequest, TransactionType.INCOME, calculationOfPaymentAmount);
             } else if (savingGoalFromRequest.getAmountSaved() < savingGoalBeforeUpdate.getAmountSaved()) {
                 Double calculationOfPaymentAmount = savingGoalBeforeUpdate.getAmountSaved() - savingGoalFromRequest.getAmountSaved();

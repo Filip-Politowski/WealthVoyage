@@ -108,7 +108,7 @@ const AddPlannedExpense = (props: {
             </select>
           </div>
           <div className="item">
-            <label>Planned Expense Name:</label>
+            <label>Planned Expense Payment Type:</label>
             <select
               name="paymentMethod"
               value={plannedExpense.paymentMethod}

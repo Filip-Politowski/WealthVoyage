@@ -28,24 +28,30 @@ const SetBoxSection = (props: {
               <Link
                 to={`/dashboard/plannedExpenses/${setOfPlannedExpense.id}/${setOfPlannedExpense.name}`}
               >
-                <img src="/details.svg" alt="details" />
+                <img
+                  src="/details.svg"
+                  alt="details"
+                  title="Add new elements to expense list"
+                />
               </Link>
               <img
                 onClick={() => handleClickOnEditImg(setOfPlannedExpense.id)}
                 src="/edit.svg"
                 alt="edit"
+                title="Edit name of list"
               />
               <img
                 onClick={() => handleClickOnDeleteImg(setOfPlannedExpense.id)}
                 src="/delete-orange.svg"
                 alt="delete"
+                title="Delete entire list"
               />
             </div>
             <div className="setBoxTextSection">
               <h3 className="setOfPlannedExpensesName">
                 {setOfPlannedExpense.name}
               </h3>
-              <p>Remaining amount due:  </p>
+              <p>Remaining amount due: </p>
               <h2>{setOfPlannedExpense.amount.toFixed(2)} zł</h2>
             </div>
           </div>

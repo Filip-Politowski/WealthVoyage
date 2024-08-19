@@ -71,7 +71,7 @@ const AddLoan = (props: Props) => {
         <span className="close" onClick={() => props.setOpen(false)}>
           X
         </span>
-        <h1>Add New Loan</h1>
+        <h1>Add New Loan (0%)</h1>
         <form onSubmit={handleSubmit}>
           <div className="item">
             <label>Loan Name</label>

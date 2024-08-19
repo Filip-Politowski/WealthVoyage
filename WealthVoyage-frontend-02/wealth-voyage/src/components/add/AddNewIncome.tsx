@@ -41,7 +41,7 @@ const AddNewIncome = (props: Props) => {
         handleError(error);
       });
   };
-console.log(income)
+
   const handleAddNewIncomeDataChange = (
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
@@ -79,7 +79,7 @@ console.log(income)
               name="amount"
               value={income.amount}
               onChange={handleAddNewIncomeDataChange}
-              min={0.01}
+             
             ></input>
           </div>
           <div className="item">
