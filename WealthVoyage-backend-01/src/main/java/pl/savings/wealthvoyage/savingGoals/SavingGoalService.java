@@ -49,29 +49,24 @@ public class SavingGoalService {
     }
 
     public void updateUserSavingGoal(Long id, SavingGoalRequest savingGoalRequest, @NotNull UserDetails userDetails) {
-        SavingGoal savingGoalFromRequest = savingGoalMapper.toSavingGoal(savingGoalRequest);
-        savingGoalFromRequest.setUsername(userDetails.getUsername());
-        savingGoalFromRequest.setId(id);
         Optional<SavingGoal> optionalSavingGoalBeforeUpdate = savingGoalRepository.findByIdAndUsername(id, userDetails.getUsername());
 
         if (optionalSavingGoalBeforeUpdate.isPresent()) {
-
             SavingGoal savingGoalBeforeUpdate = optionalSavingGoalBeforeUpdate.get();
 
-            if (savingGoalFromRequest.getAmountSaved() > savingGoalBeforeUpdate.getAmountSaved()) {
-                Double calculationOfPaymentAmount = savingGoalFromRequest.getAmountSaved() - savingGoalBeforeUpdate.getAmountSaved();
+            SavingGoal updatedSavingGoal = savingGoalMapper.toSavingGoal(savingGoalRequest);
+            updatedSavingGoal.setUsername(userDetails.getUsername());
+            updatedSavingGoal.setId(id);
 
-                transactionService.addSavingGoalTransaction(savingGoalFromRequest, TransactionType.INCOME, calculationOfPaymentAmount);
-            } else if (savingGoalFromRequest.getAmountSaved() < savingGoalBeforeUpdate.getAmountSaved()) {
-                Double calculationOfPaymentAmount = savingGoalBeforeUpdate.getAmountSaved() - savingGoalFromRequest.getAmountSaved();
-                transactionService.addSavingGoalTransaction(savingGoalFromRequest, TransactionType.EXPENSE, calculationOfPaymentAmount);
-            } else {
-                return;
+            double amountDifference = updatedSavingGoal.getAmountSaved() - savingGoalBeforeUpdate.getAmountSaved();
+
+            if (amountDifference != 0) {
+                TransactionType transactionType = amountDifference > 0 ? TransactionType.INCOME : TransactionType.EXPENSE;
+                transactionService.addSavingGoalTransaction(updatedSavingGoal, transactionType, Math.abs(amountDifference));
             }
+
+            savingGoalRepository.save(updatedSavingGoal);
         }
-
-
-        savingGoalRepository.save(savingGoalFromRequest);
     }
 
     public Double getUserSavingGoalSum(@NotNull UserDetails userDetails) {

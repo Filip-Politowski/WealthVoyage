@@ -53,7 +53,7 @@ public class Transaction {
     @JoinColumn(name = "saving_goal_id")
     private SavingGoal savingsGoal;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "income_id")
     private Income income;
 

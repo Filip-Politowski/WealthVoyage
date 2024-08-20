@@ -31,7 +31,7 @@ public class ScheduledTasks {
         loanService.updateLoanStatus();
     }
 
-    @Scheduled(cron = "0 0 0 * * ?")
+    @Scheduled(cron ="0 0 0 * * ?")
     public void addIncomeTransactionTask() {
         incomeService.addIncomeToTransactionOnTheDate();
     }
