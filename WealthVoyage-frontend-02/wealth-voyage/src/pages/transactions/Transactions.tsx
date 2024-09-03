@@ -14,7 +14,7 @@ const Transactions = () => {
   useEffect(() => {
     const fetchUserTransactions = async () => {
       try {
-        const response = await axios.get(`${api}transactions/all`);
+        const response = await axios.get(`${api}transactions/all?size=1000`);
         setTransactions(response.data.content);
       } catch (error) {
         handleError(error);

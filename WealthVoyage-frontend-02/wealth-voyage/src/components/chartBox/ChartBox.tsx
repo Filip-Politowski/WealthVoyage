@@ -98,7 +98,7 @@ const ChartBox = () => {
         setDataLoaded(true);
 
         const { minValue, maxValue } = findMinMaxValues(ratesArray);
-        setYAxisDomain([minValue - 0.2, maxValue + 0.2]);
+        setYAxisDomain([minValue , maxValue ]);
       } catch (error) {
         console.error("Failed to fetch exchange rates", error);
       }
