@@ -36,7 +36,7 @@ public class ScheduledTasks {
         incomeService.addIncomeToTransactionOnTheDate();
     }
 
-    @Scheduled(cron = "0 0 0 * * ?")
+    @Scheduled(cron ="0 0 0 * * ?")
     public void addRecurringExpenseTransactionTask(){
         recurringExpenseService.addRecurringExpenseTransactionToDataBase();
     }

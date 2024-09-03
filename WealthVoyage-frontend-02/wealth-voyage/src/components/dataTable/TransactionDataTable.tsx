@@ -14,7 +14,7 @@ type Props = {
 
 const TransactionDataTable = (props: Props) => {
   const navigate = useNavigate();
-  const itemsPerPage = 5;
+  const itemsPerPage = 10;
   const [currentPage, setCurrentPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState("");
   console.log(props.columns)

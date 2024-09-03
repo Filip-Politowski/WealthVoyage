@@ -40,7 +40,6 @@ public class TransactionService {
     public Page<TransactionResponse> findAllTransactionsByUsername(UserDetails userDetails, Pageable pageable) {
         Page<Transaction> transactionsPage = transactionRepository.findAllByUsername(userDetails.getUsername(), pageable);
         List<TransactionResponse> transactionResponses = transactionMapper.toTransactionResponses(transactionsPage.getContent());
-
         return new PageImpl<>(transactionResponses, pageable, transactionsPage.getTotalElements());
     }
 

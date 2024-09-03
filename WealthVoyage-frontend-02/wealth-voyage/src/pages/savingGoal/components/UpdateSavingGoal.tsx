@@ -56,7 +56,7 @@ const UpdateSavingGoal = (props: Props) => {
         setWrongGoalAmount(false);
       }
     }
-
+    console.log(name, value)
     setSavingGoal((prevData) => ({
       ...prevData,
       [name]: value,
@@ -75,7 +75,7 @@ const UpdateSavingGoal = (props: Props) => {
     if (wrongGoalAmount) {
       return; 
     }
-
+   console.log(savingGoal)
     axios
       .put(`${api}savingGoals/update/${savingGoal.id}`, savingGoal)
       .then(() => {
@@ -104,6 +104,7 @@ const UpdateSavingGoal = (props: Props) => {
           {showImagePicker && (
             <div className="additionalImages">
               {savingGoalImages.map((image, index) => (
+                // eslint-disable-next-line jsx-a11y/img-redundant-alt
                 <img
                   key={index}
                   src={image}

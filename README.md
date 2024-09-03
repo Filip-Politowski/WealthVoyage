@@ -1,61 +1,38 @@
-# Funkcjonalności:
-### Rejestracja i Logowanie:
+# Wealth Voyage
+# Opis projektu
+Głównym celem projektu jest ułatwienie użytkownikowi zarządzania jego domowymi finansami. W tym celu użytkownik ma do dyspozycji szereg funkcji umożliwiających śledzenie oraz dokumentację przychodów, wydatków, rat oraz oszczędności. Aby ułatwić śledzenie bilansu dochodów i wydatków, użytkownik ma do dyspozycji wiele wykresów oraz tabel. Dodatkowo aplikacja posiada opcje śledzenia kursów trzech głównych walut najczęściej używanych na naszym terenie. Informacje pobierane są bezpośrednio z bazy danych NBP. Aplikacja pisana jest po stronie backend oraz frontend. Do stworzenia części backendu wykorzystana została Java 17 oraz spring boot w wersji 3.2.2. Baza danych korzysta z MySQL. Część frontendowa pisana jest w TypeScript, React, HTML, scss. Backend napisany jest jako aplikacja Restowa i frontend odpytuje odpowiednie endpointy w celu uzyskania odpowiednich informacji z bazy danych. Całość zabezpieczona jest za pomocą Spring Security w wersji 6 oraz JWT tokenów.   
 
-Umożliw użytkownikom rejestrację i logowanie się do swoich kont.
-Implementacja weryfikacji dwuetapowej dla zwiększenia bezpieczeństwa.
-### Dashboard:
-
-Wyświetlanie podstawowych statystyk budżetowych, takich jak saldo, miesięczne dochody i wydatki.
-Zarządzanie Kontami Bankowymi:
-
-### Śledzenie źródeł dochodów.
-Możliwość wpisania aktualnych źródeł zarobkowych, podzielonych na typ i kategorie
-### Transakcje:
-
-Dodawanie transakcji (dochód, wydatek).
-Kategoryzacja transakcji (np. jedzenie, transport, rozrywka).
-Historia transakcji.
-### Cel Oszczędnościowy:
-
-Tworzenie celów oszczędnościowych (np. na wakacje, nowy sprzęt).
-Śledzenie postępu w realizacji celów.
-### Budżet Miesięczny:
-
-Ustalanie i monitorowanie budżetu miesięcznego dla różnych kategorii wydatków.
-### Raty i Kredyty:
-
-Dodawanie informacji o obecnych ratach i zobowiązaniach kredytowych.
-### Raporty i Wykresy:
-
-Generowanie raportów i wykresów prezentujących trendy finansowe.
-### Ustawienia Profilu:
-
-Edycja danych osobowych.
 
 # Technologie i Narzędzia:  
 ### Backend:
 
-* Java
-* Spring Boot
-* Spring Security (do obsługi autentykacji i autoryzacji)
+* Java 17
+* Spring Boot 3.2.2
+* Spring Security 6.2.1 (do obsługi autentykacji i autoryzacji)
 * Hibernate (do mapowania obiektowo-relacyjnego)
 * Lombok
 * Maven
+* IntelliJ
 
  
 ### Frontend:
 
-* TypeScript
+* TypeScript 
 * React (do budowy interfejsu użytkownika)
-* scss
+* scss 
 * HTML
+* Node.js
+* NPM
+* VS Code
   
 ### Baza Danych:
 
 * MySQL
 ### Autentykacja i Bezpieczeństwo:
 
-* JWT (do zarządzania sesjami)
-* Spring Security
+* JWT (do autoryzacji oraz autentykacji użytkownika)
+* Spring Security 6.2.1
 ### Inne:
-* Narzędzia do zarządzania projektem (np. Git, Jira)
+* Git 
+* Postman
+ 

@@ -121,7 +121,7 @@ export const savingGoalImages = [
   "/bike.svg",
   "/gift.svg",
   "/games.svg",
-  "/airplane.svg"
+  "/airplane.svg",
 ];
 
 export interface MonthsOptions {
