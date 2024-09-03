@@ -109,12 +109,12 @@ Endpointy te generują token autoryzacyjny umożliwiający dostęp do aplikacji.
 Wszystkie inne endpointy muszą posiadać poprawnie sformułowany nagłówek 'Authorization' w celu uwierzytelnienia użytkownika.
 # Przykładowe widoki aplikacji
 ![](WealthVoyage-backend-01/images/welcome-page.png)
-![](WealthVoyage-backend-01/images/sign in.png)
-![](WealthVoyage-backend-01/images/dashboard.png)
-![](WealthVoyage-backend-01/images/Planed expense.png)
-![](WealthVoyage-backend-01/images/recurring expenses.png)
+![](WealthVoyage-backend-01/images/signin.png)
+![](WealthVoyage-backend-01/images/dashboardpng)
+![](WealthVoyage-backend-01/images/Planedexpense.png)
+![](WealthVoyage-backend-01/images/recurringexpenses.png)
 ![](WealthVoyage-backend-01/images/transactions.png)
-![](WealthVoyage-backend-01/images/window to adding elements.png)
+![](WealthVoyage-backend-01/images/windowtoaddingelements.png)
 # Uruchomienie projektu
 ## Backend
 Aby uruchomić część backendową, należy sprawdzić, czy na komputerze zainstalowane jest odpowiednie `JDK`. W tym celu należy wpisać w terminalu komendę `java -version`. Jeśli JDK nie jest zainstalowane, można pobrać i zainstalować je z oficjalnej strony ORACLE.
