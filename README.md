@@ -118,12 +118,12 @@ Wszystkie inne endpointy muszą posiadać poprawnie sformułowany nagłówek 'Au
 # Uruchomienie projektu
 ## Backend
 Aby uruchomić część backendową, należy sprawdzić, czy na komputerze zainstalowane jest odpowiednie `JDK`. W tym celu należy wpisać w terminalu komendę `java -version`. Jeśli JDK nie jest zainstalowane, można pobrać i zainstalować je z oficjalnej strony ORACLE.
-Po instalacji JDK można ponownie sprawdzić powyższą komendą, czy zostało poprawnie zainstalowane.
+Po instalacji JDK (17) można ponownie sprawdzić powyższą komendą, czy zostało poprawnie zainstalowane.
 ***
 Następnie, należy sprawdzić, czy `MySQL` jest zainstalowane na komputerze.
-W tym celu należy wpisać w terminalu komendę `mysql --version`. Jeśli MySQL nie jest zainstalowane, można pobrać je z oficjalnej strony `https://www.mysql.com/`. Po skonfigurowaniu MySQL Workbench, należy stworzyć nową bazę danych o nazwie wealth_voyage_db. 
-W aplikacji znajdują się pliki z rozszerzeniem .sql do zaimportowania, które wgrywają tabele z przykładowymi danymi.
-W pliku application.properties w folderze resources należy zmienić konfigurację użytkownika oraz hasła.
+W tym celu należy wpisać w terminalu komendę `mysql --version`. Jeśli MySQL nie jest zainstalowane, można pobrać je z oficjalnej strony `https://www.mysql.com/`. Po skonfigurowaniu MySQL, w Workbench należy stworzyć nową bazę danych o nazwie ```wealth_voyage_db```. 
+W aplikacji znajdują się pliki z rozszerzeniem ```.sql``` do zaimportowania, które wgrywają tabele z przykładowymi danymi.
+W pliku ```application.properties``` w folderze resources należy zmienić konfigurację użytkownika oraz hasła.
 ***
 Po konfiguracji bazy danych należy sprawdzić, czy na komputerze zainstalowany jest maven. W tym celu w terminalu należy wpisać komendę ```mvn -v```. W przypadku gdy maven nie znajduję się na komputerze można pobrać go z oficjalnej strony maven```https://maven.apache.org/```.
 Po pobraniu odpowiedniej paczki należy ją rozpakować i dodać do zmiennych środowiskowych (szersza instrukcja na stronie Apache). Po tych czynnościach ponownie sprawdzamy, czy maven został poprawnie dodany.
