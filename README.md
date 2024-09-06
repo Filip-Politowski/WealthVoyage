@@ -110,7 +110,7 @@ Wszystkie inne endpointy muszą posiadać poprawnie sformułowany nagłówek 'Au
 # Przykładowe widoki aplikacji
 ![](WealthVoyage-backend-01/images/welcome-page.png)
 ![](WealthVoyage-backend-01/images/signin.png)
-![](WealthVoyage-backend-01/images/dashboardpng)
+![](WealthVoyage-backend-01/images/dashboard.png)
 ![](WealthVoyage-backend-01/images/Planedexpense.png)
 ![](WealthVoyage-backend-01/images/recurringexpenses.png)
 ![](WealthVoyage-backend-01/images/transactions.png)
