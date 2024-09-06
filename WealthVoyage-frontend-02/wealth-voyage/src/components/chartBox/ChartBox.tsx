@@ -7,7 +7,6 @@ import {
   ResponsiveContainer,
   Tooltip,
   YAxis,
- 
 } from "recharts";
 import { ExchangeRateTable } from "../../models/ExchangeRateTable";
 
@@ -17,29 +16,26 @@ const ChartBox = () => {
   >([]);
   const [dataLoaded, setDataLoaded] = useState<boolean>(false);
   const [yAxisDomain, setYAxisDomain] = useState<[number, number]>([0, 1]);
- 
- const getFormattedDate = (date: Date): string => {
-   const year = date.getFullYear();
-   const month = String(date.getMonth() + 1).padStart(2, "0");
-   const day = String(date.getDate()).padStart(2, "0");
-   return `${year}-${month}-${day}`;
- };
 
+  const getFormattedDate = (date: Date): string => {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+    return `${year}-${month}-${day}`;
+  };
 
- const today = new Date();
- const oneMonthAgo = new Date(today);
- oneMonthAgo.setMonth(today.getMonth() - 1);
+  const today = new Date();
+  const oneMonthAgo = new Date(today);
+  oneMonthAgo.setMonth(today.getMonth() - 1);
 
- const todayStr = getFormattedDate(today);
- const oneMonthAgoStr = getFormattedDate(oneMonthAgo);
- 
+  const todayStr = getFormattedDate(today);
+  const oneMonthAgoStr = getFormattedDate(oneMonthAgo);
 
   useEffect(() => {
     const fetchExchangeRates = async () => {
       try {
         const rates: { [date: string]: ExchangeRateTable } = {};
 
-     
         const gbpResponse = await fetch(
           `http://api.nbp.pl/api/exchangerates/rates/a/gbp/${oneMonthAgoStr}/${todayStr}/`
         );
@@ -57,7 +53,6 @@ const ChartBox = () => {
           }
         });
 
-      
         const usdResponse = await fetch(
           `http://api.nbp.pl/api/exchangerates/rates/a/usd/${oneMonthAgoStr}/${todayStr}/`
         );
@@ -74,7 +69,6 @@ const ChartBox = () => {
             rates[rate.effectiveDate].USD = rate.mid;
           }
         });
-
 
         const eurResponse = await fetch(
           `http://api.nbp.pl/api/exchangerates/rates/a/eur/${oneMonthAgoStr}/${todayStr}/`
@@ -98,7 +92,7 @@ const ChartBox = () => {
         setDataLoaded(true);
 
         const { minValue, maxValue } = findMinMaxValues(ratesArray);
-        setYAxisDomain([minValue , maxValue ]);
+        setYAxisDomain([minValue, maxValue]);
       } catch (error) {
         console.error("Failed to fetch exchange rates", error);
       }
@@ -107,9 +101,7 @@ const ChartBox = () => {
     fetchExchangeRates();
   }, [todayStr, oneMonthAgoStr]);
 
- 
   const CustomTooltip = ({ active, payload }: any) => {
-  
     if (active && payload && payload.length) {
       const { date, GBP, USD, EUR } = payload[0].payload;
       return (
@@ -124,17 +116,14 @@ const ChartBox = () => {
     return null;
   };
 
+  const findMinMaxValues = (data: ExchangeRateTable[]) => {
+    const allValues = data.flatMap(({ GBP, USD, EUR }) => [GBP, USD, EUR]);
 
-const findMinMaxValues = (data: ExchangeRateTable[]) => {
-  
-  const allValues = data.flatMap(({ GBP, USD, EUR }) => [GBP, USD, EUR]);
+    const minValue = Math.min(...allValues);
+    const maxValue = Math.max(...allValues);
 
-
-  const minValue = Math.min(...allValues);
-  const maxValue = Math.max(...allValues);
-
-  return { minValue, maxValue };
-};
+    return { minValue, maxValue };
+  };
   return (
     <div className="chartBox">
       <h3>Currency value 1M</h3>

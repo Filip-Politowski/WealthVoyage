@@ -34,6 +34,4 @@ public class Income {
     private IncomeStatus incomeStatus;
     @OneToMany(mappedBy = "income")
     private List<Transaction> transactions;
-
-
 }
