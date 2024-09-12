@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  backend_checks:
+  frontend_checks:
     runs-on: ubuntu-latest
     container: node:latest
     steps:
@@ -29,3 +29,44 @@ jobs:
       # CI=false should be removed after resolving all build issues
       run: |
         CI=false npm run build 
+
+  backend_checks:
+    runs-on: ubuntu-latest
+    container: maven:latest
+    services:
+      mysql:
+        image: mysql:8.0
+        ports:
+          - 3306:3306
+        env:
+          MYSQL_DATABASE: wealth_voyage_db
+          MYSQL_ROOT_PASSWORD: root_password
+          MYSQL_USER: test_user
+          MYSQL_PASSWORD: test_password
+        options: >-
+          --health-cmd="mysqladmin ping --silent"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+          
+    env:
+      DB_URL: jdbc:mysql://localhost:3306/wealth_voyage_db
+      DB_USERNAME: test_user
+      DB_PASSWORD: test_password
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
+
+      - name: Build Project with Maven
+        working-directory: WealthVoyage-backend-01
+        # The -DskipTests parameter must be removed once test issues will be resolved
+        run: mvn clean install -DskipTests
+
+      - name: Show Surefire Test Report
+        if: failure()
+        run: cat target/surefire-reports/*.txt
+
+      - name: Run Spring Boot Application
+        working-directory: WealthVoyage-backend-01
+        run: mvn spring-boot:run &
