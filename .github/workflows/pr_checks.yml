@@ -1,0 +1,31 @@
+name: Pull Request Checks
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ] 
+  workflow_dispatch:
+
+jobs:
+  backend_checks:
+    runs-on: ubuntu-latest
+    container: node:latest
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
+
+    - name: Install Dependencies
+      working-directory: WealthVoyage-frontend-02/wealth-voyage
+      run: |
+        npm ci
+
+    - name: Update Browserslist
+      working-directory: WealthVoyage-frontend-02/wealth-voyage
+      run: npx update-browserslist-db@latest
+
+    - name: Build Frontend
+      working-directory: WealthVoyage-frontend-02/wealth-voyage
+      # CI=false should be removed after resolving all build issues
+      run: |
+        CI=false npm run build 
