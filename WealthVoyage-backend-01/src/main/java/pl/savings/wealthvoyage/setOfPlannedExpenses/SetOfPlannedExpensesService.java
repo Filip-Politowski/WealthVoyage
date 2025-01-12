@@ -26,7 +26,6 @@ public class SetOfPlannedExpensesService {
     }
 
     public List<SetOfPlannedExpensesResponse> getAllUserSetOfPlannedExpenses(UserDetails userDetails) {
-        List<SetOfPlannedExpenses> setOfPlannedExpenses = setOfPlannedExpensesRepository.findAllByUsername(userDetails.getUsername());
         return setOfPlannedExpensesMapper.toSetOfPlannedExpensesResponseList(
                 setOfPlannedExpensesRepository.findAllByUsername(userDetails.getUsername())
         );

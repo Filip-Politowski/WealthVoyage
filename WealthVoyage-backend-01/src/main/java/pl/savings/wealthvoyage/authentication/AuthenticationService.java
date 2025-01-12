@@ -31,7 +31,7 @@ public class AuthenticationService {
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
-    private final String defaultProfilePicturePath = "default.png";
+
 
     public AuthenticationResponse register(RegisterRequest request) {
         User user = User.builder()
@@ -41,7 +41,6 @@ public class AuthenticationService {
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
                 .role(Role.USER)
-                .profilePicturePath(defaultProfilePicturePath)
                 .build();
         User savedUser = userRepository.save(user);
         String jwtToken = jwtService.generateToken(Map.of("authorities", Role.USER), user);
@@ -62,7 +61,6 @@ public class AuthenticationService {
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
                 .role(Role.ADMIN)
-                .profilePicturePath(defaultProfilePicturePath)
                 .build();
 
         if (userRepository.findByUsername(user.getUsername()).isEmpty()){

@@ -3,6 +3,8 @@ import "./navbar.scss";
 import { useAuth } from "../../context/useAuth";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import { User } from "../../models/User";
+import { handleError } from "../../helpers/ErrorHandler";
 const api = "http://localhost:8080/api/";
 
 const Navbar = () => {
@@ -10,6 +12,7 @@ const Navbar = () => {
   const settingsWindowRef = useRef<HTMLDivElement>(null);
   const [imageURL, setImageURL] = useState<string | null>(null);
   const { logout } = useAuth();
+  const [user, setUser] = useState<User>();
 
   useEffect(() => {
     const handleOutsideClick = (event: MouseEvent) => {
@@ -44,6 +47,19 @@ const Navbar = () => {
       console.error("Error loading image:", error);
     }
   };
+
+  useEffect(() => {
+    const fetchUserMainData = async () => {
+      try {
+        const response = await axios.get(`${api}users/get`);
+        setUser(response.data);
+      } catch (error) {
+        handleError(error);
+      }
+    };
+    fetchUserMainData();
+  }, []);
+
   return (
     <div className="navbar">
       <Link to="/dashboard">
@@ -53,12 +69,12 @@ const Navbar = () => {
         </div>
       </Link>
       <div className="icons" ref={settingsWindowRef}>
-        <img src="/search.svg" alt="" className="icon"></img>
+        {/* <img src="/search.svg" alt="" className="icon"></img>
 
         <div className="notifications">
           <img src="/notifications.svg" alt=""></img>
           <span>1</span>
-        </div>
+        </div> */}
         <div
           className="user"
           onClick={() => {
@@ -68,10 +84,10 @@ const Navbar = () => {
           {imageURL ? (
             <img src={imageURL} alt=""></img>
           ) : (
-            <p>Loading image...</p>
+            <img src="/profile.svg" alt=""></img>
           )}
 
-          <span>Filip</span>
+          <span>{user?.username}</span>
         </div>
         {isOpen && (
           <div className="settingsWindow">

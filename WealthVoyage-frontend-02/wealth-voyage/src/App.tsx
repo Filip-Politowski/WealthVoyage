@@ -26,6 +26,7 @@ import Income from "./pages/income/SingleIncome";
 import PlannedExpenseComponent from "./pages/Expenses/components/plannedExpenses/components/plannedExpense/PlannedExpenseComponent";
 import PlannedExpenses from "./pages/Expenses/components/plannedExpenses/PlannedExpenses";
 
+
 function App() {
   const Layout = () => {
     return (

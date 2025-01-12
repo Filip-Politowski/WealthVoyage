@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import "./incomes.scss";
 import { Link, useNavigate } from "react-router-dom";
 import AddNewIncome from "../../components/add/AddNewIncome";
@@ -13,6 +13,7 @@ import {
   yearsOptions,
 } from "../../data";
 import StyledSelect from "../../components/select/StyledSelect";
+import { useImageContext } from "../../context/ImageContext";
 
 const api = "http://localhost:8080/api/";
 
@@ -24,6 +25,8 @@ const Incomes = () => {
   const storedMonthValue = sessionStorage.getItem("month");
   const storedStartDateValue = sessionStorage.getItem("startDate");
   const storedEndDateValue = sessionStorage.getItem("endDate");
+
+ 
 
   const [incomes, setIncomes] = useState<Income[]>([]);
   const [typeOfIncome, setTypeOfIncome] = useState<string>(
