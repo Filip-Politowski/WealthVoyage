@@ -90,19 +90,19 @@ const ProfileInformation = () => {
     };
     fetchRecurringExpensesSum();
   }, []);
-    useEffect(() => {
-      const fetchSingleExpensesSum = () => {
-        axios
-          .get(`${api}singleExpenses/monthly`)
-          .then((response) => {
-            setAdditionalExpensesSum(response.data);
-          })
-          .catch((error) => {
-            handleError(error);
-          });
-      };
-      fetchSingleExpensesSum();
-    }, []);
+  useEffect(() => {
+    const fetchSingleExpensesSum = () => {
+      axios
+        .get(`${api}singleExpenses/monthly`)
+        .then((response) => {
+          setAdditionalExpensesSum(response.data);
+        })
+        .catch((error) => {
+          handleError(error);
+        });
+    };
+    fetchSingleExpensesSum();
+  }, []);
 
   const handleFileChange = async (
     event: React.ChangeEvent<HTMLInputElement>
@@ -146,8 +146,14 @@ const ProfileInformation = () => {
         {imageURL ? (
           <img src={imageURL} alt="User Profile" onClick={handleImageClick} />
         ) : (
-          <div>Loading image...</div>
+          <img
+            src="/profile.svg"
+            alt="User Profile"
+            onClick={handleImageClick}
+            className="default_img"
+          />
         )}
+
         <input
           type="file"
           ref={fileInputRef}
@@ -194,7 +200,7 @@ const ProfileInformation = () => {
         </div>
         <div className="financialInformationBox">
           <div className="financialInformationBoxHeader">
-            <h2>Fixed expenses</h2>
+            <h2>Expenses</h2>
           </div>
           <hr />
           <div className="financialInformationBoxText">

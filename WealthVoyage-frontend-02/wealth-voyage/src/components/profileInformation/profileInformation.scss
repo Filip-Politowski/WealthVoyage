@@ -6,7 +6,7 @@
     display: flex;
     gap: 50px;
     padding: 20px;
-    @include md {
+    @include xxxl {
       flex-direction: column;
       align-items: center;
     }
@@ -17,6 +17,18 @@
       border-radius: 50%;
       object-fit: cover;
       cursor: pointer;
+    }
+    .default_img{
+      border: solid 1px white;
+      height: 200px;
+      width: 200px;
+      object-fit: contain;
+      padding: 40px;
+      background: linear-gradient(
+          to right,
+          $navigation-color,
+          $element-color-2
+        );
     }
 
     .error {
@@ -54,7 +66,7 @@
     padding: 20px;
     max-height: 100vh;
     gap: 50px;
-    @include xxl {
+    @include xxxl {
       flex-direction: column;
     }
 
@@ -63,7 +75,7 @@
       flex-direction: column;
       gap: 10px;
       min-width: 300px;
-      width: 100%; // Upewnij się, że zajmuje całą szerokość kontenera
+      width: 100%; 
 
       .financialInformationBoxHeader {
         background: linear-gradient(
@@ -72,8 +84,8 @@
           $element-color-2
         );
         padding: 20px;
-        box-sizing: border-box; // Upewnij się, że padding jest wliczany w szerokość
-        width: 100%; // Upewnij się, że zajmuje całą szerokość kontenera
+        box-sizing: border-box; 
+        width: 100%; 
       }
 
       .financialInformationBoxText {

@@ -1,7 +1,6 @@
 import "./dashboard.scss";
 import TopBox from "../../components/topBox/TopBox";
 import ChartBox from "../../components/chartBox/ChartBox";
-import { chartBoxSavings } from "../../data";
 import PieChartBox from "../../components/pieChartBox/PieChartBox";
 import BigChartBox from "../../components/bigChartBox/BigChartBox";
 import BarChartBox from "../../components/barChartBox/BarChartBox";
